@@ -1,0 +1,123 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
+  theme: {
+    extend: {
+      colors: {
+        primary: 'var(--color-primary)',
+        'primary-dark': 'var(--color-primary-dark)',
+        secondary: 'var(--color-secondary)',
+        'secondary-dark': 'var(--color-secondary-dark)',
+        accent: 'var(--color-accent)',
+        background: 'var(--color-background)',
+        surface: 'var(--color-surface)',
+        'surface-elevated': 'var(--color-surface-elevated)',
+        border: 'var(--color-border)',
+        'border-light': 'var(--color-border-light)',
+        'text-primary': 'var(--color-text-primary)',
+        'text-secondary': 'var(--color-text-secondary)',
+        'text-muted': 'var(--color-text-muted)',
+      },
+      backgroundImage: {
+        'gradient-primary': 'var(--gradient-primary)',
+        'gradient-surface': 'var(--gradient-surface)',
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+      },
+      boxShadow: {
+        'glow': 'var(--shadow-glow)',
+        'card': 'var(--shadow-card)',
+        'card-hover': 'var(--shadow-card-hover)',
+      },
+      fontFamily: {
+        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+      },
+      fontSize: {
+        'display': 'var(--font-size-6xl)',
+        'heading-1': 'var(--font-size-5xl)',
+        'heading-2': 'var(--font-size-4xl)',
+        'heading-3': 'var(--font-size-3xl)',
+        'heading-4': 'var(--font-size-2xl)',
+        'body-lg': 'var(--font-size-lg)',
+        'body': 'var(--font-size-base)',
+        'body-sm': 'var(--font-size-sm)',
+        'caption': 'var(--font-size-xs)',
+      },
+      lineHeight: {
+        'tight': 'var(--line-height-tight)',
+        'snug': 'var(--line-height-snug)',
+        'normal': 'var(--line-height-normal)',
+        'relaxed': 'var(--line-height-relaxed)',
+        'loose': 'var(--line-height-loose)',
+      },
+      spacing: {
+        'xs': 'var(--space-xs)',
+        'sm': 'var(--space-sm)',
+        'md': 'var(--space-md)',
+        'lg': 'var(--space-lg)',
+        'xl': 'var(--space-xl)',
+        '2xl': 'var(--space-2xl)',
+        '3xl': 'var(--space-3xl)',
+        '4xl': 'var(--space-4xl)',
+        '5xl': 'var(--space-5xl)',
+      },
+      borderRadius: {
+        'sm': 'var(--radius-sm)',
+        'md': 'var(--radius-md)',
+        'lg': 'var(--radius-lg)',
+        'xl': 'var(--radius-xl)',
+        '2xl': 'var(--radius-2xl)',
+      },
+      animation: {
+        'fade-in': 'fadeIn 0.6s ease-out forwards',
+        'slide-up': 'slideUp 0.8s ease-out forwards',
+        'scale-in': 'scaleIn 0.5s ease-out forwards',
+        'bounce': 'bounce 1s infinite',
+        'pulse': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'wiggle': 'wiggle 1s ease-in-out',
+        'float': 'float 3s ease-in-out infinite',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        slideUp: {
+          '0%': { opacity: '0', transform: 'translateY(30px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        scaleIn: {
+          '0%': { opacity: '0', transform: 'scale(0.95)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
+        },
+        bounce: {
+          '0%, 20%, 53%, 80%, 100%': { transform: 'translate3d(0, 0, 0)' },
+          '40%, 43%': { transform: 'translate3d(0, -8px, 0)' },
+          '70%': { transform: 'translate3d(0, -4px, 0)' },
+          '90%': { transform: 'translate3d(0, -2px, 0)' },
+        },
+        pulse: {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.5' },
+        },
+        wiggle: {
+          '0%, 7%': { transform: 'rotateZ(0)' },
+          '15%': { transform: 'rotateZ(-15deg)' },
+          '20%': { transform: 'rotateZ(10deg)' },
+          '25%': { transform: 'rotateZ(-10deg)' },
+          '30%': { transform: 'rotateZ(6deg)' },
+          '35%': { transform: 'rotateZ(-4deg)' },
+          '40%, 100%': { transform: 'rotateZ(0)' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
+      },
+    },
+  },
+  plugins: [],
+}

@@ -44,6 +44,8 @@ export async function POST(request: NextRequest) {
         status: 'active',
         currentPeriodStart: new Date(),
         currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
+        price: 0, // Will be updated based on plan
+        currency: 'INR',
         razorpayPaymentId: paymentId,
         razorpayOrderId: orderId
       },
@@ -54,6 +56,8 @@ export async function POST(request: NextRequest) {
         status: 'active',
         currentPeriodStart: new Date(),
         currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
+        price: 0, // Will be updated based on plan
+        currency: 'INR',
         razorpayPaymentId: paymentId,
         razorpayOrderId: orderId
       }

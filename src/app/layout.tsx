@@ -3,6 +3,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import SessionProvider from "@/components/SessionProvider";
 import AnalyticsProvider from "@/components/AnalyticsProvider";
+import StructuredData from "@/components/StructuredData";
+import PerformanceMonitor from "@/components/PerformanceMonitor";
+import { ToastProvider } from "@/components/Toast";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -24,7 +27,19 @@ export const metadata: Metadata = {
     "Indian SMBs",
     "digital marketing",
     "AI tools",
-    "marketing subscription"
+    "marketing subscription",
+    "B2B marketing",
+    "sales automation",
+    "customer acquisition",
+    "marketing ROI",
+    "business growth",
+    "startup marketing",
+    "SaaS marketing",
+    "email marketing",
+    "social media marketing",
+    "SEO optimization",
+    "conversion optimization",
+    "marketing analytics"
   ],
   authors: [{ name: "Transition Marketing AI" }],
   creator: "Transition Marketing AI",
@@ -70,6 +85,20 @@ export const metadata: Metadata = {
   verification: {
     google: "your-google-verification-code",
   },
+  alternates: {
+    canonical: "https://transitionmarketingai.com",
+  },
+  category: "technology",
+  classification: "Business Software",
+  other: {
+    "application-name": "Transition Marketing AI",
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "default",
+    "apple-mobile-web-app-title": "Transition AI",
+    "mobile-web-app-capable": "yes",
+    "msapplication-TileColor": "#2563eb",
+    "theme-color": "#2563eb",
+  },
 };
 
 export default function RootLayout({
@@ -85,11 +114,15 @@ export default function RootLayout({
         {/* Subtle radial gradient glow behind content */}
         <div className="fixed inset-0 bg-gradient-radial from-blue-50/20 via-background to-background pointer-events-none" />
         <div className="relative z-10">
-          <SessionProvider>
-            <AnalyticsProvider>
-              {children}
-            </AnalyticsProvider>
-          </SessionProvider>
+          <StructuredData type="organization" />
+          <PerformanceMonitor />
+          <ToastProvider>
+            <SessionProvider>
+              <AnalyticsProvider>
+                {children}
+              </AnalyticsProvider>
+            </SessionProvider>
+          </ToastProvider>
         </div>
       </body>
     </html>

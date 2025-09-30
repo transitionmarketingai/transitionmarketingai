@@ -799,6 +799,20 @@ export default function DashboardPage() {
         setCampaigns(campaignsData);
         setAnalytics(analyticsData);
 
+        // Load usage data (in real app, this would come from API)
+        const savedUsage = localStorage.getItem('usageData');
+        if (savedUsage) {
+          setUsage(JSON.parse(savedUsage));
+        }
+
+        // Set plan limits based on current plan
+        const planConfigs = {
+          starter: { leadsPerMonth: 100, contentPerMonth: 50, campaignsPerMonth: 10, emailsPerMonth: 1000 },
+          growth: { leadsPerMonth: 500, contentPerMonth: 200, campaignsPerMonth: 50, emailsPerMonth: 5000 },
+          pro: { leadsPerMonth: 2000, contentPerMonth: 1000, campaignsPerMonth: 200, emailsPerMonth: 20000 }
+        };
+        setPlanLimits(planConfigs[currentPlan as keyof typeof planConfigs]);
+
         // Initialize notifications
         setNotifications([
           {
@@ -894,6 +908,16 @@ export default function DashboardPage() {
     source: 'all'
   });
 
+  // Content creation modal state
+  const [showContentGenerator, setShowContentGenerator] = useState(false);
+  const [contentCriteria, setContentCriteria] = useState({
+    type: 'blog',
+    topic: '',
+    tone: 'professional',
+    length: 'medium',
+    keywords: ''
+  });
+
   // Analytics integration state
   const [connectedAccounts, setConnectedAccounts] = useState({
     googleAnalytics: false,
@@ -901,6 +925,23 @@ export default function DashboardPage() {
     linkedinAds: false,
     emailMarketing: false,
     crm: false
+  });
+
+  // Usage tracking state
+  const [usage, setUsage] = useState({
+    leadsGenerated: 0,
+    contentCreated: 0,
+    campaignsLaunched: 0,
+    emailsSent: 0
+  });
+
+  const [currentPlan, setCurrentPlan] = useState('starter');
+  
+  const [planLimits, setPlanLimits] = useState({
+    leadsPerMonth: 100,
+    contentPerMonth: 50,
+    campaignsPerMonth: 10,
+    emailsPerMonth: 1000
   });
 
   // Functional handlers
@@ -912,7 +953,62 @@ export default function DashboardPage() {
     setShowLeadGenerator(true);
   };
 
+  const handleGenerateContent = () => {
+    setShowContentGenerator(true);
+  };
+
+  const handleGenerateContentAutomatically = async () => {
+    // Check usage limits
+    if (usage.contentCreated >= planLimits.contentPerMonth) {
+      setError(`You've reached your monthly limit of ${planLimits.contentPerMonth} content pieces. Please upgrade your plan.`);
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      // Simulate automated content generation
+      const generatedContent = {
+        title: `${contentCriteria.topic} - ${contentCriteria.type.charAt(0).toUpperCase() + contentCriteria.type.slice(1)}`,
+        type: contentCriteria.type as 'blog' | 'social' | 'email' | 'ad' | 'landing',
+        status: 'draft' as const,
+        performance: {
+          views: 0,
+          clicks: 0,
+          conversions: 0,
+          engagement: 0
+        }
+      };
+
+      const newContent = await addContent(generatedContent);
+      if (newContent) {
+        setContent(prev => [newContent, ...prev]);
+      }
+
+      // Update usage tracking
+      const newUsage = {
+        ...usage,
+        contentCreated: usage.contentCreated + 1
+      };
+      setUsage(newUsage);
+      localStorage.setItem('usageData', JSON.stringify(newUsage));
+
+      setSuccess(`Successfully generated ${contentCriteria.type} content! (${newUsage.contentCreated}/${planLimits.contentPerMonth} used this month)`);
+      setShowContentGenerator(false);
+      setTimeout(() => setSuccess(null), 5000);
+    } catch (err) {
+      setError('Failed to generate content');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleGenerateLeadsAutomatically = async () => {
+    // Check usage limits
+    if (usage.leadsGenerated >= planLimits.leadsPerMonth) {
+      setError(`You've reached your monthly limit of ${planLimits.leadsPerMonth} leads. Please upgrade your plan.`);
+      return;
+    }
+
     setIsLoading(true);
     try {
       // Simulate automated lead generation
@@ -960,7 +1056,15 @@ export default function DashboardPage() {
         }
       }
 
-      setSuccess(`Successfully generated ${generatedLeads.length} verified leads!`);
+      // Update usage tracking
+      const newUsage = {
+        ...usage,
+        leadsGenerated: usage.leadsGenerated + generatedLeads.length
+      };
+      setUsage(newUsage);
+      localStorage.setItem('usageData', JSON.stringify(newUsage));
+
+      setSuccess(`Successfully generated ${generatedLeads.length} verified leads! (${newUsage.leadsGenerated}/${planLimits.leadsPerMonth} used this month)`);
       setShowLeadGenerator(false);
       setTimeout(() => setSuccess(null), 5000);
     } catch (err) {
@@ -1010,6 +1114,12 @@ export default function DashboardPage() {
   };
 
   const handleAddContent = async () => {
+    // Check usage limits
+    if (usage.contentCreated >= planLimits.contentPerMonth) {
+      setError(`You've reached your monthly limit of ${planLimits.contentPerMonth} content pieces. Please upgrade your plan.`);
+      return;
+    }
+
     try {
       const newContent = await addContent({
         title: 'New Content Piece',
@@ -1026,7 +1136,16 @@ export default function DashboardPage() {
       if (newContent) {
         setContent(prev => [newContent, ...prev]);
       }
-      setSuccess('New content created successfully!');
+
+      // Update usage tracking
+      const newUsage = {
+        ...usage,
+        contentCreated: usage.contentCreated + 1
+      };
+      setUsage(newUsage);
+      localStorage.setItem('usageData', JSON.stringify(newUsage));
+
+      setSuccess(`New content created successfully! (${newUsage.contentCreated}/${planLimits.contentPerMonth} used this month)`);
       setTimeout(() => setSuccess(null), 3000);
     } catch (err) {
       setError('Failed to create content');
@@ -1385,6 +1504,76 @@ export default function DashboardPage() {
           ) : activeTab === 'overview' && (
             <div className="space-y-8">
               
+              {/* Usage Overview */}
+              <div className="card">
+                <h3 className="text-heading-4 text-primary mb-6">Monthly Usage</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  <div className="bg-surface-elevated rounded-lg p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-body-sm text-secondary">Leads Generated</span>
+                      <span className="text-body-sm font-medium text-primary">{usage.leadsGenerated}/{planLimits.leadsPerMonth}</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div 
+                        className="bg-cyan-500 h-2 rounded-full transition-all duration-300" 
+                        style={{ width: `${Math.min((usage.leadsGenerated / planLimits.leadsPerMonth) * 100, 100)}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-surface-elevated rounded-lg p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-body-sm text-secondary">Content Created</span>
+                      <span className="text-body-sm font-medium text-primary">{usage.contentCreated}/{planLimits.contentPerMonth}</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div 
+                        className="bg-green-500 h-2 rounded-full transition-all duration-300" 
+                        style={{ width: `${Math.min((usage.contentCreated / planLimits.contentPerMonth) * 100, 100)}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-surface-elevated rounded-lg p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-body-sm text-secondary">Campaigns Launched</span>
+                      <span className="text-body-sm font-medium text-primary">{usage.campaignsLaunched}/{planLimits.campaignsPerMonth}</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div 
+                        className="bg-purple-500 h-2 rounded-full transition-all duration-300" 
+                        style={{ width: `${Math.min((usage.campaignsLaunched / planLimits.campaignsPerMonth) * 100, 100)}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-surface-elevated rounded-lg p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-body-sm text-secondary">Emails Sent</span>
+                      <span className="text-body-sm font-medium text-primary">{usage.emailsSent}/{planLimits.emailsPerMonth}</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div 
+                        className="bg-orange-500 h-2 rounded-full transition-all duration-300" 
+                        style={{ width: `${Math.min((usage.emailsSent / planLimits.emailsPerMonth) * 100, 100)}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                  <div className="flex items-center space-x-2">
+                    <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span className="text-body-sm text-blue-700">
+                      Current Plan: <span className="font-medium capitalize">{currentPlan}</span> • 
+                      Usage resets on the 1st of each month
+                    </span>
+                  </div>
+                </div>
+              </div>
+              
               {/* Widget Selector */}
               {showWidgetSelector && (
                 <div className="mb-8">
@@ -1582,11 +1771,11 @@ export default function DashboardPage() {
                     Generate New Leads
                   </button>
                   <button 
-                    onClick={handleAddContent}
+                    onClick={handleGenerateContent}
                     className="btn-secondary text-center py-4 hover:scale-105 transition-transform"
                   >
                     <div className="text-2xl mb-2">📝</div>
-                    Create Content
+                    Generate Content
                   </button>
                   <button 
                     onClick={() => setActiveTab('analytics')}
@@ -1674,7 +1863,20 @@ export default function DashboardPage() {
                   <h2 className="text-heading-2 text-primary">Content Management</h2>
                   <p className="text-body text-secondary mt-2">Create and manage your content across all platforms</p>
                 </div>
-                <button className="btn-primary" onClick={handleAddContent}>Create New Content</button>
+                <div className="flex space-x-3">
+                  <button
+                    className="btn-primary"
+                    onClick={handleGenerateContent}
+                  >
+                    Generate Content
+                  </button>
+                  <button
+                    className="btn-secondary"
+                    onClick={handleAddContent}
+                  >
+                    Add Manual Content
+                  </button>
+                </div>
               </div>
               
               <TableCard
@@ -2412,6 +2614,147 @@ export default function DashboardPage() {
                     className="flex-1 btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isLoading ? 'Generating Leads...' : 'Generate Leads'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Content Generator Modal */}
+      {showContentGenerator && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 modal-container">
+          <div className="bg-surface rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-heading-4 text-primary">AI Content Generation</h3>
+                <button
+                  onClick={() => setShowContentGenerator(false)}
+                  className="p-2 rounded-lg hover:bg-surface-elevated transition-colors"
+                >
+                  <svg className="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              <div className="space-y-6">
+                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="text-body font-medium text-green-900">AI-Powered Content Creation</h4>
+                      <p className="text-body-sm text-green-700 mt-1">
+                        Our AI will create high-quality content based on your specifications, optimized for engagement and conversions.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-body-sm font-medium text-secondary mb-2">Content Type</label>
+                    <select
+                      value={contentCriteria.type}
+                      onChange={(e) => setContentCriteria(prev => ({ ...prev, type: e.target.value }))}
+                      className="w-full px-4 py-3 rounded-lg border border-subtle bg-surface text-primary focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                    >
+                      <option value="blog">Blog Post</option>
+                      <option value="social">Social Media Post</option>
+                      <option value="email">Email Campaign</option>
+                      <option value="ad">Advertisement</option>
+                      <option value="landing">Landing Page</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-body-sm font-medium text-secondary mb-2">Tone</label>
+                    <select
+                      value={contentCriteria.tone}
+                      onChange={(e) => setContentCriteria(prev => ({ ...prev, tone: e.target.value }))}
+                      className="w-full px-4 py-3 rounded-lg border border-subtle bg-surface text-primary focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                    >
+                      <option value="professional">Professional</option>
+                      <option value="casual">Casual</option>
+                      <option value="friendly">Friendly</option>
+                      <option value="authoritative">Authoritative</option>
+                      <option value="conversational">Conversational</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-body-sm font-medium text-secondary mb-2">Length</label>
+                    <select
+                      value={contentCriteria.length}
+                      onChange={(e) => setContentCriteria(prev => ({ ...prev, length: e.target.value }))}
+                      className="w-full px-4 py-3 rounded-lg border border-subtle bg-surface text-primary focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                    >
+                      <option value="short">Short (100-300 words)</option>
+                      <option value="medium">Medium (300-800 words)</option>
+                      <option value="long">Long (800+ words)</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-body-sm font-medium text-secondary mb-2">Topic/Keywords</label>
+                    <input
+                      type="text"
+                      value={contentCriteria.topic}
+                      onChange={(e) => setContentCriteria(prev => ({ ...prev, topic: e.target.value }))}
+                      className="w-full px-4 py-3 rounded-lg border border-subtle bg-surface text-primary focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                      placeholder="e.g., Digital Marketing Trends, Product Launch"
+                    />
+                  </div>
+                </div>
+
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <h4 className="text-body font-medium text-primary mb-3">What you'll get:</h4>
+                  <ul className="space-y-2 text-body-sm text-secondary">
+                    <li className="flex items-center space-x-2">
+                      <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span>SEO-optimized content with relevant keywords</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span>Engaging headlines and compelling copy</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span>Platform-specific formatting and structure</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span>Call-to-action optimization</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="flex space-x-3">
+                  <button
+                    onClick={() => setShowContentGenerator(false)}
+                    className="flex-1 px-4 py-3 rounded-lg border border-subtle bg-surface text-secondary hover:text-primary transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleGenerateContentAutomatically}
+                    disabled={isLoading}
+                    className="flex-1 btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isLoading ? 'Generating Content...' : 'Generate Content'}
                   </button>
                 </div>
               </div>

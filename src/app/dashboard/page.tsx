@@ -859,7 +859,9 @@ export default function DashboardPage() {
         score: 75
       });
       
-      setLeads(prev => [newLead, ...prev]);
+      if (newLead) {
+        setLeads(prev => [newLead, ...prev]);
+      }
       setSuccess('New lead added successfully!');
       setTimeout(() => setSuccess(null), 3000);
     } catch (err) {
@@ -877,7 +879,9 @@ export default function DashboardPage() {
         engagement: 0
       });
       
-      setContent(prev => [newContent, ...prev]);
+      if (newContent) {
+        setContent(prev => [newContent, ...prev]);
+      }
       setSuccess('New content created successfully!');
       setTimeout(() => setSuccess(null), 3000);
     } catch (err) {

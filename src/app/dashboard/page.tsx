@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { dataService, type Lead, type Content, type Campaign, type Analytics } from "@/lib/dataService";
+import { getLeads, getContent, getCampaigns, getAnalytics, addLead, addContent, type Lead, type Content, type Campaign, type Analytics } from "@/lib/supabaseDataService";
 
 // Enhanced mock data for the dashboard
 const mockStats = {
@@ -779,10 +779,10 @@ export default function DashboardPage() {
       setIsLoading(true);
       try {
         const [leadsData, contentData, campaignsData, analyticsData] = await Promise.all([
-          dataService.getLeads(),
-          dataService.getContent(),
-          dataService.getCampaigns(),
-          dataService.getAnalytics()
+          getLeads(),
+          getContent(),
+          getCampaigns(),
+          getAnalytics()
         ]);
 
         setLeads(leadsData);
@@ -826,7 +826,8 @@ export default function DashboardPage() {
 
   // Real-time updates
   useEffect(() => {
-    const stopUpdates = dataService.startRealTimeUpdates((data) => {
+    // Real-time updates will be handled by Supabase subscriptions
+    const stopUpdates = () => {
       setLeads(data.leads);
       setContent(data.content);
       setAnalytics(data.analytics);
@@ -851,7 +852,7 @@ export default function DashboardPage() {
   // Functional handlers
   const handleAddLead = async () => {
     try {
-      const newLead = await dataService.addLead({
+      const newLead = await addLead({
         name: 'New Lead',
         company: 'New Company',
         email: `lead${Date.now()}@example.com`,
@@ -871,7 +872,7 @@ export default function DashboardPage() {
 
   const handleAddContent = async () => {
     try {
-      const newContent = await dataService.addContent({
+      const newContent = await addContent({
         title: 'New Content Piece',
         type: 'Blog',
         status: 'draft',

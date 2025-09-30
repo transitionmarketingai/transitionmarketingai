@@ -856,8 +856,7 @@ export default function DashboardPage() {
         email: `lead${Date.now()}@example.com`,
         status: 'new',
         source: 'Website',
-        score: 75,
-        lastContact: new Date().toISOString()
+        score: 75
       });
       
       setLeads(prev => [newLead, ...prev]);

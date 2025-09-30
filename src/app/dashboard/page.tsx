@@ -855,22 +855,47 @@ export default function DashboardPage() {
     setTimeout(() => setSuccess(null), 3000);
   };
 
+  // Lead generation modal state
+  const [showLeadModal, setShowLeadModal] = useState(false);
+  const [leadForm, setLeadForm] = useState({
+    name: '',
+    email: '',
+    company: '',
+    phone: '',
+    industry: '',
+    source: 'Website',
+    notes: ''
+  });
+
   // Functional handlers
-  const handleAddLead = async () => {
+  const handleAddLead = () => {
+    setShowLeadModal(true);
+  };
+
+  const handleSubmitLead = async () => {
+    if (!leadForm.name || !leadForm.email) {
+      setError('Name and email are required');
+      return;
+    }
+
     try {
       const newLead = await addLead({
-        name: 'New Lead',
-        company: 'New Company',
-        email: `lead${Date.now()}@example.com`,
+        name: leadForm.name,
+        company: leadForm.company,
+        email: leadForm.email,
+        phone: leadForm.phone,
         status: 'new',
-        source: 'Website',
-        score: 75
+        source: leadForm.source,
+        score: Math.floor(Math.random() * 40) + 60, // Random score 60-100
+        notes: leadForm.notes
       });
       
       if (newLead) {
         setLeads(prev => [newLead, ...prev]);
       }
       setSuccess('New lead added successfully!');
+      setShowLeadModal(false);
+      setLeadForm({ name: '', email: '', company: '', phone: '', industry: '', source: 'Website', notes: '' });
       setTimeout(() => setSuccess(null), 3000);
     } catch (err) {
       setError('Failed to add lead');
@@ -1172,12 +1197,41 @@ export default function DashboardPage() {
                   </div>
                 )}
               </div>
-              <button className="p-2 rounded-lg hover:bg-surface-elevated transition-colors" aria-label="Settings">
-                <svg className="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-              </button>
+              <div className="relative">
+                <button 
+                  onClick={() => setActiveTab('settings')}
+                  className="p-2 rounded-lg hover:bg-surface-elevated transition-colors" 
+                  aria-label="Settings"
+                >
+                  <svg className="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                </button>
+                
+                {/* User Menu Dropdown */}
+                <div className="absolute right-0 top-full mt-2 w-48 bg-surface border border-subtle rounded-lg shadow-lg z-50">
+                  <div className="p-2">
+                    <button
+                      onClick={() => setActiveTab('settings')}
+                      className="w-full text-left px-3 py-2 text-body text-secondary hover:text-primary hover:bg-surface-elevated rounded transition-colors"
+                    >
+                      Settings
+                    </button>
+                    <button
+                      onClick={() => {
+                        setSuccess('Logged out successfully!');
+                        setTimeout(() => {
+                          window.location.href = '/';
+                        }, 1500);
+                      }}
+                      className="w-full text-left px-3 py-2 text-body text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded transition-colors"
+                    >
+                      Log Out
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </header>
@@ -1883,6 +1937,136 @@ export default function DashboardPage() {
         </div>
       </main>
       </div>
+
+      {/* Lead Generation Modal */}
+      {showLeadModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-surface rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-heading-4 text-primary">Add New Lead</h3>
+                <button
+                  onClick={() => setShowLeadModal(false)}
+                  className="p-2 rounded-lg hover:bg-surface-elevated transition-colors"
+                >
+                  <svg className="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-body-sm font-medium text-secondary mb-2">Name *</label>
+                  <input
+                    type="text"
+                    value={leadForm.name}
+                    onChange={(e) => setLeadForm(prev => ({ ...prev, name: e.target.value }))}
+                    className="w-full px-4 py-3 rounded-lg border border-subtle bg-surface text-primary focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                    placeholder="Enter lead name"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-body-sm font-medium text-secondary mb-2">Email *</label>
+                  <input
+                    type="email"
+                    value={leadForm.email}
+                    onChange={(e) => setLeadForm(prev => ({ ...prev, email: e.target.value }))}
+                    className="w-full px-4 py-3 rounded-lg border border-subtle bg-surface text-primary focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                    placeholder="Enter email address"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-body-sm font-medium text-secondary mb-2">Company</label>
+                  <input
+                    type="text"
+                    value={leadForm.company}
+                    onChange={(e) => setLeadForm(prev => ({ ...prev, company: e.target.value }))}
+                    className="w-full px-4 py-3 rounded-lg border border-subtle bg-surface text-primary focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                    placeholder="Enter company name"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-body-sm font-medium text-secondary mb-2">Phone</label>
+                  <input
+                    type="tel"
+                    value={leadForm.phone}
+                    onChange={(e) => setLeadForm(prev => ({ ...prev, phone: e.target.value }))}
+                    className="w-full px-4 py-3 rounded-lg border border-subtle bg-surface text-primary focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                    placeholder="Enter phone number"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-body-sm font-medium text-secondary mb-2">Industry</label>
+                  <select
+                    value={leadForm.industry}
+                    onChange={(e) => setLeadForm(prev => ({ ...prev, industry: e.target.value }))}
+                    className="w-full px-4 py-3 rounded-lg border border-subtle bg-surface text-primary focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                  >
+                    <option value="">Select industry</option>
+                    <option value="Technology">Technology</option>
+                    <option value="Healthcare">Healthcare</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Education">Education</option>
+                    <option value="Retail">Retail</option>
+                    <option value="Manufacturing">Manufacturing</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-body-sm font-medium text-secondary mb-2">Source</label>
+                  <select
+                    value={leadForm.source}
+                    onChange={(e) => setLeadForm(prev => ({ ...prev, source: e.target.value }))}
+                    className="w-full px-4 py-3 rounded-lg border border-subtle bg-surface text-primary focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                  >
+                    <option value="Website">Website</option>
+                    <option value="LinkedIn">LinkedIn</option>
+                    <option value="Email">Email</option>
+                    <option value="Referral">Referral</option>
+                    <option value="Cold Call">Cold Call</option>
+                    <option value="Event">Event</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-body-sm font-medium text-secondary mb-2">Notes</label>
+                  <textarea
+                    value={leadForm.notes}
+                    onChange={(e) => setLeadForm(prev => ({ ...prev, notes: e.target.value }))}
+                    rows={3}
+                    className="w-full px-4 py-3 rounded-lg border border-subtle bg-surface text-primary focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent resize-none"
+                    placeholder="Add any additional notes..."
+                  />
+                </div>
+              </div>
+
+              <div className="flex space-x-3 mt-6">
+                <button
+                  onClick={() => setShowLeadModal(false)}
+                  className="flex-1 px-4 py-3 rounded-lg border border-subtle bg-surface text-secondary hover:text-primary transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSubmitLead}
+                  className="flex-1 btn-primary"
+                >
+                  Add Lead
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

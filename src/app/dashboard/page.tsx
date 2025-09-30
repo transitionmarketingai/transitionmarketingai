@@ -831,7 +831,7 @@ export default function DashboardPage() {
       setLeads(data.leads);
       setContent(data.content);
       setAnalytics(data.analytics);
-    });
+    };
 
     return stopUpdates;
   }, []);

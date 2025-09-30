@@ -1,20 +1,9 @@
 {
+  "name": "transition-marketing-ai",
   "framework": "nextjs",
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
   "installCommand": "npm install",
-  "env": {
-    "NEXTAUTH_URL": "https://transitionmarketingai.com",
-    "NEXTAUTH_SECRET": "@nextauth-secret",
-    "DATABASE_URL": "@database-url",
-    "STRIPE_PUBLISHABLE_KEY": "@stripe-publishable-key",
-    "STRIPE_SECRET_KEY": "@stripe-secret-key",
-    "STRIPE_WEBHOOK_SECRET": "@stripe-webhook-secret",
-    "SENDGRID_API_KEY": "@sendgrid-api-key",
-    "SENDGRID_FROM_EMAIL": "@sendgrid-from-email",
-    "GOOGLE_CLIENT_ID": "@google-client-id",
-    "GOOGLE_CLIENT_SECRET": "@google-client-secret"
-  },
   "functions": {
     "src/app/api/**/*.ts": {
       "maxDuration": 30

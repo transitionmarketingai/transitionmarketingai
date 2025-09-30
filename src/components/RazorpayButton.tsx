@@ -38,6 +38,18 @@ export default function RazorpayButton({
     setLoading(true);
 
     try {
+      // Check if Razorpay is configured
+      const keyId = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
+      
+      if (!keyId || keyId === 'rzp_test_placeholder') {
+        // Demo mode - simulate successful payment
+        setTimeout(() => {
+          setLoading(false);
+          onSuccess?.();
+        }, 2000);
+        return;
+      }
+
       // Create order
       const orderResponse = await fetch('/api/payments/create-order', {
         method: 'POST',
@@ -58,7 +70,7 @@ export default function RazorpayButton({
       script.src = 'https://checkout.razorpay.com/v1/checkout.js';
       script.onload = () => {
         const options = {
-          key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+          key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_test_placeholder',
           amount: order.amount,
           currency: order.currency,
           name: 'Transition Marketing AI',
@@ -116,13 +128,16 @@ export default function RazorpayButton({
     }
   };
 
+  const keyId = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
+  const isDemoMode = !keyId || keyId === 'rzp_test_placeholder';
+
   return (
     <button
       onClick={handlePayment}
       disabled={loading}
       className="w-full inline-block text-center py-4 px-6 rounded-lg font-semibold transition-all duration-300 btn-primary text-lg disabled:opacity-50 disabled:cursor-not-allowed"
     >
-      {loading ? 'Processing...' : `Pay ₹${amount.toLocaleString()}`}
+      {loading ? 'Processing...' : isDemoMode ? `Demo Payment - ₹${amount.toLocaleString()}` : `Pay ₹${amount.toLocaleString()}`}
     </button>
   );
 }

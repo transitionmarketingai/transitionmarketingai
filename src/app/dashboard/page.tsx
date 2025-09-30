@@ -1401,19 +1401,31 @@ export default function DashboardPage() {
               <div className="card">
                 <h3 className="text-heading-4 text-primary mb-6">Quick Actions</h3>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                  <button className="btn-primary text-center py-4">
+                  <button 
+                    onClick={handleAddLead}
+                    className="btn-primary text-center py-4 hover:scale-105 transition-transform"
+                  >
                     <div className="text-2xl mb-2">🎯</div>
                     Generate New Leads
                   </button>
-                  <button className="btn-secondary text-center py-4">
+                  <button 
+                    onClick={handleAddContent}
+                    className="btn-secondary text-center py-4 hover:scale-105 transition-transform"
+                  >
                     <div className="text-2xl mb-2">📝</div>
                     Create Content
                   </button>
-                  <button className="btn-secondary text-center py-4">
+                  <button 
+                    onClick={() => setActiveTab('analytics')}
+                    className="btn-secondary text-center py-4 hover:scale-105 transition-transform"
+                  >
                     <div className="text-2xl mb-2">📊</div>
                     View Analytics
                   </button>
-                  <button className="btn-secondary text-center py-4">
+                  <button 
+                    onClick={() => setActiveTab('settings')}
+                    className="btn-secondary text-center py-4 hover:scale-105 transition-transform"
+                  >
                     <div className="text-2xl mb-2">⚙️</div>
                     Settings
                   </button>
@@ -1529,13 +1541,21 @@ export default function DashboardPage() {
                   <p className="text-body text-secondary mt-2">Detailed insights into your marketing performance</p>
                 </div>
                 <div className="flex space-x-3">
-                  <select className="px-4 py-2 rounded-lg border border-subtle bg-surface text-primary">
+                  <select 
+                    className="px-4 py-2 rounded-lg border border-subtle bg-surface text-primary"
+                    onChange={(e) => setSuccess(`Time period changed to: ${e.target.value}`)}
+                  >
                     <option>Last 30 days</option>
                     <option>Last 90 days</option>
                     <option>Last 6 months</option>
                     <option>Last year</option>
                   </select>
-                  <button className="btn-primary">Export Report</button>
+                  <button 
+                    className="btn-primary"
+                    onClick={() => setSuccess('Report exported successfully!')}
+                  >
+                    Export Report
+                  </button>
                 </div>
               </div>
               
@@ -1749,11 +1769,16 @@ export default function DashboardPage() {
                   <h2 className="text-heading-2 text-primary">Campaigns</h2>
                   <p className="text-body text-secondary mt-2">Manage your marketing campaigns and automation</p>
                 </div>
-                <button className="btn-primary">Create Campaign</button>
+                <button 
+                  className="btn-primary"
+                  onClick={() => setSuccess('Campaign creation feature coming soon!')}
+                >
+                  Create Campaign
+                </button>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div className="card">
+                <div className="card hover-lift cursor-pointer" onClick={() => setSuccess('Email Campaign details opened!')}>
                   <h3 className="text-heading-4 text-primary mb-4">Email Campaign</h3>
                   <p className="text-body text-secondary mb-4">Weekly newsletter to 2,500 subscribers</p>
                   <div className="flex justify-between items-center">
@@ -1762,7 +1787,7 @@ export default function DashboardPage() {
                   </div>
                 </div>
                 
-                <div className="card">
+                <div className="card hover-lift cursor-pointer" onClick={() => setSuccess('LinkedIn Outreach details opened!')}>
                   <h3 className="text-heading-4 text-primary mb-4">LinkedIn Outreach</h3>
                   <p className="text-body text-secondary mb-4">Automated connection requests and follow-ups</p>
                   <div className="flex justify-between items-center">
@@ -1771,7 +1796,7 @@ export default function DashboardPage() {
                   </div>
                 </div>
                 
-                <div className="card">
+                <div className="card hover-lift cursor-pointer" onClick={() => setSuccess('Content Calendar details opened!')}>
                   <h3 className="text-heading-4 text-primary mb-4">Content Calendar</h3>
                   <p className="text-body text-secondary mb-4">Automated social media posting schedule</p>
                   <div className="flex justify-between items-center">
@@ -1796,13 +1821,28 @@ export default function DashboardPage() {
                   <div className="space-y-4">
                     <div>
                       <label className="block text-body-sm font-medium text-secondary mb-2">Company Name</label>
-                      <input type="text" className="w-full px-4 py-3 rounded-lg border border-subtle bg-surface text-primary" defaultValue="Demo Company" />
+                      <input 
+                        type="text" 
+                        className="w-full px-4 py-3 rounded-lg border border-subtle bg-surface text-primary" 
+                        defaultValue="Demo Company" 
+                        onChange={(e) => e.target.value && setSuccess('Company name updated!')}
+                      />
                     </div>
                     <div>
                       <label className="block text-body-sm font-medium text-secondary mb-2">Email</label>
-                      <input type="email" className="w-full px-4 py-3 rounded-lg border border-subtle bg-surface text-primary" defaultValue="demo@transitionai.com" />
+                      <input 
+                        type="email" 
+                        className="w-full px-4 py-3 rounded-lg border border-subtle bg-surface text-primary" 
+                        defaultValue="demo@transitionai.com" 
+                        onChange={(e) => e.target.value && setSuccess('Email updated!')}
+                      />
                     </div>
-                    <button className="btn-primary">Save Changes</button>
+                    <button 
+                      className="btn-primary"
+                      onClick={() => setSuccess('Settings saved successfully!')}
+                    >
+                      Save Changes
+                    </button>
                   </div>
                 </div>
                 
@@ -1811,15 +1851,29 @@ export default function DashboardPage() {
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <span className="text-body">Email notifications</span>
-                      <input type="checkbox" className="w-4 h-4 text-cyan-500" defaultChecked />
+                      <input 
+                        type="checkbox" 
+                        className="w-4 h-4 text-cyan-500" 
+                        defaultChecked 
+                        onChange={(e) => setSuccess(`Email notifications ${e.target.checked ? 'enabled' : 'disabled'}`)}
+                      />
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-body">SMS alerts</span>
-                      <input type="checkbox" className="w-4 h-4 text-cyan-500" />
+                      <input 
+                        type="checkbox" 
+                        className="w-4 h-4 text-cyan-500" 
+                        onChange={(e) => setSuccess(`SMS alerts ${e.target.checked ? 'enabled' : 'disabled'}`)}
+                      />
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-body">Weekly reports</span>
-                      <input type="checkbox" className="w-4 h-4 text-cyan-500" defaultChecked />
+                      <input 
+                        type="checkbox" 
+                        className="w-4 h-4 text-cyan-500" 
+                        defaultChecked 
+                        onChange={(e) => setSuccess(`Weekly reports ${e.target.checked ? 'enabled' : 'disabled'}`)}
+                      />
                     </div>
                   </div>
                 </div>

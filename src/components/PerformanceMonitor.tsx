@@ -104,8 +104,8 @@ export default function PerformanceMonitor() {
               tcp: navigation.connectEnd - navigation.connectStart,
               request: navigation.responseStart - navigation.requestStart,
               response: navigation.responseEnd - navigation.responseStart,
-              dom: navigation.domContentLoadedEventEnd - navigation.navigationStart,
-              load: navigation.loadEventEnd - navigation.navigationStart
+              dom: navigation.domContentLoadedEventEnd - navigation.fetchStart,
+              load: navigation.loadEventEnd - navigation.fetchStart
             };
             
             console.log('Page Load Metrics:', metrics);

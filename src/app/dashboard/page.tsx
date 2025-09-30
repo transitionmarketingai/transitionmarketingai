@@ -873,10 +873,14 @@ export default function DashboardPage() {
     try {
       const newContent = await addContent({
         title: 'New Content Piece',
-        type: 'Blog',
+        type: 'blog',
         status: 'draft',
-        views: 0,
-        engagement: 0
+        performance: {
+          views: 0,
+          clicks: 0,
+          conversions: 0,
+          engagement: 0
+        }
       });
       
       if (newContent) {
@@ -1228,8 +1232,8 @@ export default function DashboardPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <StatCard
                   title="Total Leads"
-                  value={analytics?.leads.total.toString() || "0"}
-                  subtitle={`${analytics?.leads.new || 0} new this month`}
+                  value={analytics?.totalLeads.toString() || "0"}
+                  subtitle={`${analytics?.newLeads || 0} new this month`}
                   trend="+12%"
                   icon="🎯"
                   color="primary"

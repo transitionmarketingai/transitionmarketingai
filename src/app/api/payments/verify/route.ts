@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
     const userId = (session.user as any).id;
     
     await prisma.subscription.upsert({
-      where: { userId },
+      where: { id: `sub_${userId}` },
       update: {
         plan: planId,
         status: 'active',

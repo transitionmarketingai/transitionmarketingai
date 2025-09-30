@@ -828,9 +828,7 @@ export default function DashboardPage() {
   useEffect(() => {
     // Real-time updates will be handled by Supabase subscriptions
     const stopUpdates = () => {
-      setLeads(data.leads);
-      setContent(data.content);
-      setAnalytics(data.analytics);
+      // Cleanup function for real-time subscriptions
     };
 
     return stopUpdates;

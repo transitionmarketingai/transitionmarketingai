@@ -764,6 +764,7 @@ export default function DashboardPage() {
   const [customWidgets, setCustomWidgets] = useState<any[]>([]);
   const [showWidgetSelector, setShowWidgetSelector] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
   
   // Real data state
   const [leads, setLeads] = useState<Lead[]>([]);
@@ -832,6 +833,22 @@ export default function DashboardPage() {
     loadData();
   }, []);
 
+  // Close dropdowns and modals when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (!target.closest('.dropdown-container') && !target.closest('.modal-container')) {
+        setShowNotifications(false);
+        setShowUserMenu(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   // Real-time updates
   useEffect(() => {
     // Real-time updates will be handled by Supabase subscriptions
@@ -857,6 +874,7 @@ export default function DashboardPage() {
 
   // Lead generation modal state
   const [showLeadModal, setShowLeadModal] = useState(false);
+  const [showLeadGenerator, setShowLeadGenerator] = useState(false);
   const [leadForm, setLeadForm] = useState({
     name: '',
     email: '',
@@ -867,9 +885,98 @@ export default function DashboardPage() {
     notes: ''
   });
 
+  // Lead generation criteria
+  const [leadCriteria, setLeadCriteria] = useState({
+    industry: '',
+    location: '',
+    companySize: '',
+    keywords: '',
+    source: 'all'
+  });
+
+  // Analytics integration state
+  const [connectedAccounts, setConnectedAccounts] = useState({
+    googleAnalytics: false,
+    facebookAds: false,
+    linkedinAds: false,
+    emailMarketing: false,
+    crm: false
+  });
+
   // Functional handlers
   const handleAddLead = () => {
     setShowLeadModal(true);
+  };
+
+  const handleGenerateLeads = () => {
+    setShowLeadGenerator(true);
+  };
+
+  const handleGenerateLeadsAutomatically = async () => {
+    setIsLoading(true);
+    try {
+      // Simulate automated lead generation
+      const generatedLeads = [
+        {
+          name: 'Rajesh Kumar',
+          company: 'TechCorp India',
+          email: 'rajesh@techcorp.com',
+          phone: '+91-9876543210',
+          industry: leadCriteria.industry || 'Technology',
+          status: 'new' as const,
+          source: 'LinkedIn',
+          score: 85,
+          notes: `Generated based on criteria: ${leadCriteria.keywords}`
+        },
+        {
+          name: 'Priya Sharma',
+          company: 'StartupXYZ',
+          email: 'priya@startupxyz.com',
+          phone: '+91-9876543211',
+          industry: leadCriteria.industry || 'Technology',
+          status: 'new' as const,
+          source: 'Website',
+          score: 78,
+          notes: `Generated based on criteria: ${leadCriteria.keywords}`
+        },
+        {
+          name: 'Amit Patel',
+          company: 'Digital Solutions',
+          email: 'amit@digitalsolutions.com',
+          phone: '+91-9876543212',
+          industry: leadCriteria.industry || 'Technology',
+          status: 'new' as const,
+          source: 'Email',
+          score: 92,
+          notes: `Generated based on criteria: ${leadCriteria.keywords}`
+        }
+      ];
+
+      // Add generated leads to the database
+      for (const lead of generatedLeads) {
+        const newLead = await addLead(lead);
+        if (newLead) {
+          setLeads(prev => [newLead, ...prev]);
+        }
+      }
+
+      setSuccess(`Successfully generated ${generatedLeads.length} verified leads!`);
+      setShowLeadGenerator(false);
+      setTimeout(() => setSuccess(null), 5000);
+    } catch (err) {
+      setError('Failed to generate leads');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleConnectAccount = (account: string) => {
+    setConnectedAccounts(prev => ({
+      ...prev,
+      [account]: !prev[account as keyof typeof prev]
+    }));
+    setSuccess(`${account} ${connectedAccounts[account as keyof typeof connectedAccounts] ? 'disconnected' : 'connected'} successfully!`);
+    setTimeout(() => setSuccess(null), 3000);
   };
 
   const handleSubmitLead = async () => {
@@ -1142,9 +1249,12 @@ export default function DashboardPage() {
                 </button>
               )}
               <ThemeToggle />
-              <div className="relative">
+              <div className="relative dropdown-container">
                 <button 
-                  onClick={() => setShowNotifications(!showNotifications)}
+                  onClick={() => {
+                    setShowNotifications(!showNotifications);
+                    setShowUserMenu(false);
+                  }}
                   className="p-2 rounded-lg hover:bg-surface-elevated transition-colors relative" 
                   aria-label="Notifications"
                 >
@@ -1197,11 +1307,14 @@ export default function DashboardPage() {
                   </div>
                 )}
               </div>
-              <div className="relative">
+              <div className="relative dropdown-container">
                 <button 
-                  onClick={() => setActiveTab('settings')}
+                  onClick={() => {
+                    setShowUserMenu(!showUserMenu);
+                    setShowNotifications(false);
+                  }}
                   className="p-2 rounded-lg hover:bg-surface-elevated transition-colors" 
-                  aria-label="Settings"
+                  aria-label="User Menu"
                 >
                   <svg className="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
@@ -1210,27 +1323,33 @@ export default function DashboardPage() {
                 </button>
                 
                 {/* User Menu Dropdown */}
-                <div className="absolute right-0 top-full mt-2 w-48 bg-surface border border-subtle rounded-lg shadow-lg z-50">
-                  <div className="p-2">
-                    <button
-                      onClick={() => setActiveTab('settings')}
-                      className="w-full text-left px-3 py-2 text-body text-secondary hover:text-primary hover:bg-surface-elevated rounded transition-colors"
-                    >
-                      Settings
-                    </button>
-                    <button
-                      onClick={() => {
-                        setSuccess('Logged out successfully!');
-                        setTimeout(() => {
-                          window.location.href = '/';
-                        }, 1500);
-                      }}
-                      className="w-full text-left px-3 py-2 text-body text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded transition-colors"
-                    >
-                      Log Out
-                    </button>
+                {showUserMenu && (
+                  <div className="absolute right-0 top-full mt-2 w-48 bg-surface border border-subtle rounded-lg shadow-lg z-50">
+                    <div className="p-2">
+                      <button
+                        onClick={() => {
+                          setActiveTab('settings');
+                          setShowUserMenu(false);
+                        }}
+                        className="w-full text-left px-3 py-2 text-body text-secondary hover:text-primary hover:bg-surface-elevated rounded transition-colors"
+                      >
+                        Settings
+                      </button>
+                      <button
+                        onClick={() => {
+                          setSuccess('Logged out successfully!');
+                          setShowUserMenu(false);
+                          setTimeout(() => {
+                            window.location.href = '/';
+                          }, 1500);
+                        }}
+                        className="w-full text-left px-3 py-2 text-body text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded transition-colors"
+                      >
+                        Log Out
+                      </button>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
@@ -1456,7 +1575,7 @@ export default function DashboardPage() {
                 <h3 className="text-heading-4 text-primary mb-6">Quick Actions</h3>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                   <button 
-                    onClick={handleAddLead}
+                    onClick={handleGenerateLeads}
                     className="btn-primary text-center py-4 hover:scale-105 transition-transform"
                   >
                     <div className="text-2xl mb-2">🎯</div>
@@ -1495,12 +1614,20 @@ export default function DashboardPage() {
                   <h2 className="text-heading-2 text-primary">Lead Management</h2>
                   <p className="text-body text-secondary mt-2">Track and manage your leads across all channels</p>
                 </div>
-                <button
-                  className="btn-primary"
-                  onClick={handleAddLead}
-                >
-                  Add New Lead
-                </button>
+                <div className="flex space-x-3">
+                  <button
+                    className="btn-primary"
+                    onClick={handleGenerateLeads}
+                  >
+                    Generate Leads
+                  </button>
+                  <button
+                    className="btn-secondary"
+                    onClick={handleAddLead}
+                  >
+                    Add Manual Lead
+                  </button>
+                </div>
               </div>
               
               <TableCard
@@ -1866,7 +1993,7 @@ export default function DashboardPage() {
             <div className="space-y-8">
               <div>
                 <h2 className="text-heading-2 text-primary">Settings</h2>
-                <p className="text-body text-secondary mt-2">Configure your account and preferences</p>
+                <p className="text-body text-secondary mt-2">Configure your account and integrations</p>
               </div>
               
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -1901,34 +2028,115 @@ export default function DashboardPage() {
                 </div>
                 
                 <div className="card">
-                  <h3 className="text-heading-4 text-primary mb-6">Notification Preferences</h3>
+                  <h3 className="text-heading-4 text-primary mb-6">Analytics Integrations</h3>
                   <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <span className="text-body">Email notifications</span>
-                      <input 
-                        type="checkbox" 
-                        className="w-4 h-4 text-cyan-500" 
-                        defaultChecked 
-                        onChange={(e) => setSuccess(`Email notifications ${e.target.checked ? 'enabled' : 'disabled'}`)}
-                      />
+                    <div className="flex items-center justify-between p-3 rounded-lg bg-surface-elevated">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+                          <span className="text-white text-sm">GA</span>
+                        </div>
+                        <span className="text-body">Google Analytics</span>
+                      </div>
+                      <button
+                        onClick={() => handleConnectAccount('googleAnalytics')}
+                        className={`px-3 py-1 rounded text-sm ${
+                          connectedAccounts.googleAnalytics 
+                            ? 'bg-green-500 text-white' 
+                            : 'bg-gray-200 text-gray-700'
+                        }`}
+                      >
+                        {connectedAccounts.googleAnalytics ? 'Connected' : 'Connect'}
+                      </button>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-body">SMS alerts</span>
-                      <input 
-                        type="checkbox" 
-                        className="w-4 h-4 text-cyan-500" 
-                        onChange={(e) => setSuccess(`SMS alerts ${e.target.checked ? 'enabled' : 'disabled'}`)}
-                      />
+                    
+                    <div className="flex items-center justify-between p-3 rounded-lg bg-surface-elevated">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                          <span className="text-white text-sm">FB</span>
+                        </div>
+                        <span className="text-body">Facebook Ads</span>
+                      </div>
+                      <button
+                        onClick={() => handleConnectAccount('facebookAds')}
+                        className={`px-3 py-1 rounded text-sm ${
+                          connectedAccounts.facebookAds 
+                            ? 'bg-green-500 text-white' 
+                            : 'bg-gray-200 text-gray-700'
+                        }`}
+                      >
+                        {connectedAccounts.facebookAds ? 'Connected' : 'Connect'}
+                      </button>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-body">Weekly reports</span>
-                      <input 
-                        type="checkbox" 
-                        className="w-4 h-4 text-cyan-500" 
-                        defaultChecked 
-                        onChange={(e) => setSuccess(`Weekly reports ${e.target.checked ? 'enabled' : 'disabled'}`)}
-                      />
+                    
+                    <div className="flex items-center justify-between p-3 rounded-lg bg-surface-elevated">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 bg-blue-700 rounded-lg flex items-center justify-center">
+                          <span className="text-white text-sm">LI</span>
+                        </div>
+                        <span className="text-body">LinkedIn Ads</span>
+                      </div>
+                      <button
+                        onClick={() => handleConnectAccount('linkedinAds')}
+                        className={`px-3 py-1 rounded text-sm ${
+                          connectedAccounts.linkedinAds 
+                            ? 'bg-green-500 text-white' 
+                            : 'bg-gray-200 text-gray-700'
+                        }`}
+                      >
+                        {connectedAccounts.linkedinAds ? 'Connected' : 'Connect'}
+                      </button>
                     </div>
+                    
+                    <div className="flex items-center justify-between p-3 rounded-lg bg-surface-elevated">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center">
+                          <span className="text-white text-sm">EM</span>
+                        </div>
+                        <span className="text-body">Email Marketing</span>
+                      </div>
+                      <button
+                        onClick={() => handleConnectAccount('emailMarketing')}
+                        className={`px-3 py-1 rounded text-sm ${
+                          connectedAccounts.emailMarketing 
+                            ? 'bg-green-500 text-white' 
+                            : 'bg-gray-200 text-gray-700'
+                        }`}
+                      >
+                        {connectedAccounts.emailMarketing ? 'Connected' : 'Connect'}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="card">
+                <h3 className="text-heading-4 text-primary mb-6">Notification Preferences</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="flex items-center justify-between p-3 rounded-lg bg-surface-elevated">
+                    <span className="text-body">Email notifications</span>
+                    <input 
+                      type="checkbox" 
+                      className="w-4 h-4 text-cyan-500" 
+                      defaultChecked 
+                      onChange={(e) => setSuccess(`Email notifications ${e.target.checked ? 'enabled' : 'disabled'}`)}
+                    />
+                  </div>
+                  <div className="flex items-center justify-between p-3 rounded-lg bg-surface-elevated">
+                    <span className="text-body">SMS alerts</span>
+                    <input 
+                      type="checkbox" 
+                      className="w-4 h-4 text-cyan-500" 
+                      onChange={(e) => setSuccess(`SMS alerts ${e.target.checked ? 'enabled' : 'disabled'}`)}
+                    />
+                  </div>
+                  <div className="flex items-center justify-between p-3 rounded-lg bg-surface-elevated">
+                    <span className="text-body">Weekly reports</span>
+                    <input 
+                      type="checkbox" 
+                      className="w-4 h-4 text-cyan-500" 
+                      defaultChecked 
+                      onChange={(e) => setSuccess(`Weekly reports ${e.target.checked ? 'enabled' : 'disabled'}`)}
+                    />
                   </div>
                 </div>
               </div>
@@ -1940,7 +2148,7 @@ export default function DashboardPage() {
 
       {/* Lead Generation Modal */}
       {showLeadModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 modal-container">
           <div className="bg-surface rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
@@ -2062,6 +2270,150 @@ export default function DashboardPage() {
                 >
                   Add Lead
                 </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Lead Generator Modal */}
+      {showLeadGenerator && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 modal-container">
+          <div className="bg-surface rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-heading-4 text-primary">Automated Lead Generation</h3>
+                <button
+                  onClick={() => setShowLeadGenerator(false)}
+                  className="p-2 rounded-lg hover:bg-surface-elevated transition-colors"
+                >
+                  <svg className="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              <div className="space-y-6">
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="text-body font-medium text-blue-900">AI-Powered Lead Generation</h4>
+                      <p className="text-body-sm text-blue-700 mt-1">
+                        Our AI will find verified leads based on your criteria using LinkedIn, company databases, and social media.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-body-sm font-medium text-secondary mb-2">Industry</label>
+                    <select
+                      value={leadCriteria.industry}
+                      onChange={(e) => setLeadCriteria(prev => ({ ...prev, industry: e.target.value }))}
+                      className="w-full px-4 py-3 rounded-lg border border-subtle bg-surface text-primary focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                    >
+                      <option value="">Select industry</option>
+                      <option value="Technology">Technology</option>
+                      <option value="Healthcare">Healthcare</option>
+                      <option value="Finance">Finance</option>
+                      <option value="Education">Education</option>
+                      <option value="Retail">Retail</option>
+                      <option value="Manufacturing">Manufacturing</option>
+                      <option value="Real Estate">Real Estate</option>
+                      <option value="Consulting">Consulting</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-body-sm font-medium text-secondary mb-2">Location</label>
+                    <input
+                      type="text"
+                      value={leadCriteria.location}
+                      onChange={(e) => setLeadCriteria(prev => ({ ...prev, location: e.target.value }))}
+                      className="w-full px-4 py-3 rounded-lg border border-subtle bg-surface text-primary focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                      placeholder="e.g., Mumbai, Delhi, Bangalore"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-body-sm font-medium text-secondary mb-2">Company Size</label>
+                    <select
+                      value={leadCriteria.companySize}
+                      onChange={(e) => setLeadCriteria(prev => ({ ...prev, companySize: e.target.value }))}
+                      className="w-full px-4 py-3 rounded-lg border border-subtle bg-surface text-primary focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                    >
+                      <option value="">Any size</option>
+                      <option value="1-10">1-10 employees</option>
+                      <option value="11-50">11-50 employees</option>
+                      <option value="51-200">51-200 employees</option>
+                      <option value="201-1000">201-1000 employees</option>
+                      <option value="1000+">1000+ employees</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-body-sm font-medium text-secondary mb-2">Keywords</label>
+                    <input
+                      type="text"
+                      value={leadCriteria.keywords}
+                      onChange={(e) => setLeadCriteria(prev => ({ ...prev, keywords: e.target.value }))}
+                      className="w-full px-4 py-3 rounded-lg border border-subtle bg-surface text-primary focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                      placeholder="e.g., CEO, CTO, Marketing Director"
+                    />
+                  </div>
+                </div>
+
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <h4 className="text-body font-medium text-primary mb-3">What you'll get:</h4>
+                  <ul className="space-y-2 text-body-sm text-secondary">
+                    <li className="flex items-center space-x-2">
+                      <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span>Verified contact information (email, phone, LinkedIn)</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span>Company details and industry information</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span>Lead scoring and qualification status</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span>Ready for immediate outreach</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="flex space-x-3">
+                  <button
+                    onClick={() => setShowLeadGenerator(false)}
+                    className="flex-1 px-4 py-3 rounded-lg border border-subtle bg-surface text-secondary hover:text-primary transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleGenerateLeadsAutomatically}
+                    disabled={isLoading}
+                    className="flex-1 btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isLoading ? 'Generating Leads...' : 'Generate Leads'}
+                  </button>
+                </div>
               </div>
             </div>
           </div>

@@ -63,36 +63,44 @@ function StatCard({ title, value, subtitle, trend, icon, color = "primary" }: {
   color?: "primary" | "success" | "warning" | "danger";
 }) {
   const colorClasses = {
-    primary: "text-cyan-500",
-    success: "text-green-500", 
-    warning: "text-yellow-500",
-    danger: "text-red-500"
+    primary: "text-cyan-500 bg-cyan-50",
+    success: "text-green-500 bg-green-50", 
+    warning: "text-yellow-500 bg-yellow-50",
+    danger: "text-red-500 bg-red-50"
   };
 
   return (
-    <div className="card hover-lift group">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-body-sm text-secondary font-medium">{title}</h3>
-        <div className={`text-3xl ${colorClasses[color]} group-hover:scale-110 transition-transform duration-300`}>
-          {icon}
+    <div className="card hover-lift group relative overflow-hidden">
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-white to-gray-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      
+      <div className="relative z-10">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-body-sm text-secondary font-medium">{title}</h3>
+          <div className={`w-12 h-12 rounded-xl ${colorClasses[color]} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+            <span className="text-xl">{icon}</span>
+          </div>
         </div>
+        <div className="text-4xl font-bold text-primary mb-3">{value}</div>
+        {subtitle && <div className="text-body-sm text-secondary mb-3">{subtitle}</div>}
+        {trend && (
+          <div className="flex items-center text-body-sm">
+            <span className={`${colorClasses[color].split(' ')[0]} font-medium`}>{trend}</span>
+            <span className="text-secondary ml-2">vs last month</span>
+          </div>
+        )}
       </div>
-      <div className="text-4xl font-bold text-primary mb-3">{value}</div>
-      {subtitle && <div className="text-body-sm text-secondary mb-3">{subtitle}</div>}
-      {trend && (
-        <div className="flex items-center text-body-sm">
-          <span className={`${colorClasses[color]} font-medium`}>{trend}</span>
-          <span className="text-secondary ml-2">vs last month</span>
-        </div>
-      )}
     </div>
   );
 }
 
-function ChartCard({ title, children }: { title: string; children: React.ReactNode }) {
+function ChartCard({ title, children, action }: { title: string; children: React.ReactNode; action?: React.ReactNode }) {
   return (
-    <div className="card">
-      <h3 className="text-heading-4 text-primary mb-6">{title}</h3>
+    <div className="card group hover:shadow-lg transition-all duration-300">
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-heading-4 text-primary">{title}</h3>
+        {action && <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">{action}</div>}
+      </div>
       {children}
     </div>
   );

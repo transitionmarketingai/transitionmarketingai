@@ -110,63 +110,111 @@ function PricingTable({ tiers }: { tiers: Tier[] }) {
   };
 
   return (
-    <div className="overflow-x-auto">
-      <div className="min-w-[800px]">
-        {/* Header */}
-        <div className="grid grid-cols-4 gap-6 mb-8">
-          <div className="text-body-sm text-secondary font-medium">Features</div>
-          {tiers.map((tier, index) => (
-            <div key={tier.planId} className={`text-center ${index === 1 ? 'relative' : ''}`}>
-              {index === 1 && (
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
-                  <span className="bg-gradient-primary text-white text-xs px-4 py-1.5 rounded-full font-medium shadow-lg">
-                    Most Popular
-                  </span>
+    <div className="w-full">
+      {/* Desktop Table */}
+      <div className="hidden lg:block">
+        <div className="overflow-x-auto">
+          <div className="min-w-[900px]">
+            {/* Header */}
+            <div className="grid grid-cols-4 gap-6 mb-8">
+              <div className="text-body-sm text-secondary font-medium py-4">Features</div>
+              {tiers.map((tier, index) => (
+                <div key={tier.planId} className={`text-center ${index === 1 ? 'relative' : ''}`}>
+                  {index === 1 && (
+                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
+                      <span className="bg-gradient-primary text-white text-xs px-4 py-1.5 rounded-full font-medium shadow-lg">
+                        Most Popular
+                      </span>
+                    </div>
+                  )}
+                  <div className={`p-6 rounded-xl ${index === 1 ? 'bg-surface-elevated border-2 border-cyan-500/30 shadow-lg' : 'bg-surface border border-subtle'}`}>
+                    <h3 className="text-heading-4 text-primary mb-3">{tier.name}</h3>
+                    <div className="text-4xl font-bold text-primary mb-3">{tier.price}</div>
+                    <p className="text-body-sm text-secondary">{tier.blurb}</p>
+                  </div>
                 </div>
-              )}
-              <div className={`p-6 rounded-xl ${index === 1 ? 'bg-surface-elevated border-2 border-cyan-500/30' : 'bg-surface border border-subtle'}`}>
-                <h3 className="text-heading-4 text-primary mb-3">{tier.name}</h3>
-                <div className="text-4xl font-bold text-primary mb-3">{tier.price}</div>
-                <p className="text-body-sm text-secondary">{tier.blurb}</p>
-              </div>
+              ))}
             </div>
-          ))}
-        </div>
 
-        {/* Feature Rows */}
-        <div className="space-y-3">
-          {allFeatures.map((feature, featureIndex) => (
-            <div key={featureIndex} className="grid grid-cols-4 gap-6 items-center py-4 px-2 rounded-lg hover:bg-surface/50 transition-colors">
-              <div className="text-body text-secondary font-medium">{feature}</div>
-              {tiers.map((tier, tierIndex) => (
-                <div key={tier.planId} className={`text-center p-3 rounded-lg ${tierIndex === 1 ? 'bg-surface-elevated' : 'bg-surface'}`}>
+            {/* Feature Rows */}
+            <div className="space-y-3">
+              {allFeatures.map((feature, featureIndex) => (
+                <div key={featureIndex} className="grid grid-cols-4 gap-6 items-center py-4 px-4 rounded-lg hover:bg-surface/50 transition-colors">
+                  <div className="text-body text-secondary font-medium">{feature}</div>
+                  {tiers.map((tier, tierIndex) => (
+                    <div key={tier.planId} className={`text-center p-3 rounded-lg ${tierIndex === 1 ? 'bg-surface-elevated' : 'bg-surface'}`}>
+                      <span className="text-body text-primary font-medium">
+                        {getFeatureValue(tier, feature)}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+
+            {/* CTA Buttons */}
+            <div className="grid grid-cols-4 gap-6 mt-8">
+              <div></div>
+              {tiers.map((tier, index) => (
+                <div key={tier.planId} className="text-center">
+                  <a
+                    href={`/checkout?plan=${tier.planId}`}
+                    className={`w-full inline-block text-center py-4 px-6 rounded-lg font-semibold transition-all duration-300 ${
+                      tier.planId === 'growth'
+                        ? 'btn-primary text-lg'
+                        : 'btn-secondary text-lg'
+                    }`}
+                  >
+                    Get Started
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Cards */}
+      <div className="lg:hidden space-y-6">
+        {tiers.map((tier, index) => (
+          <div key={tier.planId} className={`card p-6 ${index === 1 ? 'border-2 border-cyan-500/30 relative' : ''}`}>
+            {index === 1 && (
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
+                <span className="bg-gradient-primary text-white text-xs px-4 py-1.5 rounded-full font-medium shadow-lg">
+                  Most Popular
+                </span>
+              </div>
+            )}
+            
+            <div className="text-center mb-6">
+              <h3 className="text-2xl font-bold text-primary mb-2">{tier.name}</h3>
+              <div className="text-4xl font-bold text-primary mb-2">{tier.price}</div>
+              <p className="text-secondary">{tier.blurb}</p>
+            </div>
+
+            <div className="space-y-3 mb-6">
+              {allFeatures.map((feature, featureIndex) => (
+                <div key={featureIndex} className="flex justify-between items-center py-2 border-b border-subtle/50 last:border-b-0">
+                  <span className="text-body text-secondary">{feature}</span>
                   <span className="text-body text-primary font-medium">
                     {getFeatureValue(tier, feature)}
                   </span>
                 </div>
               ))}
             </div>
-          ))}
-        </div>
 
-        {/* CTA Buttons */}
-        <div className="grid grid-cols-4 gap-6 mt-8">
-          <div></div>
-          {tiers.map((tier, index) => (
-            <div key={tier.planId} className="text-center">
-              <a
-                href={`/checkout?plan=${tier.planId}`}
-                className={`w-full inline-block text-center py-4 px-6 rounded-lg font-semibold transition-all duration-300 ${
-                  tier.planId === 'growth'
-                    ? 'btn-primary text-lg'
-                    : 'btn-secondary text-lg'
-                }`}
-              >
-                Get Started
-              </a>
-            </div>
-          ))}
-        </div>
+            <a
+              href={`/checkout?plan=${tier.planId}`}
+              className={`w-full inline-block text-center py-4 px-6 rounded-lg font-semibold transition-all duration-300 ${
+                tier.planId === 'growth'
+                  ? 'btn-primary text-lg'
+                  : 'btn-secondary text-lg'
+              }`}
+            >
+              Get Started
+            </a>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -249,8 +297,8 @@ export default function Home() {
             </div>
 
             {/* CTA Button */}
-            <a href="#pricing" className="btn-primary">
-              Start Free Trial
+            <a href="/get-started" className="btn-primary">
+              Get Started Free
             </a>
           </nav>
         </div>
@@ -281,11 +329,11 @@ export default function Home() {
 
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-                <a href="#pricing" className="btn-primary px-8 py-4 text-lg w-full sm:w-auto text-center">
-                  View Plans
+                <a href="/get-started" className="btn-primary px-8 py-4 text-lg w-full sm:w-auto text-center">
+                  Get Started Free
                 </a>
-                <a href="/book" className="btn-secondary px-8 py-4 text-lg w-full sm:w-auto text-center">
-                  Book a Strategy Call
+                <a href="/how-it-works" className="btn-secondary px-8 py-4 text-lg w-full sm:w-auto text-center">
+                  See How It Works
                 </a>
                 <a href="/dashboard" className="btn-secondary px-8 py-4 text-lg w-full sm:w-auto text-center">
                   View Demo Dashboard
@@ -311,21 +359,24 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Audit Form Section - Compact for viewport */}
+        {/* Get Started Section - Compact for viewport */}
         <section className="py-16 bg-gray-50">
           <div className="container-custom">
-            <div className="max-w-4xl mx-auto">
-              <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
-                  Get a <span className="bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">Free AI Marketing Audit</span>
-                </h2>
-                <p className="text-lg text-secondary max-w-2xl mx-auto">
-                  Tell us about your business and goals. We&apos;ll send a comprehensive audit with recommended automations.
-                </p>
-              </div>
-
-              <div className="card p-8">
-                <AuditForm />
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
+                Ready to <span className="bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">get started?</span>
+              </h2>
+              <p className="text-lg text-secondary max-w-2xl mx-auto mb-8">
+                Join the first 10 businesses and get 30 days free. No credit card required.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="/get-started" className="btn-primary px-8 py-4 text-lg w-full sm:w-auto text-center">
+                  Get Started Free
+                </a>
+                <a href="/how-it-works" className="btn-secondary px-8 py-4 text-lg w-full sm:w-auto text-center">
+                  See How It Works
+                </a>
               </div>
             </div>
           </div>
@@ -456,7 +507,7 @@ export default function Home() {
               <p className="text-lg text-secondary mb-8 max-w-2xl mx-auto">
                 We guarantee 5 confirmed leads during trial, or you don&apos;t pay when it ends.
               </p>
-              <a href="#pricing" className="btn-primary px-8 py-4 text-lg">
+              <a href="/get-started" className="btn-primary px-8 py-4 text-lg">
                 Claim Your Free Trial
               </a>
             </div>

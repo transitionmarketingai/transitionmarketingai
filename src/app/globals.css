@@ -396,6 +396,10 @@ body {
   animation-delay: 2s;
 }
 
+.animation-delay-1000 {
+  animation-delay: 1s;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

@@ -206,148 +206,128 @@ export default function HomePage() {
     <div className="min-h-screen bg-[#0a0a0f] text-white">
       <Navigation />
 
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center px-6 lg:px-8 overflow-hidden">
-        {/* Background Image */}
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900">
-          <div className="absolute inset-0 opacity-20 bg-dot-pattern"></div>
+      {/* Hero Section - Sintra.ai Inspired */}
+      <section className="relative min-h-screen flex items-center px-4 sm:px-6 lg:px-8 bg-black">
+        {/* Background */}
+        <div className="absolute inset-0 bg-black">
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-900/50 to-black/50"></div>
         </div>
         
-        {/* Content */}
+        {/* Content Container */}
         <div className="relative max-w-7xl mx-auto w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center min-h-screen py-20">
             
-            {/* Left Side - Text Content */}
-            <div className="space-y-8">
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight">
-                AI Marketing Agents:
-                <br />
-                <span className="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">
-                  Your Helpers That Never Sleep
-                </span>
-              </h1>
+            {/* Left Column - Text Content */}
+            <div className="space-y-8 lg:space-y-12">
+              {/* Main Headline */}
+              <div className="space-y-6">
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-[1.1] tracking-tight">
+                  AI Marketing Agents:
+                  <br />
+                  <span className="text-white">
+                    Your Helpers That Never Sleep
+                  </span>
+                </h1>
+                
+                <p className="text-lg sm:text-xl lg:text-2xl text-gray-300 max-w-2xl leading-relaxed">
+                  Build, grow, and scale your business with a team of AI marketing agents.
+                </p>
+              </div>
               
-              <p className="text-xl md:text-2xl text-gray-300 max-w-2xl">
-                Build, grow, and scale your business with a team of AI marketing agents.
-              </p>
-              
+              {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link 
                   href="/get-started"
-                  className="inline-block px-8 py-4 bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-lg font-bold text-lg hover:shadow-xl hover:shadow-violet-500/50 hover:scale-105 transition-all duration-200"
+                  className="inline-flex items-center justify-center px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-lg rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/25"
                 >
                   Get Started Free
                 </Link>
                 <Link 
                   href="/how-it-works"
-                  className="inline-block px-8 py-4 border-2 border-gray-600 text-gray-300 rounded-lg font-bold text-lg hover:border-violet-500 hover:text-white transition-all duration-200"
+                  className="inline-flex items-center justify-center px-8 py-4 border-2 border-gray-600 hover:border-gray-400 text-gray-300 hover:text-white font-semibold text-lg rounded-lg transition-all duration-200"
                 >
-                  How It Works
+                  How it works
                 </Link>
               </div>
             </div>
             
-            {/* Right Side - Mascot */}
-            <div className="relative flex justify-center lg:justify-end">
-              <div className="relative w-96 h-96 lg:w-[500px] lg:h-[500px]">
-                {/* Background Environment - Modern Interior */}
-                <div className="absolute inset-0 bg-gradient-to-br from-amber-50 to-amber-100 rounded-3xl shadow-2xl overflow-hidden">
-                  {/* Wooden Ceiling Slats */}
-                  <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-amber-800 to-amber-700">
+            {/* Right Column - Mascot */}
+            <div className="relative flex justify-center lg:justify-end items-center">
+              <div className="relative w-full max-w-md lg:max-w-lg xl:max-w-xl">
+                {/* Modern Interior Background */}
+                <div className="relative bg-gradient-to-br from-amber-50 to-amber-100 rounded-2xl shadow-2xl overflow-hidden aspect-square">
+                  {/* Ceiling */}
+                  <div className="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-amber-800 to-amber-700">
                     <div className="flex h-full">
-                      {Array.from({ length: 8 }).map((_, i) => (
+                      {Array.from({ length: 6 }).map((_, i) => (
                         <div key={i} className="flex-1 border-r border-amber-600/30"></div>
                       ))}
                     </div>
                   </div>
                   
-                  {/* Window with Nature View */}
-                  <div className="absolute top-16 left-4 w-32 h-24 bg-gradient-to-br from-green-200 to-green-300 rounded-lg shadow-inner">
-                    <div className="absolute inset-2 bg-gradient-to-br from-green-400 to-green-600 rounded opacity-60"></div>
-                    <div className="absolute bottom-1 left-2 w-2 h-2 bg-green-800 rounded-full"></div>
-                    <div className="absolute bottom-2 right-3 w-1.5 h-1.5 bg-green-800 rounded-full"></div>
-                    <div className="absolute top-2 left-3 w-1 h-1 bg-green-800 rounded-full"></div>
+                  {/* Window */}
+                  <div className="absolute top-12 left-3 w-20 h-16 bg-gradient-to-br from-green-200 to-green-300 rounded-lg shadow-inner">
+                    <div className="absolute inset-1 bg-gradient-to-br from-green-400 to-green-600 rounded opacity-70"></div>
+                    <div className="absolute bottom-1 left-1 w-1 h-1 bg-green-800 rounded-full"></div>
+                    <div className="absolute bottom-2 right-2 w-1 h-1 bg-green-800 rounded-full"></div>
                   </div>
                   
                   {/* Console Table */}
-                  <div className="absolute bottom-8 left-0 right-0 h-12 bg-gradient-to-t from-amber-900 to-amber-800 rounded-t-2xl shadow-lg">
-                    {/* Table Legs */}
-                    <div className="absolute -bottom-4 left-4 w-2 h-4 bg-amber-900 rounded"></div>
-                    <div className="absolute -bottom-4 right-4 w-2 h-4 bg-amber-900 rounded"></div>
+                  <div className="absolute bottom-6 left-0 right-0 h-8 bg-gradient-to-t from-amber-900 to-amber-800 rounded-t-xl">
+                    <div className="absolute -bottom-3 left-3 w-1.5 h-3 bg-amber-900 rounded"></div>
+                    <div className="absolute -bottom-3 right-3 w-1.5 h-3 bg-amber-900 rounded"></div>
                     
-                    {/* Decorative Items on Table */}
-                    {/* Katana Swords */}
-                    <div className="absolute top-2 left-8 w-16 h-1 bg-gradient-to-r from-gray-300 to-gray-500 rounded-full shadow-sm"></div>
-                    <div className="absolute top-1 left-8 w-1 h-3 bg-gray-600 rounded-full"></div>
-                    <div className="absolute top-1 right-8 w-1 h-3 bg-gray-600 rounded-full"></div>
+                    {/* Decorative Items */}
+                    <div className="absolute top-1 left-6 w-12 h-0.5 bg-gradient-to-r from-gray-300 to-gray-500 rounded-full"></div>
+                    <div className="absolute top-1 left-6 w-0.5 h-2 bg-gray-600 rounded-full"></div>
+                    <div className="absolute top-1 right-6 w-0.5 h-2 bg-gray-600 rounded-full"></div>
                     
-                    {/* Abstract Art */}
-                    <div className="absolute top-1 left-1/2 transform -translate-x-1/2 w-8 h-6 bg-gradient-to-r from-red-500 via-black to-white rounded shadow-sm"></div>
-                    
-                    {/* Small Objects */}
-                    <div className="absolute top-3 right-12 w-2 h-2 bg-amber-700 rounded-full"></div>
-                    <div className="absolute top-4 right-16 w-1.5 h-1.5 bg-amber-600 rounded-full"></div>
+                    <div className="absolute top-1 left-1/2 transform -translate-x-1/2 w-6 h-4 bg-gradient-to-r from-red-500 via-black to-white rounded shadow-sm"></div>
                   </div>
                 </div>
                 
-                {/* AI Mascot - Astronaut-like Character */}
+                {/* AI Mascot - Simplified Astronaut */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="relative w-48 h-48 lg:w-56 lg:h-56">
-                    {/* Mascot Body - Space Suit */}
-                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-32 bg-gradient-to-b from-cyan-400 to-blue-500 rounded-t-2xl shadow-xl">
-                      {/* Suit Details */}
-                      <div className="absolute top-4 left-2 right-2 h-1 bg-cyan-300 rounded"></div>
-                      <div className="absolute top-8 left-2 right-2 h-1 bg-cyan-300 rounded"></div>
-                      <div className="absolute top-12 left-2 right-2 h-1 bg-cyan-300 rounded"></div>
+                  <div className="relative w-32 h-32 lg:w-40 lg:h-40">
+                    {/* Mascot Body */}
+                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-20 bg-gradient-to-b from-cyan-400 to-blue-500 rounded-t-xl shadow-lg">
+                      {/* Suit Lines */}
+                      <div className="absolute top-3 left-1 right-1 h-0.5 bg-cyan-300 rounded"></div>
+                      <div className="absolute top-6 left-1 right-1 h-0.5 bg-cyan-300 rounded"></div>
                       
                       {/* Chest Panel */}
-                      <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-8 h-6 bg-gradient-to-b from-cyan-200 to-cyan-300 rounded shadow-inner">
-                        <div className="absolute top-1 left-1 w-1 h-1 bg-green-400 rounded-full animate-pulse"></div>
-                        <div className="absolute top-1 right-1 w-1 h-1 bg-blue-400 rounded-full"></div>
-                        <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-0.5 bg-cyan-500 rounded"></div>
+                      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-6 h-4 bg-gradient-to-b from-cyan-200 to-cyan-300 rounded shadow-inner">
+                        <div className="absolute top-0.5 left-0.5 w-0.5 h-0.5 bg-green-400 rounded-full animate-pulse"></div>
+                        <div className="absolute top-0.5 right-0.5 w-0.5 h-0.5 bg-blue-400 rounded-full"></div>
                       </div>
                     </div>
                     
-                    {/* Mascot Head - Helmet */}
-                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-20 h-20 bg-gradient-to-b from-cyan-300 to-cyan-400 rounded-full shadow-xl">
-                      {/* Helmet Visor */}
-                      <div className="absolute top-2 left-2 right-2 h-8 bg-gradient-to-b from-cyan-100/80 to-cyan-200/60 rounded-full shadow-inner">
-                        {/* Face - Subtle */}
-                        <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-cyan-600 rounded-full"></div>
-                        <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-2 h-0.5 bg-cyan-600 rounded-full"></div>
+                    {/* Mascot Head */}
+                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 w-14 h-14 bg-gradient-to-b from-cyan-300 to-cyan-400 rounded-full shadow-lg">
+                      {/* Visor */}
+                      <div className="absolute top-1 left-1 right-1 h-6 bg-gradient-to-b from-cyan-100/80 to-cyan-200/60 rounded-full shadow-inner">
+                        <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-0.5 h-0.5 bg-cyan-600 rounded-full"></div>
+                        <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-1 h-0.5 bg-cyan-600 rounded-full"></div>
                       </div>
                       
-                      {/* Helmet Details */}
-                      <div className="absolute top-1 left-1/2 transform -translate-x-1/2 w-2 h-1 bg-cyan-500 rounded"></div>
-                      <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-3 h-0.5 bg-cyan-500 rounded"></div>
+                      <div className="absolute top-0.5 left-1/2 transform -translate-x-1/2 w-1 h-0.5 bg-cyan-500 rounded"></div>
                     </div>
                     
                     {/* Arms */}
-                    <div className="absolute top-6 -left-3 w-6 h-12 bg-gradient-to-b from-cyan-400 to-blue-500 rounded-full shadow-lg">
-                      <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-cyan-300 rounded"></div>
-                    </div>
-                    <div className="absolute top-6 -right-3 w-6 h-12 bg-gradient-to-b from-cyan-400 to-blue-500 rounded-full shadow-lg">
-                      <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-cyan-300 rounded"></div>
-                    </div>
+                    <div className="absolute top-4 -left-2 w-4 h-8 bg-gradient-to-b from-cyan-400 to-blue-500 rounded-full shadow-md"></div>
+                    <div className="absolute top-4 -right-2 w-4 h-8 bg-gradient-to-b from-cyan-400 to-blue-500 rounded-full shadow-md"></div>
                     
-                    {/* Logo on Suit */}
-                    <div className="absolute top-8 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-white rounded-full flex items-center justify-center shadow-md">
+                    {/* Logo */}
+                    <div className="absolute top-5 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white rounded-full flex items-center justify-center shadow-sm">
                       <span className="text-cyan-600 font-bold text-xs">TM</span>
                     </div>
-                    
-                    {/* Floating Tech Elements */}
-                    <div className="absolute top-2 left-2 w-3 h-3 bg-cyan-400 rounded-full animate-bounce opacity-60"></div>
-                    <div className="absolute top-6 right-4 w-2 h-2 bg-blue-400 rounded-full animate-pulse opacity-60"></div>
-                    <div className="absolute bottom-8 left-6 w-1.5 h-1.5 bg-purple-400 rounded-full animate-ping opacity-60"></div>
                   </div>
                 </div>
                 
-                {/* Ambient Lighting Effects */}
-                <div className="absolute inset-0">
-                  <div className="absolute top-8 left-8 w-16 h-16 bg-cyan-400/20 rounded-full blur-xl animate-pulse"></div>
-                  <div className="absolute bottom-12 right-8 w-12 h-12 bg-blue-400/20 rounded-full blur-lg animate-pulse"></div>
-                  <div className="absolute top-1/2 left-4 w-8 h-8 bg-purple-400/20 rounded-full blur-md animate-pulse"></div>
-                </div>
+                {/* Floating Elements */}
+                <div className="absolute top-4 left-4 w-2 h-2 bg-cyan-400 rounded-full animate-bounce opacity-60"></div>
+                <div className="absolute top-8 right-6 w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse opacity-60"></div>
+                <div className="absolute bottom-12 left-8 w-1 h-1 bg-purple-400 rounded-full animate-ping opacity-60"></div>
               </div>
             </div>
           </div>

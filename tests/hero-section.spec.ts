@@ -40,7 +40,7 @@ test.describe('Hero Section', () => {
     await page.goto('/');
 
     // Check for mascot container
-    const mascotContainer = page.locator('.relative.w-96.h-96, .relative.w-\\[500px\\].h-\\[500px\\]');
+    const mascotContainer = page.locator('.relative.w-full.max-w-md.lg\\:max-w-lg.xl\\:max-w-xl');
     await expect(mascotContainer).toBeVisible();
 
     // Check for background environment
@@ -48,7 +48,7 @@ test.describe('Hero Section', () => {
     await expect(backgroundEnv).toBeVisible();
 
     // Check for mascot body (space suit)
-    const mascotBody = page.locator('.absolute.bottom-0.left-1\\/2.transform.-translate-x-1\\/2.w-24.h-32.bg-gradient-to-b.from-cyan-400.to-blue-500');
+    const mascotBody = page.locator('.absolute.bottom-0.left-1\\/2.transform.-translate-x-1\\/2.w-16.h-20.bg-gradient-to-b.from-cyan-400.to-blue-500');
     await expect(mascotBody).toBeVisible();
 
     // Check for mascot head (helmet)
@@ -67,13 +67,13 @@ test.describe('Hero Section', () => {
   test('should have proper background styling', async ({ page }) => {
     await page.goto('/');
 
-    // Check for gradient background
-    const background = page.locator('.bg-gradient-to-br.from-gray-900.via-purple-900.to-violet-900');
+    // Check for black background
+    const background = page.locator('section.bg-black');
     await expect(background).toBeVisible();
 
-    // Check for dot pattern
-    const dotPattern = page.locator('.bg-dot-pattern');
-    await expect(dotPattern).toBeVisible();
+    // Check for gradient overlay
+    const gradientOverlay = page.locator('.bg-gradient-to-br.from-gray-900\\/50.to-black\\/50');
+    await expect(gradientOverlay).toBeVisible();
   });
 
   test('should be responsive on mobile', async ({ page }) => {

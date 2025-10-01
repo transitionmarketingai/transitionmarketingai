@@ -207,28 +207,103 @@ export default function HomePage() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <h1 className="text-6xl md:text-7xl font-bold mb-6">
-              Your AI Marketing Team
-            </h1>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-12">
-              Six specialized AI agents working 24/7 to automate your marketing, 
-              generate leads, and grow your business.
-            </p>
-            <Link 
-              href="/get-started"
-              className="inline-block px-10 py-4 bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-full font-bold text-lg hover:shadow-xl hover:shadow-violet-500/50 hover:scale-105 transition-all duration-200"
-            >
-              Try it free →
-            </Link>
+      <section className="relative min-h-screen flex items-center px-6 lg:px-8 overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900">
+          <div className="absolute inset-0 opacity-20" style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+          }}></div>
+        </div>
+        
+        {/* Content */}
+        <div className="relative max-w-7xl mx-auto w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            
+            {/* Left Side - Text Content */}
+            <div className="space-y-8">
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight">
+                AI Marketing Agents:
+                <br />
+                <span className="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">
+                  Your Helpers That Never Sleep
+                </span>
+              </h1>
+              
+              <p className="text-xl md:text-2xl text-gray-300 max-w-2xl">
+                Build, grow, and scale your business with a team of AI marketing agents.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link 
+                  href="/get-started"
+                  className="inline-block px-8 py-4 bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-lg font-bold text-lg hover:shadow-xl hover:shadow-violet-500/50 hover:scale-105 transition-all duration-200"
+                >
+                  Get Started Free
+                </Link>
+                <Link 
+                  href="/how-it-works"
+                  className="inline-block px-8 py-4 border-2 border-gray-600 text-gray-300 rounded-lg font-bold text-lg hover:border-violet-500 hover:text-white transition-all duration-200"
+                >
+                  How It Works
+                </Link>
+              </div>
+            </div>
+            
+            {/* Right Side - Mascot */}
+            <div className="relative flex justify-center lg:justify-end">
+              <div className="relative w-80 h-80 lg:w-96 lg:h-96">
+                {/* Mascot Character */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="relative w-64 h-64 lg:w-80 lg:h-80">
+                    {/* Mascot Body */}
+                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-32 h-40 bg-gradient-to-b from-violet-500 to-purple-600 rounded-t-3xl shadow-2xl">
+                      {/* Mascot Head */}
+                      <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 w-24 h-24 bg-gradient-to-b from-violet-400 to-purple-500 rounded-full shadow-xl">
+                        {/* Eyes */}
+                        <div className="absolute top-6 left-4 w-3 h-3 bg-white rounded-full"></div>
+                        <div className="absolute top-6 right-4 w-3 h-3 bg-white rounded-full"></div>
+                        {/* Smile */}
+                        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-8 h-4 border-2 border-white rounded-full border-t-0"></div>
+                      </div>
+                      
+                      {/* Arms */}
+                      <div className="absolute top-8 -left-4 w-8 h-16 bg-gradient-to-b from-violet-400 to-purple-500 rounded-full"></div>
+                      <div className="absolute top-8 -right-4 w-8 h-16 bg-gradient-to-b from-violet-400 to-purple-500 rounded-full"></div>
+                      
+                      {/* Logo on chest */}
+                      <div className="absolute top-12 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                        <span className="text-violet-600 font-bold text-sm">TM</span>
+                      </div>
+                    </div>
+                    
+                    {/* Floating Elements */}
+                    <div className="absolute top-4 left-4 w-4 h-4 bg-cyan-400 rounded-full animate-bounce"></div>
+                    <div className="absolute top-8 right-8 w-3 h-3 bg-violet-400 rounded-full animate-pulse"></div>
+                    <div className="absolute bottom-16 left-8 w-2 h-2 bg-purple-400 rounded-full animate-ping"></div>
+                  </div>
+                </div>
+                
+                {/* Background Decorative Elements */}
+                <div className="absolute inset-0">
+                  <div className="absolute top-10 left-10 w-20 h-20 border border-violet-500/30 rounded-full"></div>
+                  <div className="absolute bottom-20 right-10 w-16 h-16 border border-cyan-500/30 rounded-full"></div>
+                  <div className="absolute top-1/2 left-4 w-12 h-12 border border-purple-500/30 rounded-full"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+          <div className="w-6 h-10 border-2 border-gray-400 rounded-full flex justify-center">
+            <div className="w-1 h-3 bg-gray-400 rounded-full mt-2 animate-bounce"></div>
           </div>
         </div>
       </section>
 
       {/* AI Agents Section */}
-      <section id="agents" className="py-20 px-6 lg:px-8">
+      <section id="agents" className="py-20 px-6 lg:px-8 bg-[#0a0a0f]">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
             {agents.map((agent, index) => (
@@ -255,7 +330,7 @@ export default function HomePage() {
       </section>
 
       {/* Main Content Section - Two Column Layout */}
-      <section className="py-20 px-6 lg:px-8">
+      <section className="py-20 px-6 lg:px-8 bg-[#0a0a0f]">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             

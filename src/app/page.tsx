@@ -94,19 +94,44 @@ function PricingCard({
   highlighted?: boolean;
 }) {
   return (
-    <div className={`rounded-2xl border-2 ${highlighted ? 'border-violet-600' : 'border-gray-800'} bg-[#14141f] p-8 hover:border-violet-600 transition-all duration-300`}>
-      <h3 className="text-2xl font-bold text-white mb-2">{name}</h3>
-      <div className="text-5xl font-bold text-white mb-2">
-        ₹{price}
-      </div>
-      <p className="text-gray-400 mb-6">{agents}</p>
+    <div className={`rounded-2xl border-2 ${highlighted ? 'border-violet-600 bg-violet-600/10' : 'border-gray-800'} bg-gray-900/50 backdrop-blur-sm p-8 hover:border-violet-600 transition-all duration-300 relative`}>
+      {highlighted && (
+        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+          <span className="bg-gradient-to-r from-violet-600 to-purple-600 text-white px-4 py-1 rounded-full text-sm font-medium">
+            Most Popular
+          </span>
+        </div>
+      )}
       
-      <div className="space-y-3 mb-8">
-        {features.map((feature, index) => (
-          <div key={index} className="text-gray-300 text-sm">
-            {feature}
-          </div>
-        ))}
+      <div className="text-center">
+        <h3 className="text-2xl font-bold text-white mb-2">{name}</h3>
+        <div className="text-5xl font-bold text-white mb-2">
+          ₹{price}
+          <span className="text-lg text-gray-400 font-normal">/month</span>
+        </div>
+        <p className="text-gray-400 mb-8">{agents}</p>
+        
+        <div className="space-y-4 mb-8 text-left">
+          {features.map((feature, index) => (
+            <div key={index} className="flex items-center space-x-3">
+              <svg className="w-5 h-5 text-violet-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              <span className="text-gray-300 text-sm">{feature}</span>
+            </div>
+          ))}
+        </div>
+        
+        <Link 
+          href="/get-started"
+          className={`block w-full px-6 py-3 rounded-lg font-medium text-center transition-all duration-200 ${
+            highlighted 
+              ? 'bg-gradient-to-r from-violet-600 to-purple-600 text-white hover:shadow-lg hover:shadow-violet-500/50' 
+              : 'border border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-white'
+          }`}
+        >
+          Get Started
+        </Link>
       </div>
     </div>
   );
@@ -115,41 +140,66 @@ function PricingCard({
 export default function HomePage() {
   const agents = [
     {
-      icon: "📊",
+      icon: "🎯",
       name: "LeadGen",
-      description: "Generate leads",
+      description: "Find and qualify leads",
       gradient: "from-teal-400 to-emerald-500"
     },
     {
       icon: "📢",
       name: "AdBuddy",
-      description: "Create ads",
+      description: "Create ad campaigns",
       gradient: "from-violet-500 to-purple-600"
     },
     {
-      icon: "💖",
+      icon: "📱",
       name: "Soshie",
-      description: "Plan social posts",
-      gradient: "from-pink-500 to-rose-600"
-    },
-    {
-      icon: "📧",
-      name: "Outreach",
-      description: "Send emails",
-      gradient: "from-blue-500 to-blue-600"
-    },
-    {
-      icon: "📈",
-      name: "Analyst",
-      description: "Analyze data",
-      gradient: "from-blue-600 to-indigo-600"
-    },
-    {
-      icon: "🚀",
-      name: "Closer",
-      description: "Handle calls",
-      gradient: "from-orange-500 to-red-600"
+      description: "Manage social media",
+      gradient: "from-blue-400 to-blue-600"
     }
+  ];
+
+  const integrations = [
+    { icon: "⏰", name: "Clock" },
+    { icon: "📧", name: "Email" },
+    { icon: "🔄", name: "Sync" },
+    { icon: "📷", name: "Camera", highlighted: true },
+    { icon: "✉️", name: "Mail" }
+  ];
+
+  const powerUps = [
+    {
+      title: "Campaign Funnels",
+      description: "Automate, optimize, thrive"
+    },
+    {
+      title: "Ad Tuner",
+      description: "Precise ad copy as pro level"
+    }
+  ];
+
+  const pricingPlans = [
+    {
+      name: "Starter",
+      price: "689",
+      period: "month",
+      agents: "Up to 3 agents",
+      features: ["Basic lead generation", "Email support", "Standard templates"]
+    },
+    {
+      name: "Essential",
+      price: "999",
+      period: "month",
+      agents: "Up to 5 agents",
+      features: ["Advanced features", "Priority support", "Custom integrations"],
+      highlighted: true
+    }
+  ];
+
+  const industries = [
+    { name: "Real Estate", color: "from-blue-500 to-purple-600" },
+    { name: "Clinics", color: "from-green-500 to-teal-600" },
+    { name: "Education", color: "from-orange-500 to-red-600" }
   ];
 
   return (
@@ -180,95 +230,345 @@ export default function HomePage() {
       {/* AI Agents Section */}
       <section id="agents" className="py-20 px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-5xl font-bold text-center mb-16">AI Agents</h2>
-          
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
             {agents.map((agent, index) => (
               <AgentCard key={index} {...agent} />
+            ))}
+          </div>
+          
+          {/* Integration Icons */}
+          <div className="flex justify-center items-center space-x-6 mb-16">
+            {integrations.map((integration, index) => (
+              <div
+                key={index}
+                className={`w-12 h-12 rounded-full flex items-center justify-center text-xl ${
+                  integration.highlighted 
+                    ? 'bg-blue-500' 
+                    : 'bg-gray-800 hover:bg-gray-700'
+                } transition-colors`}
+              >
+                {integration.icon}
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Power Up Section */}
+      {/* Main Content Section - Two Column Layout */}
       <section className="py-20 px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            {/* Brain Illustration Placeholder */}
-            <div className="flex justify-center">
-              <div className="relative w-80 h-80">
-                {/* Placeholder for 3D brain */}
-                <div className="absolute inset-0 bg-gradient-to-br from-violet-600/20 to-cyan-600/20 rounded-full blur-3xl"></div>
-                <div className="relative w-full h-full flex items-center justify-center">
-                  <div className="text-9xl">🧠</div>
-                </div>
-                {/* Floating particles */}
-                <div className="absolute top-10 left-10 w-2 h-2 bg-violet-400 rounded-full animate-pulse"></div>
-                <div className="absolute top-20 right-20 w-2 h-2 bg-cyan-400 rounded-full animate-pulse animation-delay-1000"></div>
-                <div className="absolute bottom-20 left-20 w-2 h-2 bg-purple-400 rounded-full animate-pulse animation-delay-2000"></div>
-              </div>
-            </div>
-
-            {/* Content */}
-            <div>
-              <h2 className="text-5xl font-bold mb-8">Power Up!</h2>
-              <h3 className="text-3xl font-bold mb-8">
-                The smarter way to<br />grow your business
-              </h3>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+            
+            {/* Left Column */}
+            <div className="space-y-16">
               
-              <div className="space-y-4">
-                <div className="flex items-center space-x-3">
-                  <svg className="w-6 h-6 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span className="text-lg text-gray-300">Accurate lead lists</span>
+              {/* Built for INDIA Section */}
+              <div>
+                <h2 className="text-4xl font-bold text-white mb-8">Built for INDIA</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-800 hover:border-purple-500/50 transition-all duration-300">
+                    <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-violet-600 rounded-lg flex items-center justify-center mb-4">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-bold text-white mb-2">Campaigns</h3>
+                    <p className="text-gray-300 text-sm">Learn and optimize your campaign management with advanced automation.</p>
+                  </div>
+                  
+                  <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-800 hover:border-purple-500/50 transition-all duration-300">
+                    <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-violet-600 rounded-lg flex items-center justify-center mb-4">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-bold text-white mb-2">Content</h3>
+                    <p className="text-gray-300 text-sm">Create engaging content and manage your social media presence effectively.</p>
+                  </div>
+                  
+                  <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-800 hover:border-purple-500/50 transition-all duration-300">
+                    <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-violet-600 rounded-lg flex items-center justify-center mb-4">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-bold text-white mb-2">Contact</h3>
+                    <p className="text-gray-300 text-sm">Break your barriers and connect with all stakeholders through intelligent automation.</p>
+                  </div>
+                  
+                  <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-800 hover:border-purple-500/50 transition-all duration-300">
+                    <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-violet-600 rounded-lg flex items-center justify-center mb-4">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-bold text-white mb-2">Proposals</h3>
+                    <p className="text-gray-300 text-sm">Create professional proposals and manage client relationships with ease.</p>
+                  </div>
+                  
+                  <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-800 hover:border-purple-500/50 transition-all duration-300">
+                    <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-violet-600 rounded-lg flex items-center justify-center mb-4">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 11l5-5m0 0l5 5m-5-5v12" />
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-bold text-white mb-2">Hindi Support</h3>
+                    <p className="text-gray-300 text-sm">Available in Hindi language with full support for Indian business needs.</p>
+                  </div>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <svg className="w-6 h-6 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span className="text-lg text-gray-300">Client-ready reports</span>
+              </div>
+
+              {/* Power-Ups Section */}
+              <div>
+                <h2 className="text-4xl font-bold text-white mb-8">Power-Ups for Your Agents</h2>
+                <div className="space-y-6">
+                  {powerUps.map((powerUp, index) => (
+                    <div key={index} className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-800">
+                      <h3 className="text-xl font-bold text-white mb-2">{powerUp.title}</h3>
+                      <p className="text-gray-300">{powerUp.description}</p>
+                    </div>
+                  ))}
                 </div>
-                <div className="flex items-center space-x-3">
-                  <svg className="w-6 h-6 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span className="text-lg text-gray-300">In Hindi too!</span>
+              </div>
+
+              {/* Pricing Section */}
+              <div>
+                <h2 className="text-4xl font-bold text-white mb-8">Pricing</h2>
+                <div className="space-y-6">
+                  <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-800">
+                    <h3 className="text-xl font-bold text-white mb-4">Starter</h3>
+                    <div className="text-3xl font-bold text-white mb-4">
+                      ₹55 <span className="text-lg text-gray-400 font-normal">/ month</span>
+                    </div>
+                    <div className="space-y-3 mb-6">
+                      <div className="flex items-center space-x-3">
+                        <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span className="text-gray-300">Basic lead generation</span>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span className="text-gray-300">Email support</span>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span className="text-gray-300">Standard templates</span>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span className="text-gray-300">Basic analytics</span>
+                      </div>
+                    </div>
+                    <Link 
+                      href="/get-started"
+                      className="block w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-violet-600 text-white rounded-lg font-medium text-center hover:shadow-lg transition-all duration-200"
+                    >
+                      Get Started
+                    </Link>
+                  </div>
+                  
+                  <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-6 border border-violet-600">
+                    <h3 className="text-xl font-bold text-white mb-4">Pro</h3>
+                    <div className="text-3xl font-bold text-white mb-4">
+                      ₹590 <span className="text-lg text-gray-400 font-normal">/ month</span>
+                    </div>
+                    <div className="space-y-3 mb-6">
+                      <div className="flex items-center space-x-3">
+                        <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span className="text-gray-300">Advanced lead generation</span>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span className="text-gray-300">Priority support</span>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span className="text-gray-300">Custom integrations</span>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span className="text-gray-300">Advanced analytics</span>
+                      </div>
+                    </div>
+                    <Link 
+                      href="/get-started"
+                      className="block w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-violet-600 text-white rounded-lg font-medium text-center hover:shadow-lg transition-all duration-200"
+                    >
+                      Get Started
+                    </Link>
+                  </div>
+                  
+                  <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-800">
+                    <h3 className="text-xl font-bold text-white mb-4">Business</h3>
+                    <div className="text-3xl font-bold text-white mb-4">
+                      ₹1030 <span className="text-lg text-gray-400 font-normal">/ month</span>
+                    </div>
+                    <div className="space-y-3 mb-6">
+                      <div className="flex items-center space-x-3">
+                        <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span className="text-gray-300">Unlimited everything</span>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span className="text-gray-300">Dedicated account manager</span>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span className="text-gray-300">White-label solution</span>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span className="text-gray-300">API access</span>
+                      </div>
+                    </div>
+                    <Link 
+                      href="/get-started"
+                      className="block w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-violet-600 text-white rounded-lg font-medium text-center hover:shadow-lg transition-all duration-200"
+                    >
+                      Get Started
+                    </Link>
+                  </div>
                 </div>
+              </div>
+
+              {/* Tour Section */}
+              <div>
+                <h2 className="text-4xl font-bold text-white mb-6">Tour our platform</h2>
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 bg-violet-500 rounded-full"></div>
+                    <span className="text-gray-300">Explore premium plans?</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 bg-violet-500 rounded-full"></div>
+                    <span className="text-gray-300">What to expect from our platform?</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 bg-violet-500 rounded-full"></div>
+                    <span className="text-gray-300">Do I get a free setup?</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column */}
+            <div className="space-y-16">
+              
+              {/* How It Works Section */}
+              <div>
+                <h2 className="text-4xl font-bold text-white mb-8">How It Works</h2>
+                <div className="space-y-8">
+                  <div className="text-center">
+                    <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-violet-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-semibold text-white mb-2">Sign up in minutes</h3>
+                    <p className="text-gray-300">Register with UPI and get started instantly with our streamlined process.</p>
+                  </div>
+                  
+                  <div className="text-center">
+                    <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-violet-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-semibold text-white mb-2">Chat with your personal AI</h3>
+                    <p className="text-gray-300">Interact directly with your dedicated AI assistant for all marketing needs.</p>
+                  </div>
+                  
+                  <div className="text-center">
+                    <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-semibold text-white mb-2">Get results on autopilot</h3>
+                    <p className="text-gray-300">Watch your marketing campaigns run automatically and deliver consistent results.</p>
+                  </div>
+                  
+                  <div className="text-center">
+                    <Link 
+                      href="/get-started"
+                      className="inline-block px-8 py-4 bg-gradient-to-r from-purple-600 to-violet-600 text-white rounded-lg font-bold hover:shadow-lg transition-all duration-200"
+                    >
+                      Get Started Free
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
+              {/* Your Brand Brain Section */}
+              <div>
+                <h2 className="text-4xl font-bold text-white mb-6">Your Brand Brain</h2>
+                <p className="text-xl text-gray-300 mb-8">
+                  An AI trained on your brand and business.
+                </p>
+                <div className="flex justify-center">
+                  <div className="relative w-64 h-64">
+                    <div className="absolute inset-0 bg-gradient-to-br from-pink-500 via-purple-500 to-blue-600 rounded-full blur-3xl opacity-50"></div>
+                    <div className="relative w-full h-full bg-gradient-to-br from-pink-500 via-purple-500 to-blue-600 rounded-full flex items-center justify-center">
+                      <div className="text-6xl">🧠</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Try Prototype Section */}
+              <div>
+                <h2 className="text-4xl font-bold text-white mb-6">Try Prototype</h2>
+                <p className="text-xl text-gray-300 mb-8">Chat with your personal AI agent</p>
+                
+                <div className="space-y-4 mb-8">
+                  <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-4 border border-gray-800 hover:border-purple-500/50 transition-all duration-300 cursor-pointer">
+                    <p className="text-gray-300">List healthcare information for medical offices?</p>
+                  </div>
+                  
+                  <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-4 border border-gray-800 hover:border-purple-500/50 transition-all duration-300 cursor-pointer">
+                    <p className="text-gray-300">Add landscaping, reporting, and project management</p>
+                  </div>
+                  
+                  <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-4 border border-gray-800 hover:border-purple-500/50 transition-all duration-300 cursor-pointer">
+                    <p className="text-gray-300">Create campaigns for real estate, clinics, and education</p>
+                  </div>
+                </div>
+                
+                <Link 
+                  href="/get-started"
+                  className="block w-full px-8 py-4 bg-gradient-to-r from-purple-600 to-violet-600 text-white rounded-lg font-bold text-center hover:shadow-lg transition-all duration-200"
+                >
+                  Get Started
+                </Link>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Simple Pricing */}
-      <section id="pricing" className="py-20 px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-5xl font-bold text-center mb-16">Simple Pricing</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <PricingCard
-              name="Starter"
-              price="999"
-              agents="6 agents"
-              features={["Unlimited messages"]}
-            />
-            <PricingCard
-              name="Pro"
-              price="1999"
-              agents="10 agents"
-              features={["Unlimited messages", "First 5 confirmed leads free"]}
-              highlighted={true}
-            />
-            <PricingCard
-              name="Enterprise"
-              price="4999"
-              agents="Custom no. of agents"
-              features={["Unlimited messages"]}
-            />
-          </div>
-        </div>
-      </section>
 
       {/* CTA Section */}
       <section className="py-20 px-6 lg:px-8">

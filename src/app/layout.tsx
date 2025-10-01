@@ -2,10 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import SessionProvider from "@/components/SessionProvider";
-import AnalyticsProvider from "@/components/AnalyticsProvider";
 import StructuredData from "@/components/StructuredData";
-import PerformanceMonitor from "@/components/PerformanceMonitor";
-import { ToastProvider } from "@/components/Toast";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -112,17 +109,11 @@ export default function RootLayout({
         className={`${inter.variable} font-sans antialiased bg-background text-primary min-h-screen relative`}
       >
         {/* Subtle radial gradient glow behind content */}
-        <div className="fixed inset-0 bg-gradient-radial from-blue-50/20 via-background to-background pointer-events-none" />
         <div className="relative z-10">
           <StructuredData type="organization" />
-          <PerformanceMonitor />
-          <ToastProvider>
-            <SessionProvider>
-              <AnalyticsProvider>
-                {children}
-              </AnalyticsProvider>
-            </SessionProvider>
-          </ToastProvider>
+          <SessionProvider>
+            {children}
+          </SessionProvider>
         </div>
       </body>
     </html>

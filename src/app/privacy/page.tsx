@@ -1,291 +1,348 @@
-import type { Metadata } from "next";
-import Link from "next/link";
+'use client';
 
-export const metadata: Metadata = {
-  title: "Privacy Policy — Transition Marketing AI",
-  description: "How we collect, use, and protect your data at Transition Marketing AI.",
-};
+import Link from 'next/link';
 
-export default function PrivacyPage() {
+// Logo component
+function Logo() {
   return (
-    <main className="mx-auto max-w-5xl px-4 py-16">
-      <Link href="/" className="inline-flex items-center text-slate-300 hover:text-cyan-400 transition-colors duration-300 text-sm font-medium mb-8">
-        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+    <Link href="/" className="flex items-center space-x-2">
+      <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-blue-500 rounded-lg flex items-center justify-center">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M2 17L12 22L22 17" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M2 12L12 17L22 12" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
-        Back to Home
-      </Link>
-      
-      <div className="text-center mb-12 animate-slide-up">
-        <h1 className="text-4xl sm:text-5xl font-bold text-slate-50 mb-4">
-          <span className="text-gradient">Privacy Policy</span>
-        </h1>
-        <p className="text-slate-400 text-lg">
-          Last updated: January 15, 2025
-        </p>
       </div>
-      
-      <div className="rounded-3xl glass-effect p-8 md:p-12 animate-scale-in">
-        <div className="mb-12">
-          <h2 className="text-2xl font-bold text-slate-50 mb-6">📋 Table of Contents</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {[
-              { href: "#scope", label: "Scope" },
-              { href: "#data-we-collect", label: "Data We Collect" },
-              { href: "#how-we-use", label: "How We Use Your Data" },
-              { href: "#legal-bases", label: "Legal Bases" },
-              { href: "#data-sharing", label: "Data Sharing" },
-              { href: "#retention", label: "Data Retention" },
-              { href: "#security", label: "Security" },
-              { href: "#your-rights", label: "Your Rights" },
-              { href: "#international", label: "International Transfers" },
-              { href: "#contact", label: "Contact Us" }
-            ].map((item, index) => (
-              <a 
-                key={index}
-                href={item.href} 
-                className="flex items-center p-3 rounded-xl hover:bg-slate-800/50 transition-colors duration-300 text-slate-300 hover:text-cyan-400"
-              >
-                <div className="w-2 h-2 bg-cyan-500 rounded-full mr-3" />
-                {item.label}
-              </a>
-            ))}
-          </div>
-        </div>
-        
-        <div className="space-y-8 text-slate-300 leading-relaxed">
-          <section id="scope" className="p-6 rounded-2xl bg-slate-800/30 border border-slate-700/50">
-            <h2 className="text-2xl font-bold text-slate-50 mb-4 flex items-center">
-              <span className="text-2xl mr-3">🎯</span>
-              Scope
-            </h2>
-            <p className="text-lg">This Privacy Policy applies to our website, checkout process, audit form, and automated marketing services. By using our services, you agree to the collection and use of information in accordance with this policy.</p>
-          </section>
-          
-          <section id="data-we-collect" className="p-6 rounded-2xl bg-slate-800/30 border border-slate-700/50">
-            <h2 className="text-2xl font-bold text-slate-50 mb-4 flex items-center">
-              <span className="text-2xl mr-3">📊</span>
-              Data We Collect
-            </h2>
-            <p className="text-lg mb-4">We collect the following types of information:</p>
-            <ul className="space-y-3">
-              <li className="flex items-start">
-                <div className="w-2 h-2 bg-cyan-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                <div>
-                  <strong className="text-slate-200">Account Information:</strong> Name, email address, company details
-                </div>
-              </li>
-              <li className="flex items-start">
-                <div className="w-2 h-2 bg-cyan-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                <div>
-                  <strong className="text-slate-200">Billing Details:</strong> Payment information (handled securely by Stripe/Razorpay)
-                </div>
-              </li>
-              <li className="flex items-start">
-                <div className="w-2 h-2 bg-cyan-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                <div>
-                  <strong className="text-slate-200">Usage Analytics:</strong> How you interact with our services and dashboards
-                </div>
-              </li>
-              <li className="flex items-start">
-                <div className="w-2 h-2 bg-cyan-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                <div>
-                  <strong className="text-slate-200">Audit Form Data:</strong> Information provided in our &quot;Free AI Marketing Audit&quot; form
-                </div>
-              </li>
-              <li className="flex items-start">
-                <div className="w-2 h-2 bg-cyan-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                <div>
-                  <strong className="text-slate-200">Communications:</strong> Support tickets, emails, and feedback
-                </div>
-              </li>
-            </ul>
-            <div className="mt-4 p-4 rounded-xl bg-green-500/10 border border-green-500/20">
-              <p className="text-green-300 text-sm">
-                <strong>🔒 Security Note:</strong> We do not collect passwords for third-party services unless explicitly authorized by you.
-              </p>
-            </div>
-          </section>
-          
-          <section id="how-we-use" className="p-6 rounded-2xl bg-slate-800/30 border border-slate-700/50">
-            <h2 className="text-2xl font-bold text-slate-50 mb-4 flex items-center">
-              <span className="text-2xl mr-3">⚙️</span>
-              How We Use Your Data
-            </h2>
-            <p className="text-lg mb-4">We use your information to:</p>
-            <ul className="space-y-3">
-              <li className="flex items-start">
-                <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                <div>Provide our services (lead generation and content automation)</div>
-              </li>
-              <li className="flex items-start">
-                <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                <div>Deliver customer support and respond to inquiries</div>
-              </li>
-              <li className="flex items-start">
-                <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                <div>Improve our services and develop new features</div>
-              </li>
-              <li className="flex items-start">
-                <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                <div>Prevent fraud and ensure security</div>
-              </li>
-              <li className="flex items-start">
-                <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                <div>Comply with legal obligations</div>
-              </li>
-            </ul>
-          </section>
-          
-          <section id="legal-bases" className="p-6 rounded-2xl bg-slate-800/30 border border-slate-700/50">
-            <h2 className="text-2xl font-bold text-slate-50 mb-4 flex items-center">
-              <span className="text-2xl mr-3">⚖️</span>
-              Legal Bases
-            </h2>
-            <p className="text-lg mb-4">We process your data based on:</p>
-            <ul className="space-y-3">
-              <li className="flex items-start">
-                <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                <div><strong className="text-slate-200">Consent:</strong> When you provide explicit consent</div>
-              </li>
-              <li className="flex items-start">
-                <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                <div><strong className="text-slate-200">Contract:</strong> To fulfill our service agreement with you</div>
-              </li>
-              <li className="flex items-start">
-                <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                <div><strong className="text-slate-200">Legitimate Interests:</strong> To improve our services and prevent fraud</div>
-              </li>
-              <li className="flex items-start">
-                <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                <div><strong className="text-slate-200">Legal Obligations:</strong> To comply with applicable laws</div>
-              </li>
-            </ul>
-          </section>
-          
-          <section id="data-sharing" className="p-6 rounded-2xl bg-slate-800/30 border border-slate-700/50">
-            <h2 className="text-2xl font-bold text-slate-50 mb-4 flex items-center">
-              <span className="text-2xl mr-3">🤝</span>
-              Data Sharing
-            </h2>
-            <p className="text-lg mb-4">We may share your data with:</p>
-            <ul className="space-y-3">
-              <li className="flex items-start">
-                <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                <div><strong className="text-slate-200">Service Providers:</strong> Hosting, analytics, email services, and Airtable/Sheets if configured</div>
-              </li>
-              <li className="flex items-start">
-                <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                <div><strong className="text-slate-200">Payment Processors:</strong> Stripe and Razorpay for billing</div>
-              </li>
-              <li className="flex items-start">
-                <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                <div><strong className="text-slate-200">Legal Requirements:</strong> When required by law or to protect our rights</div>
-              </li>
-            </ul>
-            <div className="mt-4 p-4 rounded-xl bg-red-500/10 border border-red-500/20">
-              <p className="text-red-300 text-sm">
-                <strong>🚫 Important:</strong> We do not sell your personal data to third parties.
-              </p>
-            </div>
-          </section>
-          
-          <section id="retention" className="p-6 rounded-2xl bg-slate-800/30 border border-slate-700/50">
-            <h2 className="text-2xl font-bold text-slate-50 mb-4 flex items-center">
-              <span className="text-2xl mr-3">⏰</span>
-              Data Retention
-            </h2>
-            <p className="text-lg mb-4">We retain your data:</p>
-            <ul className="space-y-3">
-              <li className="flex items-start">
-                <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                <div>As long as your subscription is active</div>
-              </li>
-              <li className="flex items-start">
-                <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                <div>As required by applicable laws and regulations</div>
-              </li>
-              <li className="flex items-start">
-                <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                <div>Audit form data is retained for evaluation purposes unless deleted upon request</div>
-              </li>
-            </ul>
-          </section>
-          
-          <section id="security" className="p-6 rounded-2xl bg-slate-800/30 border border-slate-700/50">
-            <h2 className="text-2xl font-bold text-slate-50 mb-4 flex items-center">
-              <span className="text-2xl mr-3">🔒</span>
-              Security
-            </h2>
-            <p className="text-lg">We implement administrative, technical, and organizational measures to protect your data. However, no method of transmission over the internet or electronic storage is 100% secure. While we strive to protect your data, we cannot guarantee absolute security.</p>
-          </section>
-          
-          <section id="your-rights" className="p-6 rounded-2xl bg-slate-800/30 border border-slate-700/50">
-            <h2 className="text-2xl font-bold text-slate-50 mb-4 flex items-center">
-              <span className="text-2xl mr-3">👤</span>
-              Your Rights
-            </h2>
-            <p className="text-lg mb-4">You have the right to:</p>
-            <ul className="space-y-3">
-              <li className="flex items-start">
-                <div className="w-2 h-2 bg-cyan-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                <div>Access your personal data</div>
-              </li>
-              <li className="flex items-start">
-                <div className="w-2 h-2 bg-cyan-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                <div>Correct inaccurate information</div>
-              </li>
-              <li className="flex items-start">
-                <div className="w-2 h-2 bg-cyan-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                <div>Request deletion of your data</div>
-              </li>
-              <li className="flex items-start">
-                <div className="w-2 h-2 bg-cyan-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                <div>Data portability</div>
-              </li>
-              <li className="flex items-start">
-                <div className="w-2 h-2 bg-cyan-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                <div>Withdraw consent where applicable</div>
-              </li>
-            </ul>
-            <div className="mt-4 p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/20">
-              <p className="text-cyan-300 text-sm">
-                <strong>📧 Contact:</strong> To exercise these rights, contact us at <a href="mailto:hello@transitionmarketingai.com" className="text-cyan-400 hover:text-cyan-300 underline">hello@transitionmarketingai.com</a>.
-              </p>
-            </div>
-          </section>
-          
-          <section id="international" className="p-6 rounded-2xl bg-slate-800/30 border border-slate-700/50">
-            <h2 className="text-2xl font-bold text-slate-50 mb-4 flex items-center">
-              <span className="text-2xl mr-3">🌍</span>
-              International Transfers
-            </h2>
-            <p className="text-lg">Your data may be processed outside your country of residence. We ensure that our service providers apply appropriate safeguards to protect your data in accordance with applicable data protection laws.</p>
-          </section>
-          
-          <section id="contact" className="p-6 rounded-2xl bg-slate-800/30 border border-slate-700/50">
-            <h2 className="text-2xl font-bold text-slate-50 mb-4 flex items-center">
-              <span className="text-2xl mr-3">📞</span>
-              Contact Us
-            </h2>
-            <p className="text-lg mb-4">If you have questions about this Privacy Policy, contact us at:</p>
-            <div className="p-4 rounded-xl bg-gradient-to-r from-cyan-500/10 to-green-500/10 border border-cyan-500/20">
-              <a href="mailto:hello@transitionmarketingai.com" className="text-cyan-400 hover:text-cyan-300 text-lg font-medium">
-                hello@transitionmarketingai.com
-              </a>
-            </div>
-          </section>
-        </div>
-        
-        <div className="mt-12 pt-8 border-t border-slate-700/50">
-          <div className="p-6 rounded-2xl bg-slate-800/30 border border-slate-700/50">
-            <p className="text-slate-300 text-lg text-center">
-              <strong>📝 Policy Updates:</strong> We may update this policy from time to time. We&apos;ll post any changes on this page and update the &quot;Last updated&quot; date.
-            </p>
-          </div>
-        </div>
-      </div>
-    </main>
+      <span className="text-xl font-bold text-white">Transition Marketing AI</span>
+    </Link>
   );
 }
 
+// Navigation
+function Navigation() {
+  return (
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-lg border-b border-gray-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <Logo />
+          
+          <div className="hidden md:flex items-center space-x-8">
+            <Link href="/" className="text-gray-300 hover:text-white transition-colors font-medium">
+              Home
+            </Link>
+            <Link href="/how-it-works" className="text-gray-300 hover:text-white transition-colors font-medium">
+              How It Works
+            </Link>
+            <Link href="/#pricing" className="text-gray-300 hover:text-white transition-colors font-medium">
+              Pricing
+            </Link>
+            <Link href="/dashboard" className="text-gray-300 hover:text-white transition-colors font-medium">
+              Dashboard
+            </Link>
+          </div>
+
+          <div className="flex items-center space-x-3">
+            <Link 
+              href="/dashboard" 
+              className="px-4 py-2 border border-purple-500 text-purple-400 rounded-lg font-medium hover:bg-purple-500 hover:text-white transition-all duration-200"
+            >
+              Demo
+            </Link>
+            <Link 
+              href="/get-started" 
+              className="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-blue-500 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-200"
+            >
+              Get Started
+            </Link>
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
+}
+
+// Legal Section Component
+function LegalSection({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-800 mb-8">
+      <h2 className="text-2xl font-bold text-white mb-6">{title}</h2>
+      <div className="prose prose-invert max-w-none">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+export default function Privacy() {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900">
+      <Navigation />
+
+      {/* Hero Section */}
+      <section className="pt-32 pb-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
+              <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Privacy Policy</span>
+            </h1>
+            
+            <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
+              Your privacy is important to us. Learn how we collect, use, and protect your information.
+            </p>
+            
+            <div className="text-sm text-gray-400">
+              Last updated: January 15, 2024
+            </div>
+          </div>
+
+          {/* Privacy Policy Content */}
+          <div className="space-y-8">
+            <LegalSection title="Introduction">
+              <p className="text-gray-300 mb-4">
+                Transition Marketing AI ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our AI-powered marketing automation platform.
+              </p>
+              <p className="text-gray-300">
+                By using our service, you agree to the collection and use of information in accordance with this policy.
+              </p>
+            </LegalSection>
+
+            <LegalSection title="Information We Collect">
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Personal Information</h3>
+                  <ul className="list-disc list-inside text-gray-300 space-y-1">
+                    <li>Name and contact information (email, phone number)</li>
+                    <li>Company information and job title</li>
+                    <li>Payment and billing information</li>
+                    <li>Account credentials and preferences</li>
+                  </ul>
+                </div>
+                
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Usage Information</h3>
+                  <ul className="list-disc list-inside text-gray-300 space-y-1">
+                    <li>Platform usage patterns and interactions</li>
+                    <li>AI agent performance and results</li>
+                    <li>Campaign data and analytics</li>
+                    <li>Device and browser information</li>
+                  </ul>
+                </div>
+                
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Third-Party Data</h3>
+                  <ul className="list-disc list-inside text-gray-300 space-y-1">
+                    <li>Data from connected integrations (Google Analytics, Facebook Ads, etc.)</li>
+                    <li>Lead information from external sources</li>
+                    <li>Social media and marketing platform data</li>
+                  </ul>
+                </div>
+              </div>
+            </LegalSection>
+
+            <LegalSection title="How We Use Your Information">
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Service Provision</h3>
+                  <ul className="list-disc list-inside text-gray-300 space-y-1">
+                    <li>Provide and maintain our AI marketing automation platform</li>
+                    <li>Process transactions and manage your account</li>
+                    <li>Deliver AI-generated content and lead generation services</li>
+                    <li>Provide customer support and technical assistance</li>
+                  </ul>
+                </div>
+                
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Improvement and Analytics</h3>
+                  <ul className="list-disc list-inside text-gray-300 space-y-1">
+                    <li>Analyze usage patterns to improve our services</li>
+                    <li>Train and enhance our AI models</li>
+                    <li>Generate insights and performance reports</li>
+                    <li>Develop new features and capabilities</li>
+                  </ul>
+                </div>
+                
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Communication</h3>
+                  <ul className="list-disc list-inside text-gray-300 space-y-1">
+                    <li>Send important service updates and notifications</li>
+                    <li>Provide marketing communications (with your consent)</li>
+                    <li>Respond to your inquiries and support requests</li>
+                  </ul>
+                </div>
+              </div>
+            </LegalSection>
+
+            <LegalSection title="Data Sharing and Disclosure">
+              <div className="space-y-4">
+                <p className="text-gray-300">
+                  We do not sell, trade, or rent your personal information to third parties. We may share your information in the following circumstances:
+                </p>
+                
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Service Providers</h3>
+                  <p className="text-gray-300">
+                    We may share information with trusted third-party service providers who assist us in operating our platform, such as cloud hosting providers, payment processors, and analytics services.
+                  </p>
+                </div>
+                
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Legal Requirements</h3>
+                  <p className="text-gray-300">
+                    We may disclose information when required by law, court order, or government regulation, or to protect our rights, property, or safety.
+                  </p>
+                </div>
+                
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Business Transfers</h3>
+                  <p className="text-gray-300">
+                    In the event of a merger, acquisition, or sale of assets, your information may be transferred as part of the transaction.
+                  </p>
+                </div>
+              </div>
+            </LegalSection>
+
+            <LegalSection title="Data Security">
+              <div className="space-y-4">
+                <p className="text-gray-300">
+                  We implement appropriate technical and organizational measures to protect your information against unauthorized access, alteration, disclosure, or destruction.
+                </p>
+                
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Security Measures</h3>
+                  <ul className="list-disc list-inside text-gray-300 space-y-1">
+                    <li>Encryption of data in transit and at rest</li>
+                    <li>Regular security audits and assessments</li>
+                    <li>Access controls and authentication mechanisms</li>
+                    <li>Secure data centers and infrastructure</li>
+                  </ul>
+                </div>
+                
+                <p className="text-gray-300">
+                  However, no method of transmission over the internet or electronic storage is 100% secure. While we strive to protect your information, we cannot guarantee absolute security.
+                </p>
+              </div>
+            </LegalSection>
+
+            <LegalSection title="Your Rights and Choices">
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Access and Control</h3>
+                  <ul className="list-disc list-inside text-gray-300 space-y-1">
+                    <li>Access and update your personal information</li>
+                    <li>Download your data in a portable format</li>
+                    <li>Delete your account and associated data</li>
+                    <li>Opt out of marketing communications</li>
+                  </ul>
+                </div>
+                
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Data Portability</h3>
+                  <p className="text-gray-300">
+                    You can request a copy of your data in a machine-readable format. We will provide this within 30 days of your request.
+                  </p>
+                </div>
+                
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Contact Us</h3>
+                  <p className="text-gray-300">
+                    To exercise your rights or for any privacy-related questions, contact us at privacy@transitionmarketingai.com
+                  </p>
+                </div>
+              </div>
+            </LegalSection>
+
+            <LegalSection title="Data Retention">
+              <p className="text-gray-300">
+                We retain your information for as long as necessary to provide our services and fulfill the purposes outlined in this Privacy Policy. When you delete your account, we will delete your personal information within 30 days, unless we are required to retain it for legal or regulatory purposes.
+              </p>
+            </LegalSection>
+
+            <LegalSection title="International Data Transfers">
+              <p className="text-gray-300">
+                Your information may be transferred to and processed in countries other than your own. We ensure appropriate safeguards are in place to protect your information in accordance with applicable data protection laws.
+              </p>
+            </LegalSection>
+
+            <LegalSection title="Changes to This Policy">
+              <p className="text-gray-300">
+                We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date. Your continued use of our service after any changes constitutes acceptance of the updated policy.
+              </p>
+            </LegalSection>
+
+            <LegalSection title="Contact Information">
+              <div className="space-y-2">
+                <p className="text-gray-300">
+                  If you have any questions about this Privacy Policy, please contact us:
+                </p>
+                <ul className="list-none text-gray-300 space-y-1">
+                  <li>Email: privacy@transitionmarketingai.com</li>
+                  <li>Address: [Your Business Address]</li>
+                  <li>Phone: [Your Phone Number]</li>
+                </ul>
+              </div>
+            </LegalSection>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-black/50 backdrop-blur-sm border-t border-gray-800 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+              <div className="flex items-center space-x-2 mb-4">
+                <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-blue-500 rounded-lg flex items-center justify-center">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M2 17L12 22L22 17" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M2 12L12 17L22 12" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                <span className="text-xl font-bold text-white">Transition Marketing AI</span>
+              </div>
+              <p className="text-gray-400">
+                AI-powered marketing automation for modern businesses.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-semibold text-white mb-4">Product</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li><Link href="/how-it-works" className="hover:text-white">How It Works</Link></li>
+                <li><Link href="/#agents" className="hover:text-white">AI Agents</Link></li>
+                <li><Link href="/#pricing" className="hover:text-white">Pricing</Link></li>
+                <li><Link href="/dashboard" className="hover:text-white">Dashboard</Link></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-semibold text-white mb-4">Company</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li><Link href="/book" className="hover:text-white">Book a Demo</Link></li>
+                <li><Link href="/terms" className="hover:text-white">Terms</Link></li>
+                <li><Link href="/privacy" className="hover:text-white">Privacy</Link></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-semibold text-white mb-4">Get Started</h4>
+              <p className="text-gray-400 mb-4">
+                Start your free trial today and see the difference AI can make.
+              </p>
+              <Link 
+                href="/get-started" 
+                className="inline-block px-6 py-2 bg-gradient-to-r from-purple-600 to-blue-500 text-white rounded-lg font-medium hover:shadow-lg transition-all"
+              >
+                Start Free Trial
+              </Link>
+            </div>
+          </div>
+
+          <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+            <p>&copy; 2024 Transition Marketing AI. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}

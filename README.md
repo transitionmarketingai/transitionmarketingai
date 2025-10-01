@@ -1,37 +1,111 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 TransitionAI - AI Marketing Automation Platform
+
+## Overview
+A complete AI-powered marketing automation platform with 6 specialized agents that handle lead generation, content creation, email campaigns, social media, SEO, and analytics.
+
+## Tech Stack
+- **Frontend:** Next.js 15, React, Tailwind CSS
+- **Backend:** Next.js API Routes, Supabase
+- **Database:** PostgreSQL (Supabase)
+- **AI:** OpenAI GPT-4, Anthropic Claude
+- **Payments:** Razorpay
+- **Deployment:** Vercel
+
+## Project Structure
+
+```
+transitionai/
+├── src/
+│   ├── app/                    # Next.js app directory
+│   │   ├── page.tsx           # Homepage (dark theme)
+│   │   ├── dashboard/         # User dashboard
+│   │   ├── get-started/       # Signup flow
+│   │   ├── how-it-works/      # Info page
+│   │   ├── checkout/          # Payment page
+│   │   └── api/               # API routes
+│   │       ├── auth/          # NextAuth
+│   │       ├── payments/      # Razorpay
+│   │       └── email/         # SendGrid
+│   ├── components/            # React components
+│   └── lib/                   # Utilities & services
+│       ├── supabase.ts       # Supabase client
+│       ├── auth.ts           # Authentication
+│       └── razorpay.ts       # Payment processing
+├── supabase/
+│   └── migrations/           # Database migrations
+├── scripts/                  # Utility scripts
+├── public/                   # Static assets
+│   ├── mascots/             # AI agent mascots
+│   └── images/              # Graphics
+└── docs/                     # Documentation
+    ├── PRODUCT_ROADMAP.md
+    └── WEEK_1_SETUP_CHECKLIST.md
+```
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+- Node.js 18+
+- OpenAI API key
+- Supabase account
+
+### Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Environment Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Copy template:
+```bash
+cp env.template .env.local
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. Add your API keys to `.env.local`
 
-## Learn More
+3. Run database migration in Supabase SQL Editor
 
-To learn more about Next.js, take a look at the following resources:
+4. Start development server:
+```bash
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Development Progress
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### ✅ Completed (Week 1)
+- Dark theme homepage design
+- 6 AI agent structure
+- Database schema design
+- Supabase integration
+- OpenAI connection
+- Environment setup
 
-## Deploy on Vercel
+### 🔄 In Progress
+- Agent #1: Lead Finder
+- Background job system
+- Real automation workflows
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 📋 Upcoming
+- Agent #2: Content Writer
+- Agent #3: Email Pro
+- Agent #4: Social Manager
+- Agent #5: SEO Expert
+- Agent #6: Data Analyst
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# Environment variables configured
+## Documentation
+
+- `PRODUCT_ROADMAP.md` - Complete development roadmap
+- `WEEK_1_SETUP_CHECKLIST.md` - API setup guide
+- `IMAGE_GENERATION_PROMPTS.md` - Mascot generation guide
+- `CLEANUP_PLAN.md` - Project cleanup tracking
+
+## Deployment
+
+Automatic deployment via Vercel on push to main branch.
+
+**Live Site:** https://transitionmarketingai.com
+
+## License
+
+Proprietary - All rights reserved

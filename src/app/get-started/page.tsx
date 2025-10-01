@@ -1,11 +1,7 @@
-import { Metadata } from 'next';
-import Link from 'next/link';
-import AuditForm from '@/components/AuditForm';
+'use client';
 
-export const metadata: Metadata = {
-  title: 'Get Started - Transition AI | Start Your Free Trial',
-  description: 'Start your free 14-day trial of AI marketing automation. No credit card required. Setup in 5 minutes.',
-};
+import Link from 'next/link';
+import { useState } from 'react';
 
 // Logo component
 function Logo() {
@@ -18,8 +14,8 @@ function Logo() {
           <path d="M2 12L12 17L22 12" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </div>
-      <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
-        Transition AI
+      <span className="text-xl font-bold text-white">
+        Transition Marketing AI
       </span>
     </Link>
   );
@@ -28,264 +24,499 @@ function Logo() {
 // Navigation
 function Navigation() {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-lg border-b border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Logo />
           
           <div className="hidden md:flex items-center space-x-8">
-            <Link href="/" className="text-gray-700 hover:text-purple-600 transition-colors font-medium">
+            <Link href="/" className="text-gray-300 hover:text-white transition-colors font-medium">
               Home
             </Link>
-            <Link href="/how-it-works" className="text-gray-700 hover:text-purple-600 transition-colors font-medium">
+            <Link href="/how-it-works" className="text-gray-300 hover:text-white transition-colors font-medium">
               How It Works
             </Link>
-            <Link href="/#pricing" className="text-gray-700 hover:text-purple-600 transition-colors font-medium">
+            <Link href="/#pricing" className="text-gray-300 hover:text-white transition-colors font-medium">
               Pricing
             </Link>
           </div>
 
-          <Link 
-            href="/dashboard" 
-            className="px-6 py-2.5 bg-gray-100 text-gray-900 rounded-lg font-medium hover:bg-gray-200 transition-all duration-200"
-          >
-            Dashboard
-          </Link>
+          <div className="flex items-center space-x-3">
+            <Link 
+              href="/dashboard" 
+              className="px-4 py-2 border border-purple-500 text-purple-400 rounded-lg font-medium hover:bg-purple-500 hover:text-white transition-all duration-200"
+            >
+              Demo
+            </Link>
+            <Link 
+              href="/dashboard" 
+              className="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-blue-500 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-200"
+            >
+              Get Started
+            </Link>
+          </div>
         </div>
       </div>
     </nav>
   );
 }
 
-export default function GetStarted() {
-  const benefits = [
-    {
-      icon: "🎯",
-      title: "100 Verified Leads",
-      description: "Get qualified leads in your first month"
-    },
-    {
-      icon: "✍️",
-      title: "10 Blog Posts",
-      description: "SEO-optimized content created for you"
-    },
-    {
-      icon: "📱",
-      title: "30 Social Posts",
-      description: "Engaging content across all platforms"
-    },
-    {
-      icon: "📧",
-      title: "Email Campaigns",
-      description: "Personalized outreach at scale"
-    },
-    {
-      icon: "📊",
-      title: "Real-time Analytics",
-      description: "Track performance across all channels"
-    },
-    {
-      icon: "🤝",
-      title: "Priority Support",
-      description: "Expert help when you need it"
-    }
-  ];
+// Step 1 Component - Who you are
+function Step1({ onNext }: { onNext: () => void }) {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    company: '',
+    role: '',
+    phone: ''
+  });
 
-  const steps = [
-    {
-      number: "1",
-      title: "Share Your Info",
-      description: "Tell us about your business and goals"
-    },
-    {
-      number: "2",
-      title: "AI Setup",
-      description: "We configure your AI agents"
-    },
-    {
-      number: "3",
-      title: "Start Growing",
-      description: "Watch leads and content roll in"
-    }
-  ];
-
-  const guarantees = [
-    "14-day free trial",
-    "No credit card required",
-    "Cancel anytime",
-    "Keep your data",
-    "24/7 support",
-    "Money-back guarantee"
-  ];
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onNext();
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-800">
+      <h2 className="text-2xl font-bold text-white mb-6">Step 1 — Who you are</h2>
+      
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
+            <input
+              type="text"
+              value={formData.name}
+              onChange={(e) => setFormData({...formData, name: e.target.value})}
+              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              placeholder="Enter your full name"
+              required
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
+            <input
+              type="email"
+              value={formData.email}
+              onChange={(e) => setFormData({...formData, email: e.target.value})}
+              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              placeholder="Enter your email"
+              required
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Company Name</label>
+            <input
+              type="text"
+              value={formData.company}
+              onChange={(e) => setFormData({...formData, company: e.target.value})}
+              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              placeholder="Enter your company name"
+              required
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Your Role</label>
+            <select
+              value={formData.role}
+              onChange={(e) => setFormData({...formData, role: e.target.value})}
+              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              required
+            >
+              <option value="">Select your role</option>
+              <option value="ceo">CEO/Founder</option>
+              <option value="marketing">Marketing Manager</option>
+              <option value="sales">Sales Manager</option>
+              <option value="business">Business Owner</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+        
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">Phone Number</label>
+          <input
+            type="tel"
+            value={formData.phone}
+            onChange={(e) => setFormData({...formData, phone: e.target.value})}
+            className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            placeholder="Enter your phone number"
+            required
+          />
+        </div>
+        
+        <button
+          type="submit"
+          className="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-500 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-200"
+        >
+          Continue to Step 2
+        </button>
+      </form>
+    </div>
+  );
+}
+
+// Step 2 Component - Market
+function Step2({ onNext, onBack }: { onNext: () => void; onBack: () => void }) {
+  const [formData, setFormData] = useState({
+    industry: '',
+    targetAudience: '',
+    budget: '',
+    currentChallenges: ''
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onNext();
+  };
+
+  return (
+    <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-800">
+      <h2 className="text-2xl font-bold text-white mb-6">Step 2 — Market</h2>
+      
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">Industry</label>
+          <select
+            value={formData.industry}
+            onChange={(e) => setFormData({...formData, industry: e.target.value})}
+            className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            required
+          >
+            <option value="">Select your industry</option>
+            <option value="technology">Technology</option>
+            <option value="healthcare">Healthcare</option>
+            <option value="finance">Finance</option>
+            <option value="education">Education</option>
+            <option value="retail">Retail/E-commerce</option>
+            <option value="real-estate">Real Estate</option>
+            <option value="consulting">Consulting</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">Target Audience</label>
+          <textarea
+            value={formData.targetAudience}
+            onChange={(e) => setFormData({...formData, targetAudience: e.target.value})}
+            className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            placeholder="Describe your ideal customers (age, interests, pain points, etc.)"
+            rows={4}
+            required
+          />
+        </div>
+        
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">Monthly Marketing Budget</label>
+          <select
+            value={formData.budget}
+            onChange={(e) => setFormData({...formData, budget: e.target.value})}
+            className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            required
+          >
+            <option value="">Select budget range</option>
+            <option value="under-10k">Under ₹10,000</option>
+            <option value="10k-50k">₹10,000 - ₹50,000</option>
+            <option value="50k-1l">₹50,000 - ₹1,00,000</option>
+            <option value="1l-5l">₹1,00,000 - ₹5,00,000</option>
+            <option value="over-5l">Over ₹5,00,000</option>
+          </select>
+        </div>
+        
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">Current Marketing Challenges</label>
+          <textarea
+            value={formData.currentChallenges}
+            onChange={(e) => setFormData({...formData, currentChallenges: e.target.value})}
+            className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            placeholder="What marketing challenges are you facing? (e.g., low lead quality, high cost per acquisition, time constraints)"
+            rows={4}
+            required
+          />
+        </div>
+        
+        <div className="flex space-x-4">
+          <button
+            type="button"
+            onClick={onBack}
+            className="flex-1 px-6 py-3 border border-gray-600 text-gray-300 rounded-lg font-medium hover:bg-gray-800 transition-all duration-200"
+          >
+            Back
+          </button>
+          <button
+            type="submit"
+            className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-500 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-200"
+          >
+            Continue to Step 3
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}
+
+// Step 3 Component - Goals
+function Step3({ onComplete, onBack }: { onComplete: () => void; onBack: () => void }) {
+  const [formData, setFormData] = useState({
+    primaryGoal: '',
+    leadTarget: '',
+    timeline: '',
+    successMetrics: ''
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onComplete();
+  };
+
+  return (
+    <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-800">
+      <h2 className="text-2xl font-bold text-white mb-6">Step 3 — Goals</h2>
+      
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">Primary Goal</label>
+          <select
+            value={formData.primaryGoal}
+            onChange={(e) => setFormData({...formData, primaryGoal: e.target.value})}
+            className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            required
+          >
+            <option value="">Select your primary goal</option>
+            <option value="lead-generation">Generate more qualified leads</option>
+            <option value="brand-awareness">Increase brand awareness</option>
+            <option value="sales-growth">Drive sales growth</option>
+            <option value="content-creation">Scale content creation</option>
+            <option value="social-media">Improve social media presence</option>
+            <option value="email-marketing">Enhance email marketing</option>
+            <option value="all-of-above">All of the above</option>
+          </select>
+        </div>
+        
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">Monthly Lead Target</label>
+          <select
+            value={formData.leadTarget}
+            onChange={(e) => setFormData({...formData, leadTarget: e.target.value})}
+            className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            required
+          >
+            <option value="">Select lead target</option>
+            <option value="10-50">10-50 leads</option>
+            <option value="50-100">50-100 leads</option>
+            <option value="100-500">100-500 leads</option>
+            <option value="500-1000">500-1,000 leads</option>
+            <option value="over-1000">Over 1,000 leads</option>
+          </select>
+        </div>
+        
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">Timeline to See Results</label>
+          <select
+            value={formData.timeline}
+            onChange={(e) => setFormData({...formData, timeline: e.target.value})}
+            className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            required
+          >
+            <option value="">Select timeline</option>
+            <option value="immediate">Immediate (within 1 week)</option>
+            <option value="1-month">1 month</option>
+            <option value="3-months">3 months</option>
+            <option value="6-months">6 months</option>
+            <option value="flexible">Flexible timeline</option>
+          </select>
+        </div>
+        
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">Success Metrics</label>
+          <textarea
+            value={formData.successMetrics}
+            onChange={(e) => setFormData({...formData, successMetrics: e.target.value})}
+            className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            placeholder="How will you measure success? (e.g., lead quality, conversion rate, ROI, brand mentions)"
+            rows={4}
+            required
+          />
+        </div>
+        
+        <div className="flex space-x-4">
+          <button
+            type="button"
+            onClick={onBack}
+            className="flex-1 px-6 py-3 border border-gray-600 text-gray-300 rounded-lg font-medium hover:bg-gray-800 transition-all duration-200"
+          >
+            Back
+          </button>
+          <button
+            type="submit"
+            className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-500 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-200"
+          >
+            Complete Setup
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}
+
+// Success Component
+function Success() {
+  return (
+    <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-800 text-center">
+      <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+      
+      <h2 className="text-2xl font-bold text-white mb-4">Setup Complete!</h2>
+      <p className="text-gray-300 mb-8">
+        Your AI marketing agents are being configured. You'll receive an email with your dashboard access within 5 minutes.
+      </p>
+      
+      <div className="space-y-4">
+        <Link 
+          href="/dashboard"
+          className="block w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-500 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-200"
+        >
+          Access Dashboard
+        </Link>
+        <Link 
+          href="/"
+          className="block w-full px-6 py-3 border border-gray-600 text-gray-300 rounded-lg font-medium hover:bg-gray-800 transition-all duration-200"
+        >
+          Back to Home
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+export default function GetStarted() {
+  const [currentStep, setCurrentStep] = useState(1);
+
+  const renderStep = () => {
+    switch (currentStep) {
+      case 1:
+        return <Step1 onNext={() => setCurrentStep(2)} />;
+      case 2:
+        return <Step2 onNext={() => setCurrentStep(3)} onBack={() => setCurrentStep(1)} />;
+      case 3:
+        return <Step3 onComplete={() => setCurrentStep(4)} onBack={() => setCurrentStep(2)} />;
+      case 4:
+        return <Success />;
+      default:
+        return <Step1 onNext={() => setCurrentStep(2)} />;
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900">
       <Navigation />
 
       {/* Hero Section */}
       <section className="pt-32 pb-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-green-100 text-green-700 font-medium mb-6">
-              <span className="w-2 h-2 bg-green-600 rounded-full mr-2 animate-pulse"></span>
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-green-500/20 text-green-400 font-medium mb-6 border border-green-500/30">
+              <span className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
               Start Your Free Trial
             </div>
             
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              Get Your
-              <span className="bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent"> AI Marketing Team </span>
-              Today
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
+              Build, grow, and scale with a team of
+              <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent"> AI marketing agents</span>
             </h1>
             
-            <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              No credit card required. Setup in 5 minutes. Start seeing results in 24 hours.
+            <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
+              Precision-trained agents for lead gen, ads, content, outreach & reporting — tuned for the Indian market.
             </p>
 
-            {/* Steps */}
-            <div className="flex flex-col md:flex-row items-center justify-center gap-4 max-w-4xl mx-auto mb-12">
-              {steps.map((step, index) => (
-                <div key={index} className="flex items-center">
-                  <div className="flex items-center space-x-3 bg-white rounded-lg border border-gray-200 px-6 py-3">
-                    <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
-                      {step.number}
-                    </div>
-                    <div className="text-left">
-                      <div className="font-semibold text-gray-900 text-sm">{step.title}</div>
-                      <div className="text-gray-600 text-xs">{step.description}</div>
-                    </div>
+            {/* Progress Steps */}
+            <div className="flex items-center justify-center gap-4 max-w-2xl mx-auto mb-12">
+              {[1, 2, 3].map((step) => (
+                <div key={step} className="flex items-center">
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold ${
+                    currentStep >= step 
+                      ? 'bg-gradient-to-r from-purple-600 to-blue-500 text-white' 
+                      : 'bg-gray-700 text-gray-400'
+                  }`}>
+                    {step}
                   </div>
-                  {index < steps.length - 1 && (
-                    <svg className="hidden md:block w-6 h-6 text-gray-300 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
+                  {step < 3 && (
+                    <div className={`w-16 h-1 mx-2 ${
+                      currentStep > step ? 'bg-gradient-to-r from-purple-600 to-blue-500' : 'bg-gray-700'
+                    }`} />
                   )}
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Main Content Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-            {/* Form Section */}
-            <div className="bg-white rounded-2xl border border-gray-200 p-8 shadow-xl">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Start Your Free Trial</h2>
-              <AuditForm />
-            </div>
-
-            {/* Benefits Section */}
-            <div className="space-y-8">
-              <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">What You Get</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {benefits.map((benefit, index) => (
-                    <div key={index} className="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-lg transition-all duration-300">
-                      <div className="text-3xl mb-3">{benefit.icon}</div>
-                      <h4 className="font-semibold text-gray-900 mb-1">{benefit.title}</h4>
-                      <p className="text-sm text-gray-600">{benefit.description}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Guarantees */}
-              <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl border border-purple-200 p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-4">Our Guarantee</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {guarantees.map((guarantee, index) => (
-                    <div key={index} className="flex items-center space-x-2">
-                      <svg className="w-5 h-5 text-purple-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                      <span className="text-sm text-gray-700">{guarantee}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Social Proof */}
-              <div className="bg-white rounded-xl border border-gray-200 p-6">
-                <div className="flex items-center space-x-2 mb-4">
-                  <div className="flex -space-x-2">
-                    {[1, 2, 3, 4].map((i) => (
-                      <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-600 to-blue-500 border-2 border-white flex items-center justify-center text-white font-bold text-sm">
-                        {String.fromCharCode(64 + i)}
-                      </div>
-                    ))}
-                  </div>
-                  <span className="text-sm text-gray-600">+500 businesses</span>
-                </div>
-                <div className="flex items-center space-x-1 mb-2">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <svg key={i} className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-                <p className="text-sm text-gray-600 italic">
-                  "We 10x'd our lead generation in the first month. The AI agents work better than our entire marketing team combined."
-                </p>
-                <p className="text-sm text-gray-900 font-medium mt-2">- Rajesh Kumar, CEO at TechStartup</p>
-              </div>
-            </div>
+          {/* Main Content */}
+          <div className="max-w-2xl mx-auto">
+            {renderStep()}
           </div>
         </div>
       </section>
 
-      {/* Trust Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
+      {/* Benefits Section */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Trusted by Growing Businesses</h2>
-            <p className="text-gray-600">Join hundreds of companies already automating their marketing</p>
+            <h2 className="text-3xl font-bold text-white mb-4">What You Get</h2>
+            <p className="text-gray-300">Everything you need to scale your marketing</p>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center opacity-60">
-            {['Company A', 'Company B', 'Company C', 'Company D'].map((company, index) => (
-              <div key={index} className="text-2xl font-bold text-gray-400">
-                {company}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
-          </div>
-
-          <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
-                q: "How long does setup take?",
-                a: "Just 5 minutes. Fill out the form, answer a few questions about your business, and your AI agents will be ready to work."
+                icon: "🎯",
+                title: "100 Verified Leads",
+                description: "Get qualified leads in your first month"
               },
               {
-                q: "Do I need a credit card for the trial?",
-                a: "No! Start your 14-day free trial without any payment information. Upgrade anytime."
+                icon: "✍️",
+                title: "10 Blog Posts",
+                description: "SEO-optimized content created for you"
               },
               {
-                q: "Can I cancel anytime?",
-                a: "Yes. Cancel with one click from your dashboard. No questions asked, no fees."
+                icon: "📱",
+                title: "30 Social Posts",
+                description: "Engaging content across all platforms"
               },
               {
-                q: "What if I need help?",
-                a: "We provide 24/7 priority support via chat, email, and phone. Our team is here to ensure your success."
+                icon: "📧",
+                title: "Email Campaigns",
+                description: "Personalized outreach at scale"
+              },
+              {
+                icon: "📊",
+                title: "Real-time Analytics",
+                description: "Track performance across all channels"
+              },
+              {
+                icon: "🤝",
+                title: "Priority Support",
+                description: "Expert help when you need it"
               }
-            ].map((faq, index) => (
-              <details key={index} className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-all">
-                <summary className="font-semibold text-gray-900 cursor-pointer">{faq.q}</summary>
-                <p className="text-gray-600 mt-3">{faq.a}</p>
-              </details>
+            ].map((benefit, index) => (
+              <div key={index} className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-800 hover:border-purple-500/50 transition-all duration-300">
+                <div className="text-4xl mb-4">{benefit.icon}</div>
+                <h3 className="text-xl font-bold text-white mb-2">{benefit.title}</h3>
+                <p className="text-gray-300">{benefit.description}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12 px-4 sm:px-6 lg:px-8">
+      <footer className="bg-black/50 backdrop-blur-sm border-t border-gray-800 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
@@ -297,7 +528,7 @@ export default function GetStarted() {
                     <path d="M2 12L12 17L22 12" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </div>
-                <span className="text-xl font-bold">Transition AI</span>
+                <span className="text-xl font-bold text-white">Transition Marketing AI</span>
               </div>
               <p className="text-gray-400">
                 AI-powered marketing automation for modern businesses.
@@ -305,7 +536,7 @@ export default function GetStarted() {
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4">Product</h4>
+              <h4 className="font-semibold text-white mb-4">Product</h4>
               <ul className="space-y-2 text-gray-400">
                 <li><Link href="/how-it-works" className="hover:text-white">How It Works</Link></li>
                 <li><Link href="/#agents" className="hover:text-white">AI Agents</Link></li>
@@ -315,7 +546,7 @@ export default function GetStarted() {
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4">Company</h4>
+              <h4 className="font-semibold text-white mb-4">Company</h4>
               <ul className="space-y-2 text-gray-400">
                 <li><Link href="/book" className="hover:text-white">Book a Demo</Link></li>
                 <li><Link href="/terms" className="hover:text-white">Terms</Link></li>
@@ -324,7 +555,7 @@ export default function GetStarted() {
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4">Get Started</h4>
+              <h4 className="font-semibold text-white mb-4">Get Started</h4>
               <p className="text-gray-400 mb-4">
                 Start your free trial today and see the difference AI can make.
               </p>
@@ -338,7 +569,7 @@ export default function GetStarted() {
           </div>
 
           <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 Transition AI. All rights reserved.</p>
+            <p>&copy; 2024 Transition Marketing AI. All rights reserved.</p>
           </div>
         </div>
       </footer>

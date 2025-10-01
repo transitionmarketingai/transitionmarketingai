@@ -1,11 +1,14 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
 
 // Logo component
 function Logo() {
   return (
     <Link href="/" className="flex items-center space-x-2">
-      <div className="w-9 h-9 bg-gradient-to-br from-purple-600 to-blue-500 rounded-xl flex items-center justify-center shadow-lg">
+      <div className="w-9 h-9 bg-gradient-to-br from-violet-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
           <path d="M2 17L12 22L22 17" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -13,7 +16,7 @@ function Logo() {
         </svg>
       </div>
       <span className="text-xl font-bold text-gray-900">
-        Transition<span className="bg-gradient-to-r from-purple-600 to-cyan-500 bg-clip-text text-transparent">AI</span>
+        Transition<span className="bg-gradient-to-r from-violet-600 to-cyan-500 bg-clip-text text-transparent">AI</span>
       </span>
     </Link>
   );
@@ -22,32 +25,29 @@ function Logo() {
 // Navigation
 function Navigation() {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-lg border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           <Logo />
           
           <div className="hidden lg:flex items-center space-x-10">
-            <Link href="/#agents" className="text-gray-700 hover:text-purple-600 transition-colors font-medium text-[15px]">
-              Agents
+            <Link href="/#helpers" className="text-gray-700 hover:text-violet-600 transition-colors font-medium text-[15px]">
+              Helpers
             </Link>
-            <Link href="/how-it-works" className="text-gray-700 hover:text-purple-600 transition-colors font-medium text-[15px]">
+            <Link href="/how-it-works" className="text-gray-700 hover:text-violet-600 transition-colors font-medium text-[15px]">
               How it works
             </Link>
-            <Link href="/#pricing" className="text-gray-700 hover:text-purple-600 transition-colors font-medium text-[15px]">
+            <Link href="/#pricing" className="text-gray-700 hover:text-violet-600 transition-colors font-medium text-[15px]">
               Pricing
-            </Link>
-            <Link href="/dashboard" className="text-gray-700 hover:text-purple-600 transition-colors font-medium text-[15px]">
-              Dashboard
             </Link>
           </div>
 
           <div className="flex items-center space-x-4">
             <Link 
               href="/get-started" 
-              className="px-7 py-3 bg-gradient-to-r from-purple-600 to-blue-500 text-white rounded-xl font-semibold text-[15px] hover:shadow-lg hover:shadow-purple-500/30 hover:scale-105 transition-all duration-200"
+              className="px-7 py-3 bg-gradient-to-r from-violet-500 to-cyan-500 text-white rounded-full font-semibold text-[15px] hover:shadow-lg hover:shadow-violet-500/30 hover:scale-105 transition-all duration-200"
             >
-              Start free trial
+              Try it free
             </Link>
           </div>
         </div>
@@ -56,515 +56,505 @@ function Navigation() {
   );
 }
 
-// Agent Card with Image Placeholder
-function AgentCard({ 
-  icon, 
-  name, 
-  description, 
-  color,
-  imagePlaceholder
-}: { 
-  icon: string; 
-  name: string; 
-  description: string; 
-  color: string;
-  imagePlaceholder: string;
-}) {
-  const colorClasses = {
-    purple: 'from-purple-50 to-purple-100 border-purple-200',
-    blue: 'from-blue-50 to-blue-100 border-blue-200',
-    green: 'from-green-50 to-green-100 border-green-200',
-    orange: 'from-orange-50 to-orange-100 border-orange-200',
-    pink: 'from-pink-50 to-pink-100 border-pink-200',
-    cyan: 'from-cyan-50 to-cyan-100 border-cyan-200',
-  };
-
-  return (
-    <div className={`relative bg-gradient-to-br ${colorClasses[color as keyof typeof colorClasses]} rounded-3xl border-2 p-8 hover:shadow-2xl hover:scale-105 transition-all duration-300 group overflow-hidden`}>
-      {/* Decorative background element */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-white/30 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500"></div>
-      
-      {/* Image/Mascot Placeholder */}
-      <div className="relative mb-6 h-32 flex items-center justify-center">
-        <div className="text-7xl transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-          {icon}
-        </div>
-        {/* Placeholder for future 3D mascot */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-10 transition-opacity">
-          <div className="text-xs text-gray-500 bg-white/80 px-3 py-1 rounded-full">
-            {imagePlaceholder}
-          </div>
-        </div>
-      </div>
-      
-      <h3 className="text-2xl font-bold text-gray-900 mb-3">{name}</h3>
-      <p className="text-gray-700 leading-relaxed text-[15px]">{description}</p>
-      
-      {/* Action hint */}
-      <div className="mt-6 flex items-center text-purple-600 font-medium text-sm opacity-0 group-hover:opacity-100 transition-opacity">
-        <span>Learn more</span>
-        <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-        </svg>
-      </div>
-    </div>
-  );
-}
-
-// Feature Badge
-function FeatureBadge({ icon, text }: { icon: string; text: string }) {
-  return (
-    <div className="flex items-center space-x-3 bg-white rounded-2xl px-5 py-4 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-200">
-      <div className="text-3xl">{icon}</div>
-      <span className="font-semibold text-gray-900 text-[15px]">{text}</span>
-    </div>
-  );
-}
-
-// Pricing Card
-function PricingCard({ 
-  name, 
-  price, 
-  period,
-  description, 
-  features, 
-  isPopular,
-  planId,
-  badge
-}: { 
-  name: string; 
-  price: string;
-  period: string;
-  description: string; 
-  features: string[];
-  isPopular?: boolean;
-  planId: string;
-  badge?: string;
-}) {
-  return (
-    <div className={`relative bg-white rounded-3xl border-2 ${isPopular ? 'border-purple-600 shadow-2xl shadow-purple-500/20 scale-105' : 'border-gray-200'} p-8 transition-all duration-300 hover:shadow-2xl`}>
-      {isPopular && (
-        <div className="absolute -top-5 left-1/2 transform -translate-x-1/2">
-          <div className="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg">
-            ⭐ Most Popular
-          </div>
-        </div>
-      )}
-      
-      {badge && !isPopular && (
-        <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-          <div className="bg-green-500 text-white px-5 py-1.5 rounded-full text-xs font-bold shadow-lg">
-            {badge}
-          </div>
-        </div>
-      )}
-
-      <div className="text-center mb-8">
-        <h3 className="text-2xl font-bold text-gray-900 mb-3">{name}</h3>
-        <div className="mb-3">
-          <span className="text-5xl font-bold text-gray-900">{price}</span>
-          <span className="text-gray-600 ml-2 text-lg">/{period}</span>
-        </div>
-        <p className="text-gray-600 text-[15px]">{description}</p>
-      </div>
-
-      <ul className="space-y-4 mb-8">
-        {features.map((feature, index) => (
-          <li key={index} className="flex items-start space-x-3">
-            <svg className="w-6 h-6 text-purple-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-            </svg>
-            <span className="text-gray-700 text-[15px]">{feature}</span>
-          </li>
-        ))}
-      </ul>
-
-      <Link 
-        href={`/checkout?plan=${planId}`}
-        className={`block w-full text-center px-8 py-4 rounded-xl font-semibold text-[15px] transition-all duration-200 ${
-          isPopular 
-            ? 'bg-gradient-to-r from-purple-600 to-blue-500 text-white hover:shadow-lg hover:shadow-purple-500/30 hover:scale-105' 
-            : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
-        }`}
-      >
-        Start free trial
-      </Link>
-      
-      {isPopular && (
-        <p className="text-center mt-4 text-sm text-gray-600">
-          No credit card required
-        </p>
-      )}
-    </div>
-  );
-}
-
 export default function HomePage() {
-  const agents = [
+  const [email, setEmail] = useState("");
+
+  const helpers = [
     {
-      icon: "🎯",
+      emoji: "🎯",
       name: "Lead Finder",
-      description: "Discovers and qualifies high-quality leads from LinkedIn, databases, and social media automatically.",
-      color: "purple",
-      imagePlaceholder: "3D mascot: Detective character with magnifying glass"
+      description: "Discovers qualified leads from LinkedIn, databases, and social media 24/7.",
+      color: "from-violet-50 to-purple-100",
+      borderColor: "border-violet-200",
+      image: "/mascots/lead-finder-mascot.png"
     },
     {
-      icon: "✍️",
+      emoji: "✍️",
       name: "Content Writer",
-      description: "Creates SEO-optimized blogs, social posts, emails, and ad copy that drives engagement and conversions.",
-      color: "blue",
-      imagePlaceholder: "3D mascot: Writer character with pen and paper"
+      description: "Creates SEO blogs, social posts, emails, and ads that actually convert.",
+      color: "from-blue-50 to-cyan-100",
+      borderColor: "border-blue-200",
+      image: "/mascots/content-writer-mascot.png"
     },
     {
-      icon: "📧",
+      emoji: "📧",
       name: "Email Pro",
-      description: "Manages personalized email campaigns, follow-ups, and drip sequences to nurture leads at scale.",
-      color: "green",
-      imagePlaceholder: "3D mascot: Mail carrier character with envelope"
+      description: "Manages personalized email campaigns and follow-ups automatically.",
+      color: "from-green-50 to-emerald-100",
+      borderColor: "border-green-200",
+      image: "/mascots/email-pro-mascot.png"
     },
     {
-      icon: "📱",
+      emoji: "📱",
       name: "Social Manager",
-      description: "Schedules posts, monitors engagement, and manages your presence across all social platforms.",
-      color: "orange",
-      imagePlaceholder: "3D mascot: Social butterfly character with phone"
+      description: "Handles posting, engagement, and monitoring across all platforms.",
+      color: "from-orange-50 to-amber-100",
+      borderColor: "border-orange-200",
+      image: "/mascots/social-manager-mascot.png"
     },
     {
-      icon: "🔍",
+      emoji: "🔍",
       name: "SEO Expert",
-      description: "Optimizes content for search engines, tracks rankings, and improves your organic visibility.",
-      color: "pink",
-      imagePlaceholder: "3D mascot: Search explorer character with telescope"
+      description: "Optimizes your content and tracks rankings to boost organic traffic.",
+      color: "from-pink-50 to-rose-100",
+      borderColor: "border-pink-200",
+      image: "/mascots/seo-expert-mascot.png"
     },
     {
-      icon: "📊",
+      emoji: "📊",
       name: "Data Analyst",
-      description: "Tracks performance metrics, generates reports, and provides actionable insights to grow faster.",
-      color: "cyan",
-      imagePlaceholder: "3D mascot: Analyst character with charts and graphs"
+      description: "Tracks everything, creates reports, and tells you what's working.",
+      color: "from-cyan-50 to-sky-100",
+      borderColor: "border-cyan-200",
+      image: "/mascots/data-analyst-mascot.png"
     }
   ];
 
-  const pricingPlans = [
-    {
-      name: "Starter",
-      price: "₹15,999",
-      period: "month",
-      description: "Perfect for small businesses",
-      planId: "starter",
-      badge: "🚀 Best Value",
-      features: [
-        "100 verified leads per month",
-        "10 SEO blog posts",
-        "30 social media posts",
-        "1,000 outreach emails",
-        "3 AI agents active",
-        "Email support",
-        "Analytics dashboard"
-      ]
-    },
-    {
-      name: "Growth",
-      price: "₹39,999",
-      period: "month",
-      description: "For growing businesses",
-      planId: "growth",
-      isPopular: true,
-      features: [
-        "500 verified leads per month",
-        "30 SEO blog posts",
-        "100 social media posts",
-        "5,000 outreach emails",
-        "All 6 AI agents active",
-        "Priority support",
-        "Advanced analytics",
-        "Custom integrations",
-        "A/B testing"
-      ]
-    },
-    {
-      name: "Enterprise",
-      price: "₹99,999",
-      period: "month",
-      description: "For large teams",
-      planId: "enterprise",
-      features: [
-        "Unlimited verified leads",
-        "100 SEO blog posts",
-        "Unlimited social posts",
-        "20,000 outreach emails",
-        "All agents + custom",
-        "24/7 dedicated support",
-        "White-label options",
-        "API access",
-        "Custom AI training",
-        "Onboarding specialist"
-      ]
-    }
+  const integrations = [
+    { name: "Gmail", logo: "📧" },
+    { name: "Slack", logo: "💬" },
+    { name: "Google Calendar", logo: "📅" },
+    { name: "LinkedIn", logo: "💼" },
+    { name: "Facebook", logo: "📘" },
+    { name: "Twitter", logo: "🐦" },
+    { name: "Instagram", logo: "📷" },
+    { name: "HubSpot", logo: "🔶" }
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gray-50">
       <Navigation />
 
-      {/* Hero Section - Sintra-style */}
-      <section className="pt-32 pb-20 px-6 lg:px-8 relative overflow-hidden">
-        {/* Background decoration */}
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-blue-50 to-white opacity-70"></div>
-        <div className="absolute top-20 right-0 w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
-        <div className="absolute top-40 left-0 w-96 h-96 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
-        
-        <div className="max-w-7xl mx-auto relative">
-          <div className="text-center mb-16">
+      {/* Hero Section - Exact Sintra Style */}
+      <section className="pt-32 pb-16 px-6 lg:px-8 relative overflow-hidden bg-gradient-to-b from-white to-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
             {/* Badge */}
-            <div className="inline-flex items-center space-x-2 px-5 py-2.5 rounded-full bg-white border-2 border-purple-100 shadow-lg mb-8">
+            <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-violet-50 border border-violet-100 mb-6">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-gray-700 font-semibold text-[15px]">Powered by Advanced AI Models</span>
+              <span className="text-violet-700 font-medium text-sm">AI-powered marketing on autopilot</span>
             </div>
             
-            {/* Main Heading */}
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-gray-900 mb-8 leading-tight">
-              Meet Your<br />
-              <span className="bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 bg-clip-text text-transparent">
-                AI Marketing Team
+            {/* Main Heading - Sintra Style */}
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-gray-900 mb-6 leading-[1.1]">
+              Your Team of<br />
+              <span className="bg-gradient-to-r from-violet-600 via-purple-500 to-cyan-500 bg-clip-text text-transparent">
+                AI Marketing Helpers
               </span>
             </h1>
             
-            <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed">
-              Six friendly AI agents that handle your marketing on autopilot. 
-              From finding leads to creating content—it's like having a full team, without the overhead.
+            <p className="text-xl md:text-2xl text-gray-600 mb-10 max-w-3xl mx-auto leading-relaxed">
+              Six friendly AI agents handle everything from finding leads to creating content. 
+              It's like having a full marketing team, minus the overhead.
             </p>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-16">
+            {/* Email Signup - Sintra Style */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8 max-w-md mx-auto">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-6 py-4 rounded-full border-2 border-gray-200 focus:border-violet-500 focus:outline-none text-gray-900 font-medium"
+              />
               <Link 
-                href="/get-started" 
-                className="px-10 py-5 bg-gradient-to-r from-purple-500 to-cyan-500 text-white rounded-2xl font-bold text-lg hover:shadow-2xl hover:shadow-purple-500/40 hover:scale-105 transition-all duration-200"
+                href="/get-started"
+                className="w-full sm:w-auto whitespace-nowrap px-8 py-4 bg-gradient-to-r from-violet-500 to-cyan-500 text-white rounded-full font-semibold hover:shadow-lg hover:shadow-violet-500/30 hover:scale-105 transition-all duration-200"
               >
                 Try it free →
               </Link>
-              <Link 
-                href="/how-it-works" 
-                className="px-10 py-5 bg-white text-gray-900 rounded-2xl font-bold text-lg border-2 border-gray-200 hover:border-purple-500 hover:shadow-xl transition-all duration-200"
-              >
-                See how it works
-              </Link>
             </div>
 
-            {/* Feature Badges */}
-            <div className="flex flex-wrap items-center justify-center gap-4">
-              <FeatureBadge icon="⚡" text="Setup in 5 minutes" />
-              <FeatureBadge icon="💳" text="No credit card" />
-              <FeatureBadge icon="🎯" text="100+ leads/month" />
-              <FeatureBadge icon="🚀" text="24/7 automation" />
-            </div>
+            <p className="text-sm text-gray-500">
+              No credit card required • 14-day free trial • Cancel anytime
+            </p>
           </div>
 
-          {/* Hero Image Placeholder */}
-          <div className="relative max-w-6xl mx-auto">
-            <div className="relative bg-gradient-to-br from-purple-100 to-blue-100 rounded-3xl border-4 border-white shadow-2xl overflow-hidden aspect-video">
-              {/* Placeholder for dashboard screenshot */}
-              <div className="absolute inset-0 flex items-center justify-center">
+          {/* Hero Image/Dashboard Mockup Placeholder */}
+          <div className="relative max-w-5xl mx-auto mt-16">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-gray-200">
+              {/* Placeholder for hero-dashboard.png */}
+              <div className="aspect-video bg-gradient-to-br from-violet-100 via-purple-100 to-cyan-100 flex items-center justify-center">
                 <div className="text-center p-8">
-                  <div className="text-6xl mb-4">🎨</div>
-                  <p className="text-gray-600 font-semibold">Dashboard Screenshot Placeholder</p>
-                  <p className="text-sm text-gray-500 mt-2">Add your dashboard image here</p>
+                  <div className="text-6xl mb-4">💻</div>
+                  <p className="text-gray-700 font-semibold text-lg">Dashboard Preview</p>
+                  <p className="text-sm text-gray-500 mt-2">Placeholder: hero-dashboard.png</p>
+                  <p className="text-xs text-gray-400 mt-1">Generate using ChatGPT prompt from IMAGE_GENERATION_PROMPTS.md</p>
                 </div>
               </div>
-              {/* Decorative elements */}
-              <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-purple-400 rounded-full mix-blend-multiply filter blur-2xl opacity-60"></div>
-              <div className="absolute -top-4 -right-4 w-32 h-32 bg-blue-400 rounded-full mix-blend-multiply filter blur-2xl opacity-60"></div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Agents Section - Sintra Helper Style */}
-      <section id="agents" className="py-24 px-6 lg:px-8 bg-gradient-to-b from-white to-gray-50">
+      {/* Trust Bar - Sintra Style */}
+      <section className="py-8 px-6 lg:px-8 bg-white border-y border-gray-100">
+        <div className="max-w-7xl mx-auto">
+          <p className="text-center text-sm text-gray-500 mb-6">TRUSTED BY 500+ GROWING BUSINESSES</p>
+          <div className="flex flex-wrap items-center justify-center gap-8 opacity-40">
+            {['Company A', 'Company B', 'Company C', 'Company D', 'Company E'].map((company, i) => (
+              <div key={i} className="text-xl font-bold text-gray-400">{company}</div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* AI Helpers Section - Exact Sintra Layout */}
+      <section id="helpers" className="py-24 px-6 lg:px-8 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center px-5 py-2 rounded-full bg-purple-50 text-purple-700 font-semibold mb-6 text-[15px] border-2 border-purple-100">
-              <span className="mr-2">✨</span>
-              Your AI Helper Crew
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-violet-50 border border-violet-100 mb-6">
+              <span className="text-violet-700 font-medium text-sm">✨ Meet your AI crew</span>
             </div>
             <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-              6 AI Agents,<br />Endless Possibilities
+              6 AI Helpers,<br />One Powerful Team
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Think of them as your personal marketing team—each one an expert, 
-              all working together to make your business grow.
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Each helper specializes in something different. Together, they handle 
+              all your marketing so you can focus on growing your business.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {agents.map((agent, index) => (
-              <AgentCard key={index} {...agent} />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {helpers.map((helper, index) => (
+              <div 
+                key={index} 
+                className={`relative bg-gradient-to-br ${helper.color} rounded-3xl border-2 ${helper.borderColor} p-8 hover:shadow-xl hover:scale-105 transition-all duration-300 group overflow-hidden`}
+              >
+                {/* Decorative blob */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-white/40 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500"></div>
+                
+                {/* Image/Mascot Placeholder */}
+                <div className="relative mb-6 h-40 flex items-center justify-center">
+                  <div className="text-8xl transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                    {helper.emoji}
+                  </div>
+                  {/* Placeholder hint */}
+                  <div className="absolute bottom-0 left-0 right-0 text-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <p className="text-xs text-gray-600 bg-white/80 backdrop-blur-sm px-2 py-1 rounded-full inline-block">
+                      Image: {helper.image.split('/').pop()}
+                    </p>
+                  </div>
+                </div>
+                
+                <h3 className="text-2xl font-bold text-gray-900 mb-3">{helper.name}</h3>
+                <p className="text-gray-700 leading-relaxed">{helper.description}</p>
+                
+                {/* Learn more link */}
+                <div className="mt-6 flex items-center text-violet-600 font-semibold text-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                  <span>Learn more</span>
+                  <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works - Sintra Style */}
+      <section className="py-24 px-6 lg:px-8 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-5xl font-bold text-gray-900 mb-6">
+              Simple as 1, 2, 3
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Get started in minutes, not months. No technical skills required.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {[
+              {
+                step: "01",
+                title: "Tell us about your business",
+                description: "Share your goals, target audience, and brand voice. Takes 5 minutes.",
+                icon: "🎯"
+              },
+              {
+                step: "02",
+                title: "AI helpers get to work",
+                description: "Your team springs into action—finding leads, creating content, managing campaigns.",
+                icon: "🚀"
+              },
+              {
+                step: "03",
+                title: "Watch your business grow",
+                description: "Monitor everything from your dashboard. Adjust and optimize as you go.",
+                icon: "📈"
+              }
+            ].map((item, index) => (
+              <div key={index} className="text-center">
+                <div className="text-6xl mb-6">{item.icon}</div>
+                <div className="text-violet-600 font-bold text-sm mb-2">STEP {item.step}</div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">{item.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{item.description}</p>
+              </div>
             ))}
           </div>
 
-          <div className="text-center mt-16">
+          <div className="text-center mt-12">
             <Link 
-              href="/how-it-works" 
-              className="inline-flex items-center text-purple-600 hover:text-purple-700 font-bold text-lg group"
+              href="/how-it-works"
+              className="inline-flex items-center text-violet-600 hover:text-violet-700 font-semibold text-lg group"
             >
-              See how they work together
+              See the full process
               <svg className="w-5 h-5 ml-2 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-20 px-6 lg:px-8 bg-gray-50">
+      {/* Stats Section - Sintra Style */}
+      <section className="py-16 px-6 lg:px-8 bg-gradient-to-r from-violet-600 to-cyan-600">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-gradient-to-r from-purple-600 to-blue-500 rounded-3xl p-12 md:p-16 text-white shadow-2xl">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-              <div>
-                <div className="text-5xl font-bold mb-2">10x</div>
-                <div className="text-purple-100 text-[15px]">Faster lead gen</div>
-              </div>
-              <div>
-                <div className="text-5xl font-bold mb-2">70%</div>
-                <div className="text-purple-100 text-[15px]">Cost reduction</div>
-              </div>
-              <div>
-                <div className="text-5xl font-bold mb-2">24/7</div>
-                <div className="text-purple-100 text-[15px]">Always working</div>
-              </div>
-              <div>
-                <div className="text-5xl font-bold mb-2">500+</div>
-                <div className="text-purple-100 text-[15px]">Happy businesses</div>
-              </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white">
+            <div>
+              <div className="text-5xl font-bold mb-2">10x</div>
+              <div className="text-violet-100">Faster growth</div>
+            </div>
+            <div>
+              <div className="text-5xl font-bold mb-2">70%</div>
+              <div className="text-violet-100">Lower costs</div>
+            </div>
+            <div>
+              <div className="text-5xl font-bold mb-2">24/7</div>
+              <div className="text-violet-100">Always working</div>
+            </div>
+            <div>
+              <div className="text-5xl font-bold mb-2">500+</div>
+              <div className="text-violet-100">Happy customers</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section id="pricing" className="py-24 px-6 lg:px-8">
+      {/* Integrations - Sintra Style */}
+      <section className="py-16 px-6 lg:px-8 bg-white">
+        <div className="max-w-7xl mx-auto text-center">
+          <h3 className="text-2xl font-bold text-gray-900 mb-8">
+            Works with the tools you already use
+          </h3>
+          <div className="flex flex-wrap items-center justify-center gap-8">
+            {integrations.map((integration, index) => (
+              <div key={index} className="flex items-center space-x-2 px-6 py-3 bg-gray-50 rounded-full border border-gray-200">
+                <span className="text-2xl">{integration.logo}</span>
+                <span className="font-medium text-gray-700">{integration.name}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing - Sintra Style */}
+      <section id="pricing" className="py-24 px-6 lg:px-8 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center px-5 py-2 rounded-full bg-green-100 text-green-700 font-semibold mb-6 text-[15px]">
-              <span className="mr-2">💰</span>
-              Simple Pricing
-            </div>
-            <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-              Choose Your Team
+            <h2 className="text-5xl font-bold text-gray-900 mb-6">
+              Simple, transparent pricing
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-600">
               Start free. Scale as you grow. Cancel anytime.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto mb-12">
-            {pricingPlans.map((plan, index) => (
-              <PricingCard key={index} {...plan} />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {[
+              {
+                name: "Starter",
+                price: "₹15,999",
+                description: "Perfect for small businesses",
+                features: [
+                  "100 leads per month",
+                  "10 blog posts",
+                  "30 social posts",
+                  "1,000 emails",
+                  "3 AI helpers",
+                  "Email support"
+                ],
+                cta: "Start free trial",
+                highlight: false
+              },
+              {
+                name: "Growth",
+                price: "₹39,999",
+                description: "For growing teams",
+                features: [
+                  "500 leads per month",
+                  "30 blog posts",
+                  "100 social posts",
+                  "5,000 emails",
+                  "All 6 AI helpers",
+                  "Priority support",
+                  "Advanced analytics"
+                ],
+                cta: "Start free trial",
+                highlight: true
+              },
+              {
+                name: "Enterprise",
+                price: "Custom",
+                description: "For large organizations",
+                features: [
+                  "Unlimited leads",
+                  "Unlimited content",
+                  "Unlimited emails",
+                  "All 6 AI helpers",
+                  "Custom integrations",
+                  "Dedicated support",
+                  "White-label option"
+                ],
+                cta: "Contact sales",
+                highlight: false
+              }
+            ].map((plan, index) => (
+              <div 
+                key={index}
+                className={`relative bg-white rounded-3xl border-2 p-8 transition-all duration-300 hover:shadow-2xl ${
+                  plan.highlight 
+                    ? 'border-violet-600 shadow-xl scale-105' 
+                    : 'border-gray-200'
+                }`}
+              >
+                {plan.highlight && (
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                    <div className="bg-gradient-to-r from-violet-600 to-cyan-600 text-white px-6 py-1 rounded-full text-sm font-bold">
+                      Most Popular
+                    </div>
+                  </div>
+                )}
+
+                <div className="text-center mb-8">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
+                  <div className="mb-2">
+                    <span className="text-5xl font-bold text-gray-900">{plan.price}</span>
+                    {plan.price !== "Custom" && <span className="text-gray-600 ml-2">/mo</span>}
+                  </div>
+                  <p className="text-gray-600">{plan.description}</p>
+                </div>
+
+                <ul className="space-y-4 mb-8">
+                  {plan.features.map((feature, idx) => (
+                    <li key={idx} className="flex items-start space-x-3">
+                      <svg className="w-6 h-6 text-violet-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span className="text-gray-700">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <Link 
+                  href="/get-started"
+                  className={`block w-full text-center px-8 py-4 rounded-full font-semibold transition-all duration-200 ${
+                    plan.highlight 
+                      ? 'bg-gradient-to-r from-violet-600 to-cyan-600 text-white hover:shadow-lg hover:scale-105' 
+                      : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                  }`}
+                >
+                  {plan.cta}
+                </Link>
+              </div>
             ))}
           </div>
 
-          <div className="text-center">
-            <p className="text-gray-600 text-[15px]">
-              All plans include 14-day free trial • No credit card required • Cancel anytime
-            </p>
-          </div>
+          <p className="text-center mt-12 text-gray-600">
+            All plans include 14-day free trial • No credit card required
+          </p>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 px-6 lg:px-8">
-        <div className="max-w-5xl mx-auto">
-          <div className="relative bg-gradient-to-br from-purple-600 via-blue-500 to-purple-600 rounded-3xl p-12 md:p-16 text-white text-center overflow-hidden">
-            {/* Decorative elements */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full mix-blend-overlay opacity-10 -mr-32 -mt-32"></div>
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-white rounded-full mix-blend-overlay opacity-10 -ml-32 -mb-32"></div>
-            
-            <div className="relative">
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                Ready to 10x Your Marketing?
-              </h2>
-              <p className="text-xl mb-10 opacity-90 max-w-2xl mx-auto">
-                Join hundreds of businesses already growing with AI agents. 
-                Start your free trial today.
-              </p>
-              <Link 
-                href="/get-started" 
-                className="inline-block px-12 py-5 bg-white text-purple-600 rounded-2xl font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-200"
-              >
-                Start free trial →
-              </Link>
-              <p className="mt-6 text-purple-100 text-sm">
-                No credit card required • 14-day free trial • Cancel anytime
-              </p>
-            </div>
+      {/* Final CTA - Sintra Style */}
+      <section className="py-24 px-6 lg:px-8 bg-white">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+            Ready to grow your business?
+          </h2>
+          <p className="text-xl text-gray-600 mb-10">
+            Join 500+ businesses already using AI to automate their marketing.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="w-full px-6 py-4 rounded-full border-2 border-gray-200 focus:border-violet-500 focus:outline-none text-gray-900 font-medium"
+            />
+            <Link 
+              href="/get-started"
+              className="w-full sm:w-auto whitespace-nowrap px-8 py-4 bg-gradient-to-r from-violet-500 to-cyan-500 text-white rounded-full font-semibold hover:shadow-lg hover:shadow-violet-500/30 hover:scale-105 transition-all duration-200"
+            >
+              Try it free →
+            </Link>
           </div>
+
+          <p className="text-sm text-gray-500 mt-6">
+            No credit card required • 14-day free trial • Cancel anytime
+          </p>
         </div>
       </section>
 
-      {/* Footer */}
+      {/* Footer - Sintra Style */}
       <footer className="bg-gray-900 text-white py-16 px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
             <div>
               <div className="flex items-center space-x-2 mb-6">
-                <div className="w-9 h-9 bg-gradient-to-br from-purple-600 to-blue-500 rounded-xl flex items-center justify-center">
+                <div className="w-9 h-9 bg-gradient-to-br from-violet-500 to-cyan-500 rounded-xl flex items-center justify-center">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                     <path d="M2 17L12 22L22 17" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                     <path d="M2 12L12 17L22 12" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </div>
-                <span className="text-xl font-bold">
-                  Transition<span className="text-purple-400">AI</span>
-                </span>
+                <span className="text-xl font-bold">TransitionAI</span>
               </div>
-              <p className="text-gray-400 text-[15px] leading-relaxed">
+              <p className="text-gray-400 text-sm">
                 AI-powered marketing automation for modern businesses.
               </p>
             </div>
 
             <div>
-              <h4 className="font-bold mb-4 text-[15px]">Product</h4>
-              <ul className="space-y-3 text-gray-400 text-[15px]">
-                <li><Link href="/how-it-works" className="hover:text-white transition-colors">How It Works</Link></li>
-                <li><Link href="/#agents" className="hover:text-white transition-colors">AI Agents</Link></li>
+              <h4 className="font-bold mb-4">Product</h4>
+              <ul className="space-y-3 text-gray-400 text-sm">
+                <li><Link href="/#helpers" className="hover:text-white transition-colors">Helpers</Link></li>
+                <li><Link href="/how-it-works" className="hover:text-white transition-colors">How it works</Link></li>
                 <li><Link href="/#pricing" className="hover:text-white transition-colors">Pricing</Link></li>
-                <li><Link href="/dashboard" className="hover:text-white transition-colors">Dashboard</Link></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="font-bold mb-4 text-[15px]">Company</h4>
-              <ul className="space-y-3 text-gray-400 text-[15px]">
-                <li><Link href="/book" className="hover:text-white transition-colors">Book Demo</Link></li>
+              <h4 className="font-bold mb-4">Company</h4>
+              <ul className="space-y-3 text-gray-400 text-sm">
+                <li><Link href="/book" className="hover:text-white transition-colors">Book demo</Link></li>
                 <li><Link href="/terms" className="hover:text-white transition-colors">Terms</Link></li>
                 <li><Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="font-bold mb-4 text-[15px]">Get Started</h4>
-              <p className="text-gray-400 mb-4 text-[15px]">
-                Start your free trial and see results in 24 hours.
+              <h4 className="font-bold mb-4">Get Started</h4>
+              <p className="text-gray-400 mb-4 text-sm">
+                Start your free trial today.
               </p>
               <Link 
                 href="/get-started" 
-                className="inline-block px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-500 text-white rounded-xl font-semibold text-[15px] hover:shadow-lg transition-all"
+                className="inline-block px-6 py-3 bg-gradient-to-r from-violet-500 to-cyan-500 text-white rounded-full font-semibold text-sm hover:shadow-lg transition-all"
               >
-                Start Free Trial
+                Try it free
               </Link>
             </div>
           </div>
 
-          <div className="border-t border-gray-800 pt-8 text-center">
-            <p className="text-gray-400 text-sm">
-              &copy; 2024 TransitionAI. All rights reserved.
-            </p>
+          <div className="border-t border-gray-800 pt-8 text-center text-gray-400 text-sm">
+            <p>&copy; 2024 TransitionAI. All rights reserved.</p>
           </div>
         </div>
       </footer>
-
     </div>
   );
 }

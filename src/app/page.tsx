@@ -13,7 +13,7 @@ function Logo() {
         </svg>
       </div>
       <span className="text-xl font-bold text-gray-900">
-        Transition<span className="text-purple-600">AI</span>
+        Transition<span className="bg-gradient-to-r from-purple-600 to-cyan-500 bg-clip-text text-transparent">AI</span>
       </span>
     </Link>
   );
@@ -324,30 +324,30 @@ export default function HomePage() {
             
             {/* Main Heading */}
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-gray-900 mb-8 leading-tight">
-              Your Team of<br />
-              <span className="bg-gradient-to-r from-purple-600 via-blue-500 to-purple-600 bg-clip-text text-transparent">
-                AI Marketing Agents
+              Meet Your<br />
+              <span className="bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 bg-clip-text text-transparent">
+                AI Marketing Team
               </span>
             </h1>
             
             <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed">
-              Six specialized AI agents work 24/7 to automate your lead generation, 
-              content creation, and campaign management. No team. No overhead. Just results.
+              Six friendly AI agents that handle your marketing on autopilot. 
+              From finding leads to creating content—it's like having a full team, without the overhead.
             </p>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-16">
               <Link 
                 href="/get-started" 
-                className="px-10 py-5 bg-gradient-to-r from-purple-600 to-blue-500 text-white rounded-2xl font-bold text-lg hover:shadow-2xl hover:shadow-purple-500/40 hover:scale-105 transition-all duration-200"
+                className="px-10 py-5 bg-gradient-to-r from-purple-500 to-cyan-500 text-white rounded-2xl font-bold text-lg hover:shadow-2xl hover:shadow-purple-500/40 hover:scale-105 transition-all duration-200"
               >
-                Start free trial →
+                Try it free →
               </Link>
               <Link 
                 href="/how-it-works" 
-                className="px-10 py-5 bg-white text-gray-900 rounded-2xl font-bold text-lg border-2 border-gray-200 hover:border-purple-600 hover:shadow-xl transition-all duration-200"
+                className="px-10 py-5 bg-white text-gray-900 rounded-2xl font-bold text-lg border-2 border-gray-200 hover:border-purple-500 hover:shadow-xl transition-all duration-200"
               >
-                Watch demo
+                See how it works
               </Link>
             </div>
 
@@ -383,16 +383,16 @@ export default function HomePage() {
       <section id="agents" className="py-24 px-6 lg:px-8 bg-gradient-to-b from-white to-gray-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center px-5 py-2 rounded-full bg-purple-100 text-purple-700 font-semibold mb-6 text-[15px]">
-              <span className="mr-2">🤖</span>
-              Meet Your AI Team
+            <div className="inline-flex items-center px-5 py-2 rounded-full bg-purple-50 text-purple-700 font-semibold mb-6 text-[15px] border-2 border-purple-100">
+              <span className="mr-2">✨</span>
+              Your AI Helper Crew
             </div>
             <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-              Six Specialists.<br />One Powerful Team.
+              6 AI Agents,<br />Endless Possibilities
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Each agent is trained for specific marketing tasks and works together 
-              seamlessly to grow your business on autopilot.
+              Think of them as your personal marketing team—each one an expert, 
+              all working together to make your business grow.
             </p>
           </div>
 

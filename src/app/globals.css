@@ -5,19 +5,19 @@
 :root { 
   color-scheme: light; 
   
-  /* Design System Colors - Sintra-inspired purple/blue theme */
-  --color-primary: #7c3aed;
-  --color-primary-dark: #6d28d9;
-  --color-secondary: #3b82f6;
-  --color-secondary-dark: #2563eb;
-  --color-accent: #8b5cf6;
+  /* Design System Colors - Sintra.ai exact color scheme */
+  --color-primary: #8b5cf6;
+  --color-primary-dark: #7c3aed;
+  --color-secondary: #06b6d4;
+  --color-secondary-dark: #0891b2;
+  --color-accent: #f472b6;
   
-  /* Neutral Colors */
-  --color-background: #ffffff;
+  /* Neutral Colors - Softer, more Sintra-like */
+  --color-background: #fafafa;
   --color-surface: #ffffff;
-  --color-surface-elevated: #f8fafc;
-  --color-border: #e5e7eb;
-  --color-border-light: #f3f4f6;
+  --color-surface-elevated: #f9fafb;
+  --color-border: #e2e8f0;
+  --color-border-light: #f1f5f9;
   
   /* Text Colors */
   --color-text-primary: #111827;

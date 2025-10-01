@@ -129,3 +129,5 @@ INSERT INTO campaigns (name, type, status, budget, spent, performance) VALUES
 ('Summer Sale Campaign', 'email', 'active', 5000.00, 1250.00, '{"impressions": 50000, "clicks": 2500, "conversions": 125, "ctr": 0.05, "cpc": 0.50, "roas": 3.2}'),
 ('Social Media Boost', 'social', 'active', 2000.00, 800.00, '{"impressions": 25000, "clicks": 800, "conversions": 40, "ctr": 0.032, "cpc": 1.00, "roas": 2.8}'),
 ('Content Marketing', 'content', 'draft', 1000.00, 0.00, '{"impressions": 0, "clicks": 0, "conversions": 0, "ctr": 0, "cpc": 0, "roas": 0}');
+
+

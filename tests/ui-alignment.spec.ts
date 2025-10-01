@@ -207,3 +207,5 @@ test.describe('UI Alignment and Design Tests', () => {
     await expect(gradientElements.first()).toBeVisible();
   });
 });
+
+

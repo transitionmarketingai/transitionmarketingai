@@ -147,3 +147,5 @@ model Subscription {
 
   @@map("subscriptions")
 }
+
+

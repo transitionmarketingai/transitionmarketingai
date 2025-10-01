@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { getLeads, getContent, getCampaigns, getAnalytics, addLead, addContent, type Lead, type Content, type Campaign, type Analytics } from "@/lib/supabaseDataService";
+import { getLeads, getContent, getCampaigns, getAnalytics, addLead, addContent, type Lead, type Content, type Campaign, type Analytics } from "@/lib/mockDataService";
 
 // Enhanced mock data for the dashboard
 const mockStats = {

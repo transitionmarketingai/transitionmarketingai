@@ -112,3 +112,5 @@ export default function StructuredData({ type = 'website', data }: StructuredDat
     />
   );
 }
+
+

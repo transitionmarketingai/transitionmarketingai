@@ -34,3 +34,5 @@ npm run build
 # Start the application
 echo "✅ Starting application..."
 npm start
+
+

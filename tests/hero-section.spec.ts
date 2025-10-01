@@ -40,28 +40,28 @@ test.describe('Hero Section', () => {
     await page.goto('/');
 
     // Check for mascot container
-    const mascotContainer = page.locator('.relative.w-full.max-w-md.lg\\:max-w-lg.xl\\:max-w-xl');
+    const mascotContainer = page.locator('.relative.w-full.max-w-lg.lg\\:max-w-xl.xl\\:max-w-2xl');
     await expect(mascotContainer).toBeVisible();
 
-    // Check for background environment
-    const backgroundEnv = page.locator('.bg-gradient-to-br.from-amber-50.to-amber-100');
+    // Check for office background environment
+    const backgroundEnv = page.locator('.bg-gradient-to-br.from-slate-50.to-slate-100');
     await expect(backgroundEnv).toBeVisible();
 
-    // Check for mascot body (space suit)
-    const mascotBody = page.locator('.absolute.bottom-0.left-1\\/2.transform.-translate-x-1\\/2.w-16.h-20.bg-gradient-to-b.from-cyan-400.to-blue-500');
+    // Check for robot mascot body
+    const mascotBody = page.locator('.absolute.bottom-0.left-1\\/2.transform.-translate-x-1\\/2.w-20.h-24.bg-gradient-to-b.from-purple-400.to-blue-500');
     await expect(mascotBody).toBeVisible();
 
-    // Check for mascot head (helmet)
-    const mascotHead = page.locator('.bg-gradient-to-b.from-cyan-300.to-cyan-400.rounded-full');
+    // Check for robot head with pink eyes
+    const mascotHead = page.locator('.bg-gradient-to-b.from-purple-300.to-purple-400.rounded-full');
     await expect(mascotHead).toBeVisible();
 
     // Check for TM logo
     const tmLogo = page.locator('text=TM');
     await expect(tmLogo).toBeVisible();
 
-    // Check for helmet visor
-    const helmetVisor = page.locator('.bg-gradient-to-b.from-cyan-100\\/80.to-cyan-200\\/60');
-    await expect(helmetVisor).toBeVisible();
+    // Check for pink glowing eyes
+    const pinkEyes = page.locator('.bg-gradient-to-b.from-pink-200\\/90.to-pink-300\\/70');
+    await expect(pinkEyes).toBeVisible();
   });
 
   test('should have proper background styling', async ({ page }) => {

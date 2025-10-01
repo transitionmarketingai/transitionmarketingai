@@ -251,83 +251,118 @@ export default function HomePage() {
               </div>
             </div>
             
-            {/* Right Column - Mascot */}
+            {/* Right Column - Marketing Office Mascot */}
             <div className="relative flex justify-center lg:justify-end items-center">
-              <div className="relative w-full max-w-md lg:max-w-lg xl:max-w-xl">
-                {/* Modern Interior Background */}
-                <div className="relative bg-gradient-to-br from-amber-50 to-amber-100 rounded-2xl shadow-2xl overflow-hidden aspect-square">
-                  {/* Ceiling */}
-                  <div className="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-amber-800 to-amber-700">
+              <div className="relative w-full max-w-lg lg:max-w-xl xl:max-w-2xl">
+                {/* Modern Office Background */}
+                <div className="relative bg-gradient-to-br from-slate-50 to-slate-100 rounded-3xl shadow-2xl overflow-hidden aspect-[4/3]">
+                  {/* Office Ceiling */}
+                  <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-slate-200 to-slate-300">
                     <div className="flex h-full">
-                      {Array.from({ length: 6 }).map((_, i) => (
-                        <div key={i} className="flex-1 border-r border-amber-600/30"></div>
+                      {Array.from({ length: 8 }).map((_, i) => (
+                        <div key={i} className="flex-1 border-r border-slate-400/30"></div>
                       ))}
                     </div>
+                    {/* Ceiling Lights */}
+                    <div className="absolute top-2 left-1/4 w-3 h-3 bg-yellow-300 rounded-full shadow-lg animate-pulse"></div>
+                    <div className="absolute top-2 right-1/4 w-3 h-3 bg-yellow-300 rounded-full shadow-lg animate-pulse" style={{animationDelay: '0.5s'}}></div>
                   </div>
                   
-                  {/* Window */}
-                  <div className="absolute top-12 left-3 w-20 h-16 bg-gradient-to-br from-green-200 to-green-300 rounded-lg shadow-inner">
-                    <div className="absolute inset-1 bg-gradient-to-br from-green-400 to-green-600 rounded opacity-70"></div>
-                    <div className="absolute bottom-1 left-1 w-1 h-1 bg-green-800 rounded-full"></div>
-                    <div className="absolute bottom-2 right-2 w-1 h-1 bg-green-800 rounded-full"></div>
+                  {/* Office Window */}
+                  <div className="absolute top-16 left-4 w-24 h-20 bg-gradient-to-br from-blue-200 to-blue-300 rounded-lg shadow-inner">
+                    <div className="absolute inset-2 bg-gradient-to-br from-blue-400 to-blue-600 rounded opacity-80"></div>
+                    <div className="absolute bottom-1 left-2 w-1 h-1 bg-blue-800 rounded-full"></div>
+                    <div className="absolute bottom-2 right-3 w-1 h-1 bg-blue-800 rounded-full"></div>
+                    <div className="absolute top-2 left-3 w-1 h-1 bg-blue-800 rounded-full"></div>
                   </div>
                   
-                  {/* Console Table */}
-                  <div className="absolute bottom-6 left-0 right-0 h-8 bg-gradient-to-t from-amber-900 to-amber-800 rounded-t-xl">
-                    <div className="absolute -bottom-3 left-3 w-1.5 h-3 bg-amber-900 rounded"></div>
-                    <div className="absolute -bottom-3 right-3 w-1.5 h-3 bg-amber-900 rounded"></div>
+                  {/* Office Desk */}
+                  <div className="absolute bottom-8 left-0 right-0 h-16 bg-gradient-to-t from-slate-800 to-slate-700 rounded-t-2xl shadow-lg">
+                    {/* Desk Legs */}
+                    <div className="absolute -bottom-4 left-4 w-2 h-4 bg-slate-800 rounded"></div>
+                    <div className="absolute -bottom-4 right-4 w-2 h-4 bg-slate-800 rounded"></div>
                     
-                    {/* Decorative Items */}
-                    <div className="absolute top-1 left-6 w-12 h-0.5 bg-gradient-to-r from-gray-300 to-gray-500 rounded-full"></div>
-                    <div className="absolute top-1 left-6 w-0.5 h-2 bg-gray-600 rounded-full"></div>
-                    <div className="absolute top-1 right-6 w-0.5 h-2 bg-gray-600 rounded-full"></div>
+                    {/* Desk Items */}
+                    <div className="absolute top-2 left-8 w-16 h-1 bg-gradient-to-r from-gray-300 to-gray-500 rounded-full shadow-sm"></div>
+                    <div className="absolute top-1 left-8 w-1 h-3 bg-gray-600 rounded-full"></div>
+                    <div className="absolute top-1 right-8 w-1 h-3 bg-gray-600 rounded-full"></div>
                     
-                    <div className="absolute top-1 left-1/2 transform -translate-x-1/2 w-6 h-4 bg-gradient-to-r from-red-500 via-black to-white rounded shadow-sm"></div>
+                    {/* Marketing Charts */}
+                    <div className="absolute top-1 left-1/2 transform -translate-x-1/2 w-8 h-6 bg-gradient-to-r from-green-500 via-blue-500 to-purple-500 rounded shadow-sm"></div>
+                    
+                    {/* Office Supplies */}
+                    <div className="absolute top-3 right-12 w-2 h-2 bg-slate-600 rounded-full"></div>
+                    <div className="absolute top-4 right-16 w-1.5 h-1.5 bg-slate-500 rounded-full"></div>
                   </div>
                 </div>
                 
-                {/* AI Mascot - Simplified Astronaut */}
+                {/* AI Marketing Robot Mascot */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="relative w-32 h-32 lg:w-40 lg:h-40">
-                    {/* Mascot Body */}
-                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-20 bg-gradient-to-b from-cyan-400 to-blue-500 rounded-t-xl shadow-lg">
-                      {/* Suit Lines */}
-                      <div className="absolute top-3 left-1 right-1 h-0.5 bg-cyan-300 rounded"></div>
-                      <div className="absolute top-6 left-1 right-1 h-0.5 bg-cyan-300 rounded"></div>
+                  <div className="relative w-40 h-40 lg:w-48 lg:h-48">
+                    {/* Robot Body */}
+                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-24 bg-gradient-to-b from-purple-400 to-blue-500 rounded-t-2xl shadow-xl">
+                      {/* Body Segments */}
+                      <div className="absolute top-4 left-1 right-1 h-0.5 bg-purple-300 rounded"></div>
+                      <div className="absolute top-8 left-1 right-1 h-0.5 bg-purple-300 rounded"></div>
+                      <div className="absolute top-12 left-1 right-1 h-0.5 bg-purple-300 rounded"></div>
                       
                       {/* Chest Panel */}
-                      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-6 h-4 bg-gradient-to-b from-cyan-200 to-cyan-300 rounded shadow-inner">
-                        <div className="absolute top-0.5 left-0.5 w-0.5 h-0.5 bg-green-400 rounded-full animate-pulse"></div>
-                        <div className="absolute top-0.5 right-0.5 w-0.5 h-0.5 bg-blue-400 rounded-full"></div>
+                      <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-8 h-6 bg-gradient-to-b from-purple-200 to-purple-300 rounded shadow-inner">
+                        <div className="absolute top-1 left-1 w-1 h-1 bg-green-400 rounded-full animate-pulse"></div>
+                        <div className="absolute top-1 right-1 w-1 h-1 bg-blue-400 rounded-full animate-pulse" style={{animationDelay: '0.3s'}}></div>
+                        <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-0.5 bg-purple-500 rounded"></div>
                       </div>
                     </div>
                     
-                    {/* Mascot Head */}
-                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 w-14 h-14 bg-gradient-to-b from-cyan-300 to-cyan-400 rounded-full shadow-lg">
-                      {/* Visor */}
-                      <div className="absolute top-1 left-1 right-1 h-6 bg-gradient-to-b from-cyan-100/80 to-cyan-200/60 rounded-full shadow-inner">
-                        <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-0.5 h-0.5 bg-cyan-600 rounded-full"></div>
-                        <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-1 h-0.5 bg-cyan-600 rounded-full"></div>
+                    {/* Robot Head */}
+                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gradient-to-b from-purple-300 to-purple-400 rounded-full shadow-xl">
+                      {/* Glowing Pink Eyes */}
+                      <div className="absolute top-3 left-2 right-2 h-8 bg-gradient-to-b from-pink-200/90 to-pink-300/70 rounded-full shadow-inner">
+                        <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-pink-500 rounded-full animate-pulse"></div>
+                        <div className="absolute top-3 left-1/2 transform -translate-x-1/2 w-2 h-0.5 bg-pink-500 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
                       </div>
                       
-                      <div className="absolute top-0.5 left-1/2 transform -translate-x-1/2 w-1 h-0.5 bg-cyan-500 rounded"></div>
+                      {/* Head Details */}
+                      <div className="absolute top-1 left-1/2 transform -translate-x-1/2 w-2 h-1 bg-purple-500 rounded"></div>
+                      <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-3 h-0.5 bg-purple-500 rounded"></div>
+                      
+                      {/* Ear-like Structures */}
+                      <div className="absolute top-2 -left-1 w-3 h-3 bg-cyan-400 rounded-full shadow-md"></div>
+                      <div className="absolute top-2 -right-1 w-3 h-3 bg-cyan-400 rounded-full shadow-md"></div>
                     </div>
                     
-                    {/* Arms */}
-                    <div className="absolute top-4 -left-2 w-4 h-8 bg-gradient-to-b from-cyan-400 to-blue-500 rounded-full shadow-md"></div>
-                    <div className="absolute top-4 -right-2 w-4 h-8 bg-gradient-to-b from-cyan-400 to-blue-500 rounded-full shadow-md"></div>
+                    {/* Robot Arms */}
+                    <div className="absolute top-6 -left-3 w-5 h-10 bg-gradient-to-b from-purple-400 to-blue-500 rounded-full shadow-lg">
+                      <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-purple-300 rounded"></div>
+                    </div>
+                    <div className="absolute top-6 -right-3 w-5 h-10 bg-gradient-to-b from-purple-400 to-blue-500 rounded-full shadow-lg">
+                      <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-purple-300 rounded"></div>
+                    </div>
                     
-                    {/* Logo */}
-                    <div className="absolute top-5 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white rounded-full flex items-center justify-center shadow-sm">
-                      <span className="text-cyan-600 font-bold text-xs">TM</span>
+                    {/* TM Logo */}
+                    <div className="absolute top-8 left-1/2 transform -translate-x-1/2 w-5 h-5 bg-white rounded-full flex items-center justify-center shadow-md">
+                      <span className="text-purple-600 font-bold text-xs">TM</span>
                     </div>
                   </div>
                 </div>
                 
-                {/* Floating Elements */}
-                <div className="absolute top-4 left-4 w-2 h-2 bg-cyan-400 rounded-full animate-bounce opacity-60"></div>
-                <div className="absolute top-8 right-6 w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse opacity-60"></div>
-                <div className="absolute bottom-12 left-8 w-1 h-1 bg-purple-400 rounded-full animate-ping opacity-60"></div>
+                {/* Holographic Marketing Displays */}
+                <div className="absolute top-8 right-8 w-16 h-12 bg-gradient-to-br from-purple-400/30 to-pink-400/30 rounded-lg shadow-lg backdrop-blur-sm">
+                  <div className="absolute inset-1 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded"></div>
+                  <div className="absolute top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-pink-400 rounded-full animate-pulse"></div>
+                  <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-0.5 bg-pink-400 rounded-full"></div>
+                </div>
+                
+                <div className="absolute top-16 right-4 w-12 h-8 bg-gradient-to-br from-blue-400/30 to-cyan-400/30 rounded-lg shadow-lg backdrop-blur-sm">
+                  <div className="absolute inset-1 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded"></div>
+                  <div className="absolute top-1 left-1/2 transform -translate-x-1/2 w-0.5 h-0.5 bg-cyan-400 rounded-full animate-pulse"></div>
+                </div>
+                
+                {/* Floating Marketing Elements */}
+                <div className="absolute top-4 left-4 w-3 h-3 bg-purple-400 rounded-full animate-bounce opacity-60"></div>
+                <div className="absolute top-12 right-12 w-2 h-2 bg-pink-400 rounded-full animate-pulse opacity-60"></div>
+                <div className="absolute bottom-16 left-12 w-1.5 h-1.5 bg-blue-400 rounded-full animate-ping opacity-60"></div>
+                <div className="absolute bottom-8 right-16 w-2 h-2 bg-cyan-400 rounded-full animate-bounce opacity-60" style={{animationDelay: '0.5s'}}></div>
               </div>
             </div>
           </div>

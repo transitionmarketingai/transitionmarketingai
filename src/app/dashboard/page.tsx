@@ -958,17 +958,26 @@ export default function DashboardPage() {
   };
 
   const handleGenerateContentAutomatically = async () => {
+    console.log('📝 Starting content generation...', { usage, planLimits, contentCriteria });
+    
     // Check usage limits
     if (usage.contentCreated >= planLimits.contentPerMonth) {
-      setError(`You've reached your monthly limit of ${planLimits.contentPerMonth} content pieces. Please upgrade your plan.`);
+      const errorMsg = `You've reached your monthly limit of ${planLimits.contentPerMonth} content pieces. Please upgrade your plan.`;
+      setError(errorMsg);
+      console.error('❌ Usage limit reached:', errorMsg);
+      setTimeout(() => setError(null), 5000);
       return;
     }
 
     setIsLoading(true);
+    console.log('⏳ Loading state set to true');
+    
     try {
       // Simulate automated content generation
       const generatedContent = {
-        title: `${contentCriteria.topic} - ${contentCriteria.type.charAt(0).toUpperCase() + contentCriteria.type.slice(1)}`,
+        title: contentCriteria.topic 
+          ? `${contentCriteria.topic} - ${contentCriteria.type.charAt(0).toUpperCase() + contentCriteria.type.slice(1)}` 
+          : `Marketing ${contentCriteria.type.charAt(0).toUpperCase() + contentCriteria.type.slice(1)}`,
         type: contentCriteria.type as 'blog' | 'social' | 'email' | 'ad' | 'landing',
         status: 'draft' as const,
         performance: {
@@ -979,9 +988,15 @@ export default function DashboardPage() {
         }
       };
 
+      console.log('📄 Generated content data:', generatedContent);
+      
       const newContent = await addContent(generatedContent);
       if (newContent) {
         setContent(prev => [newContent, ...prev]);
+        console.log('✅ Content added successfully:', newContent.id);
+      } else {
+        console.error('❌ Failed to add content');
+        throw new Error('Failed to save content to database');
       }
 
       // Update usage tracking
@@ -991,25 +1006,38 @@ export default function DashboardPage() {
       };
       setUsage(newUsage);
       localStorage.setItem('usageData', JSON.stringify(newUsage));
+      console.log('💾 Usage updated and saved:', newUsage);
 
-      setSuccess(`Successfully generated ${contentCriteria.type} content! (${newUsage.contentCreated}/${planLimits.contentPerMonth} used this month)`);
+      const successMsg = `Successfully generated ${contentCriteria.type} content! (${newUsage.contentCreated}/${planLimits.contentPerMonth} used this month)`;
+      setSuccess(successMsg);
+      console.log('✅ Success:', successMsg);
       setShowContentGenerator(false);
       setTimeout(() => setSuccess(null), 5000);
     } catch (err) {
-      setError('Failed to generate content');
+      console.error('❌ Error generating content:', err);
+      setError(`Failed to generate content: ${err instanceof Error ? err.message : 'Unknown error'}`);
+      setTimeout(() => setError(null), 5000);
     } finally {
       setIsLoading(false);
+      console.log('⏳ Loading state set to false');
     }
   };
 
   const handleGenerateLeadsAutomatically = async () => {
+    console.log('🎯 Starting lead generation...', { usage, planLimits });
+    
     // Check usage limits
     if (usage.leadsGenerated >= planLimits.leadsPerMonth) {
-      setError(`You've reached your monthly limit of ${planLimits.leadsPerMonth} leads. Please upgrade your plan.`);
+      const errorMsg = `You've reached your monthly limit of ${planLimits.leadsPerMonth} leads. Please upgrade your plan.`;
+      setError(errorMsg);
+      console.error('❌ Usage limit reached:', errorMsg);
+      setTimeout(() => setError(null), 5000);
       return;
     }
 
     setIsLoading(true);
+    console.log('⏳ Loading state set to true');
+    
     try {
       // Simulate automated lead generation
       const generatedLeads = [
@@ -1022,7 +1050,7 @@ export default function DashboardPage() {
           status: 'new' as const,
           source: 'LinkedIn',
           score: 85,
-          notes: `Generated based on criteria: ${leadCriteria.keywords}`
+          notes: `Generated based on criteria: ${leadCriteria.keywords || 'AI Marketing'}`
         },
         {
           name: 'Priya Sharma',
@@ -1033,7 +1061,7 @@ export default function DashboardPage() {
           status: 'new' as const,
           source: 'Website',
           score: 78,
-          notes: `Generated based on criteria: ${leadCriteria.keywords}`
+          notes: `Generated based on criteria: ${leadCriteria.keywords || 'AI Marketing'}`
         },
         {
           name: 'Amit Patel',
@@ -1044,42 +1072,66 @@ export default function DashboardPage() {
           status: 'new' as const,
           source: 'Email',
           score: 92,
-          notes: `Generated based on criteria: ${leadCriteria.keywords}`
+          notes: `Generated based on criteria: ${leadCriteria.keywords || 'AI Marketing'}`
         }
       ];
 
+      console.log('📋 Generated leads data:', generatedLeads);
+
       // Add generated leads to the database
+      let addedCount = 0;
       for (const lead of generatedLeads) {
+        console.log('➕ Adding lead:', lead.name);
         const newLead = await addLead(lead);
         if (newLead) {
           setLeads(prev => [newLead, ...prev]);
+          addedCount++;
+          console.log('✅ Lead added successfully:', newLead.id);
+        } else {
+          console.error('❌ Failed to add lead:', lead.name);
         }
       }
+
+      console.log(`✅ Total leads added: ${addedCount}`);
 
       // Update usage tracking
       const newUsage = {
         ...usage,
-        leadsGenerated: usage.leadsGenerated + generatedLeads.length
+        leadsGenerated: usage.leadsGenerated + addedCount
       };
       setUsage(newUsage);
       localStorage.setItem('usageData', JSON.stringify(newUsage));
+      console.log('💾 Usage updated and saved:', newUsage);
 
-      setSuccess(`Successfully generated ${generatedLeads.length} verified leads! (${newUsage.leadsGenerated}/${planLimits.leadsPerMonth} used this month)`);
+      const successMsg = `Successfully generated ${addedCount} verified leads! (${newUsage.leadsGenerated}/${planLimits.leadsPerMonth} used this month)`;
+      setSuccess(successMsg);
+      console.log('✅ Success:', successMsg);
       setShowLeadGenerator(false);
       setTimeout(() => setSuccess(null), 5000);
     } catch (err) {
-      setError('Failed to generate leads');
+      console.error('❌ Error generating leads:', err);
+      setError(`Failed to generate leads: ${err instanceof Error ? err.message : 'Unknown error'}`);
+      setTimeout(() => setError(null), 5000);
     } finally {
       setIsLoading(false);
+      console.log('⏳ Loading state set to false');
     }
   };
 
   const handleConnectAccount = (account: string) => {
+    console.log('🔗 Connecting account:', account);
+    
+    const isCurrentlyConnected = connectedAccounts[account as keyof typeof connectedAccounts];
+    const newState = !isCurrentlyConnected;
+    
     setConnectedAccounts(prev => ({
       ...prev,
-      [account]: !prev[account as keyof typeof prev]
+      [account]: newState
     }));
-    setSuccess(`${account} ${connectedAccounts[account as keyof typeof connectedAccounts] ? 'disconnected' : 'connected'} successfully!`);
+    
+    const successMsg = `${account.replace(/([A-Z])/g, ' $1').trim()} ${isCurrentlyConnected ? 'disconnected' : 'connected'} successfully!`;
+    setSuccess(successMsg);
+    console.log('✅ Account status changed:', { account, wasConnected: isCurrentlyConnected, nowConnected: newState });
     setTimeout(() => setSuccess(null), 3000);
   };
 

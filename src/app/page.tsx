@@ -1,218 +1,87 @@
-import AuditForm from "@/components/AuditForm";
+import Link from "next/link";
+import Image from "next/image";
 
-// Modern Logo component
+// Logo component
 function Logo() {
   return (
-    <div className="flex items-center space-x-3">
-      <div className="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M12 2L2 7L12 12L22 7L12 2Z"
-            stroke="white"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M2 17L12 22L22 17"
-            stroke="white"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M2 12L12 17L22 12"
-            stroke="white"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
+    <Link href="/" className="flex items-center space-x-2">
+      <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-blue-500 rounded-lg flex items-center justify-center">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M2 17L12 22L22 17" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M2 12L12 17L22 12" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </div>
-      <span className="text-heading-4 text-primary font-bold">Transition AI</span>
-    </div>
+      <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
+        Transition AI
+      </span>
+    </Link>
   );
 }
 
-// Modern Badge component
-function Badge({ children }: { children: React.ReactNode }) {
+// Navigation
+function Navigation() {
   return (
-    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-surface border-subtle text-secondary">
-      {children}
-    </span>
-  );
-}
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <Logo />
+          
+          <div className="hidden md:flex items-center space-x-8">
+            <Link href="/how-it-works" className="text-gray-700 hover:text-purple-600 transition-colors font-medium">
+              How It Works
+            </Link>
+            <Link href="/#agents" className="text-gray-700 hover:text-purple-600 transition-colors font-medium">
+              AI Agents
+            </Link>
+            <Link href="/#pricing" className="text-gray-700 hover:text-purple-600 transition-colors font-medium">
+              Pricing
+            </Link>
+            <Link href="/dashboard" className="text-gray-700 hover:text-purple-600 transition-colors font-medium">
+              Dashboard
+            </Link>
+          </div>
 
-
-// Type definitions
-type Tier = { 
-  name: string; 
-  price: string; 
-  blurb: string; 
-  features: string[]; 
-  planId: string 
-};
-
-// Modern Section Title component
-function SectionTitle({ label, title, subtitle }: { label: string; title: string; subtitle?: string }) {
-  return (
-    <div className="text-center mb-16">
-      <div className="mb-6">
-        <Badge>{label}</Badge>
-      </div>
-      <h2 className="text-heading-2 text-primary mb-6">
-        {title}
-      </h2>
-      {subtitle && (
-        <p className="text-body-lg text-secondary max-w-2xl mx-auto">{subtitle}</p>
-      )}
-    </div>
-  );
-}
-
-// Modern Pricing Table component
-function PricingTable({ tiers }: { tiers: Tier[] }) {
-  const allFeatures = [
-    "Verified leads/month",
-    "SEO blogs/month", 
-    "Social posts/month",
-    "Outreach channels",
-    "AI personalization",
-    "Analytics dashboard",
-    "Support level"
-  ];
-
-  const getFeatureValue = (tier: Tier, feature: string) => {
-    switch (feature) {
-      case "Verified leads/month":
-        return tier.features[0].split(" ")[0];
-      case "SEO blogs/month":
-        return tier.features[1].split(" ")[0];
-      case "Social posts/month":
-        return tier.features[2].split(" ")[0];
-      case "Outreach channels":
-        return tier.features[3];
-      case "AI personalization":
-        return tier.features[4] || "Basic";
-      case "Analytics dashboard":
-        return tier.features[5] || "Basic";
-      case "Support level":
-        return tier.features[6] || "Email";
-      default:
-        return "—";
-    }
-  };
-
-  return (
-    <div className="w-full">
-      {/* Desktop Table */}
-      <div className="hidden lg:block">
-        <div className="overflow-x-auto">
-          <div className="min-w-[900px]">
-            {/* Header */}
-            <div className="grid grid-cols-4 gap-6 mb-8">
-              <div className="text-body-sm text-secondary font-medium py-4">Features</div>
-              {tiers.map((tier, index) => (
-                <div key={tier.planId} className={`text-center ${index === 1 ? 'relative' : ''}`}>
-                  {index === 1 && (
-                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
-                      <span className="bg-gradient-primary text-white text-xs px-4 py-1.5 rounded-full font-medium shadow-lg">
-                        Most Popular
-                      </span>
-                    </div>
-                  )}
-                  <div className={`p-6 rounded-xl ${index === 1 ? 'bg-surface-elevated border-2 border-cyan-500/30 shadow-lg' : 'bg-surface border border-subtle'}`}>
-                    <h3 className="text-heading-4 text-primary mb-3">{tier.name}</h3>
-                    <div className="text-4xl font-bold text-primary mb-3">{tier.price}</div>
-                    <p className="text-body-sm text-secondary">{tier.blurb}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Feature Rows */}
-            <div className="space-y-3">
-              {allFeatures.map((feature, featureIndex) => (
-                <div key={featureIndex} className="grid grid-cols-4 gap-6 items-center py-4 px-4 rounded-lg hover:bg-surface/50 transition-colors">
-                  <div className="text-body text-secondary font-medium">{feature}</div>
-                  {tiers.map((tier, tierIndex) => (
-                    <div key={tier.planId} className={`text-center p-3 rounded-lg ${tierIndex === 1 ? 'bg-surface-elevated' : 'bg-surface'}`}>
-                      <span className="text-body text-primary font-medium">
-                        {getFeatureValue(tier, feature)}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="grid grid-cols-4 gap-6 mt-8">
-              <div></div>
-              {tiers.map((tier, index) => (
-                <div key={tier.planId} className="text-center">
-                  <a
-                    href={`/checkout?plan=${tier.planId}`}
-                    className={`w-full inline-block text-center py-4 px-6 rounded-lg font-semibold transition-all duration-300 ${
-                      tier.planId === 'growth'
-                        ? 'btn-primary text-lg'
-                        : 'btn-secondary text-lg'
-                    }`}
-                  >
-                    Get Started
-                  </a>
-                </div>
-              ))}
-            </div>
+          <div className="flex items-center space-x-4">
+            <Link 
+              href="/get-started" 
+              className="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-blue-500 text-white rounded-lg font-medium hover:shadow-lg hover:scale-105 transition-all duration-200"
+            >
+              Get Started
+            </Link>
           </div>
         </div>
       </div>
+    </nav>
+  );
+}
 
-      {/* Mobile Cards */}
-      <div className="lg:hidden space-y-6">
-        {tiers.map((tier, index) => (
-          <div key={tier.planId} className={`card p-6 ${index === 1 ? 'border-2 border-cyan-500/30 relative' : ''}`}>
-            {index === 1 && (
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
-                <span className="bg-gradient-primary text-white text-xs px-4 py-1.5 rounded-full font-medium shadow-lg">
-                  Most Popular
-                </span>
-              </div>
-            )}
-            
-            <div className="text-center mb-6">
-              <h3 className="text-2xl font-bold text-primary mb-2">{tier.name}</h3>
-              <div className="text-4xl font-bold text-primary mb-2">{tier.price}</div>
-              <p className="text-secondary">{tier.blurb}</p>
-            </div>
-
-            <div className="space-y-3 mb-6">
-              {allFeatures.map((feature, featureIndex) => (
-                <div key={featureIndex} className="flex justify-between items-center py-2 border-b border-subtle/50 last:border-b-0">
-                  <span className="text-body text-secondary">{feature}</span>
-                  <span className="text-body text-primary font-medium">
-                    {getFeatureValue(tier, feature)}
-                  </span>
-                </div>
-              ))}
-            </div>
-
-            <a
-              href={`/checkout?plan=${tier.planId}`}
-              className={`w-full inline-block text-center py-4 px-6 rounded-lg font-semibold transition-all duration-300 ${
-                tier.planId === 'growth'
-                  ? 'btn-primary text-lg'
-                  : 'btn-secondary text-lg'
-              }`}
-            >
-              Get Started
-            </a>
+// Agent Card Component
+function AgentCard({ 
+  icon, 
+  name, 
+  description, 
+  capabilities 
+}: { 
+  icon: string; 
+  name: string; 
+  description: string; 
+  capabilities: string[];
+}) {
+  return (
+    <div className="bg-white rounded-2xl border border-gray-200 p-8 hover:shadow-xl hover:border-purple-300 transition-all duration-300 group">
+      <div className="text-5xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
+        {icon}
+      </div>
+      <h3 className="text-2xl font-bold text-gray-900 mb-3">{name}</h3>
+      <p className="text-gray-600 mb-6 leading-relaxed">{description}</p>
+      <div className="space-y-2">
+        {capabilities.map((capability, index) => (
+          <div key={index} className="flex items-start space-x-2">
+            <svg className="w-5 h-5 text-purple-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+            <span className="text-gray-700 text-sm">{capability}</span>
           </div>
         ))}
       </div>
@@ -220,335 +89,431 @@ function PricingTable({ tiers }: { tiers: Tier[] }) {
   );
 }
 
-// Simplified 3-tier pricing structure
-const pricingTiers: Tier[] = [
-  { 
-    name: "Starter", 
-    price: "₹4,999/mo", 
-    blurb: "Perfect for small businesses", 
-    planId: "starter", 
-    features: [
-      "200 verified leads/month",
-      "4 SEO blogs/month",
-      "8 social posts/month",
-      "Email & WhatsApp outreach",
-      "Basic analytics dashboard",
-      "Email support"
-    ] 
-  },
-  { 
-    name: "Growth", 
-    price: "₹12,999/mo", 
-    blurb: "Most popular for growing businesses", 
-    planId: "growth", 
-    features: [
-      "500 verified leads/month",
-      "8 SEO blogs/month",
-      "20 social posts/month",
-      "Multi-channel outreach (Email, WhatsApp, LinkedIn)",
-      "AI-personalised messages",
-      "Advanced analytics & reporting",
-      "Priority support"
-    ] 
-  },
-  { 
-    name: "Pro", 
-    price: "₹24,999/mo", 
-    blurb: "For serious growth and scale", 
-    planId: "pro", 
-    features: [
-      "1,000+ verified leads/month",
-      "12+ SEO blogs/month",
-      "30 social posts/month",
-      "All channels + AI voice agent",
-      "CRM integration & custom dashboards",
-      "Dedicated success manager",
-      "24/7 priority support"
-    ] 
-  },
-];
-
-export default function Home() {
+// Pricing Card Component
+function PricingCard({ 
+  name, 
+  price, 
+  description, 
+  features, 
+  isPopular,
+  planId 
+}: { 
+  name: string; 
+  price: string; 
+  description: string; 
+  features: string[];
+  isPopular?: boolean;
+  planId: string;
+}) {
   return (
-    <div className="min-h-screen bg-background">
-      {/* Modern Header */}
-      <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-subtle">
-        <div className="container-custom">
-          <nav className="flex items-center justify-between py-6">
-            <Logo />
-            
-            {/* Navigation Links */}
-            <div className="hidden md:flex items-center space-x-8">
-              <a href="#how" className="text-body text-secondary hover:text-primary transition-colors">
-                How it works
-              </a>
-              <a href="#solutions" className="text-body text-secondary hover:text-primary transition-colors">
-                Solutions
-              </a>
-              <a href="#pricing" className="text-body text-secondary hover:text-primary transition-colors">
-                Pricing
-              </a>
-              <a href="/dashboard" className="text-body text-secondary hover:text-primary transition-colors">
-                Dashboard
-              </a>
-              <a href="#contact" className="text-body text-secondary hover:text-primary transition-colors">
-                Contact
-              </a>
-            </div>
-
-            {/* CTA Button */}
-            <a href="/get-started" className="btn-primary">
-              Get Started Free
-            </a>
-          </nav>
+    <div className={`relative bg-white rounded-2xl border-2 ${isPopular ? 'border-purple-600 shadow-2xl scale-105' : 'border-gray-200'} p-8 transition-all duration-300 hover:shadow-xl`}>
+      {isPopular && (
+        <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+          <span className="bg-gradient-to-r from-purple-600 to-blue-500 text-white px-4 py-1 rounded-full text-sm font-medium">
+            Most Popular
+          </span>
         </div>
-      </header>
+      )}
+      
+      <div className="text-center mb-8">
+        <h3 className="text-2xl font-bold text-gray-900 mb-2">{name}</h3>
+        <div className="text-5xl font-bold text-gray-900 mb-2">
+          {price}
+          <span className="text-lg font-normal text-gray-600">/mo</span>
+        </div>
+        <p className="text-gray-600">{description}</p>
+      </div>
 
-      {/* Main Content */}
-      <main className="viewport-height">
-        {/* Hero Section - Optimized for single viewport */}
-        <section className="flex-1 flex items-center justify-center py-16">
-          <div className="container-custom">
-            <div className="text-center max-w-5xl mx-auto">
-              {/* Badge */}
-              <div className="mb-6">
-                <Badge>🚀 Automated • 💰 Subscription • 🇮🇳 India-first</Badge>
-              </div>
+      <ul className="space-y-4 mb-8">
+        {features.map((feature, index) => (
+          <li key={index} className="flex items-start space-x-3">
+            <svg className="w-5 h-5 text-purple-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+            <span className="text-gray-700">{feature}</span>
+          </li>
+        ))}
+      </ul>
 
-              {/* Main Heading */}
-              <h1 className="text-5xl md:text-6xl font-bold text-primary mb-6 leading-tight">
-                AI marketing systems that{" "}
-                <span className="bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">run on autopilot</span>
-              </h1>
+      <Link 
+        href={`/checkout?plan=${planId}`}
+        className={`block w-full text-center px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
+          isPopular 
+            ? 'bg-gradient-to-r from-purple-600 to-blue-500 text-white hover:shadow-lg hover:scale-105' 
+            : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+        }`}
+      >
+        Get Started
+      </Link>
+    </div>
+  );
+}
 
-              {/* Subheading */}
-              <p className="text-xl text-secondary mb-8 max-w-3xl mx-auto leading-relaxed">
-                Get qualified leads, consistent content, and smart AI tools in one subscription. 
-                Built for Indian SMBs. No hiring. No hassle.
-              </p>
+export default function HomePage() {
+  const agents = [
+    {
+      icon: "🎯",
+      name: "Lead Generation Agent",
+      description: "Automatically finds and qualifies high-quality leads based on your ideal customer profile.",
+      capabilities: [
+        "LinkedIn & social media prospecting",
+        "Company database scanning",
+        "Lead scoring & qualification",
+        "CRM integration & updates"
+      ]
+    },
+    {
+      icon: "✍️",
+      name: "Content Creation Agent",
+      description: "Creates SEO-optimized content across all channels to drive engagement and conversions.",
+      capabilities: [
+        "Blog posts & articles",
+        "Social media content",
+        "Email campaigns",
+        "Ad copy & landing pages"
+      ]
+    },
+    {
+      icon: "📧",
+      name: "Email Outreach Agent",
+      description: "Manages personalized email campaigns at scale with intelligent follow-ups and scheduling.",
+      capabilities: [
+        "Personalized email sequences",
+        "Smart follow-up timing",
+        "A/B testing & optimization",
+        "Response tracking & analysis"
+      ]
+    },
+    {
+      icon: "📱",
+      name: "Social Media Agent",
+      description: "Manages your social presence across platforms with consistent, engaging content.",
+      capabilities: [
+        "Multi-platform posting",
+        "Engagement monitoring",
+        "Trending topic suggestions",
+        "Performance analytics"
+      ]
+    },
+    {
+      icon: "🔍",
+      name: "SEO Optimization Agent",
+      description: "Improves your search rankings through continuous optimization and technical SEO.",
+      capabilities: [
+        "Keyword research & tracking",
+        "On-page SEO optimization",
+        "Technical SEO audits",
+        "Competitor analysis"
+      ]
+    },
+    {
+      icon: "📊",
+      name: "Analytics Agent",
+      description: "Tracks performance across all channels and provides actionable insights.",
+      capabilities: [
+        "Real-time performance tracking",
+        "Custom report generation",
+        "ROI measurement",
+        "Predictive analytics"
+      ]
+    }
+  ];
 
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-                <a href="/get-started" className="btn-primary px-8 py-4 text-lg w-full sm:w-auto text-center">
-                  Get Started Free
-                </a>
-                <a href="/how-it-works" className="btn-secondary px-8 py-4 text-lg w-full sm:w-auto text-center">
-                  See How It Works
-                </a>
-                <a href="/dashboard" className="btn-secondary px-8 py-4 text-lg w-full sm:w-auto text-center">
-                  View Demo Dashboard
-                </a>
-              </div>
+  const pricingPlans = [
+    {
+      name: "Starter",
+      price: "₹15,999",
+      description: "Perfect for small businesses",
+      planId: "starter",
+      features: [
+        "100 verified leads/month",
+        "10 SEO blog posts/month",
+        "30 social media posts/month",
+        "1,000 outreach emails/month",
+        "3 AI agents active",
+        "Basic analytics dashboard",
+        "Email support"
+      ]
+    },
+    {
+      name: "Growth",
+      price: "₹39,999",
+      description: "For growing businesses",
+      planId: "growth",
+      isPopular: true,
+      features: [
+        "500 verified leads/month",
+        "30 SEO blog posts/month",
+        "100 social media posts/month",
+        "5,000 outreach emails/month",
+        "All 6 AI agents active",
+        "Advanced analytics & insights",
+        "Priority support",
+        "Custom integrations"
+      ]
+    },
+    {
+      name: "Enterprise",
+      price: "₹99,999",
+      description: "For large teams",
+      planId: "enterprise",
+      features: [
+        "Unlimited verified leads",
+        "100 SEO blog posts/month",
+        "Unlimited social posts",
+        "20,000 outreach emails/month",
+        "All 6 AI agents + custom",
+        "Custom analytics & reports",
+        "24/7 dedicated support",
+        "White-label options",
+        "API access"
+      ]
+    }
+  ];
 
-              {/* Trust Indicators */}
-              <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center text-sm text-secondary">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full" />
-                  <span>5 guaranteed leads in trial</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full" />
-                  <span>Cancel anytime</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full" />
-                  <span>No long-term contracts</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      <Navigation />
 
-        {/* Get Started Section - Compact for viewport */}
-        <section className="py-16 bg-gray-50">
-          <div className="container-custom">
-            <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
-                Ready to <span className="bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">get started?</span>
-              </h2>
-              <p className="text-lg text-secondary max-w-2xl mx-auto mb-8">
-                Join the first 10 businesses and get 30 days free. No credit card required.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <a href="/get-started" className="btn-primary px-8 py-4 text-lg w-full sm:w-auto text-center">
-                  Get Started Free
-                </a>
-                <a href="/how-it-works" className="btn-secondary px-8 py-4 text-lg w-full sm:w-auto text-center">
-                  See How It Works
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* How it works Section - Compact */}
-        <section id="how" className="py-16">
-          <div className="container-custom">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Three simple steps</h2>
-              <p className="text-lg text-secondary max-w-2xl mx-auto">From signup to results in days, not months.</p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[
-                {
-                  step: "1",
-                  title: "Pick your plan & goals",
-                  description: "Select your industry, region, and targets. We tailor the automations to you.",
-                  icon: "🎯"
-                },
-                {
-                  step: "2", 
-                  title: "We set up your AI engine",
-                  description: "Lead scraping/validation + personalised outreach, or SEO + social + newsletter.",
-                  icon: "⚙️"
-                },
-                {
-                  step: "3",
-                  title: "You get leads & content", 
-                  description: "View results in your dashboard. Scale up or down anytime.",
-                  icon: "📈"
-                }
-              ].map((item, index) => (
-                <div key={index} className="card text-center p-6 hover:shadow-lg transition-all duration-200">
-                  <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-lg mx-auto mb-4">
-                    {item.step}
-                  </div>
-                  <div className="text-3xl mb-3">{item.icon}</div>
-                  <h3 className="text-xl font-semibold text-primary mb-3">{item.title}</h3>
-                  <p className="text-secondary">{item.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Solutions Section - Compact */}
-        <section id="solutions" className="py-16 bg-gray-50">
-          <div className="container-custom">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Launch with two flagship products</h2>
-              <p className="text-lg text-secondary max-w-2xl mx-auto">More AI add-ons coming soon.</p>
-            </div>
-            
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {[
-                {
-                  title: "LeadGen AI",
-                  description: "Automated lead generation and outreach that works 24/7. Find, verify, and contact your ideal customers across multiple channels.",
-                  icon: "🎯",
-                  features: [
-                    "AI-powered lead discovery and verification",
-                    "Multi-channel outreach (Email, WhatsApp, LinkedIn)",
-                    "Personalised messaging and follow-up sequences"
-                  ]
-                },
-                {
-                  title: "Content AI Suite",
-                  description: "Complete content marketing automation. SEO blogs, social media posts, and newsletters that drive organic traffic and engagement.",
-                  icon: "📝",
-                  features: [
-                    "SEO-optimised blog content generation",
-                    "Social media content and scheduling",
-                    "Email newsletter creation and distribution"
-                  ]
-                }
-              ].map((solution, index) => (
-                <div key={index} className="card p-6 hover:shadow-lg transition-all duration-200">
-                  <div className="flex items-center mb-4">
-                    <div className="text-3xl mr-4">{solution.icon}</div>
-                    <h3 className="text-xl font-semibold text-primary">{solution.title}</h3>
-                  </div>
-                  
-                  <p className="text-secondary mb-6">
-                    {solution.description}
-                  </p>
-                  
-                  <ul className="space-y-2">
-                    {solution.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-start text-sm text-secondary">
-                        <div className="flex-shrink-0 w-4 h-4 bg-blue-600 rounded-full flex items-center justify-center mr-3 mt-0.5">
-                          <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                          </svg>
-                        </div>
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Pricing Section - Compact */}
-        <section id="pricing" className="py-16 bg-gray-50">
-          <div className="container-custom">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Simple, transparent subscriptions</h2>
-              <p className="text-lg text-secondary max-w-2xl mx-auto">30-day free trial for the first 10 businesses. Locked-in pricing for life.</p>
+      {/* Hero Section */}
+      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-purple-100 text-purple-700 font-medium mb-8">
+              <span className="w-2 h-2 bg-purple-600 rounded-full mr-2 animate-pulse"></span>
+              Powered by Advanced AI
             </div>
             
-            <div className="card p-8">
-              <PricingTable tiers={pricingTiers} />
-            </div>
-          </div>
-        </section>
+            <h1 className="text-6xl md:text-7xl font-bold text-gray-900 mb-8 leading-tight">
+              Your Team of
+              <span className="bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent"> AI Marketing </span>
+              Agents
+            </h1>
+            
+            <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
+              Automate your entire marketing workflow with specialized AI agents that work 24/7 to grow your business.
+            </p>
 
-        {/* Beta Offer Section - Compact */}
-        <section className="py-16 bg-gray-50">
-          <div className="container-custom">
-            <div className="card text-center p-8">
-              <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4">
-                🎉 Beta Offer: First 10 businesses get 30 days free
-              </h3>
-              <p className="text-lg text-secondary mb-8 max-w-2xl mx-auto">
-                We guarantee 5 confirmed leads during trial, or you don&apos;t pay when it ends.
-              </p>
-              <a href="/get-started" className="btn-primary px-8 py-4 text-lg">
-                Claim Your Free Trial
-              </a>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+              <Link 
+                href="/get-started" 
+                className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-500 text-white rounded-lg font-medium text-lg hover:shadow-xl hover:scale-105 transition-all duration-200"
+              >
+                Start Free Trial →
+              </Link>
+              <Link 
+                href="/how-it-works" 
+                className="px-8 py-4 bg-white text-gray-900 rounded-lg font-medium text-lg border-2 border-gray-300 hover:border-purple-600 hover:text-purple-600 transition-all duration-200"
+              >
+                See How It Works
+              </Link>
+            </div>
+
+            {/* Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+              <div>
+                <div className="text-4xl font-bold text-gray-900 mb-2">10x</div>
+                <div className="text-gray-600">Faster Lead Generation</div>
+              </div>
+              <div>
+                <div className="text-4xl font-bold text-gray-900 mb-2">70%</div>
+                <div className="text-gray-600">Cost Reduction</div>
+              </div>
+              <div>
+                <div className="text-4xl font-bold text-gray-900 mb-2">24/7</div>
+                <div className="text-gray-600">Always Active</div>
+              </div>
+              <div>
+                <div className="text-4xl font-bold text-gray-900 mb-2">6</div>
+                <div className="text-gray-600">Specialized Agents</div>
+              </div>
             </div>
           </div>
-        </section>
-      </main>
+        </div>
+      </section>
+
+      {/* AI Agents Section */}
+      <section id="agents" className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-700 font-medium mb-6">
+              Meet Your AI Team
+            </div>
+            <h2 className="text-5xl font-bold text-gray-900 mb-6">
+              Specialized Agents for Every Task
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Each agent is trained for specific marketing tasks and works together seamlessly to grow your business.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {agents.map((agent, index) => (
+              <AgentCard key={index} {...agent} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-green-100 text-green-700 font-medium mb-6">
+              Simple Process
+            </div>
+            <h2 className="text-5xl font-bold text-gray-900 mb-6">
+              Start in Minutes, Not Months
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div className="text-center">
+              <div className="w-20 h-20 bg-gradient-to-br from-purple-600 to-blue-500 rounded-2xl flex items-center justify-center text-white text-3xl font-bold mx-auto mb-6">
+                1
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Set Your Goals</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Tell us about your business, target audience, and marketing objectives. Our AI learns your brand voice and preferences.
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="w-20 h-20 bg-gradient-to-br from-purple-600 to-blue-500 rounded-2xl flex items-center justify-center text-white text-3xl font-bold mx-auto mb-6">
+                2
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Agents Get to Work</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Your AI team springs into action, finding leads, creating content, and managing campaigns across all channels.
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="w-20 h-20 bg-gradient-to-br from-purple-600 to-blue-500 rounded-2xl flex items-center justify-center text-white text-3xl font-bold mx-auto mb-6">
+                3
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Watch Growth Happen</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Monitor real-time performance, get actionable insights, and watch your business grow while AI handles the work.
+              </p>
+            </div>
+          </div>
+
+          <div className="text-center mt-12">
+            <Link 
+              href="/how-it-works" 
+              className="inline-flex items-center text-purple-600 hover:text-purple-700 font-medium text-lg"
+            >
+              Learn more about how it works →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-purple-100 text-purple-700 font-medium mb-6">
+              Simple Pricing
+            </div>
+            <h2 className="text-5xl font-bold text-gray-900 mb-6">
+              Choose Your AI Team
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Start with a free trial. Scale as you grow. Cancel anytime.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {pricingPlans.map((plan, index) => (
+              <PricingCard key={index} {...plan} />
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <p className="text-gray-600">
+              All plans include a 14-day free trial. No credit card required.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="bg-gradient-to-r from-purple-600 to-blue-500 rounded-3xl p-12 text-white">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Ready to 10x Your Marketing?
+            </h2>
+            <p className="text-xl mb-8 opacity-90">
+              Join hundreds of businesses already growing with AI marketing agents.
+            </p>
+            <Link 
+              href="/get-started" 
+              className="inline-block px-8 py-4 bg-white text-purple-600 rounded-lg font-medium text-lg hover:shadow-xl hover:scale-105 transition-all duration-200"
+            >
+              Start Free Trial →
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* Footer */}
-      <footer id="contact" className="py-12 border-t border-gray-200">
-        <div className="container-custom">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-            <div className="text-center lg:text-left">
-              <div className="text-body text-primary mb-2">
-                © {new Date().getFullYear()} Transition Marketing AI
+      <footer className="bg-gray-900 text-white py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+              <div className="flex items-center space-x-2 mb-4">
+                <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-blue-500 rounded-lg flex items-center justify-center">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M2 17L12 22L22 17" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M2 12L12 17L22 12" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                <span className="text-xl font-bold">Transition AI</span>
               </div>
-              <div className="text-caption">
-                Made with ❤️ in India
-              </div>
+              <p className="text-gray-400">
+                AI-powered marketing automation for modern businesses.
+              </p>
             </div>
-            <div className="flex flex-col sm:flex-row items-center gap-6">
-              <a
-                href="mailto:hello@transitionmarketingai.com"
-                className="text-body text-secondary hover:text-primary transition-colors"
+
+            <div>
+              <h4 className="font-semibold mb-4">Product</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li><Link href="/how-it-works" className="hover:text-white">How It Works</Link></li>
+                <li><Link href="/#agents" className="hover:text-white">AI Agents</Link></li>
+                <li><Link href="/#pricing" className="hover:text-white">Pricing</Link></li>
+                <li><Link href="/dashboard" className="hover:text-white">Dashboard</Link></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-semibold mb-4">Company</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li><Link href="/book" className="hover:text-white">Book a Demo</Link></li>
+                <li><Link href="/terms" className="hover:text-white">Terms</Link></li>
+                <li><Link href="/privacy" className="hover:text-white">Privacy</Link></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-semibold mb-4">Get Started</h4>
+              <p className="text-gray-400 mb-4">
+                Start your free trial today and see the difference AI can make.
+              </p>
+              <Link 
+                href="/get-started" 
+                className="inline-block px-6 py-2 bg-gradient-to-r from-purple-600 to-blue-500 text-white rounded-lg font-medium hover:shadow-lg transition-all"
               >
-                hello@transitionmarketingai.com
-              </a>
-              <div className="flex items-center gap-6">
-                <a
-                  href="/privacy"
-                  className="text-caption hover:text-primary transition-colors"
-                >
-                  Privacy
-                </a>
-                <a
-                  href="/terms"
-                  className="text-caption hover:text-primary transition-colors"
-                >
-                  Terms
-                </a>
-              </div>
+                Get Started
+              </Link>
             </div>
+          </div>
+
+          <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+            <p>&copy; 2024 Transition AI. All rights reserved.</p>
           </div>
         </div>
       </footer>

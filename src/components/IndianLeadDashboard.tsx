@@ -531,80 +531,44 @@ export default function IndianLeadDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Main Header */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      {/* Compact Header with Key Metrics */}
+      <div className="bg-white border-b border-gray-200 ml-56 w-auto">
+        <div className="px-6 py-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">TM</span>
-              </div>
+            <div className="flex items-center space-x-8">
               <div>
-                <h1 className="text-xl font-bold text-gray-900">AI Lead Generation Suite</h1>
-                <p className="text-sm text-gray-600">
-                  Complete Automated Lead Management Platform
-                  <span className="ml-2 px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
-                    Powered by AI
-                  </span>
-                </p>
+                <h1 className="text-lg font-bold text-gray-900">Lead Generation Control</h1>
+                <div className="flex items-center space-x-6 text-sm text-gray-600">
+                  <span>Live: {leadsToday} leads today</span>
+                  <span>•</span>
+                  <span>ROI: +{analytics.conversionRate}%</span>
+                  <span>•</span>
+                  <span>Cost: ₹{analytics.avgCostPerLead}/lead</span>
+                </div>
               </div>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span className="text-sm text-green-700 font-medium">AI Active</span>
+              </div>
               <button 
                 onClick={() => setShowTour(true)}
-                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
-                title="Take platform tour"
+                className="px-3 py-1 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm"
+                title="Platform tour"
               >
-                🎯 Platform Tour
+                🎯 Tour
               </button>
-              <button className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all duration-200">
-                Upgrade Plan
+              <button className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all duration-200 text-sm font-medium">
+                Upgrade
               </button>
-              <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Navigation Tabs */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="flex space-x-8">
-            {[
-              { id: 'overview', label: 'Overview', icon: '📊', description: 'Real-time metrics & performance overview' },
-              { id: 'campaigns', label: 'Campaigns', icon: '🎯', description: 'AI lead generation campaigns' },
-              { id: 'templates', label: 'Templates', icon: '🏭', description: 'Industry-specific lead templates' },
-              { id: 'leads', label: 'Lead Database', icon: '👥', description: 'Qualified leads & scoring' },
-              { id: 'automation', label: 'Automation', icon: '⚡', description: 'Smart nurturing workflows' },
-              { id: 'analytics', label: 'Analytics', icon: '📈', description: 'Performance insights & reports' }
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
-                className={`group border-b-2 px-1 py-4 text-sm font-medium transition-all duration-300 ${
-                  activeTab === tab.id
-                    ? 'text-blue-600 border-blue-600 bg-blue-50'
-                    : 'text-gray-600 border-transparent hover:border-gray-300 hover:text-gray-900 hover:bg-gray-50'
-                }`}
-                title={tab.description}
-              >
-                <div className="flex items-center space-x-2">
-                  <span className="text-lg">{tab.icon}</span>
-                  <span>{tab.label}</span>
-                </div>
-                {activeTab === tab.id && (
-                  <div className="mt-1 text-xs text-blue-600 opacity-75">
-                    {tab.description}
-                  </div>
-                )}
-              </button>
-            ))}
-          </nav>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Main Content with Enhanced Sidebar Integration */}
+      <div className="ml-56 px-6 py-6">
         {activeTab === 'overview' && renderOverview()}
         {activeTab === 'campaigns' && renderCampaigns()}
         {activeTab === 'templates' && renderTemplates()}
@@ -706,4 +670,5 @@ export default function IndianLeadDashboard() {
       )}
     </div>
   );
+}
 }

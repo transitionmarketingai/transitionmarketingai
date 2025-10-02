@@ -13,6 +13,9 @@ import ToolsAndApps from '@/components/ToolsAndApps';
 import DealsPage from '@/components/DealsPage';
 import ActivitiesPage from '@/components/ActivitiesPage';
 import LeadsPage from '@/components/LeadsPage';
+import InsightsPage from '@/components/InsightsPage';
+import CommunicationsPage from '@/components/CommunicationsPage';
+import ProductsPage from '@/components/ProductsPage';
 
 function DashboardPage() {
   const { data: session, status } = useSession();
@@ -99,33 +102,11 @@ function DashboardPage() {
       case 'activities':
         return <ActivitiesPage />;
       case 'analytics':
-        return (
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="mb-8 flex justify-between items-start">
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900">Analytics</h1>
-                <p className="text-gray-600 mt-2">Track sales performance and insights</p>
-              </div>
-            </div>
-            <div className="p-8 text-center">
-              <p className="text-gray-600">Analytics section coming soon...</p>
-            </div>
-          </div>
-        );
+        return <InsightsPage />;
       case 'communications':
-        return (
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="mb-8 flex justify-between items-start">
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900">Communications</h1>
-                <p className="text-gray-600 mt-2">Email tracking and communication tools</p>
-              </div>
-            </div>
-            <div className="p-8 text-center">
-              <p className="text-gray-600">Communications section coming soon...</p>
-            </div>
-          </div>
-        );
+        return <CommunicationsPage />;
+      case 'products':
+        return <ProductsPage />;
       default:
         return <SetupGuide />;
     }
@@ -162,9 +143,11 @@ function DashboardPage() {
           activeSection === 'merge' ? 'Merge duplicates' :
           activeSection === 'deals' ? 'Deals' :
           activeSection === 'activities' ? 'Activities' :
+          activeSection === 'analytics' ? 'Insights' :
+          activeSection === 'communications' ? 'Communications' :
+          activeSection === 'products' ? 'Products' :
           activeSection === 'tools-apps' ? 'Tools and apps' :
           activeSection === 'automations' ? 'Tools and apps / Automations' :
-          activeSection === 'products' ? 'Tools and apps / Products' :
           activeSection.charAt(0).toUpperCase() + activeSection.slice(1)
         } />
         

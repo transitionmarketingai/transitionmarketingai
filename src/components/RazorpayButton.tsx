@@ -5,7 +5,7 @@ import { teamService } from '@/lib/teamService';
 
 interface RazorpayButtonProps {
   teamId: string;
-  planId: 'starter' | 'growth' | 'pro';
+  planId: 'starter' | 'growth' | 'enterprise';
   planPrice: number;
   planName: string;
   className?: string;

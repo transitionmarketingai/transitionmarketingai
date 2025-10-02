@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
+import IndustryTemplates from './IndustryTemplates';
 
 interface LeadCampaign {
   id: string;
@@ -28,7 +29,9 @@ interface IndustryTemplate {
 
 export default function IndianLeadDashboard() {
   const { data: session } = useSession();
-  const [activeTab, setActiveTab] = useState<'overview' | 'campaigns' | 'leads' | 'industries' | 'settings'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'projects' | 'areas' | 'resources' | 'archives'>('overview');
+  const [showTour, setShowTour] = useState(false);
+  const [currentUser, setCurrentUser] = useState<any>(null);
   const [campaigns, setCampaigns] = useState<LeadCampaign[]>([]);
   const [industries, setIndustries] = useState<IndustryTemplate[]>([]);
 
@@ -155,10 +158,10 @@ export default function IndianLeadDashboard() {
   }, []);
 
   const quickStats = [
-    { label: 'Total Leads Generated', value: '1,247', change: '+18%', changeType: 'positive' },
-    { label: 'Active Campaigns', value: '12', change: '+2', changeType: 'positive' },
-    { label: 'Conversion Rate', value: '12.4%', change: '+2.1%', changeType: 'positive' },
-    { label: 'Avg Cost per Lead', value: '₹47', change: '-₹8', changeType: 'positive' }
+    { label: 'Leads Delivered This Month', value: '647', change: '+28%', changeType: 'positive' },
+    { label: 'Active Lead Campaigns', value: '8', change: '+3', changeType: 'positive' },
+    { label: 'Lead-to-Customer Rate', value: '14.2%', change: '+3.1%', changeType: 'positive' },
+    { label: 'Cost per Qualified Lead', value: '₹42', change: '-₹5', changeType: 'positive' }
   ];
 
   const renderOverview = () => (
@@ -184,35 +187,44 @@ export default function IndianLeadDashboard() {
         ))}
       </div>
 
-      {/* Quick Actions */}
+      {/* Quick Actions - P.A.R.A. Structure */}
       <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-6">Quick Actions for Indian Businesses</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <h3 className="text-xl font-semibold text-gray-900 mb-6">Quick Actions - Lead Generation Platform</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <button 
-            onClick={() => setActiveTab('campaigns')}
+            onClick={() => setActiveTab('projects')}
             className="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow text-left"
           >
-            <div className="text-2xl mb-3">🚀</div>
-            <h4 className="font-semibold text-gray-900 mb-2">Create AI Campaign</h4>
-            <p className="text-gray-600 text-sm">Set lead generation campaigns in 2 minutes</p>
+            <div className="text-2xl mb-3">🎯</div>
+            <h4 className="font-semibold text-gray-900 mb-2">Start New Project</h4>
+            <p className="text-gray-600 text-sm">Launch lead generation campaign with deadlines</p>
           </button>
           
           <button 
-            onClick={() => setActiveTab('industries')}
+            onClick={() => setActiveTab('areas')}
             className="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow text-left"
           >
             <div className="text-2xl mb-3">🏢</div>
-            <h4 className="font-semibold text-gray-900 mb-2">Choose Industry</h4>
-            <p className="text-gray-600 text-sm">Pre-built templates for Indian industries</p>
+            <h4 className="font-semibold text-gray-900 mb-2">Manage Areas</h4>
+            <p className="text-gray-600 text-sm">Industry verticals & vertical management</p>
           </button>
           
           <button 
-            onClick={() => setActiveTab('leads')}
+            onClick={() => setActiveTab('resources')}
             className="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow text-left"
           >
-            <div className="text-2xl mb-3">📊</div>
-            <h4 className="font-semibold text-gray-900 mb-2">View Leads</h4>
-            <p className="text-gray-600 text-sm">Track conversion and optimize campaigns</p>
+            <div className="text-2xl mb-3">📚</div>
+            <h4 className="font-semibold text-gray-900 mb-2">Access Resources</h4>
+            <p className="text-gray-600 text-sm">Templates, tools & knowledge base</p>
+          </button>
+
+          <button 
+            onClick={() => setActiveTab('archives')}
+            className="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow text-left"
+          >
+            <div className="text-2xl mb-3">📦</div>
+            <h4 className="font-semibold text-gray-900 mb-2">View Archives</h4>
+            <p className="text-gray-600 text-sm">Completed campaigns & historical data</p>
           </button>
         </div>
       </div>
@@ -261,72 +273,14 @@ export default function IndianLeadDashboard() {
     </div>
   );
 
-  const renderIndustries = () => (
-    <div className="space-y-6">
-      <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Choose Your Industry</h2>
-        <p className="text-gray-600 max-w-2xl mx-auto">
-          We have pre-built AI campaigns tailored for Indian businesses. 
-          Select your industry to get started with proven lead generation strategies.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {industries.map((industry) => (
-          <div key={industry.id} className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-md transition-shadow">
-            <div className="flex items-start space-x-4">
-              <div className="text-3xl">{industry.icon}</div>
-              <div className="flex-1">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">{industry.name}</h3>
-                <p className="text-gray-600 text-sm mb-4">{industry.description}</p>
-                
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-600">Monthly Leads</span>
-                    <span className="font-medium text-green-600">{industry.monthlyLeads}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-600">Avg Conversion</span>
-                    <span className="font-medium text-blue-600">{industry.avgConversion}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-600">Difficulty</span>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      industry.difficulty === 'easy' ? 'bg-green-100 text-green-800' :
-                      industry.difficulty === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-red-100 text-red-800'
-                    }`}>
-                      {industry.difficulty}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="mb-4">
-                  <p className="text-sm text-gray-600 mb-2">Popular in:</p>
-                  <div className="flex flex-wrap gap-1">
-                    {industry.popularIn.map((city) => (
-                      <span key={city} className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">
-                        {city}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <button className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                  Create Campaign
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+  const renderAreas = () => (
+    <IndustryTemplates />
   );
 
-  const renderCampaigns = () => (
+  const renderProjects = () => (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900">AI Lead Generation Campaigns</h2>
+        <h2 className="text-2xl font-bold text-gray-900">Active Lead Generation Projects</h2>
         <button className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
           Create New Campaign
         </button>
@@ -394,10 +348,10 @@ export default function IndianLeadDashboard() {
     </div>
   );
 
-  const renderLeads = () => (
+  const renderResources = () => (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900">Lead Management</h2>
+        <h2 className="text-2xl font-bold text-gray-900">Lead Generation Resources</h2>
         <div className="flex space-x-3">
           <button className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
             Export All
@@ -434,12 +388,12 @@ export default function IndianLeadDashboard() {
     </div>
   );
 
-  const renderSettings = () => (
+  const renderArchives = () => (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-gray-900">Settings</h2>
+      <h2 className="text-2xl font-bold text-gray-900">Archives & Historical Data</h2>
       
       <div className="bg-white rounded-xl border border-gray-200 p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Business Profile</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Completed Campaigns Archive</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
@@ -485,10 +439,22 @@ export default function IndianLeadDashboard() {
               </div>
               <div>
                 <h1 className="text-xl font-bold text-gray-900">Transition Marketing AI</h1>
-                <p className="text-sm text-gray-600">AI-Powered Lead Generation for Indian Businesses</p>
+                <p className="text-sm text-gray-600">
+                  AI-Powered Lead Generation Platform for Indian Businesses
+                  <span className="ml-2 px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">
+                    Industry Templates
+                  </span>
+                </p>
               </div>
             </div>
             <div className="flex items-center space-x-4">
+              <button 
+                onClick={() => setShowTour(true)}
+                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                title="Take a guided tour of the platform"
+              >
+                🎯 App Tour
+              </button>
               <button className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
                 📊 Analytics
               </button>
@@ -501,28 +467,96 @@ export default function IndianLeadDashboard() {
         </div>
       </div>
 
+      {/* App Tour Modal */}
+      {showTour && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+          <div className="bg-white rounded-xl p-8 max-w-2xl mx-auto">
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">🎯 Platform Tour - Lead Generation Platform</h3>
+            <div className="space-y-4 text-gray-600">
+              <div className="flex items-start space-x-3">
+                <span className="text-2xl">📈</span>
+                <div>
+                  <h4 className="font-semibold text-gray-900">Dashboard Overview</h4>
+                  <p>Real-time lead metrics, conversion tracking, and campaign performance insights</p>
+                </div>
+              </div>
+              <div className="flex items-start space-x-3">
+                <span className="text-2xl">🎯</span>
+                <div>
+                  <h4 className="font-semibold text-gray-900">Active Campaigns</h4>
+                  <p>Monitor and manage your ongoing lead generation projects and automated outreach</p>
+                </div>
+              </div>
+              <div className="flex items-start space-x-3">
+                <span className="text-2xl">🏢</span>
+                <div>
+                  <h4 className="font-semibold text-gray-900">Industry Templates</h4>
+                  <p>Choose from 8 pre-built AI templates specifically designed for Indian business sectors</p>
+                </div>
+              </div>
+              <div className="flex items-start space-x-3">
+                <span className="text-2xl">📚</span>
+                <div>
+                  <h4 className="font-semibold text-gray-900">Lead Database</h4>
+                  <p>Access your qualified leads, manage lead scoring, and track nurturing progress</p>
+                </div>
+              </div>
+              <div className="flex items-start space-x-3">
+                <span className="text-2xl">📦</span>
+                <div>
+                  <h4 className="font-semibold text-gray-900">Campaign Archives</h4>
+                  <p>View historical performance data, completed campaigns, and optimization insights</p>
+                </div>
+              </div>
+            </div>
+            <div className="mt-6 flex justify-end space-x-4">
+              <button 
+                onClick={() => setShowTour(false)}
+                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+              >
+                Skip Tour
+              </button>
+              <button 
+                onClick={() => setShowTour(false)}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              >
+                Start Exploring
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Navigation */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav className="flex space-x-8">
             {[
-              { id: 'overview', label: 'Overview', icon: '📈' },
-              { id: 'campaigns', label: 'Campaigns', icon: '🎯' },
-              { id: 'leads', label: 'Leads', icon: '👥' },
-              { id: 'industries', label: 'Industries', icon: '🏢' },
-              { id: 'settings', label: 'Settings', icon: '⚙️' }
+              { id: 'overview', label: 'Overview', icon: '📈', description: 'Dashboard & Quick Actions' },
+              { id: 'projects', label: 'Projects', icon: '🎯', description: 'Active Campaigns & Lead Generation' },
+              { id: 'areas', label: 'Areas', icon: '🏢', description: 'Industry Templates & Management' },
+              { id: 'resources', label: 'Resources', icon: '📚', description: 'Templates & Tools' },
+              { id: 'archives', label: 'Archives', icon: '📦', description: 'Completed Campaigns & Data' }
             ].map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center space-x-2 px-1 py-4 text-sm font-medium transition-colors ${
+                className={`group border-b-2 px-1 py-4 text-sm font-medium transition-all duration-300 ${
                   activeTab === tab.id
-                    ? 'text-blue-600 border-b-2 border-blue-600'
-                    : 'text-gray-600 hover:text-gray-900'
+                    ? 'text-blue-600 border-blue-600 bg-blue-50'
+                    : 'text-gray-600 border-transparent hover:border-gray-300 hover:text-gray-900 hover:bg-gray-50'
                 }`}
+                title={tab.description}
               >
-                <span>{tab.icon}</span>
-                <span>{tab.label}</span>
+                <div className="flex items-center space-x-2">
+                  <span className="text-lg">{tab.icon}</span>
+                  <span>{tab.label}</span>
+                </div>
+                {activeTab === tab.id && (
+                  <div className="mt-1 text-xs text-blue-600 opacity-75">
+                    {tab.description}
+                  </div>
+                )}
               </button>
             ))}
           </nav>
@@ -532,10 +566,10 @@ export default function IndianLeadDashboard() {
       {/* Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {activeTab === 'overview' && renderOverview()}
-        {activeTab === 'campaigns' && renderCampaigns()}
-        {activeTab === 'leads' && renderLeads()}
-        {activeTab === 'industries' && renderIndustries()}
-        {activeTab === 'settings' && renderSettings()}
+        {activeTab === 'projects' && renderProjects()}
+        {activeTab === 'areas' && renderAreas()}
+        {activeTab === 'resources' && renderResources()}
+        {activeTab === 'archives' && renderArchives()}
       </div>
     </div>
   );

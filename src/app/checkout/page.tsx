@@ -12,12 +12,14 @@ const PLANS = {
     amount: 4999,
     currency: "INR",
     features: [
-      "200 verified leads/month",
-      "4 SEO blogs/month",
-      "8 social posts/month",
-      "Email & WhatsApp outreach",
-      "Basic analytics dashboard",
-      "Email support"
+      "200 qualified leads delivered monthly",
+      "Choose from 8 industry templates",
+      "AI-powered lead scoring & qualification",
+      "Multi-channel nurture sequences",
+      "WhatsApp, Email, LinkedIn outreach",
+      "Real-time analytics dashboard",
+      "Priority customer support",
+      "All major Indian cities covered"
     ] 
   },
   "growth": { 
@@ -26,28 +28,30 @@ const PLANS = {
     amount: 12999,
     currency: "INR",
     features: [
-      "500 verified leads/month",
-      "8 SEO blogs/month",
-      "20 social posts/month",
-      "Multi-channel outreach (Email, WhatsApp, LinkedIn)",
-      "AI-personalised messages",
-      "Advanced analytics & reporting",
-      "Priority support"
+      "500 qualified leads delivered monthly",
+      "All industry templates + custom options",
+      "Advanced AI lead qualification",
+      "Complete lead management platform",
+      "AI-powered nurture sequences",
+      "Multi-language support (Hindi + Regional)",
+      "Dedicated account manager",
+      "API access for integrations"
     ] 
   },
-  "pro": { 
-    name: "Pro", 
+  "enterprise": { 
+    name: "Enterprise", 
     price: "₹24,999/mo",
     amount: 24999,
     currency: "INR",
     features: [
-      "1,000+ verified leads/month",
-      "12+ SEO blogs/month",
-      "30 social posts/month",
-      "All channels + AI voice agent",
-      "CRM integration & custom dashboards",
-      "Dedicated success manager",
-      "24/7 priority support"
+      "1000+ qualified leads delivered monthly",
+      "Custom industry templates",
+      "Advanced lead intelligence & insights",
+      "Full CRM integration & automation",
+      "Team collaboration & lead assignment",
+      "Custom outreach campaigns",
+      "White-label options available",
+      "Dedicated success manager & SLA"
     ] 
   },
 } as const;
@@ -146,10 +150,10 @@ function CheckoutContent() {
       
       <div className="text-center mb-12">
         <h1 className="text-4xl sm:text-5xl font-bold text-slate-50 mb-4">
-          Complete Your <span className="text-gradient">Purchase</span>
+          Complete Your <span className="text-gradient">Lead Generation Setup</span>
         </h1>
         <p className="text-slate-300 text-lg">
-          You&apos;re just one step away from transforming your marketing
+          You&apos;re just one step away from getting qualified leads delivered to your inbox every month
         </p>
       </div>
       
@@ -161,12 +165,12 @@ function CheckoutContent() {
           <div className="text-5xl font-bold text-gradient mb-6">
             {plan.price}
           </div>
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-green-500/20 text-green-400 text-sm font-medium">
-            <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-            </svg>
-            30-day free trial included
-          </div>
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-green-500/20 text-green-400 text-sm font-medium">
+              <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+              </svg>
+              Your first 50 leads FREE with trial
+            </div>
         </div>
         
         <div className="mb-10">

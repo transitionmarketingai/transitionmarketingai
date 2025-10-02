@@ -79,7 +79,7 @@ export default function TeamManagement({ activeTeam }: TeamManagementProps) {
     }
   };
 
-  const handlePayment = async (planId: 'starter' | 'growth' | 'pro') => {
+  const handlePayment = async (planId: 'starter' | 'growth' | 'enterprise') => {
     if (!activeTeam) return;
     
     try {

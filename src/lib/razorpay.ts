@@ -16,14 +16,16 @@ export const PLANS = {
     name: 'Starter',
     price: 4999, // ₹4,999
     currency: 'INR',
-    description: 'Perfect for small businesses',
+    description: 'Perfect for consultants & small agencies',
     features: [
-      '200 verified leads/month',
-      '4 SEO blogs/month',
-      '8 social posts/month',
-      'Email & WhatsApp outreach',
-      'Basic analytics dashboard',
-      'Email support'
+      '200 qualified leads delivered monthly',
+      'Choose from 8 industry templates',
+      'AI-powered lead scoring & qualification',
+      'Multi-channel nurture sequences',
+      'WhatsApp, Email, LinkedIn outreach',
+      'Real-time analytics dashboard',
+      'Priority customer support',
+      'All major Indian cities covered'
     ]
   },
   growth: {
@@ -32,28 +34,30 @@ export const PLANS = {
     currency: 'INR',
     description: 'Most popular for growing businesses',
     features: [
-      '500 verified leads/month',
-      '8 SEO blogs/month',
-      '20 social posts/month',
-      'Multi-channel outreach (Email, WhatsApp, LinkedIn)',
-      'AI-personalised messages',
-      'Advanced analytics & reporting',
-      'Priority support'
+      '500 qualified leads delivered monthly',
+      'All industry templates + custom options',
+      'Advanced AI lead qualification',
+      'Complete lead management platform',
+      'AI-powered nurture sequences',
+      'Multi-language support (Hindi + Regional)',
+      'Dedicated account manager',
+      'API access for integrations'
     ]
   },
-  pro: {
-    name: 'Pro',
+  enterprise: {
+    name: 'Enterprise',
     price: 24999, // ₹24,999
     currency: 'INR',
-    description: 'For serious growth and scale',
+    description: 'For enterprises & revenue teams',
     features: [
-      '1,000+ verified leads/month',
-      '12+ SEO blogs/month',
-      '30 social posts/month',
-      'All channels + AI voice agent',
-      'CRM integration & custom dashboards',
-      'Dedicated success manager',
-      '24/7 priority support'
+      '1000+ qualified leads delivered monthly',
+      'Custom industry templates',
+      'Advanced lead intelligence & insights',
+      'Full CRM integration & automation',
+      'Team collaboration & lead assignment',
+      'Custom outreach campaigns',
+      'White-label options available',
+      'Dedicated success manager & SLA'
     ]
   }
 };

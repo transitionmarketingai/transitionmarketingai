@@ -8,7 +8,7 @@ export interface Team {
   slug: string;
   ownerId: string;
   subscriptionStatus: 'trial' | 'active' | 'suspended' | 'cancelled';
-  planId: 'starter' | 'growth' | 'pro';
+  planId: 'starter' | 'growth' | 'enterprise';
   planExpiresAt: string;
   createdAt: string;
   updatedAt: string;
@@ -313,7 +313,7 @@ class TeamService {
     }
   }
 
-  async createPaymentOrder(teamId: string, planId: 'starter' | 'growth' | 'pro'): Promise<any> {
+  async createPaymentOrder(teamId: string, planId: 'starter' | 'growth' | 'enterprise'): Promise<any> {
     try {
       const userId = await this.getCurrentUserId();
       const plan = PLANS[planId];

@@ -156,7 +156,7 @@ class AILeadService {
       // Store in Supabase (if connected)
       const { error } = await supabase
         .from('lead_campaigns')
-        .inplace([{
+        .insert([{
           user_id: userId,
           name: campaign.name,
           industry: campaign.industry,
@@ -233,8 +233,7 @@ class AILeadService {
 
   // Simulate AI lead generation
   private async generateSimulatedLead(campaign: LeadCampaign, industryProfile?: IndustryProfile): Promise<GeneratedLead> {
-    const userId = await this.getCurrentUserId();
-    if (!userId) userId = 'demo-user';
+    const userId = await this.getCurrentUserId() || 'demo-user';
 
     // Indian business names and personal names
     const companyNames = [
@@ -528,7 +527,7 @@ class AILeadService {
       const userId = await this.getCurrentUserId();
       if (!userId) return true; // Demo mode
 
-      const { error } = supabase
+      const { error } = await supabase
         .from('lead_campaigns')
         .update({ status })
         .eq('campaign_id', campaignId)

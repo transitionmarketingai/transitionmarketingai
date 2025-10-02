@@ -2,18 +2,18 @@
 
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import SimplifiedAnalytics from './SimplifiedAnalytics';
+// import SimplifiedAnalytics from './SimplifiedAnalytics';
 import GuidedTours from './GuidedTours';
 import MobileDashboardOptimizer from './MobileDashboardOptimizer';
 import RealTimeValueDemonstrator from './RealTimeValueDemonstrator';
-import SocialProofManager from './SocialProofManager';
+// import SocialProofManager from './SocialProofManager';
 import PersonalizationEngine from './PersonalizationEngine';
 import AdvancedCRMIntegration from './AdvancedCRMIntegration';
 import RealTimeStatusTracker from './RealTimeStatusTracker';
 import RealCampaignCreator from './RealCampaignCreator';
 import LeadImportManager from './LeadImportManager';
 import AutomationWorkflowBuilder from './AutomationWorkflowBuilder';
-import BetaTestingOnboarding from './BetaTestingOnboarding';
+// import BetaTestingOnboarding from './BetaTestingOnboarding';
 import DemoEnvironment from './DemoEnvironment';
 import StrategicPartnershipsManager from './StrategicPartnershipsManager';
 import MarketExpansionStrategy from './MarketExpansionStrategy';
@@ -632,7 +632,11 @@ export default function IndianLeadDashboard() {
         )}
         {activeTab === 'analytics' && (
           <div>
-            <SimplifiedAnalytics />
+            {/* <SimplifiedAnalytics /> */}
+            <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200 text-center">
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">📊 Analytics Dashboard</h3>
+              <p className="text-gray-600">Advanced analytics features coming soon...</p>
+            </div>
           </div>
         )}
         {activeTab === 'value-demo' && (
@@ -642,7 +646,11 @@ export default function IndianLeadDashboard() {
         )}
         {activeTab === 'social-proof' && (
           <div>
-            <SocialProofManager />
+            {/* <SocialProofManager /> */}
+            <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200 text-center">
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">🌟 Social Proof Manager</h3>
+              <p className="text-gray-600">Social proof features coming soon...</p>
+            </div>
           </div>
         )}
         {activeTab === 'personalization' && (
@@ -762,7 +770,7 @@ export default function IndianLeadDashboard() {
       />
 
       {/* Beta Testing Onboarding Modal */}
-      <BetaTestingOnboarding 
+      {/* <BetaTestingOnboarding 
         isOpen={showBetaOnboarding}
         onClose={() => setShowBetaOnboarding(false)}
         onComplete={(betaUser, goals) => {
@@ -770,7 +778,7 @@ export default function IndianLeadDashboard() {
           setShowBetaOnboarding(false);
           // Show success message
         }}
-      />
+      /> */}
 
       {/* Demo Environment Modal */}
       <DemoEnvironment 

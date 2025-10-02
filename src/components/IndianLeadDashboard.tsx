@@ -570,7 +570,7 @@ export default function IndianLeadDashboard() {
           onSectionChange={(section) => setActiveTab(section as any)} 
         />
       {/* Compact Header with Key Metrics */}
-      <div className="bg-white border-b border-gray-200 ml-56 w-auto relative z-10 shadow-sm">
+      <div className="bg-white border-b border-gray-200 ml-56 w-auto relative z-20 shadow-lg">
         <div className="px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-8">
@@ -592,11 +592,11 @@ export default function IndianLeadDashboard() {
               </div>
               <button 
                 onClick={() => setShowTour(true)}
-                className="px-4 py-2 border border-blue-300 text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 hover:border-blue-400 transition-colors text-sm font-medium flex items-center space-x-2"
+                className="px-6 py-3 bg-blue-600 text-white border-0 rounded-lg hover:bg-blue-700 hover:shadow-lg transition-all duration-200 text-sm font-semibold flex items-center space-x-2 z-50 relative"
                 title="Platform tour - Start guided walkthrough"
               >
-                <span>🎯</span>
-                <span>Tour</span>
+                <span className="text-base">🎯</span>
+                <span className="font-bold">Take Tour</span>
               </button>
               <button className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all duration-200 text-sm font-medium">
                 Upgrade

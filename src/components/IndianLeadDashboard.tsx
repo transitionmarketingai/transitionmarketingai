@@ -2,6 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
+import AdvancedAnalyticsDashboard from './AdvancedAnalyticsDashboard';
+import GuidedTours from './GuidedTours';
+import MobileDashboardOptimizer from './MobileDashboardOptimizer';
 
 interface ServicePhase {
   id: string;
@@ -530,7 +533,8 @@ export default function IndianLeadDashboard() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <MobileDashboardOptimizer activeSection={activeTab}>
+      <div className="min-h-screen bg-gray-50">
       {/* Compact Header with Key Metrics */}
       <div className="bg-white border-b border-gray-200 ml-56 w-auto">
         <div className="px-6 py-3">
@@ -601,17 +605,8 @@ export default function IndianLeadDashboard() {
           </div>
         )}
         {activeTab === 'analytics' && (
-          <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
-            <div className="text-center">
-              <div className="text-6xl mb-6">📈</div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Performance Analytics</h3>
-              <p className="text-gray-600 mb-6">
-                Detailed ROI insights, conversion funnels, and optimization recommendations
-              </p>
-              <button className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium">
-                View Analytics
-              </button>
-            </div>
+          <div>
+            <AdvancedAnalyticsDashboard />
           </div>
         )}
       </div>
@@ -668,7 +663,10 @@ export default function IndianLeadDashboard() {
           </div>
         </div>
       )}
-    </div>
+      </div>
+      
+      {/* Enhanced Guided Tours */}
+      <GuidedTours activeTour={activeTab} onCloseTour={() => setShowTour(false)} />
+    </MobileDashboardOptimizer>
   );
-}
 }

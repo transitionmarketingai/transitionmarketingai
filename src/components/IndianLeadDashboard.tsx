@@ -684,69 +684,63 @@ export default function IndianLeadDashboard() {
       {/* Platform Tour Modal */}
       {showTour && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-[9999] flex items-center justify-center p-4"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) {
-              setShowTour(false);
-            }
-          }}
+          className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-[9998]"
+          onClick={() => setShowTour(false)}
         >
-          <div className="bg-white rounded-xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-lg relative z-[10000]">
+          <div 
+            className="bg-white rounded-xl p-6 max-w-lg w-full mx-4 shadow-xl relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
             <button
               onClick={() => setShowTour(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors z-[10001] bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-sm"
+              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-7 h-7 flex items-center justify-center text-lg transition-colors"
+              aria-label="Close tour"
             >
-              <span className="text-xl font-bold">×</span>
+              ×
             </button>
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">🎯 Platform Tour - AI Lead Generation Suite</h3>
-            <div className="space-y-4 text-gray-600">
-              <div className="flex items-start space-x-3">
-                <span className="text-2xl">📊</span>
-                <div>
-                  <h4 className="font-semibold text-gray-900">Overview Dashboard</h4>
-                  <p>Real-time lead metrics, ROI tracking, and live campaign monitoring</p>
+            
+            {/* Content */}
+            <div className="pr-8">
+              <h3 className="text-xl font-bold text-gray-900 mb-4">🎯 Platform Tour</h3>
+              <p className="text-gray-600 mb-4">Welcome to your AI Lead Generation Dashboard!</p>
+              
+              <div className="space-y-3 text-sm">
+                <div className="flex items-start space-x-3">
+                  <span className="text-lg">📊</span>
+                  <div>
+                    <h4 className="font-medium text-gray-900">Overview</h4>
+                    <p className="text-gray-600">Track real-time metrics and performance</p>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-start space-x-3">
-                <span className="text-2xl">🎯</span>
-                <div>
-                  <h4 className="font-semibold text-gray-900">AI Campaigns</h4>
-                  <p>Create and manage intelligent lead generation campaigns across multiple channels</p>
+                <div className="flex items-start space-x-3">
+                  <span className="text-lg">🎯</span>
+                  <div>
+                    <h4 className="font-medium text-gray-900">Campaigns</h4>
+                    <p className="text-gray-600">Create AI-powered lead generation campaigns</p>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-start space-x-3">
-                <span className="text-2xl">🏭</span>
-                <div>
-                  <h4 className="font-semibold text-gray-900">Industry Templates</h4>
-                  <p>Pre-built campaigns for 8+ Indian industries with proven conversion rates</p>
-                </div>
-              </div>
-              <div className="flex items-start space-x-3">
-                <span className="text-2xl">👥</span>
-                <div>
-                  <h4 className="font-semibold text-gray-900">Lead Database</h4>
-                  <p>Centralized lead management with AI scoring, qualification, and nurturing progress</p>
+                <div className="flex items-start space-x-3">
+                  <span className="text-lg">🤝</span>
+                  <div>
+                    <h4 className="font-medium text-gray-900">Partnerships</h4>
+                    <p className="text-gray-600">Manage strategic business alliances</p>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="mt-6 flex justify-end space-x-4">
-              <button 
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setShowTour(false);
-                }}
-                className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium transition-colors"
+            
+            {/* Action Buttons */}
+            <div className="mt-6 flex justify-end space-x-3">
+              <button
+                onClick={() => setShowTour(false)}
+                className="px-4 py-2 text-sm border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
               >
-                Skip Tour
+                Skip
               </button>
-              <button 
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setShowTour(false);
-                }}
-                className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition-colors"
+              <button
+                onClick={() => setShowTour(false)}
+                className="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >
                 Start Exploring
               </button>

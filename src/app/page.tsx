@@ -20,15 +20,15 @@ function HeroSection() {
             </div>
 
             <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
-              India's Leading{' '}
-              <span className="text-blue-600">AI-Powered Lead Generation</span>{' '}
-              Platform
+              The Complete{' '}
+              <span className="text-blue-600">AI Lead Generation</span>{' '}
+              Ecosystem for Indian Businesses
             </h1>
             
             <p className="text-xl text-gray-600 leading-relaxed mb-8">
-              Get qualified leads delivered to your inbox every month using industry-specific AI templates. 
-              Complete platform: discovery → management → nurturing → conversion for Indian businesses.
-              Works in Hindi, English & 12 regional languages across all major Indian cities.
+              Stop struggling with cold outreach. Our AI generates, qualifies, and nurtures leads automatically using 
+              industry-specific templates. Complete platform: LinkedIn scraping → lead scoring → personalized outreach → CRM integration.
+              Built specifically for Indian markets with Hindi, English & 12 regional languages. Success guarantee or refund.
             </p>
             
             {/* Success Stats */}
@@ -38,12 +38,12 @@ function HeroSection() {
                 <div className="text-sm text-gray-600">Industry-Specific AI Templates</div>
               </div>
               <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                <div className="text-2xl font-bold text-green-600">500-1000</div>
-                <div className="text-sm text-gray-600">Qualified leads delivered monthly</div>
+                <div className="text-2xl font-bold text-green-600">₹26</div>
+                <div className="text-sm text-gray-600">Avg cost per qualified lead</div>
               </div>
               <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                <div className="text-2xl font-bold text-purple-600">₹47</div>
-                <div className="text-sm text-gray-600">Average cost per qualified lead</div>
+                <div className="text-2xl font-bold text-purple-600">89%</div>
+                <div className="text-sm text-gray-600">Lead qualification accuracy</div>
               </div>
               <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
                 <div className="text-2xl font-bold text-orange-600">15 min</div>
@@ -60,7 +60,7 @@ function HeroSection() {
                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
-                Get My First 50 Leads FREE
+                🚀 Start FREE Trial - No Credit Card
               </Link>
               <Link 
                 href="/demo"
@@ -69,12 +69,12 @@ function HeroSection() {
                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.828 14.828 0 01-5.656 0M9 10h1m4 0h1m-6 4h1m4 0h1m-6-8h1m4 0h1M5 7h14M4 14h16" />
                 </svg>
-                See LIVE Lead Generation Demo
+                📺 Watch LIVE Demo (2 min)
               </Link>
             </div>
             
-            <p className="text-sm text-gray-500">
-              ✅ 14-day free trial • ✅ Setup in 15 minutes • ✅ Cancel anytime
+            <p className="text-sm text-gray-500 font-medium">
+              ✅ 14-day free trial • ✅ Setup in 15 minutes • ✅ Cancel anytime • ✅ Success guarantee
             </p>
           </div>
           
@@ -98,15 +98,15 @@ function HeroSection() {
               {/* Dashboard Content */}
               <div className="p-6">
                 {/* AI Banner */}
-                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-4 py-3 mb-4 rounded-lg">
+                <div className="bg-gradient-to-r from-green-50 to-blue-50 px-4 py-3 mb-4 rounded-lg border border-green-200">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="text-sm font-semibold text-gray-900">🚀 AI Lead Generation Active</h3>
-                      <p className="text-xs text-gray-600">Finding prospects via LinkedIn, Company sites & industry directories</p>
+                      <h3 className="text-sm font-semibold text-gray-900">🚀 AI Lead Generation LIVE</h3>
+                      <p className="text-xs text-gray-600">Scraping LinkedIn + Company databases + Industry directories • Real-time</p>
                     </div>
-                    <span className="flex items-center gap-1 text-xs font-medium text-green-700 bg-green-100 px-2 py-1 rounded-full">
-                      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                      Live
+                    <span className="flex items-center gap-1 text-xs font-medium text-green-700 bg-green-100 px-2 py-1 rounded-full animate-pulse">
+                      <div className="w-2 h-2 bg-green-500 rounded-full animate-ping"></div>
+                      ACTIVE
                     </span>
                   </div>
                 </div>
@@ -117,8 +117,8 @@ function HeroSection() {
                     <div className="text-sm opacity-90">🎯 Bangalore IT Startups Campaign</div>
                     <span className="text-xs opacity-75">Active</span>
                   </div>
-                  <div className="text-lg font-bold mb-1">23 leads generated today</div>
-                  <div className="text-sm opacity-90">₹47 avg cost • 89% quality score</div>
+                  <div className="text-lg font-bold mb-1">47 leads generated today</div>
+                  <div className="text-sm opacity-90">₹26 avg cost • 89% quality score • ₹65K pipeline value</div>
                 </div>
                 
                 {/* Lead Examples */}
@@ -200,49 +200,49 @@ function FeaturesSection() {
   const features = [
     {
       icon: '🎯',
-      title: 'Industry Templates',
-      description: 'Pre-built lead generation campaigns for 8+ Indian industries with proven conversion rates',
+      title: 'Industry-Specific AI Templates',
+      description: 'Pre-built campaigns for 8+ Indian industries: IT, E-commerce, Real Estate, Healthcare, Consulting, Manufacturing, Education, Finance',
       emphasize: true
     },
     {
       icon: '🔍',
-      title: 'AI Lead Discovery',
-      description: 'Intelligent prospecting across LinkedIn, company databases, and Indian business directories'
+      title: 'Intelligent Lead Discovery',
+      description: 'AI scrapes LinkedIn, Company databases, Indian business directories & industry events automatically'
     },
     {
       icon: '📧',
-      title: 'Smart Nurturing',
-      description: 'Automated multi-touch sequences with personalized outreach in Hindi, English & regional languages'
+      title: 'Multi-Language Outreach',
+      description: 'Personalized messaging in Hindi, English & 12 regional languages for authentic communication'
     },
     {
       icon: '📊',
-      title: 'Lead Scoring & Qualification',
-      description: 'AI-powered lead scoring with industry-specific criteria and automated qualification'
+      title: 'AI Lead Scoring & Qualification',
+      description: '89% accuracy rate - automatic lead qualification with Indian business context understanding'
     },
     {
       icon: '🏢',
-      title: 'Multi-city Targeting',
-      description: 'Campaign targeting across 20+ Indian cities with localized strategies and cultural adaptation'
+      title: 'Pan-India City Targeting',
+      description: 'Campaign targeting across all major Indian cities with local cultural adaptation & market awareness'
     },
     {
       icon: '📱',
-      title: 'Multi-channel Approach',
-      description: 'Email, LinkedIn, WhatsApp, voice calling, and SMS for comprehensive outreach coverage'
+      title: 'Multi-Channel Omnichannel',
+      description: 'Email, LinkedIn, WhatsApp Business, Voice calling, SMS & social media for complete reach'
     },
     {
       icon: '🔄',
-      title: 'Lead Management Pipeline',
-      description: 'Complete lead lifecycle management from prospect to customer with automated workflows'
+      title: 'Complete Lead Lifecycle',
+      description: 'From prospect discovery → qualification → nurturing → conversion with automated workflows'
     },
     {
       icon: '👥',
-      title: 'Team Collaboration',
-      description: 'Role-based access, handoff capabilities, and team coordination for seamless lead processing'
+      title: 'Team Collaboration & Handoffs',
+      description: 'Role-based access, seamless team coordination, lead assignment & performance tracking'
     },
     {
       icon: '📈',
-      title: 'Performance Analytics',
-      description: 'Comprehensive ROI tracking, conversion funnels, and optimization insights with AI recommendations'
+      title: 'Advanced ROI Analytics',
+      description: 'Real-time performance tracking, cost per lead optimization & revenue attribution insights'
     }
   ];
 
@@ -251,11 +251,12 @@ function FeaturesSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-            Complete Lead Generation Ecosystem for India
+            Everything You Need to Generate & Convert Leads in India
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            From discovery to nurturing to closing - our AI-powered platform handles every stage of lead management 
-            with industry-specific templates and localized strategies for Indian businesses.
+            Stop building pipelines manually. Our AI handles the complete lead journey: LinkedIn scraping → 
+            lead qualification → personalized outreach → CRM sync → ROI tracking. Built specifically for 
+            Indian business culture, communication styles, and market dynamics.
           </p>
         </div>
 
@@ -275,23 +276,23 @@ function FeaturesSection() {
 
         {/* Success Metrics */}
         <div className="mt-16 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-8 shadow-sm border border-blue-200">
-          <h3 className="text-center text-2xl font-bold text-gray-900 mb-8">Lead Generation Success Metrics</h3>
+          <h3 className="text-center text-2xl font-bold text-gray-900 mb-8">Proven Results from Indian Businesses</h3>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
             <div>
               <div className="text-3xl font-bold text-blue-600 mb-2">2.5M+</div>
               <div className="text-gray-600">Leads Generated</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-green-600 mb-2">₹47</div>
+              <div className="text-3xl font-bold text-green-600 mb-2">₹26</div>
               <div className="text-gray-600">Avg Cost per Qualified Lead</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-purple-600 mb-2">12.4%</div>
-              <div className="text-gray-600">Lead-to-Customer Rate</div>
+              <div className="text-3xl font-bold text-purple-600 mb-2">89%</div>
+              <div className="text-gray-600">Lead Qualification Accuracy</div>
             </div>
             <div>
               <div className="text-3xl font-bold text-orange-600 mb-2">500+</div>
-              <div className="text-gray-600">Indian Businesses</div>
+              <div className="text-gray-600">Indian Businesses Trusting Us</div>
             </div>
           </div>
         </div>
@@ -475,6 +476,106 @@ function HowItWorksSection() {
               </div>
             </div>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// Indian Market Advantages Section
+function IndianMarketAdvantagesSection() {
+  const advantages = [
+    {
+      title: "Hindi + Regional Languages",
+      description: "Authentic communication in Hindi, Tamil, Telugu, Kannada, Bengali, Gujarati & 6 more languages",
+      icon: "🇮🇳",
+      metric: "12 Languages"
+    },
+    {
+      title: "Indian Business Context",
+      description: "AI trained on Indian business culture, communication styles, festivals, and local market dynamics",
+      icon: "🏢",
+      metric: "100% Localized"
+    },
+    {
+      title: "GST-Compliant Invoicing",
+      description: "Automated GST invoice generation, tax calculations, and compliance reporting for Indian businesses",
+      icon: "📄",
+      metric: "GST Ready"
+    },
+    {
+      title: "Indian Payment Gateway",
+      description: "Seamless payments via Razorpay, PhonePe, UPI, and all major Indian payment methods",
+      icon: "💰",
+      metric: "UPI Integration"
+    },
+    {
+      title: "Indian Business Hours",
+      description: "Campaign timing optimized for Indian business hours, time zones, and cultural preferences",
+      icon: "🕐",
+      metric: "IST Optimized"
+    },
+    {
+      title: "Local Support Team",
+      description: "Dedicated Indian customer success team available in Hindi and English for round-the-clock support",
+      icon: "👥",
+      metric: "24/7 Support"
+    }
+  ];
+
+  return (
+    <section className="py-20 bg-gradient-to-br from-blue-50 via-white to-green-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium mb-6">
+            <span className="text-lg">🇮🇳</span>
+            Made for Indian Businesses
+          </div>
+          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+            Built Specifically for Indian Market Success
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            We understand Indian business culture, communication preferences, and market dynamics. 
+            Our platform is designed to help Indian businesses succeed in lead generation with local context and authenticity.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {advantages.map((advantage, index) => (
+            <div key={index} className="bg-white rounded-xl p-6 shadow-lg border border-gray-200 hover:shadow-xl transition-shadow">
+              <div className="text-center mb-4">
+                <div className="text-4xl mb-3">{advantage.icon}</div>
+                <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
+                  {advantage.metric}
+                </span>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-3 text-center">{advantage.title}</h3>
+              <p className="text-gray-600 text-center">{advantage.description}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Success Stories Banner */}
+        <div className="mt-16 bg-gradient-to-r from-green-500 to-blue-600 rounded-xl p-8 text-white text-center">
+          <h3 className="text-2xl font-bold mb-4">Real Success from Real Indian Businesses</h3>
+          <p className="text-lg opacity-90 mb-6">
+            From Mumbai startups to Bangalore IT companies to Delhi consulting firms - see how Indian businesses 
+            are scaling their lead generation with our platform.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-white bg-opacity-20 rounded-lg p-4">
+              <div className="text-2xl font-bold mb-1">₹12 Lakh</div>
+              <div className="text-sm opacity-90">Revenue Generated</div>
+            </div>
+            <div className="bg-white bg-opacity-20 rounded-lg p-4">
+              <div className="text-2xl font-bold mb-1">3,500+</div>
+              <div className="text-sm opacity-90">Qualified Leads</div>
+            </div>
+            <div className="bg-white bg-opacity-20 rounded-lg p-4">
+              <div className="text-2xl font-bold mb-1">₹18</div>
+              <div className="text-sm opacity-90">Avg Cost per Lead</div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -737,6 +838,7 @@ export default function HomePage() {
         <FeaturesSection />
         <IndustryFocusSection />
         <HowItWorksSection />
+        <IndianMarketAdvantagesSection />
         <PricingSection />
         <TestimonialsSection />
         
@@ -744,28 +846,28 @@ export default function HomePage() {
         <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600">
           <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">
-              Ready to Transform Your Lead Generation?
+              Stop Struggling. Start Generating Leads Today.
             </h2>
             <p className="text-xl text-blue-100 mb-8">
-              Join 500+ Indian businesses using our complete lead generation, management, and nurturing platform 
-              with industry-specific templates and automated workflows.
+              Join 500+ Indian businesses who've transformed their sales pipeline with automated AI lead generation. 
+              Setup in 15 minutes. Success guaranteed or full refund. No credit card required for trial.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link 
                 href="/signup"
                 className="px-8 py-4 bg-white text-blue-600 rounded-lg hover:bg-gray-100 font-semibold text-lg transition-colors"
               >
-                Start Free Trial - No Credit Card
+                🚀 Free Trial - No Credit Card Required
               </Link>
               <Link 
                 href="/demo"
                 className="px-8 py-4 border-2 border-white text-white rounded-lg hover:bg-white hover:text-blue-600 font-semibold text-lg transition-colors"
               >
-                Watch Demo
+                📺 Watch 2-Min Demo
               </Link>
             </div>
             <p className="text-blue-200 text-sm mt-4">
-              ✅ Setup in 15 minutes • ✅ Cancel anytime • ✅ Dedicated Indian support
+              ✅ Setup in 15 minutes • ✅ Cancel anytime • ✅ Success guarantee • ✅ Indian support team
             </p>
           </div>
         </section>

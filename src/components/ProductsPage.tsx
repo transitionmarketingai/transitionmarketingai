@@ -20,32 +20,32 @@ interface CategoryItem {
 }
 
 const categories: CategoryItem[] = [
-  { id: 'products', name: 'Products', icon: '📦', badge: 'NEW' },
-  { id: 'projects', name: 'Projects', icon: '✅' },
-  { id: 'campaigns', name: 'Campaigns', icon: '📢' },
-  { id: 'marketplace', name: 'Marketplace', icon: '🏪', badge: '1' },
-  { id: 'automations', name: 'Automations', icon: '⚙️' },
-  { id: 'auto-assignment', name: 'Automatic assignment', icon: '👥' },
-  { id: 'sequences', name: 'Sequences', icon: '📋', badge: 'NEW' },
-  { id: 'documents', name: 'Documents', icon: '📄' },
-  { id: 'import', name: 'Import data', icon: '📥' },
-  { id: 'export', name: 'Export data', icon: '📤' }
+  { id: 'lead-templates', name: 'Lead Templates', icon: '🎯', badge: '8+' },
+  { id: 'campaigns', name: 'AI Campaigns', icon: '🚀' },
+  { id: 'outreach', name: 'Outreach Tools', icon: '📧' },
+  { id: 'marketplace', name: 'Marketplace', icon: '🏪', badge: 'NEW' },
+  { id: 'automations', name: 'Smart Automations', icon: '⚙️' },
+  { id: 'lead-scoring', name: 'Lead Scoring', icon: '📊' },
+  { id: 'sequences', name: 'Nurture Sequences', icon: '📋', badge: 'AI' },
+  { id: 'integrations', name: 'CRM Integrations', icon: '🔗' },
+  { id: 'import', name: 'Import Leads', icon: '📥' },
+  { id: 'export', name: 'Export Leads', icon: '📤' }
 ];
 
 export default function ProductsPage() {
-  const [activeCategory, setActiveCategory] = useState('products');
-  const [activeFilter, setActiveFilter] = useState('Transition Marketing');
+  const [activeCategory, setActiveCategory] = useState('lead-templates');
+  const [activeFilter, setActiveFilter] = useState('Lead Generation');
 
   const renderCategoryContent = () => {
     switch (activeCategory) {
-      case 'products':
+      case 'lead-templates':
         return (
           <div className="space-y-6">
-            {/* Products Header */}
+            {/* Lead Templates Header */}
             <div className="bg-white border-b border-gray-200 px-6 py-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-4">
-                  <span className="text-sm text-gray-600">0 products</span>
+                  <span className="text-sm text-gray-600">8 industry templates available</span>
                   <div className="flex items-center space-x-2">
                     <button className="border border-gray-300 rounded-lg px-3 py-2 text-sm flex items-center">
                       <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -56,36 +56,37 @@ export default function ProductsPage() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
                       </svg>
                     </button>
-                    <button className="text-gray-400 hover:text-gray-600 p-1">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
-                      </svg>
-                    </button>
-                    <button className="text-gray-400 hover:text-gray-600 p-1">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
-                      </svg>
-                    </button>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Empty State */}
-            <div className="flex items-center justify-center h-96">
-              <div className="text-center max-w-md">
-                <div className="w-16 h-16 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center text-2xl">
-                  📦
+            {/* Lead Templates Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+              {[
+                { name: 'Technology & IT', icon: '💻', leads: '200-800/month', difficulty: 'Medium', color: 'blue' },
+                { name: 'E-commerce & Retail', icon: '🛒', leads: '500-2000/month', difficulty: 'Easy', color: 'green' },
+                { name: 'Business Consulting', icon: '💼', leads: '100-500/month', difficulty: 'Medium', color: 'purple' },
+                { name: 'Real Estate', icon: '🏢', leads: '200-800/month', difficulty: 'Medium', color: 'orange' },
+                { name: 'Healthcare & Pharma', icon: '🏥', leads: '50-300/month', difficulty: 'Hard', color: 'red' },
+                { name: 'Education & Training', icon: '🎓', leads: '300-1500/month', difficulty: 'Easy', color: 'indigo' },
+                { name: 'Finance & Insurance', icon: '💰', leads: '150-600/month', difficulty: 'Medium', color: 'yellow' },
+                { name: 'Manufacturing & Industrial', icon: '🏭', leads: '100-400/month', difficulty: 'Hard', color: 'gray' }
+              ].map((template, index) => (
+                <div key={index} className={`bg-gradient-to-br from-${template.color}-50 to-${template.color}-100 rounded-xl p-6 border border-${template.color}-200`}>
+                  <div className="text-4xl mb-4">{template.icon}</div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">{template.name}</h3>
+                  <p className="text-sm text-gray-600 mb-4">{template.leads}</p>
+                  <div className="flex justify-between items-center">
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium bg-${template.color}-200 text-${template.color}-800`}>
+                      {template.difficulty}
+                    </span>
+                    <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                      Use Template →
+                    </button>
+                  </div>
                 </div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">No matched products</h2>
-                <p className="text-gray-600 mb-6">
-                  Try resetting your filter or{' '}
-                  <button className="text-blue-600 hover:text-blue-800">view all products</button>.
-                </p>
-                <button className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium">
-                  + Add Product
-                </button>
-              </div>
+              ))}
             </div>
           </div>
         );

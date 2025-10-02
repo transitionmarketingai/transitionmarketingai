@@ -40,19 +40,19 @@ export default function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-8">
             <Link href="/#features" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
-              Features
+              AI Features
             </Link>
             <Link href="/#how-it-works" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
               How It Works
             </Link>
             <Link href="/#industries" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
-              Industries
+              Industry Templates
             </Link>
             <Link href="/#pricing" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
               Pricing
             </Link>
             <Link href="/demo" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
-              Demo
+              Live Demo
             </Link>
             
             {/* CTA Buttons */}
@@ -67,7 +67,7 @@ export default function Navigation() {
                 href="/signup"
                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
               >
-                Start Free Trial
+                🚀 Free Trial
               </Link>
             </div>
           </div>
@@ -98,7 +98,7 @@ export default function Navigation() {
                 className="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Features
+                AI Features
               </Link>
               <Link
                 href="/#how-it-works"
@@ -112,7 +112,7 @@ export default function Navigation() {
                 className="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Industries
+                Industry Templates
               </Link>
               <Link
                 href="/#pricing"
@@ -126,7 +126,7 @@ export default function Navigation() {
                 className="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Demo
+                Live Demo
               </Link>
               <div className="border-t border-gray-200 pt-3 mt-3">
                 <Link
@@ -141,7 +141,7 @@ export default function Navigation() {
                   className="block px-3 py-2 bg-blue-600 text-white rounded-lg font-medium mx-3 mt-2 text-center"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  Start Free Trial
+                  🚀 Free Trial
                 </Link>
               </div>
             </div>

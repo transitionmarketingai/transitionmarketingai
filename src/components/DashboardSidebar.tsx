@@ -9,18 +9,18 @@ interface SidebarProps {
 }
 
 const sidebarItems = [
-  { id: 'setup-guide', label: 'Setup guide', icon: '📋', badge: '13' },
-  { id: 'leads', label: 'AI Leads', icon: '🤖', badge: '13' },
-  { id: 'contacts', label: 'Contacts', icon: '👥', badge: null },
-  { id: 'organizations', label: 'Organizations', icon: '🏢', badge: null },
-  { id: 'campaigns', label: 'Campaigns', icon: '📢', badge: null },
-  { id: 'activities', label: 'Activities', icon: '📅', badge: '1' },
-  { id: 'timeline', label: 'Timeline', icon: '❤️', badge: '1' },
-  { id: 'tools-apps', label: 'Tools and apps', icon: '🔧', badge: null },
-  { id: 'analytics', label: 'Analytics', icon: '📊', badge: null },
-  { id: 'communications', label: 'Communications', icon: '📧', badge: null },
-  { id: 'team', label: 'Team', icon: '👥', badge: null },
-  { id: 'more', label: 'More', icon: '⋯', badge: null },
+  { id: 'setup-guide', label: 'Quick Setup', icon: '🚀', badge: 'NEW' },
+  { id: 'leads', label: 'Lead Database', icon: '👥', badge: '1,247' },
+  { id: 'campaigns', label: 'AI Campaigns', icon: '🎯', badge: '8' },
+  { id: 'automation', label: 'Smart Automation', icon: '⚡', badge: null },
+  { id: 'analytics', label: 'Performance', icon: '📈', badge: null },
+  { id: 'outreach', label: 'Outreach Tools', icon: '📧', badge: null },
+  { id: 'industry-templates', label: 'Industry Templates', icon: '🏭', badge: null },
+  { id: 'lead-scoring', label: 'Lead Scoring', icon: '📊', badge: null },
+  { id: 'integrations', label: 'CRM Integration', icon: '🔗', badge: null },
+  { id: 'communications', label: 'Communications', icon: '💬', badge: null },
+  { id: 'team', label: 'Team Management', icon: '👥', badge: null },
+  { id: 'settings', label: 'Settings', icon: '⚙️', badge: null },
 ];
 
 export default function DashboardSidebar({ activeSection, onSectionChange }: SidebarProps) {

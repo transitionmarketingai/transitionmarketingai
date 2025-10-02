@@ -18,6 +18,11 @@ interface OnboardingData {
   companySize: string;
   industry: string;
   primaryGoal: string;
+  monthlyLeadTarget?: string;
+  currentLeadSources?: string[];
+  preferredLanguage?: string;
+  targetCities?: string[];
+  monthlyBudget?: string;
 }
 
 export default function OnboardingFlow({ userEmail, onComplete }: OnboardingFlowProps) {
@@ -30,12 +35,17 @@ export default function OnboardingFlow({ userEmail, onComplete }: OnboardingFlow
     companyName: '',
     companySize: '',
     industry: '',
-    primaryGoal: ''
+    primaryGoal: '',
+    monthlyLeadTarget: '',
+    currentLeadSources: [],
+    preferredLanguage: 'English',
+    targetCities: [],
+    monthlyBudget: ''
   });
   const [errors, setErrors] = useState<Partial<OnboardingData>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const totalSteps = 4;
+  const totalSteps = 6;
 
   const handleInputChange = (field: keyof OnboardingData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));

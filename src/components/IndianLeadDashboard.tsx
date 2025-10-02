@@ -9,6 +9,9 @@ import RealTimeValueDemonstrator from './RealTimeValueDemonstrator';
 import SocialProofManager from './SocialProofManager';
 import PersonalizationEngine from './PersonalizationEngine';
 import AdvancedCRMIntegration from './AdvancedCRMIntegration';
+import RealTimeStatusTracker from './RealTimeStatusTracker';
+import RealCampaignCreator from './RealCampaignCreator';
+import LeadImportManager from './LeadImportManager';
 
 interface ServicePhase {
   id: string;
@@ -64,11 +67,11 @@ export default function IndianLeadDashboard() {
   const { data: session } = useSession();
   const [activeTab, setActiveTab] = useState<'overview' | 'campaigns' | 'leads' | 'automation' | 'analytics' | 'templates' | 'value-demo' | 'social-proof' | 'personalization' | 'integrations'>('overview');
   const [showTour, setShowTour] = useState(false);
-  const [leadsToday, setLeadsToday] = useState(47);
-  const [isGenerating, setIsGenerating] = useState(true);
+  const [showCampaignCreator, setShowCampaignCreator] = useState(false);
+  const [showLeadImport, setShowLeadImport] = useState(false);
+  const [campaigns, setCampaigns] = useState<LeadCampaign[]>([]);
 
   // Mock data for comprehensive lead generation platform
-  const [campaigns, setCampaigns] = useState<LeadCampaign[]>([]);
   const [analytics, setAnalytics] = useState<LeadAnalytics>({
     totalLeads: 1247,
     qualifiedLeads: 892,
@@ -164,7 +167,7 @@ export default function IndianLeadDashboard() {
       description: 'Create AI-powered lead generation campaign',
       icon: '🚀',
       color: 'blue',
-      onClick: () => setActiveTab('campaigns')
+      onClick: () => setShowCampaignCreator(true)
     },
     {
       id: 'industry-template',
@@ -180,7 +183,7 @@ export default function IndianLeadDashboard() {
       description: 'Upload and qualify existing prospects',
       icon: '📥',
       color: 'purple',
-      onClick: () => setActiveTab('leads')
+      onClick: () => setShowLeadImport(true)
     },
     {
       id: 'automation',
@@ -194,30 +197,8 @@ export default function IndianLeadDashboard() {
 
   const renderOverview = () => (
     <div className="space-y-8">
-      {/* Real-time Status Banner */}
-      <div className="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-xl p-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-              <span className="text-2xl">🚀</span>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900">AI Lead Generation Active</h3>
-              <p className="text-sm text-gray-600">Real-time LinkedIn scraping & lead qualification running</p>
-            </div>
-          </div>
-          <div className="flex items-center space-x-6">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-green-600">{leadsToday}</div>
-              <div className="text-xs text-gray-600">Leads Today</div>
-            </div>
-            <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-sm font-medium text-green-700">LIVE</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Real System Status Tracker */}
+      <RealTimeStatusTracker />
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -371,7 +352,10 @@ export default function IndianLeadDashboard() {
           <h2 className="text-2xl font-bold text-gray-900">🎯 AI Lead Generation Campaigns</h2>
           <p className="text-gray-600 mt-2">Create, manage, and optimize your AI-powered lead generation campaigns</p>
         </div>
-        <button className="px-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg hover:shadow-lg transition-all duration-200 font-semibold">
+        <button 
+          onClick={() => setShowCampaignCreator(true)}
+          className="px-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg hover:shadow-lg transition-all duration-200 font-semibold"
+        >
           🚀 Launch New Campaign
         </button>
       </div>
@@ -581,17 +565,14 @@ export default function IndianLeadDashboard() {
         {activeTab === 'campaigns' && renderCampaigns()}
         {activeTab === 'templates' && renderTemplates()}
         {activeTab === 'leads' && (
-          <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
-            <div className="text-center">
-              <div className="text-6xl mb-6">👥</div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Lead Database & Management</h3>
-              <p className="text-gray-600 mb-6">
-                Comprehensive lead qualification, scoring, and pipeline management
-              </p>
-              <button className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium">
-                Manage Leads
-              </button>
-            </div>
+          <div>
+            <LeadImportManager 
+              onComplete={(leads) => {
+                console.log('Imported leads:', leads);
+                // TODO: Update campaigns with new leads
+              }}
+              onClose={() => setActiveTab('overview')}
+            />
           </div>
         )}
         {activeTab === 'automation' && (
@@ -691,6 +672,32 @@ export default function IndianLeadDashboard() {
       
       {/* Enhanced Guided Tours */}
       <GuidedTours activeTour={activeTab} onCloseTour={() => setShowTour(false)} />
+      
+      {/* Real Campaign Creator Modal */}
+      <RealCampaignCreator 
+        isOpen={showCampaignCreator}
+        onClose={() => setShowCampaignCreator(false)}
+        onComplete={(campaign) => {
+          console.log('New campaign created:', campaign);
+          setCampaigns(prev => [...prev, campaign as LeadCampaign]);
+          setShowCampaignCreator(false);
+          setActiveTab('campaigns');
+        }}
+      />
+
+      {/* Lead Import Manager Modal */}
+      <div className={`fixed inset-0 bg-black bg-opacity-50 z-50 ${showLeadImport ? 'block' : 'hidden'}`}>
+        <div className="flex items-center justify-center min-h-screen p-4">
+          <LeadImportManager 
+            onComplete={(leads) => {
+              console.log('Imported leads:', leads);
+              setShowLeadImport(false);
+              setActiveTab('leads');
+            }}
+            onClose={() => setShowLeadImport(false)}
+          />
+        </div>
+      </div>
     </MobileDashboardOptimizer>
   );
 }

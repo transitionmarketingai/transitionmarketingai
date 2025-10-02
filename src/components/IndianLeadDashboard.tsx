@@ -677,8 +677,14 @@ export default function IndianLeadDashboard() {
 
       {/* Platform Tour Modal */}
       {showTour && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-          <div className="bg-white rounded-xl p-8 max-w-2xl mx-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-lg relative">
+            <button
+              onClick={() => setShowTour(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <span className="text-2xl">×</span>
+            </button>
             <h3 className="text-2xl font-bold text-gray-900 mb-4">🎯 Platform Tour - AI Lead Generation Suite</h3>
             <div className="space-y-4 text-gray-600">
               <div className="flex items-start space-x-3">

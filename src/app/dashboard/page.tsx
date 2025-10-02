@@ -12,6 +12,7 @@ import ContactsPage from '@/components/ContactsPage';
 import ToolsAndApps from '@/components/ToolsAndApps';
 import DealsPage from '@/components/DealsPage';
 import ActivitiesPage from '@/components/ActivitiesPage';
+import LeadsPage from '@/components/LeadsPage';
 
 function DashboardPage() {
   const { data: session, status } = useSession();
@@ -71,6 +72,8 @@ function DashboardPage() {
             </div>
           </div>
         );
+      case 'leads':
+        return <LeadsPage />;
       case 'tools-apps':
         return <ToolsAndApps />;
       case 'automations':
@@ -152,6 +155,7 @@ function DashboardPage() {
       <div className="flex-1 ml-16 overflow-auto">
         <DashboardTopNav currentPage={
           activeSection === 'setup-guide' ? 'Setup guide' : 
+          activeSection === 'leads' ? 'Leads' :
           activeSection === 'contacts' ? 'Contacts / People' :
           activeSection === 'organizations' ? 'Organizations' :
           activeSection === 'timeline' ? 'Contacts timeline' :

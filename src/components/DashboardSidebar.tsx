@@ -10,14 +10,13 @@ interface SidebarProps {
 
 const sidebarItems = [
   { id: 'setup-guide', label: 'Setup guide', icon: '📋', badge: '13' },
+  { id: 'leads', label: 'Leads', icon: '🎯', badge: '13' },
   { id: 'contacts', label: 'People', icon: '👥', badge: null },
   { id: 'organizations', label: 'Organizations', icon: '🏢', badge: null },
   { id: 'deals', label: 'Deals', icon: '💰', badge: null },
-  { id: 'activities', label: 'Activities', icon: '🎯', badge: '1' },
-  { id: 'timeline', label: 'Contacts timeline', icon: '❤️', badge: '1' },
+  { id: 'activities', label: 'Activities', icon: '📅', badge: '1' },
+  { id: 'timeline', label: 'Timeline', icon: '❤️', badge: '1' },
   { id: 'tools-apps', label: 'Tools and apps', icon: '🔧', badge: null },
-  { id: 'automations', label: 'Automations', icon: '🤖', badge: null },
-  { id: 'products', label: 'Products', icon: '📦', badge: null },
   { id: 'analytics', label: 'Analytics', icon: '📊', badge: null },
   { id: 'communications', label: 'Communications', icon: '📧', badge: null },
   { id: 'more', label: 'More', icon: '⋯', badge: null },

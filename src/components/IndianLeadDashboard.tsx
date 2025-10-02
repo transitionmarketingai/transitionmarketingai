@@ -5,6 +5,10 @@ import { useSession } from 'next-auth/react';
 import AdvancedAnalyticsDashboard from './AdvancedAnalyticsDashboard';
 import GuidedTours from './GuidedTours';
 import MobileDashboardOptimizer from './MobileDashboardOptimizer';
+import RealTimeValueDemonstrator from './RealTimeValueDemonstrator';
+import SocialProofManager from './SocialProofManager';
+import PersonalizationEngine from './PersonalizationEngine';
+import AdvancedCRMIntegration from './AdvancedCRMIntegration';
 
 interface ServicePhase {
   id: string;
@@ -58,7 +62,7 @@ interface QuickAction {
 
 export default function IndianLeadDashboard() {
   const { data: session } = useSession();
-  const [activeTab, setActiveTab] = useState<'overview' | 'campaigns' | 'leads' | 'automation' | 'analytics' | 'templates' | 'ecosystem'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'campaigns' | 'leads' | 'automation' | 'analytics' | 'templates' | 'value-demo' | 'social-proof' | 'personalization' | 'integrations'>('overview');
   const [showTour, setShowTour] = useState(false);
   const [leadsToday, setLeadsToday] = useState(47);
   const [isGenerating, setIsGenerating] = useState(true);
@@ -607,6 +611,26 @@ export default function IndianLeadDashboard() {
         {activeTab === 'analytics' && (
           <div>
             <AdvancedAnalyticsDashboard />
+          </div>
+        )}
+        {activeTab === 'value-demo' && (
+          <div>
+            <RealTimeValueDemonstrator />
+          </div>
+        )}
+        {activeTab === 'social-proof' && (
+          <div>
+            <SocialProofManager />
+          </div>
+        )}
+        {activeTab === 'personalization' && (
+          <div>
+            <PersonalizationEngine />
+          </div>
+        )}
+        {activeTab === 'integrations' && (
+          <div>
+            <AdvancedCRMIntegration />
           </div>
         )}
       </div>

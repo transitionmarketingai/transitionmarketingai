@@ -360,7 +360,7 @@ export default function SimplifiedAnalytics() {
               </div>
             </div>
           </div>
-      )}
+        )}
 
       {/* Campaigns Tab */}
       {activeTab === 'campaigns' && (

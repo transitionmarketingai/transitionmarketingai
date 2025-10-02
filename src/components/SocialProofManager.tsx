@@ -333,5 +333,5 @@ export default function SocialProofManager() {
         </div>
       </div>
     </div>
-        )}
-      </div>
+      )}
+    </div>

@@ -343,7 +343,8 @@ export default function BetaTestingOnboarding({
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Company Size *</select>
+                    Company Size *
+                  </label>
                   <select
                     value={betaUser.companySize}
                     onChange={(e) => updateBetaUser('companySize', e.target.value)}

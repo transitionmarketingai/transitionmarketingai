@@ -1,5 +1,5 @@
-// Simple data persistence service using localStorage
-// This will be replaced with Supabase integration later
+// Production-ready data persistence service with Supabase integration
+import { supabase } from './supabase';
 
 export interface Contact {
   id: string;

@@ -45,16 +45,9 @@ export default function Navigation() {
                 </button>
                 {/* Dropdown menu would be implemented here */}
               </div>
-              <div className="relative group">
-                <button className="text-gray-600 hover:text-blue-600 transition-colors font-medium flex items-center">
-                  Pricing
-                  {mounted && (
-                    <svg className="w-4 h-4 ml-1 group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  )}
-                </button>
-              </div>
+              <Link href="/pricing" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">
+                Pricing
+              </Link>
               <div className="relative group">
                 <button className="text-gray-600 hover:text-blue-600 transition-colors font-medium flex items-center">
                   Resources

@@ -9,6 +9,7 @@ import DashboardSidebar from '@/components/DashboardSidebar';
 import DashboardTopNav from '@/components/DashboardTopNav';
 import SetupGuide from '@/components/SetupGuide';
 import ContactsPage from '@/components/ContactsPage';
+import ToolsAndApps from '@/components/ToolsAndApps';
 
 function DashboardPage() {
   const { data: session, status } = useSession();
@@ -65,6 +66,26 @@ function DashboardPage() {
             </div>
             <div className="p-8 text-center">
               <p className="text-gray-600">Organizations section coming soon...</p>
+            </div>
+          </div>
+        );
+      case 'tools-apps':
+        return <ToolsAndApps />;
+      case 'automations':
+        return (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div className="text-center">
+              <h1 className="text-2xl font-bold text-gray-900 mb-4">Automations</h1>
+              <p className="text-gray-600">Automation engine coming soon...</p>
+            </div>
+          </div>
+        );
+      case 'products':
+        return (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div className="text-center">
+              <h1 className="text-2xl font-bold text-gray-900 mb-4">Products</h1>
+              <p className="text-gray-600">Product management coming soon...</p>
             </div>
           </div>
         );
@@ -158,6 +179,9 @@ function DashboardPage() {
           activeSection === 'organizations' ? 'Organizations' :
           activeSection === 'timeline' ? 'Contacts timeline' :
           activeSection === 'merge' ? 'Merge duplicates' :
+          activeSection === 'tools-apps' ? 'Tools and apps' :
+          activeSection === 'automations' ? 'Tools and apps / Automations' :
+          activeSection === 'products' ? 'Tools and apps / Products' :
           activeSection.charAt(0).toUpperCase() + activeSection.slice(1)
         } />
         

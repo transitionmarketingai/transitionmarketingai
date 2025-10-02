@@ -7,6 +7,8 @@ import { dataService, Contact, Deal } from '@/lib/dataService';
 import OnboardingFlow from '@/components/OnboardingFlow';
 import DashboardSidebar from '@/components/DashboardSidebar';
 import DashboardTopNav from '@/components/DashboardTopNav';
+import MobileDashboardSidebar from '@/components/MobileDashboardSidebar';
+import MobileDashboardNav from '@/components/MobileDashboardNav';
 import SetupGuide from '@/components/SetupGuide';
 import ContactsPage from '@/components/ContactsPage';
 import ToolsAndApps from '@/components/ToolsAndApps';
@@ -130,33 +132,48 @@ function DashboardPage() {
     return null; // Will redirect to signin
   }
 
+  const getCurrentPageTitle = () => {
+    const titles = {
+      'setup-guide': 'Setup guide',
+      'leads': 'Leads',
+      'contacts': 'Contacts / People',
+      'organizations': 'Organizations',
+      'timeline': 'Contacts timeline',
+      'merge': 'Merge duplicates',
+      'deals': 'Deals',
+      'activities': 'Activities',
+      'analytics': 'Insights',
+      'communications': 'Communications',
+      'products': 'Products',
+      'team': 'Team Management',
+      'tools-apps': 'Tools and apps',
+      'automations': 'Tools and apps / Automations'
+    };
+    return titles[activeSection as keyof typeof titles] || activeSection.charAt(0).toUpperCase() + activeSection.slice(1);
+  };
+
   return (
-    <div className="flex h-screen bg-gray-50">
-      {/* Sidebar */}
-      <DashboardSidebar activeSection={activeSection} onSectionChange={setActiveSection} />
+    <div className="min-h-screen bg-gray-50">
+      {/* Mobile Navigation */}
+      <MobileDashboardSidebar activeSection={activeSection} onSectionChange={setActiveSection} />
+      <MobileDashboardNav currentPage={getCurrentPageTitle()} />
       
-      {/* Main Content */}
-      <div className="flex-1 ml-16 overflow-auto">
-        <DashboardTopNav currentPage={
-          activeSection === 'setup-guide' ? 'Setup guide' : 
-          activeSection === 'leads' ? 'Leads' :
-          activeSection === 'contacts' ? 'Contacts / People' :
-          activeSection === 'organizations' ? 'Organizations' :
-          activeSection === 'timeline' ? 'Contacts timeline' :
-          activeSection === 'merge' ? 'Merge duplicates' :
-          activeSection === 'deals' ? 'Deals' :
-          activeSection === 'activities' ? 'Activities' :
-          activeSection === 'analytics' ? 'Insights' :
-          activeSection === 'communications' ? 'Communications' :
-          activeSection === 'products' ? 'Products' :
-          activeSection === 'team' ? 'Team Management' :
-          activeSection === 'tools-apps' ? 'Tools and apps' :
-          activeSection === 'automations' ? 'Tools and apps / Automations' :
-          activeSection.charAt(0).toUpperCase() + activeSection.slice(1)
-        } />
+      <div className="flex h-screen lg:h-auto">
+        {/* Desktop Sidebar */}
+        <div className="hidden lg:block">
+          <DashboardSidebar activeSection={activeSection} onSectionChange={setActiveSection} />
+        </div>
         
-        <div className="overflow-y-auto">
-          {renderMainContent()}
+        {/* Main Content */}
+        <div className="flex-1 lg:ml-16">
+          {/* Desktop Navigation */}
+          <div className="hidden lg:block">
+            <DashboardTopNav currentPage={getCurrentPageTitle()} />
+          </div>
+          
+          <div className="overflow-y-auto h-screen lg:h-auto">
+            {renderMainContent()}
+          </div>
         </div>
       </div>
 

@@ -4,6 +4,15 @@ import "./globals.css";
 import SessionProvider from "@/components/SessionProvider";
 import StructuredData from "@/components/StructuredData";
 
+// Mobile viewport meta tag
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: 'cover'
+};
+
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -87,6 +96,7 @@ export const metadata: Metadata = {
   },
   category: "technology",
   classification: "Business Software",
+  manifest: "/manifest.json",
   other: {
     "application-name": "Transition CRM",
     "apple-mobile-web-app-capable": "yes",
@@ -95,6 +105,8 @@ export const metadata: Metadata = {
     "mobile-web-app-capable": "yes",
     "msapplication-TileColor": "#2563eb",
     "theme-color": "#2563eb",
+    "apple-touch-icon": "/favicon.png",
+    "apple-touch-icon-sizes": "180x180",
   },
 };
 
@@ -105,6 +117,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                  navigator.serviceWorker.register('/sw.js');
+                });
+              }
+            `,
+          }}
+        />
+      </head>
       <body
         className={`${inter.variable} font-sans antialiased bg-background text-primary min-h-screen relative`}
       >

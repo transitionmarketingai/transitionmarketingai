@@ -143,7 +143,7 @@ export default function TeamManagement({ activeTeam }: TeamManagementProps) {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-8">
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">{activeTeam.name}</h1>
@@ -171,23 +171,24 @@ export default function TeamManagement({ activeTeam }: TeamManagementProps) {
       </div>
 
       {/* Navigation Tasks */}
-      <div className="mb-8">
-        <nav className="flex space-x-8">
+      <div className="mb-6 lg:mb-8">
+        <nav className="flex flex-wrap gap-2 lg:gap-8">
           {[
-            { id: 'overview', label: 'Overview', icon: '📊' },
-            { id: 'members', label: 'Team Members', icon: '👥' },
-            { id: 'subscription', label: 'Subscription', icon: '💳' },
-            { id: 'usage', label: 'Usage', icon: '📈' }
+            { id: 'overview', label: 'Overview', icon: '📊', short: 'Overview' },
+            { id: 'members', label: 'Team Members', icon: '👥', short: 'Members' },
+            { id: 'subscription', label: 'Subscription', icon: '💳', short: 'Billing' },
+            { id: 'usage', label: 'Usage', icon: '📈', short: 'Usage' }
           ].map(tab => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium ${
+              className={`flex items-center space-x-2 px-3 lg:px-4 py-2 rounded-lg font-medium text-sm lg:text-base ${
                 activeTab === tab.id ? 'bg-blue-100 text-blue-700' : 'text-gray-500 hover:text-gray-700'
               }`}
             >
-              <span>{tab.icon}</span>
-              <span>{tab.label}</span>
+              <span className="text-lg">{tab.icon}</span>
+              <span className="hidden sm:inline">{tab.label}</span>
+              <span className="sm:hidden">{tab.short}</span>
             </button>
           ))}
         </nav>
@@ -339,15 +340,15 @@ export default function TeamManagement({ activeTeam }: TeamManagementProps) {
                 </div>
 
                 {/* Available Plans */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
                   {Object.entries(PLANS).map(([planId, plan]) => (
                     <div key={planId} className={`bg-white p-6 rounded-lg border shadow-sm ${
                       planId === activeTeam.planId ? 'border-blue-500 ring-2 ring-blue-200' : 'border-gray-200'
                     }`}>
                       <div className="mb-4">
-                        <h3 className="text-xl font-bold text-gray-900">{plan.name}</h3>
-                        <p className="text-gray-600 mb-2">{plan.description}</p>
-                        <div className="text-3xl font-bold text-gray-900">₹{plan.price.toLocaleString()}</div>
+                        <h3 className="text-lg lg:text-xl font-bold text-gray-900">{plan.name}</h3>
+                        <p className="text-sm lg:text-base text-gray-600 mb-2">{plan.description}</p>
+                        <div className="text-2xl lg:text-3xl font-bold text-gray-900">₹{plan.price.toLocaleString()}</div>
                       </div>
                       
                       <ul className="space-y-2 mb-6">

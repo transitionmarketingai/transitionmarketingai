@@ -88,7 +88,7 @@ function HeroSection() {
                   <div className="w-3 h-3 bg-red-400 rounded-full"></div>
                   <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
                   <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-                  <span className="text-xs text-gray-600 ml-2 font-mono">transitionmarketingai.com/dashboard</span>
+                  <span className="text-xs text-gray-600 ml-2 font-mono">transitionmarketingai.ai/dashboard</span>
                 </div>
                 <div className="flex space-x-1">
                   <div className="w-2 h-2 bg-gray-300 rounded-full"></div>

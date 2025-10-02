@@ -19,7 +19,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://transitionmarketingai.com"),
+  metadataBase: new URL("https://transitionmarketingai.ai"),
   title: {
     default: "Transition Marketing AI — AI-Powered Lead Generation & Marketing Automation",
     template: "%s | Transition Marketing AI"
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Transition Marketing AI — AI-Powered Lead Generation & Marketing Automation",
     description: "Generate qualified leads with AI, create personalized campaigns, automate outreach, and convert prospects into customers. Built for Indian businesses. 14-day free trial.",
-    url: "https://transitionmarketingai.com",
+    url: "https://transitionmarketingai.ai",
     siteName: "Transition Marketing AI",
     images: [
       {
@@ -93,7 +93,7 @@ export const metadata: Metadata = {
     google: process.env.GOOGLE_VERIFICATION_CODE || "your-google-verification-code",
   },
   alternates: {
-    canonical: "https://transitionmarketingai.com",
+    canonical: "https://transitionmarketingai.ai",
   },
   category: "technology",
   classification: "Business Software",

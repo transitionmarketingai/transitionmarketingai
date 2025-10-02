@@ -442,6 +442,7 @@ export default function OnboardingFlow({ userEmail, onComplete }: OnboardingFlow
             </a>
           </div>
         </div>
-  </div>
-);
+      </div>
+    </div>
+  );
 }

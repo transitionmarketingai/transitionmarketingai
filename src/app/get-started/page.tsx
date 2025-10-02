@@ -98,7 +98,7 @@ export default function GetStartedPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.955 8.955 0 01-4.934-1.48a8.99 8.99 0 01-3.066-3.066A8.955 8.955 0 013 12c0-4.418 3.582-8 8-8s8 3.582 8 8z"></path>
                 </svg>
               </div>
-              <span>Email verified as <strong>{session.user.email}</strong></span>
+              <span>Email verified as <strong>{session?.user?.email}</strong></span>
             </div>
             
             <div className="flex items-center space-x-3">

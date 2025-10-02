@@ -29,7 +29,7 @@ interface IndustryTemplate {
 
 export default function IndianLeadDashboard() {
   const { data: session } = useSession();
-  const [activeTab, setActiveTab] = useState<'overview' | 'projects' | 'areas' | 'resources' | 'archives'>('overview');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'campaigns' | 'leads' | 'automation' | 'analytics'>('dashboard');
   const [showTour, setShowTour] = useState(false);
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [campaigns, setCampaigns] = useState<LeadCampaign[]>([]);
@@ -164,7 +164,7 @@ export default function IndianLeadDashboard() {
     { label: 'Cost per Qualified Lead', value: '₹42', change: '-₹5', changeType: 'positive' }
   ];
 
-  const renderOverview = () => (
+  const renderDashboard = () => (
     <div className="space-y-8">
       {/* Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -438,11 +438,11 @@ export default function IndianLeadDashboard() {
                 <span className="text-white font-bold text-lg">TM</span>
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900">Transition Marketing AI</h1>
+                <h1 className="text-xl font-bold text-gray-900">Advanced Lead Generation Suite</h1>
                 <p className="text-sm text-gray-600">
-                  AI-Powered Lead Generation Platform for Indian Businesses
-                  <span className="ml-2 px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">
-                    Industry Templates
+                  Complete Lead Management Platform - Replace your current processes
+                  <span className="ml-2 px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
+                    AI-Powered
                   </span>
                 </p>
               </div>
@@ -531,13 +531,13 @@ export default function IndianLeadDashboard() {
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav className="flex space-x-8">
-            {[
-              { id: 'overview', label: 'Overview', icon: '📈', description: 'Dashboard & Quick Actions' },
-              { id: 'projects', label: 'Projects', icon: '🎯', description: 'Active Campaigns & Lead Generation' },
-              { id: 'areas', label: 'Areas', icon: '🏢', description: 'Industry Templates & Management' },
-              { id: 'resources', label: 'Resources', icon: '📚', description: 'Templates & Tools' },
-              { id: 'archives', label: 'Archives', icon: '📦', description: 'Completed Campaigns & Data' }
-            ].map((tab) => (
+          {[
+            { id: 'dashboard', label: 'Dashboard', icon: '📊', description: 'Real-time metrics & performance overview' },
+            { id: 'campaigns', label: 'Campaigns', icon: '🚀', description: 'Create & manage lead generation campaigns' },
+            { id: 'leads', label: 'Lead Database', icon: '👥', description: 'Qualified leads, scoring & management' },
+            { id: 'automation', label: 'Automation', icon: '⚡', description: 'AI-powered nurturing sequences & workflows' },
+            { id: 'analytics', label: 'Analytics', icon: '📈', description: 'Detailed insights & optimization reports' }
+          ].map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
@@ -565,11 +565,11 @@ export default function IndianLeadDashboard() {
 
       {/* Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {activeTab === 'overview' && renderOverview()}
-        {activeTab === 'projects' && renderProjects()}
-        {activeTab === 'areas' && renderAreas()}
-        {activeTab === 'resources' && renderResources()}
-        {activeTab === 'archives' && renderArchives()}
+        {activeTab === 'dashboard' && renderDashboard()}
+        {activeTab === 'campaigns' && renderCampaigns()}
+        {activeTab === 'leads' && renderLeads()}
+        {activeTab === 'automation' && renderAutomation()}
+        {activeTab === 'analytics' && renderAnalytics()}
       </div>
     </div>
   );

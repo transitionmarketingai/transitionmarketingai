@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import AILeadFinder from './AILeadFinder';
 import LeadsNavigation from './LeadsNavigation';
 
 interface LeadFormData {
@@ -67,7 +68,7 @@ const leadBoosterFeatures = [
 ];
 
 export default function LeadsPage() {
-  const [activeSubSection, setActiveSubSection] = useState('leads-inbox');
+  const [activeSubSection, setActiveSubSection] = useState('ai-lead-generation');
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [showAddLeadModal, setShowAddLeadModal] = useState(false);
   const [leadForm, setLeadForm] = useState<LeadFormData>({
@@ -88,8 +89,16 @@ export default function LeadsPage() {
     emailType: 'Work'
   });
 
+  const handleAILeadSelect = (lead: any) => {
+    console.log('AI Lead selected:', lead);
+    // TODO: Add logic to add AI lead to pipeline
+    alert(`Added ${lead.name} from ${lead.company} to your pipeline!`);
+  };
+
   const renderSubSection = () => {
     switch (activeSubSection) {
+      case 'ai-lead-generation':
+        return <AILeadFinder onLeadSelect={handleAILeadSelect} />;
       case 'leads-inbox':
         return (
           <div className="flex-1 bg-white flex items-center justify-center">

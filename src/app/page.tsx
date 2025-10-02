@@ -12,13 +12,14 @@ function HeroSection() {
           {/* Left Column - Content */}
           <div>
             <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight mb-6">
-              The CRM that helps you{' '}
-              <span className="text-blue-600">close more deals</span>
+              AI-powered{' '}
+              <span className="text-blue-600">lead generation</span>{' '}
+              that converts prospects into customers
             </h1>
             
             <p className="text-xl text-gray-600 leading-relaxed mb-8">
-              Transition CRM organizes your sales process and guides your team to reach their goals. 
-              Build stronger relationships and close more deals with the CRM everyone loves.
+              Transition Marketing AI finds qualified prospects, creates personalized campaigns, automates outreach, 
+              and tracks conversions. Turn AI into your best marketing team member.
             </p>
             
             {/* Key Benefits */}
@@ -29,7 +30,7 @@ function HeroSection() {
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                 </div>
-                <span className="text-gray-700">See your entire sales pipeline at a glance</span>
+                <span className="text-gray-700">AI-powered prospect discovery & qualification</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
@@ -37,7 +38,7 @@ function HeroSection() {
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                 </div>
-                <span className="text-gray-700">Automate your sales processes</span>
+                <span className="text-gray-700">Personalized AI content & campaign automation</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
@@ -45,7 +46,7 @@ function HeroSection() {
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                 </div>
-                <span className="text-gray-700">Track activities and follow-ups</span>
+                <span className="text-gray-700">Multi-channel outreach automation</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
@@ -53,7 +54,7 @@ function HeroSection() {
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                 </div>
-                <span className="text-gray-700">Get insights with reports and forecasts</span>
+                <span className="text-gray-700">ROI analytics & conversion tracking</span>
               </div>
             </div>
             
@@ -63,7 +64,7 @@ function HeroSection() {
                 href="/signup"
                 className="inline-flex items-center justify-center px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-all duration-300 hover:shadow-lg"
               >
-                Try Transition CRM free
+                Try Transition Marketing AI free
               </Link>
               <Link 
                 href="/demo"
@@ -87,7 +88,7 @@ function HeroSection() {
                   <div className="w-3 h-3 bg-red-400 rounded-full"></div>
                   <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
                   <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-                  <span className="text-xs text-gray-600 ml-2 font-mono">transitioncrm.com/dashboard</span>
+                  <span className="text-xs text-gray-600 ml-2 font-mono">transitionmarketingai.com/dashboard</span>
                 </div>
                 <div className="flex space-x-1">
                   <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
@@ -101,8 +102,8 @@ function HeroSection() {
                 <div className="bg-gradient-to-r from-blue-50 to-blue-100 px-4 py-3 mb-4 rounded-lg">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="text-sm font-semibold text-gray-900">Sales Dashboard</h3>
-                      <p className="text-xs text-gray-600">Real-time insights</p>
+                      <h3 className="text-sm font-semibold text-gray-900">AI Marketing Dashboard</h3>
+                      <p className="text-xs text-gray-600">Automated lead generation</p>
                     </div>
                     <span className="text-xs font-medium text-blue-700 bg-blue-200 px-2 py-1 rounded-full">Live</span>
                   </div>
@@ -111,31 +112,31 @@ function HeroSection() {
                 <div className="grid grid-cols-1 gap-4 mb-6">
                   <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg p-4 text-white">
                     <div className="flex items-center justify-between mb-1">
-                      <div className="text-sm opacity-90">Active Pipeline</div>
+                      <div className="text-sm opacity-90">AI Leads Generated</div>
                       <svg className="w-4 h-4 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
                       </svg>
                     </div>
-                    <div className="text-2xl font-bold">₹24.5L</div>
-                    <div className="text-sm opacity-90">32 deals in progress</div>
+                    <div className="text-2xl font-bold">1,247</div>
+                    <div className="text-sm opacity-90">qualified prospects this month</div>
                   </div>
                   
                   <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-lg p-4 text-white">
                     <div className="flex items-center justify-between mb-1">
-                      <div className="text-sm opacity-90">Closed This Month</div>
+                      <div className="text-sm opacity-90">Campaign CTR</div>
                       <svg className="w-4 h-4 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                       </svg>
                     </div>
-                    <div className="text-2xl font-bold">₹18.2L</div>
-                    <div className="text-sm opacity-90">15 deals won</div>
+                    <div className="text-2xl font-bold">12.4%</div>
+                    <div className="text-sm opacity-90">industry-leading click rate</div>
                   </div>
                 </div>
                 
                 {/* Recent Activity */}
                 <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg p-4">
                   <div className="flex items-center justify-between mb-3">
-                    <h4 className="text-sm font-semibold text-gray-900">Recent Activity</h4>
+                    <h4 className="text-sm font-semibold text-gray-900">AI Marketing Activity</h4>
                     <span className="text-xs text-blue-600 font-medium">View All →</span>
                   </div>
                   <div className="space-y-2">

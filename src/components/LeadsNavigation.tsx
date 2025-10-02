@@ -12,6 +12,13 @@ export default function LeadsNavigation({ activeSubSection, onSubSectionChange, 
   const [showLinkedInCard, setShowLinkedInCard] = useState(true);
 
   const sections = [
+    // AI LEAD GENERATION
+    {
+      label: 'AI LEAD GENERATION',
+      items: [
+        { id: 'ai-lead-generation', label: 'AI Lead Finder', icon: '🤖', badge: 'BETA' },
+      ]
+    },
     // LEADS SECTION
     {
       label: 'LEADS',

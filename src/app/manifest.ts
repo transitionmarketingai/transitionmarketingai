@@ -2,9 +2,9 @@ import { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Transition Marketing AI - CRM Dashboard',
-    short_name: 'Transition CRM',
-    description: 'AI-powered CRM platform for Indian businesses with lead generation, content creation, and sales automation',
+    name: 'Transition Marketing AI - Lead Generation Platform',
+    short_name: 'Marketing AI',
+    description: 'AI-powered lead generation & marketing automation platform for Indian businesses with prospect discovery, campaign automation, and conversion tracking',
     start_url: '/dashboard',
     display: 'standalone',
     background_color: '#ffffff',

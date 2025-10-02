@@ -19,6 +19,7 @@ import InsightsPage from '@/components/InsightsPage';
 import CommunicationsPage from '@/components/CommunicationsPage';
 import ProductsPage from '@/components/ProductsPage';
 import TeamManagement from '@/components/TeamManagement';
+import AIContentCreator from '@/components/AIContentCreator';
 
 function DashboardPage() {
   const { data: session, status } = useSession();
@@ -70,11 +71,11 @@ function DashboardPage() {
             <div className="mb-8 flex justify-between items-start">
               <div>
                 <h1 className="text-3xl font-bold text-gray-900">Organizations</h1>
-                <p className="text-gray-600 mt-2">Manage your organization contacts and relationships</p>
+                <p className="text-gray-600 mt-2">Manage your B2B target organizations and accounts</p>
               </div>
             </div>
             <div className="p-8 text-center">
-              <p className="text-gray-600">Organizations section coming soon...</p>
+              <p className="text-gray-600">B2B organization management coming soon...</p>
             </div>
           </div>
         );
@@ -82,24 +83,17 @@ function DashboardPage() {
         return <LeadsPage />;
       case 'tools-apps':
         return <ToolsAndApps />;
-      case 'automations':
+      case 'campaigns':
         return (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="text-center">
-              <h1 className="text-2xl font-bold text-gray-900 mb-4">Automations</h1>
-              <p className="text-gray-600">Automation engine coming soon...</p>
+              <h1 className="text-2xl font-bold text-gray-900 mb-4">AI Campaigns</h1>
+              <p className="text-gray-600">AI-powered marketing campaigns coming soon...</p>
             </div>
           </div>
         );
       case 'products':
-        return (
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="text-center">
-              <h1 className="text-2xl font-bold text-gray-900 mb-4">Products</h1>
-              <p className="text-gray-600">Product management coming soon...</p>
-            </div>
-          </div>
-          );
+        return <AIContentCreator />;
       case 'deals':
         return <DealsPage />;
       case 'activities':
@@ -133,22 +127,23 @@ function DashboardPage() {
   }
 
   const getCurrentPageTitle = () => {
-    const titles = {
-      'setup-guide': 'Setup guide',
-      'leads': 'Leads',
-      'contacts': 'Contacts / People',
-      'organizations': 'Organizations',
-      'timeline': 'Contacts timeline',
-      'merge': 'Merge duplicates',
-      'deals': 'Deals',
-      'activities': 'Activities',
-      'analytics': 'Insights',
-      'communications': 'Communications',
-      'products': 'Products',
-      'team': 'Team Management',
-      'tools-apps': 'Tools and apps',
-      'automations': 'Tools and apps / Automations'
-    };
+        const titles = {
+          'setup-guide': 'AI Setup Guide',
+          'leads': 'AI Lead Generation',
+          'contacts': 'Contact Management',
+          'organizations': 'B2B Organizations',
+          'campaigns': 'AI Campaigns',
+          'timeline': 'Marketing Timeline',
+          'merge': 'Lead Deduplication',
+          'deals': 'Sales Pipeline',
+          'activities': 'Marketing Activities',
+          'analytics': 'Marketing Analytics',
+          'communications': 'Email & Outreach',
+          'products': 'AI Content Creation',
+          'team': 'Team Management',
+          'tools-apps': 'Marketing Tools',
+          'automations': 'Marketing Automation'
+        };
     return titles[activeSection as keyof typeof titles] || activeSection.charAt(0).toUpperCase() + activeSection.slice(1);
   };
 

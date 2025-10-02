@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 // import SimplifiedAnalytics from './SimplifiedAnalytics';
 import GuidedTours from './GuidedTours';
+import DashboardSidebar from './DashboardSidebar';
 import MobileDashboardOptimizer from './MobileDashboardOptimizer';
 import RealTimeValueDemonstrator from './RealTimeValueDemonstrator';
 // import SocialProofManager from './SocialProofManager';
@@ -566,6 +567,11 @@ export default function IndianLeadDashboard() {
   return (
     <MobileDashboardOptimizer activeSection={activeTab}>
       <div className="min-h-screen bg-gray-50">
+        {/* Fixed Sidebar */}
+        <DashboardSidebar 
+          activeSection={activeTab} 
+          onSectionChange={(section) => setActiveTab(section as any)} 
+        />
       {/* Compact Header with Key Metrics */}
       <div className="bg-white border-b border-gray-200 ml-56 w-auto">
         <div className="px-6 py-3">
@@ -677,13 +683,20 @@ export default function IndianLeadDashboard() {
 
       {/* Platform Tour Modal */}
       {showTour && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-lg relative">
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-[9999] flex items-center justify-center p-4"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setShowTour(false);
+            }
+          }}
+        >
+          <div className="bg-white rounded-xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-lg relative z-[10000]">
             <button
               onClick={() => setShowTour(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors z-[10001] bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-sm"
             >
-              <span className="text-2xl">×</span>
+              <span className="text-xl font-bold">×</span>
             </button>
             <h3 className="text-2xl font-bold text-gray-900 mb-4">🎯 Platform Tour - AI Lead Generation Suite</h3>
             <div className="space-y-4 text-gray-600">
@@ -718,14 +731,22 @@ export default function IndianLeadDashboard() {
             </div>
             <div className="mt-6 flex justify-end space-x-4">
               <button 
-                onClick={() => setShowTour(false)}
-                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowTour(false);
+                }}
+                className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium transition-colors"
               >
                 Skip Tour
               </button>
               <button 
-                onClick={() => setShowTour(false)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowTour(false);
+                }}
+                className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition-colors"
               >
                 Start Exploring
               </button>

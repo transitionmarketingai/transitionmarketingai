@@ -20,11 +20,12 @@ import CommunicationsPage from '@/components/CommunicationsPage';
 import ProductsPage from '@/components/ProductsPage';
 import TeamManagement from '@/components/TeamManagement';
 import AIContentCreator from '@/components/AIContentCreator';
+import IndianLeadDashboard from '@/components/IndianLeadDashboard';
 
 function DashboardPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [activeSection, setActiveSection] = useState('setup-guide');
+  const [activeSection, setActiveSection] = useState('overview');
   const [showOnboarding, setShowOnboarding] = useState(false);
 
   useEffect(() => {
@@ -61,6 +62,16 @@ function DashboardPage() {
 
   const renderMainContent = () => {
     switch (activeSection) {
+      case 'overview':
+        return <IndianLeadDashboard />;
+      case 'campaigns':
+        return <IndianLeadDashboard />;
+      case 'leads':
+        return <IndianLeadDashboard />;
+      case 'industries':
+        return <IndianLeadDashboard />;
+      case 'settings':
+        return <IndianLeadDashboard />;
       case 'setup-guide':
         return <SetupGuide />;
       case 'contacts':
@@ -147,40 +158,20 @@ function DashboardPage() {
     return titles[activeSection as keyof typeof titles] || activeSection.charAt(0).toUpperCase() + activeSection.slice(1);
   };
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Mobile Navigation */}
-      <MobileDashboardSidebar activeSection={activeSection} onSectionChange={setActiveSection} />
-      <MobileDashboardNav currentPage={getCurrentPageTitle()} />
-      
-      <div className="flex h-screen lg:h-auto">
-        {/* Desktop Sidebar */}
-        <div className="hidden lg:block">
-          <DashboardSidebar activeSection={activeSection} onSectionChange={setActiveSection} />
-        </div>
-        
-        {/* Main Content */}
-        <div className="flex-1 lg:ml-16">
-          {/* Desktop Navigation */}
-          <div className="hidden lg:block">
-            <DashboardTopNav currentPage={getCurrentPageTitle()} />
-          </div>
+      return (
+        <div className="min-h-screen bg-gray-50">
+          {/* Use the new Indian Lead Dashboard */}
+          <IndianLeadDashboard />
           
-          <div className="overflow-y-auto h-screen lg:h-auto">
-            {renderMainContent()}
-          </div>
+          {/* Onboarding Flow */}
+          {showOnboarding && session?.user?.email && (
+            <OnboardingFlow 
+              userEmail={session.user.email}
+              onComplete={handleOnboardingComplete}
+            />
+          )}
         </div>
-      </div>
-
-      {/* Onboarding Flow */}
-      {showOnboarding && session?.user?.email && (
-        <OnboardingFlow 
-          userEmail={session.user.email}
-          onComplete={handleOnboardingComplete}
-        />
-      )}
-    </div>
-  );
+      );
 }
 
 export default DashboardPage;

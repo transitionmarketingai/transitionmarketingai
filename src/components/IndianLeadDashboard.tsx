@@ -187,52 +187,57 @@ export default function IndianLeadDashboard() {
         ))}
       </div>
 
-      {/* Quick Actions - P.A.R.A. Structure */}
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-6">Quick Actions - Lead Generation Platform</h3>
+      {/* Lead Generation Quick Actions */}
+      <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-8">
+        <h3 className="text-xl font-semibold text-gray-900 mb-6">Quick Launch - Start Lead Generation</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <button 
-            onClick={() => setActiveTab('projects')}
-            className="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow text-left"
+            onClick={() => setActiveTab('campaigns')}
+            className="bg-white rounded-lg p-6 shadow-sm hover:shadow-lg transition-shadow text-left border border-gray-200 hover:border-blue-300"
           >
-            <div className="text-2xl mb-3">🎯</div>
-            <h4 className="font-semibold text-gray-900 mb-2">Start New Project</h4>
-            <p className="text-gray-600 text-sm">Launch lead generation campaign with deadlines</p>
+            <div className="text-3xl mb-3">🚀</div>
+            <h4 className="font-semibold text-gray-900 mb-2">New Campaign</h4>
+            <p className="text-gray-600 text-sm">Launch AI-powered lead generation across multiple channels</p>
           </button>
           
           <button 
-            onClick={() => setActiveTab('areas')}
-            className="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow text-left"
+            onClick={() => setActiveTab('leads')}
+            className="bg-white rounded-lg p-6 shadow-sm hover:shadow-lg transition-shadow text-left border border-gray-200 hover:border-green-300"
           >
-            <div className="text-2xl mb-3">🏢</div>
-            <h4 className="font-semibold text-gray-900 mb-2">Manage Areas</h4>
-            <p className="text-gray-600 text-sm">Industry verticals & vertical management</p>
+            <div className="text-3xl mb-3">👥</div>
+            <h4 className="font-semibold text-gray-900 mb-2">Import Leads</h4>
+            <p className="text-gray-600 text-sm">Upload and qualify existing prospect databases</p>
           </button>
           
           <button 
-            onClick={() => setActiveTab('resources')}
-            className="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow text-left"
+            onClick={() => setActiveTab('automation')}
+            className="bg-white rounded-lg p-6 shadow-sm hover:shadow-lg transition-shadow text-left border border-gray-200 hover:border-purple-300"
           >
-            <div className="text-2xl mb-3">📚</div>
-            <h4 className="font-semibold text-gray-900 mb-2">Access Resources</h4>
-            <p className="text-gray-600 text-sm">Templates, tools & knowledge base</p>
+            <div className="text-3xl mb-3">⚡</div>
+            <h4 className="font-semibold text-gray-900 mb-2">Setup Automation</h4>
+            <p className="text-gray-600 text-sm">Create intelligent nurturing sequences and workflows</p>
           </button>
-
+          
           <button 
-            onClick={() => setActiveTab('archives')}
-            className="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow text-left"
+            onClick={() => setActiveTab('analytics')}
+            className="bg-white rounded-lg p-6 shadow-sm hover:shadow-lg transition-shadow text-left border border-gray-200 hover:border-orange-300"
           >
-            <div className="text-2xl mb-3">📦</div>
-            <h4 className="font-semibold text-gray-900 mb-2">View Archives</h4>
-            <p className="text-gray-600 text-sm">Completed campaigns & historical data</p>
+            <div className="text-3xl mb-3">📈</div>
+            <h4 className="font-semibold text-gray-900 mb-2">Performance Report</h4>
+            <p className="text-gray-600 text-sm">Detailed insights and optimization recommendations</p>
           </button>
         </div>
       </div>
 
-      {/* Recent Campaigns */}
+      {/* Active Lead Generation Campaigns */}
       <div className="bg-white rounded-xl border border-gray-200">
         <div className="p-6 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900">Recent Campaigns</h3>
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-semibold text-gray-900">Active Lead Generation Campaigns</h3>
+            <button onClick={() => setActiveTab('campaigns')} className="text-blue-600 hover:text-blue-700 text-sm font-medium">
+              View All →
+            </button>
+          </div>
         </div>
         <div className="p-6">
           <div className="space-y-4">
@@ -273,11 +278,63 @@ export default function IndianLeadDashboard() {
     </div>
   );
 
-  const renderAreas = () => (
-    <IndustryTemplates />
+  const renderLeads = () => (
+    <div className="space-y-8">
+      <div className="flex items-center justify-between">
+        <h3 className="text-xl font-semibold text-gray-900">Lead Database & Management</h3>
+        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+          Import Leads
+        </button>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="bg-white rounded-xl border border-gray-200 p-6">
+          <h4 className="font-semibold text-gray-900 mb-2">Total Leads</h4>
+          <p className="text-3xl font-bold text-blue-600">1,247</p>
+          <p className="text-sm text-gray-600">+15% this month</p>
+        </div>
+        <div className="bg-white rounded-xl border border-gray-200 p-6">
+          <h4 className="font-semibold text-gray-900 mb-2">Qualified Leads</h4>
+          <p className="text-3xl font-bold text-green-600">892</p>
+          <p className="text-sm text-gray-600">71.5% qualification rate</p>
+        </div>
+        <div className="bg-white rounded-xl border border-gray-200 p-6">
+          <h4 className="font-semibold text-gray-900 mb-2">Avg Lead Score</h4>
+          <p className="text-3xl font-bold text-purple-600">8.2</p>
+          <p className="text-sm text-gray-600">Out of 10</p>
+        </div>
+      </div>
+
+      <div className="bg-white rounded-xl border border-gray-200 p-6">
+        <h4 className="font-semibold text-gray-900 mb-4">Recent Lead Activity</h4>
+        <div className="space-y-3">
+          {[
+            { company: "TechCorp Solutions", status: "Hot Lead", score: 9, source: "LinkedIn" },
+            { company: "DigitalFirst Apps", status: "Warm", score: 7, source: "Email Campaign" },
+            { company: "CloudBridge Systems", status: "Hot Lead", score: 9, source: "Website Form" },
+            { company: "DataDriven Solutions", status: "Qualified", score: 8, source: "Referral" }
+          ].map((lead, index) => (
+            <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+              <div>
+                <p className="font-medium text-gray-900">{lead.company}</p>
+                <p className="text-sm text-gray-600">{lead.source}</p>
+              </div>
+              <div className="flex items-center space-x-3">
+                <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                  lead.score >= 8 ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                }`}>
+                  {lead.status}
+                </span>
+                <span className="text-sm font-medium">Score: {lead.score}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 
-  const renderProjects = () => (
+  const renderCampaigns = () => (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold text-gray-900">Active Lead Generation Projects</h2>
@@ -348,12 +405,71 @@ export default function IndianLeadDashboard() {
     </div>
   );
 
-  const renderResources = () => (
-    <div className="space-y-6">
+  const renderAutomation = () => (
+    <div className="space-y-8">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900">Lead Generation Resources</h2>
+        <h3 className="text-xl font-semibold text-gray-900">AI-Powered Automation Workflows</h3>
+        <button className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
+          Create Workflow
+        </button>
+      </div>
+      
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="bg-white rounded-xl border border-gray-200 p-6">
+          <h4 className="font-semibold text-gray-900 mb-4">Active Automation Sequences</h4>
+          <div className="space-y-3">
+            {[
+              { name: "B2B SaaS Follow-up", triggers: 234, status: "Active" },
+              { name: "Real Estate Nurturing", triggers: 156, status: "Active" },
+              { name: "Healthcare Outreach", triggers: 89, status: "Paused" },
+              { name: "E-commerce Retargeting", triggers: 445, status: "Active" }
+            ].map((sequence, index) => (
+              <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div>
+                  <p className="font-medium text-gray-900">{sequence.name}</p>
+                  <p className="text-sm text-gray-600">{sequence.triggers} triggers this week</p>
+                </div>
+                <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                  sequence.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                }`}>
+                  {sequence.status}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="bg-white rounded-xl border border-gray-200 p-6">
+          <h4 className="font-semibold text-gray-900 mb-4">Quick Automation Templates</h4>
+          <div className="grid grid-cols-1 gap-3">
+            {[
+              "LinkedIn Connection → Email Follow-up",
+              "Website Visit → Retargeting Ads",
+              "Lead Form → Welcome Email Series",
+              "Demo Completed → Sales Call Booking"
+            ].map((template, index) => (
+              <button key={index} className="text-left p-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg hover:shadow-md transition-shadow">
+                <p className="text-sm font-medium text-gray-900">{template}</p>
+                <p className="text-xs text-gray-600">Drag to customize</p>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderAnalytics = () => (
+    <div className="space-y-8">
+      <div className="flex items-center justify-between">
+        <h3 className="text-xl font-semibold text-gray-900">Performance Analytics & Insights</h3>
         <div className="flex space-x-3">
           <button className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
+            Last 30 Days
+          </button>
+          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            Export Report
+          </button>
             Export All
           </button>
           <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
@@ -471,41 +587,41 @@ export default function IndianLeadDashboard() {
       {showTour && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
           <div className="bg-white rounded-xl p-8 max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">🎯 Platform Tour - Lead Generation Platform</h3>
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">🎯 Platform Tour - Advanced Lead Generation Suite</h3>
             <div className="space-y-4 text-gray-600">
               <div className="flex items-start space-x-3">
                 <span className="text-2xl">📈</span>
                 <div>
-                  <h4 className="font-semibold text-gray-900">Dashboard Overview</h4>
-                  <p>Real-time lead metrics, conversion tracking, and campaign performance insights</p>
+                  <h4 className="font-semibold text-gray-900">Dashboard</h4>
+                  <p>Real-time lead metrics, pipeline value, conversion rates and cost per lead tracking</p>
                 </div>
               </div>
               <div className="flex items-start space-x-3">
-                <span className="text-2xl">🎯</span>
+                <span className="text-2xl">🚀</span>
                 <div>
-                  <h4 className="font-semibold text-gray-900">Active Campaigns</h4>
-                  <p>Monitor and manage your ongoing lead generation projects and automated outreach</p>
+                  <h4 className="font-semibold text-gray-900">Campaigns</h4>
+                  <p>Create and manage AI-powered lead generation campaigns across multiple channels</p>
                 </div>
               </div>
               <div className="flex items-start space-x-3">
-                <span className="text-2xl">🏢</span>
-                <div>
-                  <h4 className="font-semibold text-gray-900">Industry Templates</h4>
-                  <p>Choose from 8 pre-built AI templates specifically designed for Indian business sectors</p>
-                </div>
-              </div>
-              <div className="flex items-start space-x-3">
-                <span className="text-2xl">📚</span>
+                <span className="text-2xl">👥</span>
                 <div>
                   <h4 className="font-semibold text-gray-900">Lead Database</h4>
-                  <p>Access your qualified leads, manage lead scoring, and track nurturing progress</p>
+                  <p>Centralized lead management with AI scoring, qualification and nurturing progress</p>
                 </div>
               </div>
               <div className="flex items-start space-x-3">
-                <span className="text-2xl">📦</span>
+                <span className="text-2xl">⚡</span>
                 <div>
-                  <h4 className="font-semibold text-gray-900">Campaign Archives</h4>
-                  <p>View historical performance data, completed campaigns, and optimization insights</p>
+                  <h4 className="font-semibold text-gray-900">Automation</h4>
+                  <p>Smart nurturing sequences, follow-up workflows and intelligent lead assignment</p>
+                </div>
+              </div>
+              <div className="flex items-start space-x-3">
+                <span className="text-2xl">📈</span>
+                <div>
+                  <h4 className="font-semibold text-gray-900">Analytics</h4>
+                  <p>Detailed performance insights, ROI tracking and optimization recommendations</p>
                 </div>
               </div>
             </div>

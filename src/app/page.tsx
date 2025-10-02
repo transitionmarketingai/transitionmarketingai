@@ -52,24 +52,30 @@ function HeroSection() {
             </div>
             
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 mb-6">
+            {/* Primary CTA - Clear hierarchy */}
+            <div className="mb-6">
               <Link 
                 href="/signup"
-                className="inline-flex items-center justify-center px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-all duration-300 hover:shadow-lg text-lg"
+                className="inline-flex items-center justify-center px-10 py-5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold rounded-xl transition-all duration-300 hover:shadow-xl text-xl w-full sm:w-auto"
               >
-                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
-                🚀 Start FREE Trial - No Credit Card
+                Start Your FREE Trial Now →
               </Link>
+            </div>
+
+            {/* Secondary option - Less prominent */}
+            <div className="flex flex-col sm:flex-row gap-3 mb-6">
+              <div className="text-sm text-gray-500 text-center">Want to see it first?</div>
               <Link 
                 href="/demo"
-                className="inline-flex items-center justify-center px-8 py-4 border-2 border-gray-300 hover:border-blue-500 text-gray-700 hover:text-blue-600 font-semibold rounded-lg transition-all duration-300 text-lg"
+                className="inline-flex items-center justify-center px-6 py-3 text-blue-600 hover:text-blue-700 font-medium rounded-lg transition-colors text-sm border border-blue-200 hover:border-blue-300"
               >
-                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.828 14.828 0 01-5.656 0M9 10h1m4 0h1m-6 4h1m4 0h1m-6-8h1m4 0h1M5 7h14M4 14h16" />
                 </svg>
-                📺 Watch LIVE Demo (2 min)
+                📺 Watch 2-Min Demo
               </Link>
             </div>
             

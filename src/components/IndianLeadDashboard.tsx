@@ -3,6 +3,18 @@
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 
+interface ServicePhase {
+  id: string;
+  title: string;
+  description: string;
+  duration: string;
+  costSavings: string;
+  automation: string;
+  icon: string;
+  features: string[];
+  result: string;
+}
+
 interface LeadCampaign {
   id: string;
   name: string;
@@ -43,7 +55,7 @@ interface QuickAction {
 
 export default function IndianLeadDashboard() {
   const { data: session } = useSession();
-  const [activeTab, setActiveTab] = useState<'overview' | 'campaigns' | 'leads' | 'automation' | 'analytics' | 'templates'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'campaigns' | 'leads' | 'automation' | 'analytics' | 'templates' | 'ecosystem'>('overview');
   const [showTour, setShowTour] = useState(false);
   const [leadsToday, setLeadsToday] = useState(47);
   const [isGenerating, setIsGenerating] = useState(true);

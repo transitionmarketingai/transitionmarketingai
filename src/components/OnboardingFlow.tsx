@@ -47,6 +47,9 @@ export default function OnboardingFlow({ userEmail, onComplete }: OnboardingFlow
 
   const totalSteps = 6;
 
+  // Progress calculation
+  const progressPercentage = (currentStep / totalSteps) * 100;
+
   const handleInputChange = (field: keyof OnboardingData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     // Clear error when user starts typing
@@ -410,6 +413,32 @@ export default function OnboardingFlow({ userEmail, onComplete }: OnboardingFlow
         {/* Content */}
         <div className="p-6">
           {renderStep()}
+        </div>
+
+        {/* Progress Bar */}
+        <div className="px-6 pb-4">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-sm font-medium text-gray-700">
+              Step {currentStep} of {totalSteps}
+            </span>
+            <span className="text-sm text-gray-500">
+              {Math.round(progressPercentage)}% Complete
+            </span>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-2">
+            <div 
+              className="bg-gradient-to-r from-blue-600 to-green-600 h-2 rounded-full transition-all duration-500 ease-out"
+              style={{ width: `${progressPercentage}%` }}
+            />
+          </div>
+          <div className="mt-2 text-xs text-gray-500 text-center">
+            {currentStep === 1 && "Tell us about your business"}
+            {currentStep === 2 && "Company information & industry"}
+            {currentStep === 3 && "Lead generation goals & targets"}
+            {currentStep === 4 && "Communication preferences"}
+            {currentStep === 5 && "Business location & markets"}
+            {currentStep === 6 && "Final setup & activation"}
+          </div>
         </div>
 
         {/* Footer */}

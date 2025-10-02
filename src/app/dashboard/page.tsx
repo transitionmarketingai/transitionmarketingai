@@ -10,6 +10,8 @@ import DashboardTopNav from '@/components/DashboardTopNav';
 import SetupGuide from '@/components/SetupGuide';
 import ContactsPage from '@/components/ContactsPage';
 import ToolsAndApps from '@/components/ToolsAndApps';
+import DealsPage from '@/components/DealsPage';
+import ActivitiesPage from '@/components/ActivitiesPage';
 
 function DashboardPage() {
   const { data: session, status } = useSession();
@@ -88,36 +90,11 @@ function DashboardPage() {
               <p className="text-gray-600">Product management coming soon...</p>
             </div>
           </div>
-        );
+          );
       case 'deals':
-        return (
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="mb-8 flex justify-between items-start">
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900">Deals</h1>
-                <p className="text-gray-600 mt-2">Track your sales pipeline and opportunities</p>
-              </div>
-            </div>
-            {/* TODO: Add deals section */}
-            <div className="p-8 text-center">
-              <p className="text-gray-600">Enhanced deals section coming soon...</p>
-            </div>
-          </div>
-        );
+        return <DealsPage />;
       case 'activities':
-        return (
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="mb-8 flex justify-between items-start">
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900">Activities</h1>
-                <p className="text-gray-600 mt-2">Schedule calls, meetings, and track tasks</p>
-              </div>
-            </div>
-            <div className="p-8 text-center">
-              <p className="text-gray-600">Activities section coming soon...</p>
-            </div>
-          </div>
-        );
+        return <ActivitiesPage />;
       case 'analytics':
         return (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -179,6 +156,8 @@ function DashboardPage() {
           activeSection === 'organizations' ? 'Organizations' :
           activeSection === 'timeline' ? 'Contacts timeline' :
           activeSection === 'merge' ? 'Merge duplicates' :
+          activeSection === 'deals' ? 'Deals' :
+          activeSection === 'activities' ? 'Activities' :
           activeSection === 'tools-apps' ? 'Tools and apps' :
           activeSection === 'automations' ? 'Tools and apps / Automations' :
           activeSection === 'products' ? 'Tools and apps / Products' :

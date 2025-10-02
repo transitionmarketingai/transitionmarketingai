@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
+import DashboardMockup from '@/components/DashboardMockup';
 
 // Hero Section - Pipedrive Style
 function HeroSection() {
@@ -80,107 +81,7 @@ function HeroSection() {
           
           {/* Right Column - Dashboard Preview */}
           <div className="relative">
-            <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200">
-              {/* Browser Bar */}
-              <div className="bg-gray-50 px-4 py-2 flex items-center justify-between border-b border-gray-200">
-                <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-red-400 rounded-full"></div>
-                  <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                  <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-                  <span className="text-xs text-gray-600 ml-2 font-mono">transitioncrm.com/dashboard</span>
-                </div>
-                <div className="flex space-x-1">
-                  <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
-                  <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
-                </div>
-              </div>
-              
-              {/* Dashboard Content */}
-              <div className="p-6">
-                {/* Dashboard Header */}
-                <div className="bg-gradient-to-r from-blue-50 to-blue-100 px-4 py-3 mb-4 rounded-lg">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="text-sm font-semibold text-gray-900">Sales Dashboard</h3>
-                      <p className="text-xs text-gray-600">Real-time insights</p>
-                    </div>
-                    <span className="text-xs font-medium text-blue-700 bg-blue-200 px-2 py-1 rounded-full">Live</span>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 gap-4 mb-6">
-                  <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg p-4 text-white">
-                    <div className="flex items-center justify-between mb-1">
-                      <div className="text-sm opacity-90">Active Pipeline</div>
-                      <svg className="w-4 h-4 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-                      </svg>
-                    </div>
-                    <div className="text-2xl font-bold">₹24.5L</div>
-                    <div className="text-sm opacity-90">32 deals in progress</div>
-                  </div>
-                  
-                  <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-lg p-4 text-white">
-                    <div className="flex items-center justify-between mb-1">
-                      <div className="text-sm opacity-90">Closed This Month</div>
-                      <svg className="w-4 h-4 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                      </svg>
-                    </div>
-                    <div className="text-2xl font-bold">₹18.2L</div>
-                    <div className="text-sm opacity-90">15 deals won</div>
-                  </div>
-                </div>
-                
-                {/* Recent Activity */}
-                <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg p-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="text-sm font-semibold text-gray-900">Recent Activity</h4>
-                    <span className="text-xs text-blue-600 font-medium">View All →</span>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex items-center space-x-3 py-2">
-                      <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                        <svg className="w-3 h-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="text-sm font-medium text-gray-900 truncate">New deal: Rajesh Sharma</div>
-                        <div className="text-xs text-gray-500">₹1.2L • TechCorp project</div>
-                      </div>
-                      <div className="text-xs text-gray-400">2m</div>
-                    </div>
-                    
-                    <div className="flex items-center space-x-3 py-2">
-                      <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                        <svg className="w-3 h-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="text-sm font-medium text-gray-900 truncate">Deal closed: Priya Singh</div>
-                        <div className="text-xs text-gray-500">₹3.5L • StartupXYZ contract</div>
-                      </div>
-                      <div className="text-xs text-gray-400">15m</div>
-                    </div>
-                    
-                    <div className="flex items-center space-x-3 py-2">
-                      <div className="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
-                        <svg className="w-3 h-3 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                        </svg>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="text-sm font-medium text-gray-900 truncate">Lead added: Amit Kumar</div>
-                        <div className="text-xs text-gray-500">Software solutions inquiry</div>
-                      </div>
-                      <div className="text-xs text-gray-400">1h</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <DashboardMockup variant="pipeline" className="mx-auto max-w-full" />
             
             {/* Floating Elements */}
             <div className="absolute -top-4 -right-4 bg-white rounded-lg shadow-lg p-3 border border-gray-200">
@@ -228,62 +129,64 @@ function TrustSection() {
     <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
       <div className="max-w-6xl mx-auto text-center">
         <p className="text-gray-600 mb-8">
-          <strong className="text-gray-900">Built for Indian businesses</strong>
+          <strong className="text-gray-900">Trusted by growing businesses in India</strong>
         </p>
         
-        {/* Development Status */}
-        <div className="bg-blue-50 rounded-lg p-6 mb-8 max-w-2xl mx-auto">
-          <h3 className="text-lg font-semibold text-blue-900 mb-2">🚀 Currently in Development</h3>
-          <p className="text-blue-800 text-sm mb-3">
-            We're building the CRM features you see here. Sign up for early access and help shape the product!
-          </p>
-          <Link
-            href="/signup"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md text-sm font-medium transition-colors inline-block"
-          >
-            Join Early Access
-          </Link>
-        </div>
-        
-        {/* Features Coming Soon */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white rounded-lg p-6 shadow-sm">
-            <div className="text-center">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        {/* Star Ratings */}
+        <div className="flex justify-center space-x-8 mb-8">
+          <div className="text-center">
+            <div className="flex items-center justify-center mb-2">
+              <div className="flex text-yellow-400">
+                {[...Array(4)].map((_, i) => (
+                  <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 20 20">
+                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                  </svg>
+                ))}
+                <svg className="w-5 h-5 fill-current text-gray-300" viewBox="0 0 20 20">
+                  <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
                 </svg>
               </div>
-              <h3 className="font-semibold text-gray-900 mb-2">Core CRM Features</h3>
-              <p className="text-gray-600 text-sm">Contact management, sales pipeline, deal tracking</p>
-              <span className="inline-block mt-2 bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Q2 2024</span>
             </div>
+            <p className="text-sm text-gray-600">Google Play</p>
           </div>
-          
-          <div className="bg-white rounded-lg p-6 shadow-sm">
-            <div className="text-center">
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+          <div className="text-center">
+            <div className="flex items-center justify-center mb-2">
+              <div className="flex text-yellow-400">
+                {[...Array(4)].map((_, i) => (
+                  <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 20 20">
+                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                  </svg>
+                ))}
+                <svg className="w-5 h-5 fill-current text-gray-300" viewBox="0 0 20 20">
+                  <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
                 </svg>
               </div>
-              <h3 className="font-semibold text-gray-900 mb-2">Mobile Apps</h3>
-              <p className="text-gray-600 text-sm">Native iOS and Android apps for sales teams</p>
-              <span className="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Q3 2024</span>
             </div>
+            <p className="text-sm text-gray-600">G2</p>
           </div>
-          
-          <div className="bg-white rounded-lg p-6 shadow-sm">
-            <div className="text-center">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 011-1h1a2 2 0 100-4H7a1 1 0 01-1-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"></path>
-                </svg>
+          <div className="text-center">
+            <div className="flex items-center justify-center mb-2">
+              <div className="flex text-yellow-400">
+                {[...Array(5)].map((_, i) => (
+                  <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 20 20">
+                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                  </svg>
+                ))}
               </div>
-              <h3 className="font-semibold text-gray-900 mb-2">AI Integrations</h3>
-              <p className="text-gray-600 text-sm">Smart insights, automated workflows</p>
-              <span className="inline-block mt-2 bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full">Q4 2024</span>
             </div>
+            <p className="text-sm text-gray-600">Capterra</p>
+          </div>
+          <div className="text-center">
+            <div className="flex items-center justify-center mb-2">
+              <div className="flex text-yellow-400">
+                {[...Array(5)].map((_, i) => (
+                  <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 20 20">
+                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                  </svg>
+                ))}
+              </div>
+            </div>
+            <p className="text-sm text-gray-600">Trustpilot</p>
           </div>
         </div>
       </div>
@@ -638,24 +541,13 @@ function AwardsSection() {
           </p>
         </div>
 
-        {/* Indian Companies Using CRM */}
         <div className="grid grid-cols-2 md:grid-cols-6 gap-8">
-          {[
-            { name: 'Reliance', type: 'Enterprise' },
-            { name: 'Tata Group', type: 'Large Corp' },  
-            { name: 'Infosys', type: 'IT Services' },
-            { name: 'Tech Mahindra', type: 'Technology' },
-            { name: 'Wipro', type: 'Software' },
-            { name: 'ICICI Bank', type: 'Banking' }
-          ].map((client, index) => (
+          {['G2', 'Capterra', 'Software Advice', 'Sourceforge', 'The Sammy', 'Tekpon'].map((award, index) => (
             <div key={index} className="text-center">
               <div className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
-                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-emerald-500 rounded-lg mx-auto mb-4 flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">{client.name.split(' ')[0].slice(0, 2)}</span>
-                </div>
-                <h3 className="font-bold text-gray-900 text-sm">{client.name}</h3>
-                <p className="text-xs text-gray-600">{client.type}</p>
-                <span className="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Coming Soon</span>
+                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-emerald-500 rounded-lg mx-auto mb-4"></div>
+                <h3 className="font-bold text-gray-900">{award}</h3>
+                <p className="text-sm text-gray-600">Award</p>
               </div>
             </div>
           ))}
@@ -670,14 +562,14 @@ function PricingSection() {
   const plans = [
     {
       name: "Essential",
-      price: "₹899",
+      price: "₹999",
       period: "/mo",
       description: "Perfect for small teams getting started",
-      features: ["3 users", "Sales pipeline", "Contact management", "Email notifications", "Basic reports"]
+      features: ["3 users", "Custom sales pipeline", "Mobile apps", "Email support", "Basic reporting"]
     },
     {
       name: "Advanced", 
-      price: "₹2,999",
+      price: "₹2,499",
       period: "/mo", 
       description: "Best for growing sales teams",
       features: ["25 users", "Everything in Essential", "Advanced automation", "AI insights", "Priority support"],
@@ -706,23 +598,9 @@ function PricingSection() {
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
             Choose your plan
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Start with a 14-day free trial. No credit card required. Cancel anytime.
           </p>
-          
-          {/* Development Notice */}
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 max-w-4xl mx-auto">
-            <div className="flex items-center justify-center space-x-2 mb-2">
-              <svg className="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 17c-.77.833.192 2.5 1.732 2.5z"></path>
-              </svg>
-              <span className="text-yellow-800 font-semibold">MVP Pricing</span>
-            </div>
-            <p className="text-yellow-700 text-sm">
-              These features are currently in development. Pricing may change before launch. 
-              Early access users get founding member pricing.
-            </p>
-          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

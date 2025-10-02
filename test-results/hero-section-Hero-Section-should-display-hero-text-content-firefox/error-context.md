@@ -1,0 +1,553 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - navigation [ref=e4]:
+      - generic [ref=e6]:
+        - link "Transition CRM" [ref=e8] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e9] [cursor=pointer]: Transition
+          - text: CRM
+        - generic [ref=e11]:
+          - link "Dashboard" [ref=e12] [cursor=pointer]:
+            - /url: /dashboard
+          - button "Products" [ref=e14] [cursor=pointer]:
+            - text: Products
+            - img [ref=e15] [cursor=pointer]
+          - button "Pricing" [ref=e18] [cursor=pointer]:
+            - text: Pricing
+            - img [ref=e19] [cursor=pointer]
+          - button "Resources" [ref=e22] [cursor=pointer]:
+            - text: Resources
+            - img [ref=e23] [cursor=pointer]
+          - button "About" [ref=e26] [cursor=pointer]:
+            - text: About
+            - img [ref=e27] [cursor=pointer]
+          - link "Help" [ref=e30] [cursor=pointer]:
+            - /url: /help
+        - generic [ref=e31]:
+          - button "English (US)" [ref=e33] [cursor=pointer]
+          - link "Log in" [ref=e34] [cursor=pointer]:
+            - /url: /signin
+          - link "Try it free" [ref=e35] [cursor=pointer]:
+            - /url: /signup
+    - generic [ref=e37]:
+      - generic [ref=e38]:
+        - generic [ref=e39]:
+          - heading "The CRM that helps you close more deals" [level=1] [ref=e40]:
+            - text: The CRM that helps you
+            - generic [ref=e41]: close more deals
+          - paragraph [ref=e42]: Transition CRM organizes your sales process and guides your team to reach their goals. Build stronger relationships and close more deals with the CRM everyone loves.
+          - generic [ref=e43]:
+            - generic [ref=e44]:
+              - img [ref=e46]
+              - generic [ref=e48]: See your entire sales pipeline at a glance
+            - generic [ref=e49]:
+              - img [ref=e51]
+              - generic [ref=e53]: Automate your sales processes
+            - generic [ref=e54]:
+              - img [ref=e56]
+              - generic [ref=e58]: Track activities and follow-ups
+            - generic [ref=e59]:
+              - img [ref=e61]
+              - generic [ref=e63]: Get insights with reports and forecasts
+          - generic [ref=e64]:
+            - link "Try Transition CRM free" [ref=e65] [cursor=pointer]:
+              - /url: /signup
+            - link "View demo" [ref=e66] [cursor=pointer]:
+              - /url: /demo
+          - paragraph [ref=e67]: 14-day free trial • No credit card required • Cancel anytime
+        - generic [ref=e68]:
+          - generic [ref=e69]:
+            - generic [ref=e75]: transitioncrm.com/dashboard
+            - generic [ref=e79]:
+              - generic [ref=e81]:
+                - generic [ref=e82]:
+                  - heading "Sales Dashboard" [level=3] [ref=e83]
+                  - paragraph [ref=e84]: Real-time insights
+                - generic [ref=e85]: Live
+              - generic [ref=e86]:
+                - generic [ref=e87]:
+                  - generic [ref=e88]:
+                    - generic [ref=e89]: Active Pipeline
+                    - img [ref=e90]
+                  - generic [ref=e92]: ₹24.5L
+                  - generic [ref=e93]: 32 deals in progress
+                - generic [ref=e94]:
+                  - generic [ref=e95]:
+                    - generic [ref=e96]: Closed This Month
+                    - img [ref=e97]
+                  - generic [ref=e99]: ₹18.2L
+                  - generic [ref=e100]: 15 deals won
+              - generic [ref=e101]:
+                - generic [ref=e102]:
+                  - heading "Recent Activity" [level=4] [ref=e103]
+                  - generic [ref=e104]: View All →
+                - generic [ref=e105]:
+                  - generic [ref=e106]:
+                    - img [ref=e108]
+                    - generic [ref=e110]:
+                      - generic [ref=e111]: "New deal: Rajesh Sharma"
+                      - generic [ref=e112]: ₹1.2L • TechCorp project
+                    - generic [ref=e113]: 2m
+                  - generic [ref=e114]:
+                    - img [ref=e116]
+                    - generic [ref=e118]:
+                      - generic [ref=e119]: "Deal closed: Priya Singh"
+                      - generic [ref=e120]: ₹3.5L • StartupXYZ contract
+                    - generic [ref=e121]: 15m
+                  - generic [ref=e122]:
+                    - img [ref=e124]
+                    - generic [ref=e126]:
+                      - generic [ref=e127]: "Lead added: Amit Kumar"
+                      - generic [ref=e128]: Software solutions inquiry
+                    - generic [ref=e129]: 1h
+          - generic [ref=e133]: Deal Won!
+          - generic [ref=e137]: New Activity
+      - generic [ref=e138]:
+        - paragraph [ref=e139]: Trusted by more than 10,000 Indian businesses
+        - generic [ref=e140]:
+          - generic [ref=e141]:
+            - generic [ref=e143]: T
+            - generic [ref=e144]: TechStart India
+          - generic [ref=e145]:
+            - generic [ref=e147]: D
+            - generic [ref=e148]: Digital Hub
+          - generic [ref=e149]:
+            - generic [ref=e151]: B
+            - generic [ref=e152]: Business Solutions
+          - generic [ref=e153]:
+            - generic [ref=e155]: G
+            - generic [ref=e156]: Growth Engine
+    - generic [ref=e158]:
+      - paragraph [ref=e159]:
+        - strong [ref=e160]: Built for Indian businesses
+      - generic [ref=e161]:
+        - heading "🚀 Currently in Development" [level=3] [ref=e162]
+        - paragraph [ref=e163]: We're building the CRM features you see here. Sign up for early access and help shape the product!
+        - link "Join Early Access" [ref=e164] [cursor=pointer]:
+          - /url: /signup
+      - generic [ref=e165]:
+        - generic [ref=e167]:
+          - img [ref=e169]
+          - heading "Core CRM Features" [level=3] [ref=e171]
+          - paragraph [ref=e172]: Contact management, sales pipeline, deal tracking
+          - generic [ref=e173]: Q2 2024
+        - generic [ref=e175]:
+          - img [ref=e177]
+          - heading "Mobile Apps" [level=3] [ref=e179]
+          - paragraph [ref=e180]: Native iOS and Android apps for sales teams
+          - generic [ref=e181]: Q3 2024
+        - generic [ref=e183]:
+          - img [ref=e185]
+          - heading "AI Integrations" [level=3] [ref=e187]
+          - paragraph [ref=e188]: Smart insights, automated workflows
+          - generic [ref=e189]: Q4 2024
+    - generic [ref=e191]:
+      - generic [ref=e192]:
+        - heading "CRM software sales teams will love" [level=2] [ref=e193]
+        - generic [ref=e195]:
+          - button "I've used a CRM before" [ref=e196] [cursor=pointer]
+          - button "I haven't used a CRM before" [ref=e197] [cursor=pointer]
+      - generic [ref=e198]:
+        - generic [ref=e199]:
+          - generic [ref=e201]:
+            - generic [ref=e202]: 🤖
+            - generic [ref=e203]:
+              - heading "Save hours with automated lead nurturing" [level=3] [ref=e204]
+              - paragraph [ref=e205]: Never miss a follow-up with automated sales conversations and AI-powered prompts to focus on the right leads.
+          - generic [ref=e206]:
+            - blockquote [ref=e207]: "\"Transition CRM is the best tool I've ever found! от email tracking to workflow automations and game-changing integrations, it has plenty of features that help us go beyond our sales targets.\""
+            - generic [ref=e208]:
+              - generic [ref=e209]: RS
+              - generic [ref=e210]:
+                - paragraph [ref=e211]: Rajesh Sharma
+                - paragraph [ref=e212]: Managing Director, TechStart India
+        - generic [ref=e213]:
+          - generic [ref=e215]:
+            - generic [ref=e216]: 📊
+            - generic [ref=e217]:
+              - heading "Harness sales insights to drive your strategy" [level=3] [ref=e218]
+              - paragraph [ref=e219]: Dive into real-time sales reports and grasp the ins and outs of your sales funnel with AI suggestions. Our forecasting, goal-setting, team monitoring and advanced sales metrics tools help you make swift, informed decisions.
+          - generic [ref=e220]:
+            - blockquote [ref=e221]: "\"Transition CRM has enabled us to have instant access to data, so it's not just quadrupling our revenue but ensuring that we have predictable revenue.\""
+            - generic [ref=e222]:
+              - generic [ref=e223]: PK
+              - generic [ref=e224]:
+                - paragraph [ref=e225]: Priya Kumar
+                - paragraph [ref=e226]: Founder and MD, Digital Growth Co
+        - generic [ref=e227]:
+          - generic [ref=e229]:
+            - generic [ref=e230]: 🎯
+            - generic [ref=e231]:
+              - heading "The CRM tailored to your business" [level=3] [ref=e232]
+              - paragraph [ref=e233]: Seamlessly switch to a sales tool that matches every step of your buyer's journey. Transition CRM is more than just a pipeline.
+          - generic [ref=e234]:
+            - blockquote [ref=e235]: "\"Transition CRM adapts well to what we need, and I like that. Unlike other CRM solutions, it fits our needs and doesn't force us to simply conform to what it can provide.\""
+            - generic [ref=e236]:
+              - generic [ref=e237]: AV
+              - generic [ref=e238]:
+                - paragraph [ref=e239]: Amit Verma
+                - paragraph [ref=e240]: CEO and Founder, ScaleUp Solutions
+        - generic [ref=e241]:
+          - generic [ref=e243]:
+            - generic [ref=e244]: ⚡
+            - generic [ref=e245]:
+              - heading "Unlock sales success" [level=3] [ref=e246]
+              - paragraph [ref=e247]: Simplify your workflow and unite your sales tasks in one workspace. Get AI-powered, personalized tips to help you focus on winning deals.
+          - generic [ref=e248]:
+            - blockquote [ref=e249]: "\"Transition CRM has made me a salesperson with good habits. And without a doubt I am much more organized than before.\""
+            - generic [ref=e250]:
+              - generic [ref=e251]: DS
+              - generic [ref=e252]:
+                - paragraph [ref=e253]: Deepak Singh
+                - paragraph [ref=e254]: Sales Manager, GrowthEngine India
+        - generic [ref=e255]:
+          - generic [ref=e257]:
+            - generic [ref=e258]: 📈
+            - generic [ref=e259]:
+              - heading "Refine your strategy with real-time performance insights" [level=3] [ref=e260]
+              - paragraph [ref=e261]: Leverage real-time, visual data to easily make tough decisions and identify what works.
+          - generic [ref=e262]:
+            - blockquote [ref=e263]: "\"The insights we get from Transition CRM help us make data-driven decisions that actually drive growth.\""
+            - generic [ref=e264]:
+              - generic [ref=e265]: SP
+              - generic [ref=e266]:
+                - paragraph [ref=e267]: Sneha Patel
+                - paragraph [ref=e268]: Marketing Director, NextGen Tech
+        - generic [ref=e269]:
+          - generic [ref=e271]:
+            - generic [ref=e272]: ⚙️
+            - generic [ref=e273]:
+              - heading "Customize Transition CRM to your unique sales process" [level=3] [ref=e274]
+              - paragraph [ref=e275]: Discover the power of a CRM that adapts to your sales strategy, giving you the tools and tips you need to succeed.
+          - generic [ref=e276]:
+            - blockquote [ref=e277]: "\"By customizing and automating our customer journey, we were able to remove so much clutter, bottlenecking, manual admin and confusion.\""
+            - generic [ref=e278]:
+              - generic [ref=e279]: VM
+              - generic [ref=e280]:
+                - paragraph [ref=e281]: Vikram Malhotra
+                - paragraph [ref=e282]: Founder and CEO, SmartBusiness Solutions
+      - generic [ref=e284]:
+        - heading "Join growing businesses using Transition CRM to gain real-time insights and more!" [level=3] [ref=e285]
+        - paragraph [ref=e286]: Less time managing, more time closing deals.
+        - link "Watch demo" [ref=e287] [cursor=pointer]:
+          - /url: /demo
+    - generic [ref=e290]:
+      - generic [ref=e291]: 🤖
+      - heading "Say hello to Transition CRM AI" [level=2] [ref=e292]
+      - paragraph [ref=e293]: Boost your sales success with our AI-powered features. Phase out manual processes, streamline communication and make data-driven decisions for smarter, faster sales.
+      - link "Find out more" [ref=e294] [cursor=pointer]:
+        - /url: /ai-features
+    - generic [ref=e297]:
+      - generic [ref=e298]:
+        - heading "Connect your tech stack and discover tools with Transition's Marketplace" [level=2] [ref=e299]
+        - paragraph [ref=e300]: Integrate Transition CRM with the apps that drive your business. Seamlessly connect your favorite software or find new tools with tailored recommendations.
+        - link "Browse all apps" [ref=e301] [cursor=pointer]:
+          - /url: /marketplace
+      - generic [ref=e303]:
+        - generic [ref=e304]:
+          - generic [ref=e305]:
+            - generic [ref=e306]: 📧
+            - generic [ref=e307]: App 1
+          - generic [ref=e308]:
+            - generic [ref=e309]: 📱
+            - generic [ref=e310]: App 2
+          - generic [ref=e311]:
+            - generic [ref=e312]: 💼
+            - generic [ref=e313]: App 3
+          - generic [ref=e314]:
+            - generic [ref=e315]: 📊
+            - generic [ref=e316]: App 4
+        - generic [ref=e318]: 500+ integrations available
+    - generic [ref=e320]:
+      - generic [ref=e321]:
+        - heading "Optimize your sales process" [level=2] [ref=e322]
+        - paragraph [ref=e323]: Supercharge every step of your sales cycle and empower your team to win deals.
+      - generic [ref=e324]:
+        - generic [ref=e325]:
+          - generic [ref=e326]: 👥
+          - heading "Easily manage leads and deals" [level=3] [ref=e327]
+          - paragraph [ref=e328]: Organize customer data and interactions in one simple tool and act fast when opportunity strikes.
+        - generic [ref=e329]:
+          - generic [ref=e330]: 📋
+          - heading "One space for all your sales activities" [level=3] [ref=e331]
+          - paragraph [ref=e332]: Easily track sales conversations and tasks in one tool, giving your salespeople the context they need to follow up faster.
+        - generic [ref=e333]:
+          - generic [ref=e334]: ⚡
+          - heading "Automate and scale" [level=3] [ref=e335]
+          - paragraph [ref=e336]: Streamline your sales process and use AI – get more done with less work.
+        - generic [ref=e337]:
+          - generic [ref=e338]: 📈
+          - heading "Instant sales insights" [level=3] [ref=e339]
+          - paragraph [ref=e340]: Take advantage of real-time data analytics to track sales metrics and fine-tune your strategy.
+        - generic [ref=e341]:
+          - generic [ref=e342]: 🔧
+          - heading "Enhance your CRM experience" [level=3] [ref=e343]
+          - paragraph [ref=e344]: Simple, secure and flexible ecosystem helps you stay on track for sales success.
+    - generic [ref=e346]:
+      - generic [ref=e347]:
+        - heading "See how Transition CRM helps Indian businesses grow" [level=2] [ref=e348]
+        - link "Read more success stories →" [ref=e349] [cursor=pointer]:
+          - /url: /case-studies
+      - generic [ref=e350]:
+        - generic [ref=e351]:
+          - blockquote [ref=e352]: "\"If you want to scale and manage your client base effectively you need a CRM, like Transition CRM, simple as that.\""
+          - generic [ref=e353]:
+            - generic [ref=e354]: EB
+            - link "Eden Brownlee Director and Senior Digital Strategy Consultant, Accentuate Web Design & Marketing Learn more" [ref=e356] [cursor=pointer]:
+              - /url: /case-studies
+              - paragraph [ref=e357] [cursor=pointer]: Eden Brownlee
+              - paragraph [ref=e358] [cursor=pointer]: Director and Senior Digital Strategy Consultant, Accentuate Web Design & Marketing
+              - paragraph [ref=e359] [cursor=pointer]: Learn more
+        - generic [ref=e360]:
+          - blockquote [ref=e361]: "\"Our sales process has improved by 20% and overall hours spent on administrative tasks has been reduced by 40%.\""
+          - generic [ref=e362]:
+            - generic [ref=e363]: JH
+            - link "Jana Hodboďová Chief Sales Officer, Leadspicker Learn more" [ref=e365] [cursor=pointer]:
+              - /url: /case-studies
+              - paragraph [ref=e366] [cursor=pointer]: Jana Hodboďová
+              - paragraph [ref=e367] [cursor=pointer]: Chief Sales Officer, Leadspicker
+              - paragraph [ref=e368] [cursor=pointer]: Learn more
+        - generic [ref=e369]:
+          - blockquote [ref=e370]: "\"Transition CRM is significantly better value than other CRMs but still has an easy-to-use interface. It became apparent that it was a great fit for our team at a cost we could afford.\""
+          - generic [ref=e371]:
+            - generic [ref=e372]: OL
+            - link "Oliver Lee Sales Director, CreativeRace Learn more" [ref=e374] [cursor=pointer]:
+              - /url: /case-studies
+              - paragraph [ref=e375] [cursor=pointer]: Oliver Lee
+              - paragraph [ref=e376] [cursor=pointer]: Sales Director, CreativeRace
+              - paragraph [ref=e377] [cursor=pointer]: Learn more
+    - generic [ref=e379]:
+      - generic [ref=e380]:
+        - heading "Award-winning CRM software" [level=2] [ref=e381]
+        - paragraph [ref=e382]: Industry experts recognize Transition CRM as a top-rated solution.
+      - generic [ref=e383]:
+        - generic [ref=e385]:
+          - generic [ref=e387]: Re
+          - heading "Reliance" [level=3] [ref=e388]
+          - paragraph [ref=e389]: Enterprise
+          - generic [ref=e390]: Coming Soon
+        - generic [ref=e392]:
+          - generic [ref=e394]: Ta
+          - heading "Tata Group" [level=3] [ref=e395]
+          - paragraph [ref=e396]: Large Corp
+          - generic [ref=e397]: Coming Soon
+        - generic [ref=e399]:
+          - generic [ref=e401]: In
+          - heading "Infosys" [level=3] [ref=e402]
+          - paragraph [ref=e403]: IT Services
+          - generic [ref=e404]: Coming Soon
+        - generic [ref=e406]:
+          - generic [ref=e408]: Te
+          - heading "Tech Mahindra" [level=3] [ref=e409]
+          - paragraph [ref=e410]: Technology
+          - generic [ref=e411]: Coming Soon
+        - generic [ref=e413]:
+          - generic [ref=e415]: Wi
+          - heading "Wipro" [level=3] [ref=e416]
+          - paragraph [ref=e417]: Software
+          - generic [ref=e418]: Coming Soon
+        - generic [ref=e420]:
+          - generic [ref=e422]: IC
+          - heading "ICICI Bank" [level=3] [ref=e423]
+          - paragraph [ref=e424]: Banking
+          - generic [ref=e425]: Coming Soon
+    - generic [ref=e427]:
+      - generic [ref=e428]:
+        - heading "Choose your plan" [level=2] [ref=e429]
+        - paragraph [ref=e430]: Start with a 14-day free trial. No credit card required. Cancel anytime.
+        - generic [ref=e431]:
+          - generic [ref=e432]:
+            - img [ref=e433]
+            - generic [ref=e435]: MVP Pricing
+          - paragraph [ref=e436]: These features are currently in development. Pricing may change before launch. Early access users get founding member pricing.
+      - generic [ref=e437]:
+        - generic [ref=e439]:
+          - generic [ref=e440]:
+            - heading "Essential" [level=3] [ref=e441]
+            - paragraph [ref=e442]: Perfect for small teams getting started
+            - generic [ref=e443]:
+              - generic [ref=e444]: ₹899
+              - generic [ref=e445]: /mo
+          - list [ref=e446]:
+            - listitem [ref=e447]:
+              - img [ref=e449]
+              - generic [ref=e451]: 3 users
+            - listitem [ref=e452]:
+              - img [ref=e454]
+              - generic [ref=e456]: Sales pipeline
+            - listitem [ref=e457]:
+              - img [ref=e459]
+              - generic [ref=e461]: Contact management
+            - listitem [ref=e462]:
+              - img [ref=e464]
+              - generic [ref=e466]: Email notifications
+            - listitem [ref=e467]:
+              - img [ref=e469]
+              - generic [ref=e471]: Basic reports
+          - link "Start free trial" [ref=e472] [cursor=pointer]:
+            - /url: /signup
+        - generic [ref=e473]:
+          - generic [ref=e474]: Most Popular
+          - generic [ref=e475]:
+            - generic [ref=e476]:
+              - heading "Advanced" [level=3] [ref=e477]
+              - paragraph [ref=e478]: Best for growing sales teams
+              - generic [ref=e479]:
+                - generic [ref=e480]: ₹2,999
+                - generic [ref=e481]: /mo
+            - list [ref=e482]:
+              - listitem [ref=e483]:
+                - img [ref=e485]
+                - generic [ref=e487]: 25 users
+              - listitem [ref=e488]:
+                - img [ref=e490]
+                - generic [ref=e492]: Everything in Essential
+              - listitem [ref=e493]:
+                - img [ref=e495]
+                - generic [ref=e497]: Advanced automation
+              - listitem [ref=e498]:
+                - img [ref=e500]
+                - generic [ref=e502]: AI insights
+              - listitem [ref=e503]:
+                - img [ref=e505]
+                - generic [ref=e507]: Priority support
+            - link "Start free trial" [ref=e508] [cursor=pointer]:
+              - /url: /signup
+        - generic [ref=e510]:
+          - generic [ref=e511]:
+            - heading "Professional" [level=3] [ref=e512]
+            - paragraph [ref=e513]: Complete solution for larger teams
+            - generic [ref=e514]:
+              - generic [ref=e515]: ₹4,999
+              - generic [ref=e516]: /mo
+          - list [ref=e517]:
+            - listitem [ref=e518]:
+              - img [ref=e520]
+              - generic [ref=e522]: 100 users
+            - listitem [ref=e523]:
+              - img [ref=e525]
+              - generic [ref=e527]: Everything in Advanced
+            - listitem [ref=e528]:
+              - img [ref=e530]
+              - generic [ref=e532]: Advanced analytics
+            - listitem [ref=e533]:
+              - img [ref=e535]
+              - generic [ref=e537]: Custom fields
+            - listitem [ref=e538]:
+              - img [ref=e540]
+              - generic [ref=e542]: Dedicated manager
+          - link "Start free trial" [ref=e543] [cursor=pointer]:
+            - /url: /signup
+        - generic [ref=e545]:
+          - generic [ref=e546]:
+            - heading "Enterprise" [level=3] [ref=e547]
+            - paragraph [ref=e548]: For large organizations
+            - generic [ref=e550]: Custom
+          - list [ref=e551]:
+            - listitem [ref=e552]:
+              - img [ref=e554]
+              - generic [ref=e556]: Unlimited users
+            - listitem [ref=e557]:
+              - img [ref=e559]
+              - generic [ref=e561]: Everything in Professional
+            - listitem [ref=e562]:
+              - img [ref=e564]
+              - generic [ref=e566]: White-label
+            - listitem [ref=e567]:
+              - img [ref=e569]
+              - generic [ref=e571]: Custom integrations
+            - listitem [ref=e572]:
+              - img [ref=e574]
+              - generic [ref=e576]: 24/7 support
+          - link "Start free trial" [ref=e577] [cursor=pointer]:
+            - /url: /signup
+    - generic [ref=e579]:
+      - heading "CRM FAQs" [level=2] [ref=e581]
+      - generic [ref=e582]:
+        - generic [ref=e583]:
+          - heading "What is Transition CRM?" [level=3] [ref=e584]
+          - paragraph [ref=e585]: Transition CRM is a sales pipeline CRM designed to help Indian businesses manage leads, track sales activities and close more deals.
+        - generic [ref=e586]:
+          - heading "How does Transition CRM work?" [level=3] [ref=e587]
+          - paragraph [ref=e588]: "Transition CRM enables sales teams in Indian businesses to: Streamline processes and consolidate sales data in one unified CRM tool, Automate follow-ups and ensure timely responses to leads, Keep an eye on sales achievements and assess team performance for ongoing improvement."
+        - generic [ref=e589]:
+          - heading "How to set up Transition CRM?" [level=3] [ref=e590]
+          - paragraph [ref=e591]: "Setting up Transition CRM is straightforward: Begin by importing existing data or building your leads database, Define your sales pipeline, create active deals, and start scheduling activities, Set up team access with granular permissions, Keep a close eye on sales outcomes by creating real-time reports and dashboards."
+        - generic [ref=e592]:
+          - heading "Will Transition CRM work for a big team?" [level=3] [ref=e593]
+          - paragraph [ref=e594]: Yes! Transition CRM is well-suited for startups and larger teams alike. Large teams have access to a dedicated account manager to help them make the most of the platform.
+    - generic [ref=e596]:
+      - heading "Driving business growth" [level=2] [ref=e597]
+      - paragraph [ref=e598]: Join thousands of Indian businesses using Transition CRM to optimize their sales process.
+      - link "Try it free" [ref=e599] [cursor=pointer]:
+        - /url: /signup
+      - paragraph [ref=e600]: Full access. No credit card needed.
+    - contentinfo [ref=e601]:
+      - generic [ref=e602]:
+        - generic [ref=e603]:
+          - generic [ref=e604]:
+            - heading "Transition CRM" [level=3] [ref=e605]:
+              - generic [ref=e606]: Transition
+              - text: CRM
+            - paragraph [ref=e607]: The easy and effective CRM for closing deals. Built for Indian businesses.
+          - generic [ref=e608]:
+            - heading "Product" [level=4] [ref=e609]
+            - list [ref=e610]:
+              - listitem [ref=e611]:
+                - link "Features" [ref=e612] [cursor=pointer]:
+                  - /url: /features
+              - listitem [ref=e613]:
+                - link "AI Features" [ref=e614] [cursor=pointer]:
+                  - /url: /ai-features
+              - listitem [ref=e615]:
+                - link "Integrations" [ref=e616] [cursor=pointer]:
+                  - /url: /integrations
+              - listitem [ref=e617]:
+                - link "Mobile Apps" [ref=e618] [cursor=pointer]:
+                  - /url: /mobile
+          - generic [ref=e619]:
+            - heading "Resources" [level=4] [ref=e620]
+            - list [ref=e621]:
+              - listitem [ref=e622]:
+                - link "Blog" [ref=e623] [cursor=pointer]:
+                  - /url: /blog
+              - listitem [ref=e624]:
+                - link "Help Center" [ref=e625] [cursor=pointer]:
+                  - /url: /help
+              - listitem [ref=e626]:
+                - link "Case Studies" [ref=e627] [cursor=pointer]:
+                  - /url: /case-studies
+              - listitem [ref=e628]:
+                - link "API Documentation" [ref=e629] [cursor=pointer]:
+                  - /url: /api
+          - generic [ref=e630]:
+            - heading "Company" [level=4] [ref=e631]
+            - list [ref=e632]:
+              - listitem [ref=e633]:
+                - link "About" [ref=e634] [cursor=pointer]:
+                  - /url: /about
+              - listitem [ref=e635]:
+                - link "Careers" [ref=e636] [cursor=pointer]:
+                  - /url: /careers
+              - listitem [ref=e637]:
+                - link "Contact" [ref=e638] [cursor=pointer]:
+                  - /url: /contact
+              - listitem [ref=e639]:
+                - link "Security" [ref=e640] [cursor=pointer]:
+                  - /url: /security
+        - generic [ref=e642]:
+          - paragraph [ref=e643]: © 2025 Transition CRM. All rights reserved.
+          - generic [ref=e644]:
+            - link "Privacy Policy" [ref=e645] [cursor=pointer]:
+              - /url: /privacy
+            - link "Terms of Service" [ref=e646] [cursor=pointer]:
+              - /url: /terms
+            - link "Cookie Notice" [ref=e647] [cursor=pointer]:
+              - /url: /cookies
+  - button "Open Next.js Dev Tools" [ref=e653] [cursor=pointer]:
+    - img [ref=e654] [cursor=pointer]
+  - alert [ref=e658]
+```

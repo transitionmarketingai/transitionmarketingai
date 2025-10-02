@@ -16,6 +16,7 @@ import LeadsPage from '@/components/LeadsPage';
 import InsightsPage from '@/components/InsightsPage';
 import CommunicationsPage from '@/components/CommunicationsPage';
 import ProductsPage from '@/components/ProductsPage';
+import TeamManagement from '@/components/TeamManagement';
 
 function DashboardPage() {
   const { data: session, status } = useSession();
@@ -107,6 +108,8 @@ function DashboardPage() {
         return <CommunicationsPage />;
       case 'products':
         return <ProductsPage />;
+      case 'team':
+        return <TeamManagement />;
       default:
         return <SetupGuide />;
     }
@@ -146,6 +149,7 @@ function DashboardPage() {
           activeSection === 'analytics' ? 'Insights' :
           activeSection === 'communications' ? 'Communications' :
           activeSection === 'products' ? 'Products' :
+          activeSection === 'team' ? 'Team Management' :
           activeSection === 'tools-apps' ? 'Tools and apps' :
           activeSection === 'automations' ? 'Tools and apps / Automations' :
           activeSection.charAt(0).toUpperCase() + activeSection.slice(1)

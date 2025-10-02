@@ -67,8 +67,8 @@ function PaymentButton() {
     router.push("/dashboard?welcome=true");
   };
 
-  const handleError = (error: string) => {
-    console.error('Payment error:', error);
+  const handleError = (error: Error) => {
+    console.error('Payment error:', error.message);
     // You could show a toast notification here
   };
 
@@ -85,10 +85,10 @@ function PaymentButton() {
 
   return (
     <RazorpayButton
+      teamId="demo-team"
       planId={planId}
+      planPrice={plan.amount}
       planName={plan.name}
-      amount={plan.amount}
-      currency={plan.currency}
       onSuccess={handleSuccess}
       onError={handleError}
     />

@@ -19,6 +19,7 @@ const sidebarItems = [
   { id: 'tools-apps', label: 'Tools and apps', icon: '🔧', badge: null },
   { id: 'analytics', label: 'Analytics', icon: '📊', badge: null },
   { id: 'communications', label: 'Communications', icon: '📧', badge: null },
+  { id: 'team', label: 'Team', icon: '👥', badge: null },
   { id: 'more', label: 'More', icon: '⋯', badge: null },
 ];
 

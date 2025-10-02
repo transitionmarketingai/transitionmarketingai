@@ -26,134 +26,301 @@ export interface Deal {
   userId: string;
 }
 
-const STORAGE_KEY_CONTACTS = 'transition_crm_contacts';
-const STORAGE_KEY_DEALS = 'transition_crm_deals';
-
 class DataService {
-  private getCurrentUserId(): string {
-    // In a real app, this would come from the session
-    return 'demo-user';
+  private async getCurrentUserId(): Promise<string> {
+    // Get the current user from Supabase auth
+    const { data: { user } } = await supabase.auth.getUser();
+    return user?.id || 'demo-user';
   }
 
-  private saveToStorage<T>(key: string, data: T[]): void {
-    try {
-      localStorage.setItem(key, JSON.stringify(data));
-    } catch (error) {
-      console.error('Failed to save to localStorage:', error);
-    }
-  }
-
-  private getFromStorage<T>(key: string): T[] {
-    try {
-      const data = localStorage.getItem(key);
-      return data ? JSON.parse(data) : [];
-    } catch (error) {
-      console.error('Failed to get from localStorage:', error);
-      return [];
-    }
-  }
-
-  // Contact methods
+  // Contact methods with Supabase
   async getContacts(): Promise<Contact[]> {
-    const allContacts = this.getFromStorage<Contact>(STORAGE_KEY_CONTACTS);
-    const userContacts = allContacts.filter(contact => contact.userId === this.getCurrentUserId());
-    
-    // If no contacts exist, return sample data for demo
-    if (userContacts.length === 0) {
+    try {
+      const userId = await this.getCurrentUserId();
+      
+      const { data, error } = await supabase
+        .from('contacts')
+        .select('*')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching contacts:', error);
+        return this.getSampleContacts();
+      }
+
+      if (!data || data.length === 0) {
+        return this.getSampleContacts();
+      }
+
+      return data.map(contact => ({
+        id: contact.id,
+        name: contact.name,
+        company: contact.company,
+        email: contact.email,
+        phone: contact.phone || '',
+        status: contact.status,
+        dealValue: contact.deal_value,
+        lastContact: contact.last_contact,
+        createdAt: contact.created_at,
+        userId: contact.user_id
+      }));
+    } catch (error) {
+      console.error('Error in getContacts:', error);
       return this.getSampleContacts();
     }
-    
-    return userContacts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   }
 
   async addContact(contact: Omit<Contact, 'id' | 'createdAt' | 'userId'>): Promise<Contact> {
-    const newContact: Contact = {
-      ...contact,
-      id: Date.now().toString(),
-      createdAt: new Date().toISOString(),
-      userId: this.getCurrentUserId(),
-    };
+    try {
+      const userId = await this.getCurrentUserId();
+      
+      const { data, error } = await supabase
+        .from('contacts')
+        .insert([{
+          user_id: userId,
+          name: contact.name,
+          company: contact.company,
+          email: contact.email,
+          phone: contact.phone,
+          status: contact.status,
+          deal_value: contact.dealValue,
+          last_contact: contact.lastContact
+        }])
+        .select()
+        .single();
 
-    const allContacts = this.getFromStorage<Contact>(STORAGE_KEY_CONTACTS);
-    allContacts.push(newContact);
-    this.saveToStorage(STORAGE_KEY_CONTACTS, allContacts);
+      if (error) {
+        console.error('Error adding contact:', error);
+        throw error;
+      }
 
-    return newContact;
+      return {
+        id: data.id,
+        name: data.name,
+        company: data.company,
+        email: data.email,
+        phone: data.phone || '',
+        status: data.status,
+        dealValue: data.deal_value,
+        lastContact: data.last_contact,
+        createdAt: data.created_at,
+        userId: data.user_id
+      };
+    } catch (error) {
+      console.error('Error in addContact:', error);
+      throw error;
+    }
   }
 
   async updateContact(id: string, updates: Partial<Contact>): Promise<Contact | null> {
-    const allContacts = this.getFromStorage<Contact>(STORAGE_KEY_CONTACTS);
-    const contactIndex = allContacts.findIndex(contact => contact.id === id && contact.userId === this.getCurrentUserId());
-    
-    if (contactIndex === -1) return null;
+    try {
+      const userId = await this.getCurrentUserId();
+      
+      const updateData: any = {};
+      if (updates.name !== undefined) updateData.name = updates.name;
+      if (updates.company !== undefined) updateData.company = updates.company;
+      if (updates.email !== undefined) updateData.email = updates.email;
+      if (updates.phone !== undefined) updateData.phone = updates.phone;
+      if (updates.status !== undefined) updateData.status = updates.status;
+      if (updates.dealValue !== undefined) updateData.deal_value = updates.dealValue;
+      if (updates.lastContact !== undefined) updateData.last_contact = updates.lastContact;
 
-    allContacts[contactIndex] = { ...allContacts[contactIndex], ...updates };
-    this.saveToStorage(STORAGE_KEY_CONTACTS, allContacts);
+      const { data, error } = await supabase
+        .from('contacts')
+        .update(updateData)
+        .eq('id', id)
+        .eq('user_id', userId)
+        .select()
+        .single();
 
-    return allContacts[contactIndex];
+      if (error) {
+        console.error('Error updating contact:', error);
+        return null;
+      }
+
+      return {
+        id: data.id,
+        name: data.name,
+        company: data.company,
+        email: data.email,
+        phone: data.phone || '',
+        status: data.status,
+        dealValue: data.deal_value,
+        lastContact: data.last_contact,
+        createdAt: data.created_at,
+        userId: data.user_id
+      };
+    } catch (error) {
+      console.error('Error in updateContact:', error);
+      return null;
+    }
   }
 
   async deleteContact(id: string): Promise<boolean> {
-    const allContacts = this.getFromStorage<Contact>(STORAGE_KEY_CONTACTS);
-    const userContacts = allContacts.filter(contact => contact.userId !== this.getCurrentUserId() || contact.id !== id);
-    
-    if (userContacts.length === allContacts.length) return false;
+    try {
+      const userId = await this.getCurrentUserId();
+      
+      const { error } = await supabase
+        .from('contacts')
+        .delete()
+        .eq('id', id)
+        .eq('user_id', userId);
 
-    this.saveToStorage(STORAGE_KEY_CONTACTS, userContacts);
-    return true;
+      if (error) {
+        console.error('Error deleting contact:', error);
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      console.error('Error in deleteContact:', error);
+      return false;
+    }
   }
 
-  // Deal methods
+  // Deal methods with Supabase
   async getDeals(): Promise<Deal[]> {
-    const allDeals = this.getFromStorage<Deal>(STORAGE_KEY_DEALS);
-    const userDeals = allDeals.filter(deal => deal.userId === this.getCurrentUserId());
-    
-    // If no deals exist, return sample data for demo
-    if (userDeals.length === 0) {
+    try {
+      const userId = await this.getCurrentUserId();
+      
+      const { data, error } = await supabase
+        .from('deals')
+        .select('*')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching deals:', error);
+        return this.getSampleDeals();
+      }
+
+      if (!data || data.length === 0) {
+        return this.getSampleDeals();
+      }
+
+      return data.map(deal => ({
+        id: deal.id,
+        contactName: deal.contact_name,
+        company: deal.company,
+        dealValue: deal.deal_value,
+        stage: deal.stage,
+        probability: deal.probability,
+        expectedClose: deal.expected_close,
+        createdAt: deal.created_at,
+        userId: deal.user_id
+      }));
+    } catch (error) {
+      console.error('Error in getDeals:', error);
       return this.getSampleDeals();
     }
-    
-    return userDeals.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   }
 
   async addDeal(deal: Omit<Deal, 'id' | 'createdAt' | 'userId'>): Promise<Deal> {
-    const newDeal: Deal = {
-      ...deal,
-      id: Date.now().toString(),
-      createdAt: new Date().toISOString(),
-      userId: this.getCurrentUserId(),
-    };
+    try {
+      const userId = await this.getCurrentUserId();
+      
+      const { data, error } = await supabase
+        .from('deals')
+        .insert([{
+          user_id: userId,
+          contact_name: deal.contactName,
+          company: deal.company,
+          deal_value: deal.dealValue,
+          stage: deal.stage,
+          probability: deal.probability,
+          expected_close: deal.expectedClose
+        }])
+        .select()
+        .single();
 
-    const allDeals = this.getFromStorage<Deal>(STORAGE_KEY_DEALS);
-    allDeals.push(newDeal);
-    this.saveToStorage(STORAGE_KEY_DEALS, allDeals);
+      if (error) {
+        console.error('Error adding deal:', error);
+        throw error;
+      }
 
-    return newDeal;
+      return {
+        id: data.id,
+        contactName: data.contact_name,
+        company: data.company,
+        dealValue: data.deal_value,
+        stage: data.stage,
+        probability: data.probability,
+        expectedClose: data.expected_close,
+        createdAt: data.created_at,
+        userId: data.user_id
+      };
+    } catch (error) {
+      console.error('Error in addDeal:', error);
+      throw error;
+    }
   }
 
   async updateDeal(id: string, updates: Partial<Deal>): Promise<Deal | null> {
-    const allDeals = this.getFromStorage<Deal>(STORAGE_KEY_DEALS);
-    const dealIndex = allDeals.findIndex(deal => deal.id === id && deal.userId === this.getCurrentUserId());
-    
-    if (dealIndex === -1) return null;
+    try {
+      const userId = await this.getCurrentUserId();
+      
+      const updateData: any = {};
+      if (updates.contactName !== undefined) updateData.contact_name = updates.contactName;
+      if (updates.company !== undefined) updateData.company = updates.company;
+      if (updates.dealValue !== undefined) updateData.deal_value = updates.dealValue;
+      if (updates.stage !== undefined) updateData.stage = updates.stage;
+      if (updates.probability !== undefined) updateData.probability = updates.probability;
+      if (updates.expectedClose !== undefined) updateData.expected_close = updates.expectedClose;
 
-    allDeals[dealIndex] = { ...allDeals[dealIndex], ...updates };
-    this.saveToStorage(STORAGE_KEY_DEALS, allDeals);
+      const { data, error } = await supabase
+        .from('deals')
+        .update(updateData)
+        .eq('id', id)
+        .eq('user_id', userId)
+        .select()
+        .single();
 
-    return allDeals[dealIndex];
+      if (error) {
+        console.error('Error updating deal:', error);
+        return null;
+      }
+
+      return {
+        id: data.id,
+        contactName: data.contact_name,
+        company: data.company,
+        dealValue: data.deal_value,
+        stage: data.stage,
+        probability: data.probability,
+        expectedClose: data.expected_close,
+        createdAt: data.created_at,
+        userId: data.user_id
+      };
+    } catch (error) {
+      console.error('Error in updateDeal:', error);
+      return null;
+    }
   }
 
   async deleteDeal(id: string): Promise<boolean> {
-    const allDeals = this.getFromStorage<Deal>(STORAGE_KEY_DEALS);
-    const userDeals = allDeals.filter(deal => deal.userId !== this.getCurrentUserId() || deal.id !== id);
-    
-    if (userDeals.length === allDeals.length) return false;
+    try {
+      const userId = await this.getCurrentUserId();
+      
+      const { error } = await supabase
+        .from('deals')
+        .delete()
+        .eq('id', id)
+        .eq('user_id', userId);
 
-    this.saveToStorage(STORAGE_KEY_DEALS, userDeals);
-    return true;
+      if (error) {
+        console.error('Error deleting deal:', error);
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      console.error('Error in deleteDeal:', error);
+      return false;
+    }
   }
 
-  // Sample data for demo
+  // Sample data for demo (fallback when Supabase is not available)
   private getSampleContacts(): Contact[] {
     return [
       {
@@ -166,7 +333,7 @@ class DataService {
         dealValue: 120000,
         lastContact: "2025-01-01",
         createdAt: "2025-01-01T00:00:00.000Z",
-        userId: this.getCurrentUserId()
+        userId: 'demo-user'
       },
       {
         id: '2',
@@ -178,7 +345,7 @@ class DataService {
         dealValue: 350000,
         lastContact: "2024-12-28",
         createdAt: "2024-12-28T00:00:00.000Z",
-        userId: this.getCurrentUserId()
+        userId: 'demo-user'
       },
       {
         id: '3',
@@ -190,7 +357,7 @@ class DataService {
         dealValue: 250000,
         lastContact: "2024-12-30",
         createdAt: "2024-12-30T00:00:00.000Z",
-        userId: this.getCurrentUserId()
+        userId: 'demo-user'
       }
     ];
   }
@@ -206,7 +373,7 @@ class DataService {
         probability: 20,
         expectedClose: "2025-02-15",
         createdAt: "2025-01-01T00:00:00.000Z",
-        userId: this.getCurrentUserId()
+        userId: 'demo-user'
       },
       {
         id: '2',
@@ -217,7 +384,7 @@ class DataService {
         probability: 60,
         expectedClose: "2025-01-20",
         createdAt: "2024-12-28T00:00:00.000Z",
-        userId: this.getCurrentUserId()
+        userId: 'demo-user'
       },
       {
         id: '3',
@@ -228,46 +395,103 @@ class DataService {
         probability: 40,
         expectedClose: "2025-03-01",
         createdAt: "2024-12-30T00:00:00.000Z",
-        userId: this.getCurrentUserId()
+        userId: 'demo-user'
       }
     ];
   }
 
-  // Onboarding methods
+  // User Profile methods (still using localStorage for session management)
   async saveOnboardingData(data: any): Promise<void> {
     try {
-      // Here you would save to Supabase in production
-      localStorage.setItem('transition_crm_onboarding', JSON.stringify(data));
+      const userId = await this.getCurrentUserId();
+      
+      // Save onboarding data to Supabase users table
+      const { error } = await supabase
+        .from('users')
+        .update({
+          name: data.name,
+          company: data.company,
+          team_size: data.teamSize,
+          phone: data.phone
+        })
+        .eq('id', userId);
+
+      if (error) {
+        console.error('Error updating user profile:', error);
+        // Fallback to localStorage
+        localStorage.setItem('transition_crm_onboarding', JSON.stringify(data));
+      }
     } catch (error) {
       console.error('Failed to save onboarding data:', error);
+      localStorage.setItem('transition_crm_onboarding', JSON.stringify(data));
     }
   }
 
   async updateUserProfile(data: any): Promise<void> {
     try {
+      const userId = await this.getCurrentUserId();
+      
+      const { error } = await supabase
+        .from('users')
+        .update({
+          ...data,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', userId);
+
+      if (error) {
+        console.error('Error updating user profile:', error);
+        // Fallback to localStorage
+        const profileData = {
+          ...data,
+          updatedAt: new Date().toISOString()
+        };
+        localStorage.setItem('transition_crm_user_profile', JSON.stringify(profileData));
+      }
+    } catch (error) {
+      console.error('Failed to update user profile:', error);
       const profileData = {
         ...data,
         updatedAt: new Date().toISOString()
       };
       localStorage.setItem('transition_crm_user_profile', JSON.stringify(profileData));
-    } catch (error) {
-      console.error('Failed to update user profile:', error);
     }
   }
 
   async getUserProfile(): Promise<any> {
     try {
-      const profile = localStorage.getItem('transition_crm_user_profile');
-      return profile ? JSON.parse(profile) : null;
+      const userId = await this.getCurrentUserId();
+      
+      const { data, error } = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', userId)
+        .single();
+
+      if (error) {
+        console.error('Error fetching user profile:', error);
+        // Fallback to localStorage
+        const profile = localStorage.getItem('transition_crm_user_profile');
+        return profile ? JSON.parse(profile) : null;
+      }
+
+      return data;
     } catch (error) {
       console.error('Failed to get user profile:', error);
-      return null;
+      const profile = localStorage.getItem('transition_crm_user_profile');
+      return profile ? JSON.parse(profile) : null;
     }
   }
 
   async isOnboardingCompleted(): Promise<boolean> {
-    const profile = await this.getUserProfile();
-    return profile?.onboardingCompleted || false;
+    try {
+      const profile = await this.getUserProfile();
+      return profile?.name && profile?.company;
+    } catch (error) {
+      const localProfile = localStorage.getItem('transition_crm_user_profile');
+      const profile = localProfile ? JSON.parse(localProfile) : null;
+      return profile?.onboardingCompleted || false;
+    }
   }
 }
 

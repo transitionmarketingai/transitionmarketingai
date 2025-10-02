@@ -79,6 +79,22 @@ const sidebarItems: SidebarItem[] = [
     description: 'CRM & system connections'
   },
   { 
+    id: 'partnerships', 
+    label: 'Partnerships', 
+    icon: '🤝', 
+    badge: '12',
+    category: 'advanced',
+    description: 'Strategic business alliances'
+  },
+  { 
+    id: 'market-expansion', 
+    label: 'Market Expansion', 
+    icon: '🏙️', 
+    badge: '6',
+    category: 'advanced',
+    description: 'Tier-2/3 city penetration'
+  },
+  { 
     id: 'team', 
     label: 'Team', 
     icon: '👥', 

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import AdvancedAnalyticsDashboard from './AdvancedAnalyticsDashboard';
+import SimplifiedAnalytics from './SimplifiedAnalytics';
 import GuidedTours from './GuidedTours';
 import MobileDashboardOptimizer from './MobileDashboardOptimizer';
 import RealTimeValueDemonstrator from './RealTimeValueDemonstrator';
@@ -13,6 +13,10 @@ import RealTimeStatusTracker from './RealTimeStatusTracker';
 import RealCampaignCreator from './RealCampaignCreator';
 import LeadImportManager from './LeadImportManager';
 import AutomationWorkflowBuilder from './AutomationWorkflowBuilder';
+import BetaTestingOnboarding from './BetaTestingOnboarding';
+import DemoEnvironment from './DemoEnvironment';
+import StrategicPartnershipsManager from './StrategicPartnershipsManager';
+import MarketExpansionStrategy from './MarketExpansionStrategy';
 
 interface ServicePhase {
   id: string;
@@ -66,12 +70,15 @@ interface QuickAction {
 
 export default function IndianLeadDashboard() {
   const { data: session } = useSession();
-  const [activeTab, setActiveTab] = useState<'overview' | 'campaigns' | 'leads' | 'automation' | 'analytics' | 'templates' | 'value-demo' | 'social-proof' | 'personalization' | 'integrations'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'campaigns' | 'leads' | 'automation' | 'analytics' | 'templates' | 'value-demo' | 'social-proof' | 'personalization' | 'integrations' | 'partnerships' | 'market-expansion'>('overview');
   const [showTour, setShowTour] = useState(false);
   const [showCampaignCreator, setShowCampaignCreator] = useState(false);
   const [showLeadImport, setShowLeadImport] = useState(false);
   const [showAutomationBuilder, setShowAutomationBuilder] = useState(false);
+  const [showBetaOnboarding, setShowBetaOnboarding] = useState(false);
+  const [showDemoEnvironment, setShowDemoEnvironment] = useState(false);
   const [campaigns, setCampaigns] = useState<LeadCampaign[]>([]);
+  const [leadsToday, setLeadsToday] = useState(42);
 
   // Mock data for comprehensive lead generation platform
   const [analytics, setAnalytics] = useState<LeadAnalytics>({
@@ -194,6 +201,14 @@ export default function IndianLeadDashboard() {
       icon: '⚡',
       color: 'orange',
       onClick: () => setShowAutomationBuilder(true)
+    },
+    {
+      id: 'demo',
+      title: '🚀 Live Demo',
+      description: 'See AI lead generation in action',
+      icon: '🚀',
+      color: 'purple',
+      onClick: () => setShowDemoEnvironment(true)
     }
   ];
 
@@ -241,10 +256,36 @@ export default function IndianLeadDashboard() {
         </div>
       </div>
 
+      {/* Beta Testing Program */}
+      <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-6 shadow-lg">
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="text-xl font-bold text-white mb-2">🚀 Beta Testing Program</h3>
+            <p className="text-blue-100 mb-4 text-sm">Help us perfect AI-powered lead generation for Indian businesses</p>
+            <div className="flex items-center space-x-3 text-xs text-blue-100">
+              <span>✅ Free access</span>
+              <span>✅ Personal onboarding</span>
+              <span>✅ Direct team support</span>
+            </div>
+          </div>
+          <div className="text-right">
+            <button
+              onClick={() => setShowBetaOnboarding(true)}
+              className="px-4 py-2 bg-white text-blue-600 rounded-lg hover:bg-blue-50 font-medium text-sm"
+            >
+              Join Beta Program
+            </button>
+            <div className="text-blue-100 text-xs mt-1">
+              Already 47 businesses enrolled
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Quick Actions */}
       <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
         <h3 className="text-lg font-semibold text-gray-900 mb-6">🚀 Quick Actions - Get Started</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
           {quickActions.map((action) => (
             <button
               key={action.id}
@@ -591,7 +632,7 @@ export default function IndianLeadDashboard() {
         )}
         {activeTab === 'analytics' && (
           <div>
-            <AdvancedAnalyticsDashboard />
+            <SimplifiedAnalytics />
           </div>
         )}
         {activeTab === 'value-demo' && (
@@ -612,6 +653,16 @@ export default function IndianLeadDashboard() {
         {activeTab === 'integrations' && (
           <div>
             <AdvancedCRMIntegration />
+          </div>
+        )}
+        {activeTab === 'partnerships' && (
+          <div>
+            <StrategicPartnershipsManager />
+          </div>
+        )}
+        {activeTab === 'market-expansion' && (
+          <div>
+            <MarketExpansionStrategy />
           </div>
         )}
       </div>
@@ -708,6 +759,24 @@ export default function IndianLeadDashboard() {
           setShowAutomationBuilder(false);
           setActiveTab('automation');
         }}
+      />
+
+      {/* Beta Testing Onboarding Modal */}
+      <BetaTestingOnboarding 
+        isOpen={showBetaOnboarding}
+        onClose={() => setShowBetaOnboarding(false)}
+        onComplete={(betaUser, goals) => {
+          console.log('Beta application submitted:', { betaUser, goals });
+          setShowBetaOnboarding(false);
+          // Show success message
+        }}
+      />
+
+      {/* Demo Environment Modal */}
+      <DemoEnvironment 
+        isOpen={showDemoEnvironment}
+        onClose={() => setShowDemoEnvironment(false)}
+        scenarioType="tech-startup"
       />
     </MobileDashboardOptimizer>
   );

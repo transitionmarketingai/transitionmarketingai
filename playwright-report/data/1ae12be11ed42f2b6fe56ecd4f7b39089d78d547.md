@@ -77,7 +77,7 @@
                 - paragraph [ref=e84]: Real-time monitoring of campaign performance and system health
             - generic [ref=e85]:
               - generic [ref=e86]: OFFLINE
-              - paragraph [ref=e87]: "Last updated: 2:26:16 AM"
+              - paragraph [ref=e87]: "Last updated: 2:32:18 AM"
           - generic [ref=e88]:
             - generic [ref=e89]:
               - generic [ref=e90]: "0"
@@ -268,5 +268,5 @@
       - button "Help" [ref=e288] [cursor=pointer]
   - button "Open Next.js Dev Tools" [ref=e294] [cursor=pointer]:
     - img [ref=e295] [cursor=pointer]
-  - alert [ref=e298]: Transition Marketing AI — AI-Powered Lead Generation & Marketing Automation
+  - alert [ref=e298]
 ```

@@ -2,19 +2,16 @@
 
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-// import SimplifiedAnalytics from './SimplifiedAnalytics';
 import GuidedTours from './GuidedTours';
 import DashboardSidebar from './DashboardSidebar';
 import MobileDashboardOptimizer from './MobileDashboardOptimizer';
 import RealTimeValueDemonstrator from './RealTimeValueDemonstrator';
-// import SocialProofManager from './SocialProofManager';
 import PersonalizationEngine from './PersonalizationEngine';
 import AdvancedCRMIntegration from './AdvancedCRMIntegration';
 import RealTimeStatusTracker from './RealTimeStatusTracker';
 import RealCampaignCreator from './RealCampaignCreator';
 import LeadImportManager from './LeadImportManager';
 import AutomationWorkflowBuilder from './AutomationWorkflowBuilder';
-// import BetaTestingOnboarding from './BetaTestingOnboarding';
 import DemoEnvironment from './DemoEnvironment';
 import StrategicPartnershipsManager from './StrategicPartnershipsManager';
 import MarketExpansionStrategy from './MarketExpansionStrategy';
@@ -685,17 +682,25 @@ export default function IndianLeadDashboard() {
       {/* Platform Tour Modal */}
       {showTour && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-[9998]"
-          onClick={() => setShowTour(false)}
+          className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-[9999]"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setShowTour(false);
+            }
+          }}
         >
           <div 
-            className="bg-white rounded-xl p-6 max-w-lg w-full mx-4 shadow-xl relative"
+            className="bg-white rounded-xl p-6 max-w-lg w-full mx-4 shadow-xl relative z-[10000]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
             <button
-              onClick={() => setShowTour(false)}
-              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-7 h-7 flex items-center justify-center text-lg transition-colors"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setShowTour(false);
+              }}
+              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center text-lg transition-colors z-[10001]"
               aria-label="Close tour"
             >
               ×
@@ -734,13 +739,21 @@ export default function IndianLeadDashboard() {
             {/* Action Buttons */}
             <div className="mt-6 flex justify-end space-x-3">
               <button
-                onClick={() => setShowTour(false)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowTour(false);
+                }}
                 className="px-4 py-2 text-sm border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
               >
-                Skip
+                Skip Tour
               </button>
               <button
-                onClick={() => setShowTour(false)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowTour(false);
+                }}
                 className="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >
                 Start Exploring

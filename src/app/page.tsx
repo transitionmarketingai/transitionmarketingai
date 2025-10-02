@@ -191,6 +191,90 @@ function HeroSection() {
   );
 }
 
+// Features Section
+function FeaturesSection() {
+  const features = [
+    {
+      icon: '🤖',
+      title: 'AI Lead Discovery',
+      description: 'Our AI scans 10M+ Indian business profiles daily to find your ideal customers'
+    },
+    {
+      icon: '📧',
+      title: 'Smart Outreach',
+      description: 'AI-generated emails and LinkedIn messages in Hindi, English & regional languages'
+    },
+    {
+      icon: '📊',
+      title: 'Real-time Analytics',
+      description: 'Track conversion rates, cost per lead, and ROI with detailed insights'
+    },
+    {
+      icon: '🎯',
+      title: 'Industry Templates',
+      description: 'Pre-built campaigns for 8+ Indian industries with proven conversion rates'
+    },
+    {
+      icon: '📱',
+      title: 'Multi-channel Approach',
+      description: 'Email, LinkedIn, WhatsApp, and voice calling for maximum reach'
+    },
+    {
+      icon: '🏢',
+      title: 'City-specific Targeting',
+      description: 'Target businesses in specific Indian cities like Bangalore, Mumbai, Delhi'
+    }
+  ];
+
+  return (
+    <section id="features" className="py-20 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+            Why Choose Transition Marketing AI?
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Built specifically for Indian businesses with deep understanding of local market dynamics and cultural context.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {features.map((feature, index) => (
+            <div key={index} className="bg-white p-8 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+              <div className="text-4xl mb-4">{feature.icon}</div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">{feature.title}</h3>
+              <p className="text-gray-600">{feature.description}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Success Metrics */}
+        <div className="mt-16 bg-white rounded-xl p-8 shadow-sm border border-gray-200">
+          <h3 className="text-center text-2xl font-bold text-gray-900 mb-8">Proven Results for Indian Businesses</h3>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+            <div>
+              <div className="text-3xl font-bold text-blue-600 mb-2">500+</div>
+              <div className="text-gray-600">Indian Businesses</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-green-600 mb-2">₹47</div>
+              <div className="text-gray-600">Avg Cost per Lead</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-purple-600 mb-2">12.4%</div>
+              <div className="text-gray-600">Conversion Rate</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-orange-600 mb-2">15 min</div>
+              <div className="text-gray-600">Setup Time</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // Industry Focus Section
 function IndustryFocusSection() {
   const industries = [
@@ -203,7 +287,7 @@ function IndustryFocusSection() {
   ];
 
   return (
-    <section className="py-20 bg-white">
+    <section id="industries" className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
@@ -291,7 +375,7 @@ function HowItWorksSection() {
   ];
 
   return (
-    <section className="py-20 bg-gray-50">
+    <section id="how-it-works" className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
@@ -431,7 +515,7 @@ function PricingSection() {
   ];
 
   return (
-    <section className="py-20 bg-white">
+    <section id="pricing" className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
@@ -587,8 +671,9 @@ export default function HomePage() {
     <div className="min-h-screen bg-white">
       <Navigation />
       
-      <main>
+          <main>
         <HeroSection />
+        <FeaturesSection />
         <IndustryFocusSection />
         <HowItWorksSection />
         <PricingSection />

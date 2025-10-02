@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { useSession, signOut } from 'next-auth/react';
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -18,98 +19,70 @@ export default function Navigation() {
           {/* Logo */}
           <div className="flex-shrink-0">
             {mounted ? (
-              <Link href="/" className="text-2xl font-bold text-gray-900 hover:text-blue-600 transition-colors">
-                <span className="text-blue-600">Transition</span> CRM
+              <Link href="/" className="text-xl font-bold text-gray-900 hover:text-blue-600 transition-colors">
+                <div className="flex items-center space-x-2">
+                  <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">TM</span>
+                  </div>
+                  <span className="text-blue-600">Transition Marketing AI</span>
+                </div>
               </Link>
             ) : (
-              <span className="text-2xl font-bold text-gray-900">
-                <span className="text-blue-600">Transition</span> CRM
-              </span>
+              <div className="flex items-center space-x-2">
+                <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">TM</span>
+                </div>
+                <span className="text-blue-600 font-bold text-xl">Transition Marketing AI</span>
+              </div>
             )}
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-8">
-              <Link href="/dashboard" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">
-                Dashboard
-              </Link>
-              <div className="relative group">
-                <button className="text-gray-600 hover:text-blue-600 transition-colors font-medium flex items-center">
-                  Products
-                  {mounted && (
-                    <svg className="w-4 h-4 ml-1 group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  )}
-                </button>
-                {/* Dropdown menu would be implemented here */}
-              </div>
-              <Link href="/pricing" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">
-                Pricing
-              </Link>
-              <div className="relative group">
-                <button className="text-gray-600 hover:text-blue-600 transition-colors font-medium flex items-center">
-                  Resources
-                  {mounted && (
-                    <svg className="w-4 h-4 ml-1 group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  )}
-                </button>
-              </div>
-              <div className="relative group">
-                <button className="text-gray-600 hover:text-blue-600 transition-colors font-medium flex items-center">
-                  About
-                  {mounted && (
-                    <svg className="w-4 h-4 ml-1 group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  )}
-                </button>
-              </div>
-              <div className="relative group">
-                <Link href="/help" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">
-                  Help
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          {/* CTA Buttons */}
-          <div className="hidden md:flex items-center space-x-4">
-            {/* Language Selector */}
-            <div className="relative">
-              <button className="text-gray-600 hover:text-blue-600 transition-colors text-sm">
-                English (US)
-              </button>
-            </div>
-            <Link
-              href="/signin"
-              className="text-gray-600 hover:text-blue-600 transition-colors font-medium"
-            >
-              Log in
+          <div className="hidden lg:flex items-center space-x-8">
+            <Link href="/#features" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
+              Features
             </Link>
-            <Link
-              href="/signup"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-all duration-300 hover:shadow-lg hover:scale-105"
-            >
-              Try it free
+            <Link href="/#how-it-works" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
+              How It Works
             </Link>
+            <Link href="/#industries" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
+              Industries
+            </Link>
+            <Link href="/#pricing" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
+              Pricing
+            </Link>
+            <Link href="/demo" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
+              Demo
+            </Link>
+            
+            {/* CTA Buttons */}
+            <div className="flex items-center space-x-3">
+              <Link
+                href="/signin"
+                className="text-gray-600 hover:text-gray-900 font-medium transition-colors"
+              >
+                Sign In
+              </Link>
+              <Link
+                href="/signup"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+              >
+                Start Free Trial
+              </Link>
+            </div>
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-600 hover:text-blue-600 focus:outline-none focus:text-blue-600 transition-colors"
-              aria-label="Toggle mobile menu"
+              className="text-gray-600 hover:text-gray-900 focus:outline-none focus:text-gray-900"
             >
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {isMenuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                 ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
                 )}
               </svg>
             </button>
@@ -118,35 +91,57 @@ export default function Navigation() {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white/95 backdrop-blur-md rounded-lg mt-2 border border-gray-200">
-              <Link href="/products" className="text-gray-600 hover:text-blue-600 block px-3 py-2 text-base font-medium transition-colors">
-                Products
+          <div className="lg:hidden">
+            <div className="px-2 pt-2 pb-3 space-y-1 border-t border-gray-200">
+              <Link
+                href="/#features"
+                className="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Features
               </Link>
-              <Link href="/pricing" className="text-gray-600 hover:text-blue-600 block px-3 py-2 text-base font-medium transition-colors">
+              <Link
+                href="/#how-it-works"
+                className="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                How It Works
+              </Link>
+              <Link
+                href="/#industries"
+                className="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Industries
+              </Link>
+              <Link
+                href="/#pricing"
+                className="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium"
+                onClick={() => setIsMenuOpen(false)}
+              >
                 Pricing
               </Link>
-              <Link href="/resources" className="text-gray-600 hover:text-blue-600 block px-3 py-2 text-base font-medium transition-colors">
-                Resources
+              <Link
+                href="/demo"
+                className="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Demo
               </Link>
-              <Link href="/about" className="text-gray-600 hover:text-blue-600 block px-3 py-2 text-base font-medium transition-colors">
-                About
-              </Link>
-              <Link href="/help" className="text-gray-600 hover:text-blue-600 block px-3 py-2 text-base font-medium transition-colors">
-                Help
-              </Link>
-              <div className="border-t border-gray-200 pt-4">
-                <div className="px-3 pb-2">
-                  <select className="text-gray-600 text-sm bg-transparent border-none outline-none">
-                    <option>English (US)</option>
-                    <option>हिंदी</option>
-                  </select>
-                </div>
-                <Link href="/signin" className="text-gray-600 hover:text-blue-600 block px-3 py-2 text-base font-medium transition-colors">
-                  Log in
+              <div className="border-t border-gray-200 pt-3 mt-3">
+                <Link
+                  href="/signin"
+                  className="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Sign In
                 </Link>
-                <Link href="/signup" className="bg-blue-600 text-white block px-3 py-2 text-base font-medium rounded-lg mt-2 hover:bg-blue-700 transition-all duration-300">
-                  Try it free
+                <Link
+                  href="/signup"
+                  className="block px-3 py-2 bg-blue-600 text-white rounded-lg font-medium mx-3 mt-2 text-center"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Start Free Trial
                 </Link>
               </div>
             </div>

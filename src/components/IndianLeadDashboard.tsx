@@ -12,6 +12,7 @@ import AdvancedCRMIntegration from './AdvancedCRMIntegration';
 import RealTimeStatusTracker from './RealTimeStatusTracker';
 import RealCampaignCreator from './RealCampaignCreator';
 import LeadImportManager from './LeadImportManager';
+import AutomationWorkflowBuilder from './AutomationWorkflowBuilder';
 
 interface ServicePhase {
   id: string;
@@ -69,6 +70,7 @@ export default function IndianLeadDashboard() {
   const [showTour, setShowTour] = useState(false);
   const [showCampaignCreator, setShowCampaignCreator] = useState(false);
   const [showLeadImport, setShowLeadImport] = useState(false);
+  const [showAutomationBuilder, setShowAutomationBuilder] = useState(false);
   const [campaigns, setCampaigns] = useState<LeadCampaign[]>([]);
 
   // Mock data for comprehensive lead generation platform
@@ -191,7 +193,7 @@ export default function IndianLeadDashboard() {
       description: 'Create smart nurturing workflows',
       icon: '⚡',
       color: 'orange',
-      onClick: () => setActiveTab('automation')
+      onClick: () => setShowAutomationBuilder(true)
     }
   ];
 
@@ -576,17 +578,15 @@ export default function IndianLeadDashboard() {
           </div>
         )}
         {activeTab === 'automation' && (
-          <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
-            <div className="text-center">
-              <div className="text-6xl mb-6">⚡</div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Smart Automation Workflows</h3>
-              <p className="text-gray-600 mb-6">
-                AI-powered nurturing sequences, follow-up workflows, and intelligent lead assignment
-              </p>
-              <button className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 font-medium">
-                Setup Automation
-              </button>
-            </div>
+          <div>
+            <AutomationWorkflowBuilder 
+              isOpen={true}
+              onClose={() => setActiveTab('overview')}
+              onComplete={(workflow) => {
+                console.log('Workflow created:', workflow);
+                setActiveTab('overview');
+              }}
+            />
           </div>
         )}
         {activeTab === 'analytics' && (
@@ -698,6 +698,17 @@ export default function IndianLeadDashboard() {
           />
         </div>
       </div>
+
+      {/* Automation Workflow Builder Modal */}
+      <AutomationWorkflowBuilder 
+        isOpen={showAutomationBuilder}
+        onClose={() => setShowAutomationBuilder(false)}
+        onComplete={(workflow) => {
+          console.log('Automation workflow created:', workflow);
+          setShowAutomationBuilder(false);
+          setActiveTab('automation');
+        }}
+      />
     </MobileDashboardOptimizer>
   );
 }

@@ -8,6 +8,7 @@ import OnboardingFlow from '@/components/OnboardingFlow';
 import DashboardSidebar from '@/components/DashboardSidebar';
 import DashboardTopNav from '@/components/DashboardTopNav';
 import SetupGuide from '@/components/SetupGuide';
+import ContactsPage from '@/components/ContactsPage';
 
 function DashboardPage() {
   const { data: session, status } = useSession();
@@ -52,20 +53,7 @@ function DashboardPage() {
       case 'setup-guide':
         return <SetupGuide />;
       case 'contacts':
-        return (
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="mb-8 flex justify-between items-start">
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900">Contacts</h1>
-                <p className="text-gray-600 mt-2">Manage your CRM contacts and relationships</p>
-              </div>
-            </div>
-            {/* TODO: Add contacts section */}
-            <div className="p-8 text-center">
-              <p className="text-gray-600">Enhanced contacts section coming soon...</p>
-            </div>
-          </div>
-        );
+        return <ContactsPage />;
       case 'deals':
         return (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -150,7 +138,14 @@ function DashboardPage() {
       
       {/* Main Content */}
       <div className="flex-1 ml-16 overflow-auto">
-        <DashboardTopNav currentPage={activeSection === 'setup-guide' ? 'Setup guide' : activeSection.charAt(0).toUpperCase() + activeSection.slice(1)} />
+        <DashboardTopNav currentPage={
+          activeSection === 'setup-guide' ? 'Setup guide' : 
+          activeSection === 'contacts' ? 'Contacts / People' :
+          activeSection === 'organizations' ? 'Organizations' :
+          activeSection === 'timeline' ? 'Contacts timeline' :
+          activeSection === 'merge' ? 'Merge duplicates' :
+          activeSection.charAt(0).toUpperCase() + activeSection.slice(1)
+        } />
         
         <div className="overflow-y-auto">
           {renderMainContent()}

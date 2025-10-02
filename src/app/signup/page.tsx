@@ -40,11 +40,11 @@ export default function SignUpPage() {
           redirect: false,
         });
         
-        if (result?.error) {
-          setError('Something went wrong. Please try the demo credentials.');
-        } else {
-          router.push('/dashboard');
-        }
+      if (result?.error) {
+        setError('Something went wrong. Please try the demo credentials.');
+      } else {
+        router.push('/get-started');
+      }
         return;
       }
 
@@ -56,10 +56,10 @@ export default function SignUpPage() {
       });
 
       if (result?.error) {
-        // If authentication fails, still proceed to dashboard for demo purposes
-        router.push('/dashboard');
+        // If authentication fails, still proceed to onboarding for demo purposes
+        router.push('/get-started');
       } else {
-        router.push('/dashboard');
+        router.push('/get-started');
       }
     } catch (error) {
       setError('Something went wrong. Please try again.');

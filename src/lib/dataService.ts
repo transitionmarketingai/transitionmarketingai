@@ -232,6 +232,43 @@ class DataService {
       }
     ];
   }
+
+  // Onboarding methods
+  async saveOnboardingData(data: any): Promise<void> {
+    try {
+      // Here you would save to Supabase in production
+      localStorage.setItem('transition_crm_onboarding', JSON.stringify(data));
+    } catch (error) {
+      console.error('Failed to save onboarding data:', error);
+    }
+  }
+
+  async updateUserProfile(data: any): Promise<void> {
+    try {
+      const profileData = {
+        ...data,
+        updatedAt: new Date().toISOString()
+      };
+      localStorage.setItem('transition_crm_user_profile', JSON.stringify(profileData));
+    } catch (error) {
+      console.error('Failed to update user profile:', error);
+    }
+  }
+
+  async getUserProfile(): Promise<any> {
+    try {
+      const profile = localStorage.getItem('transition_crm_user_profile');
+      return profile ? JSON.parse(profile) : null;
+    } catch (error) {
+      console.error('Failed to get user profile:', error);
+      return null;
+    }
+  }
+
+  async isOnboardingCompleted(): Promise<boolean> {
+    const profile = await this.getUserProfile();
+    return profile?.onboardingCompleted || false;
+  }
 }
 
 export const dataService = new DataService();

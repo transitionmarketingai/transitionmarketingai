@@ -1,578 +1,152 @@
 'use client';
 
-import Link from 'next/link';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import Navigation from '@/components/Navigation';
+import OnboardingFlow from '@/components/OnboardingFlow';
+import { dataService } from '@/lib/dataService';
 
-// Logo component
-function Logo() {
-  return (
-    <Link href="/" className="flex items-center space-x-2">
-      <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-blue-500 rounded-lg flex items-center justify-center">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M2 17L12 22L22 17" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M2 12L12 17L22 12" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      </div>
-      <span className="text-xl font-bold text-white">
-        Transition Marketing AI
-      </span>
-    </Link>
-  );
-}
+export default function GetStartedPage() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [isCheckingOnboarding, setIsCheckingOnboarding] = useState(true);
 
-// Navigation
-function Navigation() {
-  return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-lg border-b border-gray-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <Logo />
-          
-          <div className="hidden md:flex items-center space-x-8">
-            <Link href="/" className="text-gray-300 hover:text-white transition-colors font-medium">
-              Home
-            </Link>
-            <Link href="/how-it-works" className="text-gray-300 hover:text-white transition-colors font-medium">
-              How It Works
-            </Link>
-            <Link href="/#pricing" className="text-gray-300 hover:text-white transition-colors font-medium">
-              Pricing
-            </Link>
-          </div>
+  useEffect(() => {
+    if (status === 'loading') return;
 
-          <div className="flex items-center space-x-3">
-            <Link 
-              href="/dashboard" 
-              className="px-4 py-2 border border-purple-500 text-purple-400 rounded-lg font-medium hover:bg-purple-500 hover:text-white transition-all duration-200"
-            >
-              Demo
-            </Link>
-            <Link 
-              href="/dashboard" 
-              className="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-blue-500 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-200"
-            >
-              Get Started
-            </Link>
-          </div>
-        </div>
-      </div>
-    </nav>
-  );
-}
+    if (!session) {
+      router.push('/signin');
+      return;
+    }
 
-// Step 1 Component - Who you are
-function Step1({ onNext }: { onNext: () => void }) {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    company: '',
-    role: '',
-    phone: ''
-  });
+    // Check if user needs onboarding
+    checkOnboardingStatus();
+  }, [session, status, router]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onNext();
-  };
-
-  return (
-    <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-800">
-      <h2 className="text-2xl font-bold text-white mb-6">Step 1 — Who you are</h2>
+  const checkOnboardingStatus = async () => {
+    if (!session?.user?.email) return;
+    
+    try {
+      const isCompleted = await dataService.isOnboardingCompleted();
+      if (isCompleted) {
+        // User has completed onboarding, redirect to dashboard
+        router.push('/dashboard');
+        return;
+      }
       
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
-            <input
-              type="text"
-              value={formData.name}
-              onChange={(e) => setFormData({...formData, name: e.target.value})}
-              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
-              placeholder="Enter your full name"
-              required
-            />
-          </div>
-          
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
-            <input
-              type="email"
-              value={formData.email}
-              onChange={(e) => setFormData({...formData, email: e.target.value})}
-              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
-              placeholder="Enter your email"
-              required
-            />
-          </div>
-          
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Company Name</label>
-            <input
-              type="text"
-              value={formData.company}
-              onChange={(e) => setFormData({...formData, company: e.target.value})}
-              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
-              placeholder="Enter your company name"
-              required
-            />
-          </div>
-          
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Your Role</label>
-            <select
-              value={formData.role}
-              onChange={(e) => setFormData({...formData, role: e.target.value})}
-              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-              required
-            >
-              <option value="">Select your role</option>
-              <option value="ceo">CEO/Founder</option>
-              <option value="marketing">Marketing Manager</option>
-              <option value="sales">Sales Manager</option>
-              <option value="business">Business Owner</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-        </div>
-        
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">Phone Number</label>
-          <input
-            type="tel"
-            value={formData.phone}
-            onChange={(e) => setFormData({...formData, phone: e.target.value})}
-            className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
-            placeholder="Enter your phone number"
-            required
-          />
-        </div>
-        
-        <button
-          type="submit"
-          className="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-500 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-200"
-        >
-          Continue to Step 2
-        </button>
-      </form>
-    </div>
-  );
-}
-
-// Step 2 Component - Market
-function Step2({ onNext, onBack }: { onNext: () => void; onBack: () => void }) {
-  const [formData, setFormData] = useState({
-    industry: '',
-    targetAudience: '',
-    budget: '',
-    currentChallenges: ''
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onNext();
-  };
-
-  return (
-    <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-800">
-      <h2 className="text-2xl font-bold text-white mb-6">Step 2 — Market</h2>
-      
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">Industry</label>
-          <select
-            value={formData.industry}
-            onChange={(e) => setFormData({...formData, industry: e.target.value})}
-            className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-            required
-          >
-            <option value="">Select your industry</option>
-            <option value="technology">Technology</option>
-            <option value="healthcare">Healthcare</option>
-            <option value="finance">Finance</option>
-            <option value="education">Education</option>
-            <option value="retail">Retail/E-commerce</option>
-            <option value="real-estate">Real Estate</option>
-            <option value="consulting">Consulting</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-        
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">Target Audience</label>
-          <textarea
-            value={formData.targetAudience}
-            onChange={(e) => setFormData({...formData, targetAudience: e.target.value})}
-            className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
-            placeholder="Describe your ideal customers (age, interests, pain points, etc.)"
-            rows={4}
-            required
-          />
-        </div>
-        
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">Monthly Marketing Budget</label>
-          <select
-            value={formData.budget}
-            onChange={(e) => setFormData({...formData, budget: e.target.value})}
-            className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-            required
-          >
-            <option value="">Select budget range</option>
-            <option value="under-10k">Under ₹10,000</option>
-            <option value="10k-50k">₹10,000 - ₹50,000</option>
-            <option value="50k-1l">₹50,000 - ₹1,00,000</option>
-            <option value="1l-5l">₹1,00,000 - ₹5,00,000</option>
-            <option value="over-5l">Over ₹5,00,000</option>
-          </select>
-        </div>
-        
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">Current Marketing Challenges</label>
-          <textarea
-            value={formData.currentChallenges}
-            onChange={(e) => setFormData({...formData, currentChallenges: e.target.value})}
-            className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
-            placeholder="What marketing challenges are you facing? (e.g., low lead quality, high cost per acquisition, time constraints)"
-            rows={4}
-            required
-          />
-        </div>
-        
-        <div className="flex space-x-4">
-          <button
-            type="button"
-            onClick={onBack}
-            className="flex-1 px-6 py-3 border border-gray-600 text-gray-300 rounded-lg font-medium hover:bg-gray-800 transition-all duration-200"
-          >
-            Back
-          </button>
-          <button
-            type="submit"
-            className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-500 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-200"
-          >
-            Continue to Step 3
-          </button>
-        </div>
-      </form>
-    </div>
-  );
-}
-
-// Step 3 Component - Goals
-function Step3({ onComplete, onBack }: { onComplete: () => void; onBack: () => void }) {
-  const [formData, setFormData] = useState({
-    primaryGoal: '',
-    leadTarget: '',
-    timeline: '',
-    successMetrics: ''
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onComplete();
-  };
-
-  return (
-    <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-800">
-      <h2 className="text-2xl font-bold text-white mb-6">Step 3 — Goals</h2>
-      
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">Primary Goal</label>
-          <select
-            value={formData.primaryGoal}
-            onChange={(e) => setFormData({...formData, primaryGoal: e.target.value})}
-            className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-            required
-          >
-            <option value="">Select your primary goal</option>
-            <option value="lead-generation">Generate more qualified leads</option>
-            <option value="brand-awareness">Increase brand awareness</option>
-            <option value="sales-growth">Drive sales growth</option>
-            <option value="content-creation">Scale content creation</option>
-            <option value="social-media">Improve social media presence</option>
-            <option value="email-marketing">Enhance email marketing</option>
-            <option value="all-of-above">All of the above</option>
-          </select>
-        </div>
-        
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">Monthly Lead Target</label>
-          <select
-            value={formData.leadTarget}
-            onChange={(e) => setFormData({...formData, leadTarget: e.target.value})}
-            className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-            required
-          >
-            <option value="">Select lead target</option>
-            <option value="10-50">10-50 leads</option>
-            <option value="50-100">50-100 leads</option>
-            <option value="100-500">100-500 leads</option>
-            <option value="500-1000">500-1,000 leads</option>
-            <option value="over-1000">Over 1,000 leads</option>
-          </select>
-        </div>
-        
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">Timeline to See Results</label>
-          <select
-            value={formData.timeline}
-            onChange={(e) => setFormData({...formData, timeline: e.target.value})}
-            className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-            required
-          >
-            <option value="">Select timeline</option>
-            <option value="immediate">Immediate (within 1 week)</option>
-            <option value="1-month">1 month</option>
-            <option value="3-months">3 months</option>
-            <option value="6-months">6 months</option>
-            <option value="flexible">Flexible timeline</option>
-          </select>
-        </div>
-        
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">Success Metrics</label>
-          <textarea
-            value={formData.successMetrics}
-            onChange={(e) => setFormData({...formData, successMetrics: e.target.value})}
-            className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
-            placeholder="How will you measure success? (e.g., lead quality, conversion rate, ROI, brand mentions)"
-            rows={4}
-            required
-          />
-        </div>
-        
-        <div className="flex space-x-4">
-          <button
-            type="button"
-            onClick={onBack}
-            className="flex-1 px-6 py-3 border border-gray-600 text-gray-300 rounded-lg font-medium hover:bg-gray-800 transition-all duration-200"
-          >
-            Back
-          </button>
-          <button
-            type="submit"
-            className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-500 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-200"
-          >
-            Complete Setup
-          </button>
-        </div>
-      </form>
-    </div>
-  );
-}
-
-// Success Component
-function Success() {
-  return (
-    <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-800 text-center">
-      <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
-        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-        </svg>
-      </div>
-      
-      <h2 className="text-2xl font-bold text-white mb-4">Setup Complete!</h2>
-      <p className="text-gray-300 mb-8">
-        Your AI marketing agents are being configured. You'll receive an email with your dashboard access within 5 minutes.
-      </p>
-      
-      <div className="space-y-4">
-        <Link 
-          href="/dashboard"
-          className="block w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-500 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-200"
-        >
-          Access Dashboard
-        </Link>
-        <Link 
-          href="/"
-          className="block w-full px-6 py-3 border border-gray-600 text-gray-300 rounded-lg font-medium hover:bg-gray-800 transition-all duration-200"
-        >
-          Back to Home
-        </Link>
-      </div>
-    </div>
-  );
-}
-
-export default function GetStarted() {
-  const [currentStep, setCurrentStep] = useState(1);
-
-  const renderStep = () => {
-    switch (currentStep) {
-      case 1:
-        return <Step1 onNext={() => setCurrentStep(2)} />;
-      case 2:
-        return <Step2 onNext={() => setCurrentStep(3)} onBack={() => setCurrentStep(1)} />;
-      case 3:
-        return <Step3 onComplete={() => setCurrentStep(4)} onBack={() => setCurrentStep(2)} />;
-      case 4:
-        return <Success />;
-      default:
-        return <Step1 onNext={() => setCurrentStep(2)} />;
+      setShowOnboarding(true);
+    } catch (error) {
+      console.error('Error checking onboarding status:', error);
+    } finally {
+      setIsCheckingOnboarding(false);
     }
   };
 
+  const handleOnboardingComplete = () => {
+    // Redirect to dashboard after onboarding completion
+    router.push('/dashboard');
+  };
+
+  if (status === 'loading' || isCheckingOnboarding) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Setting up your account...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!session) {
+    return null; // Will redirect to signin
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900">
+    <div className="min-h-screen bg-gray-50">
       <Navigation />
-
-      {/* Hero Section */}
-      <section className="pt-32 pb-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-green-500/20 text-green-400 font-medium mb-6 border border-green-500/30">
-              <span className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
-              Start Your Free Trial
+      
+      <div className="max-w-4xl mx-auto px-4 py-16">
+        <div className="bg-white rounded-lg shadow-lg p-8">
+          <div className="text-center mb-8">
+            <div className="mx-auto w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+              <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
             </div>
-            
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
-              Build, grow, and scale with a team of
-              <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent"> AI marketing agents</span>
-            </h1>
-            
-            <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
-              Precision-trained agents for lead gen, ads, content, outreach & reporting — tuned for the Indian market.
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome to Transition CRM!</h1>
+            <p className="text-gray-600 text-lg">
+              Thank you for signing up. Let's set up your account to get you started with your CRM.
             </p>
-
-            {/* Progress Steps */}
-            <div className="flex items-center justify-center gap-4 max-w-2xl mx-auto mb-12">
-              {[1, 2, 3].map((step) => (
-                <div key={step} className="flex items-center">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold ${
-                    currentStep >= step 
-                      ? 'bg-gradient-to-r from-purple-600 to-blue-500 text-white' 
-                      : 'bg-gray-700 text-gray-400'
-                  }`}>
-                    {step}
-                  </div>
-                  {step < 3 && (
-                    <div className={`w-16 h-1 mx-2 ${
-                      currentStep > step ? 'bg-gradient-to-r from-purple-600 to-blue-500' : 'bg-gray-700'
-                    }`} />
-                  )}
-                </div>
-              ))}
-            </div>
           </div>
 
-          {/* Main Content */}
-          <div className="max-w-2xl mx-auto">
-            {renderStep()}
-          </div>
-        </div>
-      </section>
-
-      {/* Benefits Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-4">What You Get</h2>
-            <p className="text-gray-300">Everything you need to scale your marketing</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: "🎯",
-                title: "100 Verified Leads",
-                description: "Get qualified leads in your first month"
-              },
-              {
-                icon: "✍️",
-                title: "10 Blog Posts",
-                description: "SEO-optimized content created for you"
-              },
-              {
-                icon: "📱",
-                title: "30 Social Posts",
-                description: "Engaging content across all platforms"
-              },
-              {
-                icon: "📧",
-                title: "Email Campaigns",
-                description: "Personalized outreach at scale"
-              },
-              {
-                icon: "📊",
-                title: "Real-time Analytics",
-                description: "Track performance across all channels"
-              },
-              {
-                icon: "🤝",
-                title: "Priority Support",
-                description: "Expert help when you need it"
-              }
-            ].map((benefit, index) => (
-              <div key={index} className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-800 hover:border-purple-500/50 transition-all duration-300">
-                <div className="text-4xl mb-4">{benefit.icon}</div>
-                <h3 className="text-xl font-bold text-white mb-2">{benefit.title}</h3>
-                <p className="text-gray-300">{benefit.description}</p>
+          <div className="space-y-4 text-sm text-gray-600 mb-8">
+            <div className="flex items-center space-x-3">
+              <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                </svg>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-black/50 backdrop-blur-sm border-t border-gray-800 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-blue-500 rounded-lg flex items-center justify-center">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M2 17L12 22L22 17" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M2 12L12 17L22 12" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </div>
-                <span className="text-xl font-bold text-white">Transition Marketing AI</span>
+              <span>Account created successfully</span>
+            </div>
+            
+            <div className="flex items-center space-x-3">
+              <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
+                <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.955 8.955 0 01-4.934-1.48a8.99 8.99 0 01-3.066-3.066A8.955 8.955 0 013 12c0-4.418 3.582-8 8-8s8 3.582 8 8z"></path>
+                </svg>
               </div>
-              <p className="text-gray-400">
-                AI-powered marketing automation for modern businesses.
-              </p>
+              <span>Email verified as <strong>{session.user.email}</strong></span>
             </div>
-
-            <div>
-              <h4 className="font-semibold text-white mb-4">Product</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><Link href="/how-it-works" className="hover:text-white">How It Works</Link></li>
-                <li><Link href="/#agents" className="hover:text-white">AI Agents</Link></li>
-                <li><Link href="/#pricing" className="hover:text-white">Pricing</Link></li>
-                <li><Link href="/dashboard" className="hover:text-white">Dashboard</Link></li>
-              </ul>
+            
+            <div className="flex items-center space-x-3">
+              <div className="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center">
+                <svg className="w-4 h-4 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                </svg>
+              </div>
+              <span>Set up your profile and preferences</span>
             </div>
+          </div>
 
-            <div>
-              <h4 className="font-semibold text-white mb-4">Company</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><Link href="/book" className="hover:text-white">Book a Demo</Link></li>
-                <li><Link href="/terms" className="hover:text-white">Terms</Link></li>
-                <li><Link href="/privacy" className="hover:text-white">Privacy</Link></li>
-              </ul>
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8">
+            <div className="flex">
+              <div className="flex-shrink-0">
+                <svg className="h-5 w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <div className="ml-3">
+                <p className="text-sm text-blue-700">
+                  <strong>Don't worry!</strong> This quick setup takes just 2 minutes and helps us customize 
+                  your CRM experience with relevant features and sample data based on your business needs.
+                </p>
+              </div>
             </div>
+          </div>
 
-            <div>
-              <h4 className="font-semibold text-white mb-4">Get Started</h4>
-              <p className="text-gray-400 mb-4">
-                Start your free trial today and see the difference AI can make.
-              </p>
-              <Link 
-                href="/get-started" 
-                className="inline-block px-6 py-2 bg-gradient-to-r from-purple-600 to-blue-500 text-white rounded-lg font-medium hover:shadow-lg transition-all"
+          {showOnboarding && (
+            <div className="mt-8">
+              <button
+                onClick={() => setShowOnboarding(true)}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
               >
-                Start Free Trial
-              </Link>
+                Let's Get Started
+              </button>
             </div>
-          </div>
-
-          <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 Transition Marketing AI. All rights reserved.</p>
-          </div>
+          )}
         </div>
-      </footer>
+      </div>
+
+      {/* Onboarding Flow */}
+      {showOnboarding && session?.user?.email && (
+        <OnboardingFlow 
+          userEmail={session.user.email}
+          onComplete={handleOnboardingComplete}
+        />
+      )}
     </div>
   );
 }

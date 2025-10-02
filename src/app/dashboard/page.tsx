@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import Navigation from '@/components/Navigation';
 import Link from 'next/link';
 import { dataService, Contact, Deal } from '@/lib/dataService';
+import OnboardingFlow from '@/components/OnboardingFlow';
 
 // Sample CRM data for demo
 const sampleContacts = [
@@ -80,6 +81,7 @@ function DashboardPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [showAddContact, setShowAddContact] = useState(false);
   const [showAddDeal, setShowAddDeal] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
   const [newContact, setNewContact] = useState({
     name: '',
     company: '',
@@ -106,7 +108,24 @@ function DashboardPage() {
 
     // Load data when user is authenticated
     loadData();
+    
+    // Check if user needs onboarding
+    checkOnboardingStatus();
   }, [session, status, router]);
+
+  const checkOnboardingStatus = async () => {
+    if (session?.user?.email) {
+      // Skip onboarding for demo user (they already know the platform)
+      if (session.user.email === 'demo@transitionai.com') {
+        return;
+      }
+      
+      const isCompleted = await dataService.isOnboardingCompleted();
+      if (!isCompleted) {
+        setShowOnboarding(true);
+      }
+    }
+  };
 
   const loadData = async () => {
     setIsLoading(true);
@@ -188,6 +207,12 @@ function DashboardPage() {
       console.error('Error adding deal:', error);
       alert('Failed to add deal. Please try again.');
     }
+  };
+
+  const handleOnboardingComplete = () => {
+    setShowOnboarding(false);
+    // Refresh the page or redirect to ensure clean state
+    window.location.reload();
   };
 
   if (status === 'loading') {
@@ -775,6 +800,14 @@ function DashboardPage() {
               </form>
             </div>
           </div>
+        )}
+
+        {/* Onboarding Flow */}
+        {showOnboarding && session?.user?.email && (
+          <OnboardingFlow 
+            userEmail={session.user.email}
+            onComplete={handleOnboardingComplete}
+          />
         )}
       </div>
     </div>

@@ -19,13 +19,23 @@ export const authOptions: NextAuthOptions = {
           return null
         }
 
-        // TODO: Replace with actual database check
-        // For now, using demo credentials
+        // Check demo credentials (skip onboarding for demo users)
         if (credentials.email === "demo@transitionai.com" && credentials.password === "demo123") {
           return {
-            id: "1",
+            id: "demo-user",
             email: "demo@transitionai.com",
             name: "Demo User",
+            image: null,
+          }
+        }
+        
+        // For real users, check database (TODO: implement Supabase auth)
+        // For now, accept any valid email/password combo as demo
+        if (credentials.email && credentials.password) {
+          return {
+            id: `user-${Date.now()}`,
+            email: credentials.email,
+            name: credentials.email.split('@')[0],
             image: null,
           }
         }

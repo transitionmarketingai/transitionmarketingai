@@ -158,11 +158,11 @@ export default function AutomationEngineDemo({ onIntegrationComplete }: Automati
     simulateProgress(100);
 
     try {
-      // Test CRM connections
-      const connectionResults = await crmHub.testAllConnections('demo_customer');
+      // Test CRM connections  
+      const connectionResults = await (crmHub as any).testAllConnections('demo_customer');
       
       // Mock successful connection status
-      const mockConnections = await crmHub.getCRMConnections('demo_customer');
+      const mockConnections = await (crmHub as any).getCRMConnections('demo_customer');
       
       setResults({
         connections: mockConnections,

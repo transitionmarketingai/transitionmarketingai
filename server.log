@@ -1,0 +1,21 @@
+
+> transition-marketing-ai@0.1.0 dev
+> next dev
+
+ ⚠ Port 3000 is in use by process 93163, using available port 3005 instead.
+   ▲ Next.js 15.5.4
+   - Local:        http://localhost:3005
+   - Network:      http://192.168.1.104:3005
+   - Environments: .env.local
+   - Experiments (use with caution):
+     · optimizePackageImports
+
+ ✓ Starting...
+ ✓ Ready in 1499ms
+ ○ Compiling / ...
+ ✓ Compiled / in 2.9s (896 modules)
+ GET / 200 in 3233ms
+ ✓ Compiled in 1098ms (352 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename '/Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/.next/cache/webpack/server-development/0.pack.gz_' -> '/Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/.next/cache/webpack/server-development/0.pack.gz'
+ ✓ Compiled /_not-found in 216ms (870 modules)
+ GET / 404 in 649ms

@@ -2,20 +2,173 @@
 > transition-marketing-ai@0.1.0 dev
 > next dev
 
- ⚠ Port 3000 is in use by process 93163, using available port 3005 instead.
+ ⚠ Port 3000 is in use by process 93163, using available port 3008 instead.
    ▲ Next.js 15.5.4
-   - Local:        http://localhost:3005
-   - Network:      http://192.168.1.104:3005
+   - Local:        http://localhost:3008
+   - Network:      http://192.168.1.104:3008
    - Environments: .env.local
    - Experiments (use with caution):
      · optimizePackageImports
 
  ✓ Starting...
- ✓ Ready in 1499ms
+ ✓ Ready in 1373ms
  ○ Compiling / ...
  ✓ Compiled / in 2.9s (896 modules)
- GET / 200 in 3233ms
- ✓ Compiled in 1098ms (352 modules)
-<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename '/Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/.next/cache/webpack/server-development/0.pack.gz_' -> '/Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/.next/cache/webpack/server-development/0.pack.gz'
- ✓ Compiled /_not-found in 216ms (870 modules)
- GET / 404 in 649ms
+ GET / 200 in 3322ms
+ ✓ Compiled in 1143ms (352 modules)
+ GET / 200 in 128ms
+ ○ Compiling /dashboard ...
+ ✓ Compiled /dashboard in 2.1s (1381 modules)
+ GET /icon?6eb2c0c7450eacb3 200 in 2772ms
+ GET /api/auth/session 200 in 3233ms
+ GET / 200 in 3081ms
+ GET /dashboard 200 in 3081ms
+ GET /signin 200 in 3082ms
+ ✓ Compiled /_not-found in 398ms (1151 modules)
+ GET /signup 200 in 819ms
+ GET /static/js/bundle.js 404 in 809ms
+ GET /static/css/main.css 404 in 806ms
+ GET /api/auth/session 200 in 145ms
+ GET /api/auth/session 200 in 30ms
+ GET /api/auth/session 200 in 32ms
+ GET /api/auth/session 200 in 34ms
+ ✓ Compiled in 2.1s (894 modules)
+ ⨯ SyntaxError: Unexpected end of JSON input
+    at JSON.parse (<anonymous>) {
+  page: '/'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 1726ms (1220 modules)
+ GET / 500 in 2664ms
+ GET / 200 in 137ms
+ GET / 200 in 397ms
+ GET / 200 in 401ms
+ ○ Compiling /signin ...
+ ✓ Compiled /signin in 511ms (969 modules)
+ ✓ Compiled (984 modules)
+ GET /api/auth/session 200 in 1351ms
+ GET / 200 in 1355ms
+ GET /dashboard 200 in 1359ms
+ GET /signin 200 in 1359ms
+ ✓ Compiled /_not-found in 217ms (989 modules)
+ ✓ Compiled (990 modules)
+ GET /static/css/main.css 404 in 868ms
+ GET /static/js/bundle.js 404 in 871ms
+ GET /signup 200 in 888ms
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename '/Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/.next/cache/webpack/client-development/0.pack.gz_' -> '/Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/.next/cache/webpack/client-development/0.pack.gz'
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ✓ Compiled in 1515ms (1505 modules)
+ GET / 200 in 488ms
+ GET / 200 in 857ms
+ GET /icon?6eb2c0c7450eacb3 200 in 344ms
+ ⨯ SyntaxError: Unexpected end of JSON input
+    at JSON.parse (<anonymous>) {
+  page: '/'
+}
+ GET /api/auth/session 200 in 824ms
+ GET /signin 200 in 828ms
+ GET /dashboard 200 in 828ms
+ GET / 500 in 897ms
+ GET /static/js/bundle.js 404 in 59ms
+ GET /signup 200 in 110ms
+ ✓ Compiled in 1648ms (1505 modules)
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET / 200 in 556ms
+ GET / 200 in 872ms
+ GET /icon?6eb2c0c7450eacb3 200 in 258ms
+ ⨯ SyntaxError: Unexpected end of JSON input
+    at JSON.parse (<anonymous>) {
+  page: '/'
+}
+ GET /dashboard 200 in 645ms
+ GET / 500 in 776ms
+ GET /api/auth/session 404 in 777ms
+ GET /signin 404 in 774ms
+ POST /api/auth/_log 404 in 276ms
+ ✓ Compiled in 1380ms (1505 modules)
+ ⨯ SyntaxError: Unexpected end of JSON input
+    at JSON.parse (<anonymous>) {
+  page: '/'
+}
+ GET / 500 in 479ms
+ GET / 200 in 271ms
+ GET /api/auth/session 200 in 223ms
+ GET /dashboard 200 in 523ms
+ GET /signin 200 in 525ms
+ GET / 200 in 526ms
+ ⨯ Failed to generate static paths for /api/auth/[...nextauth]:
+[Error [PageNotFoundError]: Cannot find module for page: /api/auth/[.. ✓ Compiled in 1453ms (514 modules)
+ ✓ Compiled in 186ms (514 modules)
+ ✓ Compiled in 814ms (514 modules)
+ ✓ Compiled in 776ms (514 modules)
+ ✓ Compiled in 1709ms (514 modules)
+ ✓ Compiled in 1639ms (514 modules)
+296ms
+ ✓ Compiled /manifest.webmanifest in 391ms (1146 modules)
+ GET /manifest.webmanifest 200 in 646ms
+ ✓ Compiled in 965ms (1160 modules)
+ GET / 200 in 201ms
+ ⨯ SyntaxError: Unexpected end of JSON input
+    at JSON.parse (<anonymous>) {
+  page: '/manifest.webmanifest'
+}
+ ✓ Compiled /_error in 209ms (1239 modules)
+ GET /manifest.webmanifest 500 in 743ms
+ ✓ Compiled in 1289ms (1253 modules)
+ ⨯ SyntaxError: Unexpected end of JSON input
+    at JSON.parse (<anonymous>) {
+  page: '/'
+}
+ GET / 500 in 560ms
+ GET / 200 in 705ms
+ ✓ Compiled /api/auth/[...nextauth] in 283ms (748 modules)
+ ✓ Compiled (1000 modules)
+ GET / 200 in 2471ms
+ GET /signin 200 in 2477ms
+ GET /dashboard 200 in 2480ms
+ ✓ Compiled /_not-found in 312ms (1005 modules)
+ GET /api/auth/session 200 in 3042ms
+ ✓ Compiled (1006 modules)
+ GET /signup 200 in 1252ms
+ GET /static/css/main.css 404 in 1233ms
+ GET /static/js/bundle.js 404 in 1239ms
+ ✓ Compiled in 2s (1141 modules)
+ ⨯ SyntaxError: Unexpected end of JSON input
+    at JSON.parse (<anonymous>) {
+  page: '/'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 1380ms (1220 modules)
+ GET / 500 in 2162ms
+ GET / 200 in 1103ms
+ ✓ Compiled /signin in 389ms (969 modules)
+ ✓ Compiled (984 modules)
+ GET /api/auth/session 200 in 2629ms
+ GET / 200 in 2647ms
+ GET /dashboard 200 in 2631ms
+ GET /signin 200 in 2633ms
+ ✓ Compiled /_not-found in 298ms (989 modules)
+ ✓ Compiled (990 modules)
+ GET /signup 200 in 730ms
+ GET /static/js/bundle.js 404 in 713ms
+ GET /static/css/main.css 404 in 707ms
+ ✓ Compiled in 1963ms (1505 modules)
+ ⨯ SyntaxError: Unexpected end of JSON input
+    at JSON.parse (<anonymous>) {
+  page: '/'
+}
+ GET / 500 in 503ms
+ GET / 200 in 233ms
+ GET /api/auth/session 200 in 408ms
+ ⨯ Failed to generate static paths for /api/auth/[...nextauth]:
+[Error [PageNotFoundError]: Cannot find module for page: /api/auth/[...nextauth]/route] {
+  type: 'PageNotFoundError',
+  code: 'ENOENT'
+}
+ GET / 200 in 594ms
+ GET /dashboard 200 in 594ms
+ GET /signin 404 in 811ms
+ GET /signup 404 in 219ms
+ GET /dashboard 200 in 124ms
+ ✓ Compiled /manifest.webmanifest in 220ms (1006 modules)
+ GET /manifest.webmanifest 200 in 344ms

@@ -77,10 +77,7 @@ export default function Dashboard() {
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [unlockedLeads, setUnlockedLeads] = useState<Lead[]>([]); // Track unlocked leads
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({
-    'Core': true,
-    'Outreach': false,
-    'Advanced': false,
-    'Settings': false,
+    'Main': true, // Always expanded since we only have one group now
   });
 
   // Load dark mode preference
@@ -552,40 +549,16 @@ export default function Dashboard() {
     }
   };
 
-  // Grouped navigation for better UX
+  // Simplified navigation for better UX (5 core sections)
   const navigationGroups: NavigationGroup[] = [
     {
-      label: 'Core',
+      label: 'Main',
       items: [
-        { id: 'overview', label: 'Dashboard', icon: '📊', description: 'Overview & metrics' },
-        { id: 'ai-leads', label: 'AI Leads', icon: '🤖', description: 'Generate & manage' },
-        { id: 'crm-pipeline', label: 'Pipeline', icon: '🏗️', description: 'Track deals' },
-      ]
-    },
-    {
-      label: 'Outreach',
-      items: [
-        { id: 'email-campaigns', label: 'Email', icon: '📧', description: 'Email campaigns' },
-        { id: 'whatsapp-outreach', label: 'WhatsApp', icon: '📱', description: 'WhatsApp messaging' },
-        { id: 'linkedin-outreach', label: 'LinkedIn', icon: '💼', description: 'LinkedIn automation' },
-        { id: 'industry-templates', label: 'Templates', icon: '🏭', description: 'Industry templates' },
-      ]
-    },
-    {
-      label: 'Advanced',
-      items: [
-        { id: 'analytics', label: 'Analytics', icon: '📈', description: 'Performance metrics' },
-        { id: 'team-collaboration', label: 'Team', icon: '👥', description: 'Collaborate' },
-        { id: 'api-integrations', label: 'Integrations', icon: '🔧', description: 'API & tools' },
-        { id: 'white-label', label: 'Branding', icon: '🎨', description: 'White-label' },
-        { id: 'multi-language', label: 'Languages', icon: '🌐', description: 'Multi-language' },
-      ]
-    },
-    {
-      label: 'Settings',
-      items: [
-        { id: 'credit-management', label: 'Credits', icon: '💰', description: 'Manage credits' },
-        { id: 'settings', label: 'Settings', icon: '⚙️', description: 'Account settings' },
+        { id: 'overview', label: 'Dashboard', icon: '📊', description: 'Your overview & stats' },
+        { id: 'ai-leads', label: 'Find Leads', icon: '🔍', description: 'Search & unlock contacts' },
+        { id: 'crm-pipeline', label: 'My Leads', icon: '📋', description: 'Track & manage' },
+        { id: 'credit-management', label: 'Credits', icon: '💰', description: 'Buy & manage credits' },
+        { id: 'settings', label: 'Settings', icon: '⚙️', description: 'Account & preferences' },
       ]
     }
   ];

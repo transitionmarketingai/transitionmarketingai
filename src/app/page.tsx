@@ -65,6 +65,7 @@ export default function HomePage() {
             </div>
 
             <div className="hidden md:flex items-center space-x-8">
+              <a href="#how-it-works" className="text-gray-600 hover:text-gray-900 font-medium">How It Works</a>
               <a href="#features" className="text-gray-600 hover:text-gray-900 font-medium">Features</a>
               <a href="#pricing" className="text-gray-600 hover:text-gray-900 font-medium">Pricing</a>
               <a href="#contact" className="text-gray-600 hover:text-gray-900 font-medium">Contact</a>
@@ -88,13 +89,24 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              <span className="bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">Preview Unlimited Leads FREE.</span><br/>
-              Unlock Only the Best.
+              <span className="bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">Find Perfect Leads</span><br/>
+              Pay Only for What You Need
             </h1>
             <p className="text-lg sm:text-xl text-gray-600 mb-4 max-w-3xl mx-auto px-4">
-              Generate unlimited leads with AI. See company names, AI scores, and quality indicators for FREE. 
-              Only pay 20 credits to unlock the contacts you actually want.
+              Search unlimited companies for FREE. Our AI shows you quality scores and insights. 
+              When you find a great match, unlock their contact details for just 5 credits.
             </p>
+            <div className="max-w-2xl mx-auto mb-8">
+              <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-4 inline-flex items-start gap-3">
+                <svg className="w-6 h-6 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                </svg>
+                <div className="text-left">
+                  <div className="font-semibold text-blue-900 mb-1">Think of it like window shopping</div>
+                  <div className="text-sm text-blue-800">Browse all stores FREE. Buy only what you like. Same here - preview all leads FREE, unlock only the best ones.</div>
+                </div>
+              </div>
+            </div>
             <div className="flex items-center justify-center gap-6 mb-8 text-sm font-medium">
               <div className="flex items-center gap-2">
                 <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
@@ -155,7 +167,7 @@ export default function HomePage() {
                     <div className="text-xs text-gray-400">Email: ████@████.com</div>
                   </div>
                   <button className="w-full py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs rounded font-medium">
-                    🔓 Unlock - 20 Credits
+                    🔓 Unlock - 5 Credits
                   </button>
                 </div>
 
@@ -201,8 +213,115 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* How It Works Section */}
+      <section id="how-it-works" className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              How It Works
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Getting started is simple. Preview leads for free, unlock only the best ones.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            {/* Step 1 */}
+            <div className="relative">
+              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 h-full border-2 border-blue-200">
+                <div className="absolute -top-4 -left-4 w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg">
+                  1
+                </div>
+                <div className="text-5xl mb-4 text-center">🔍</div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-3 text-center">Search for Leads</h3>
+                <p className="text-gray-700 text-center mb-4">
+                  Tell us who you're looking for - industry, location, company size, budget.
+                </p>
+                <div className="bg-white rounded-lg p-3 text-sm text-gray-600">
+                  <strong>Example:</strong> "Technology companies in Mumbai with 50-200 employees, budget ₹50,000+"
+                </div>
+              </div>
+            </div>
+
+            {/* Step 2 */}
+            <div className="relative">
+              <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-8 h-full border-2 border-green-200">
+                <div className="absolute -top-4 -left-4 w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg">
+                  2
+                </div>
+                <div className="text-5xl mb-4 text-center">👀</div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-3 text-center">Preview FREE</h3>
+                <p className="text-gray-700 text-center mb-4">
+                  See company names, AI quality scores, and insights - completely FREE. No credit card needed.
+                </p>
+                <div className="bg-white rounded-lg p-3 space-y-2 text-sm">
+                  <div className="flex items-center gap-2 text-green-700">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg>
+                    <span>Company name visible</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-green-700">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg>
+                    <span>AI score (0-100)</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-green-700">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg>
+                    <span>Industry & location</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Step 3 */}
+            <div className="relative">
+              <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-8 h-full border-2 border-purple-200">
+                <div className="absolute -top-4 -left-4 w-12 h-12 bg-purple-600 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg">
+                  3
+                </div>
+                <div className="text-5xl mb-4 text-center">🔓</div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-3 text-center">Unlock the Best</h3>
+                <p className="text-gray-700 text-center mb-4">
+                  Only pay 5 credits to unlock full contact details for leads you want to reach.
+                </p>
+                <div className="bg-white rounded-lg p-3 text-sm text-gray-600">
+                  <strong>You get:</strong>
+                  <ul className="mt-2 space-y-1">
+                    <li>• Contact name</li>
+                    <li>• Email address</li>
+                    <li>• Phone number</li>
+                    <li>• Detailed AI insights</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Visual Process Flow */}
+          <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8 border-2 border-blue-200">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="flex-1 text-center">
+                <div className="text-4xl mb-2">🆓</div>
+                <div className="font-bold text-gray-900">Unlimited Searches</div>
+                <div className="text-sm text-gray-600">Generate as many as you want</div>
+              </div>
+              <div className="text-3xl text-gray-400">→</div>
+              <div className="flex-1 text-center">
+                <div className="text-4xl mb-2">👁️</div>
+                <div className="font-bold text-gray-900">Preview Everything</div>
+                <div className="text-sm text-gray-600">See quality before paying</div>
+              </div>
+              <div className="text-3xl text-gray-400">→</div>
+              <div className="flex-1 text-center">
+                <div className="text-4xl mb-2">💰</div>
+                <div className="font-bold text-gray-900">Pay for Best Only</div>
+                <div className="text-sm text-gray-600">5 credits per unlock</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Features Section */}
-      <section id="features" className="py-20 bg-white">
+      <section id="features" className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
@@ -443,7 +562,7 @@ export default function HomePage() {
               <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
               </svg>
-              <span className="text-sm font-medium text-blue-900">20 credits = 1 unlocked contact (name + email + phone)</span>
+              <span className="text-sm font-medium text-blue-900">5 credits = 1 unlocked contact (name + email + phone)</span>
             </div>
           </div>
 
@@ -729,9 +848,10 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
+      <footer id="contact" className="bg-gray-900 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+            {/* Company Info */}
             <div>
               <div className="flex items-center mb-4">
                 <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-blue-600 rounded-xl flex items-center justify-center text-white font-bold shadow-sm">
@@ -741,44 +861,109 @@ export default function HomePage() {
                   <h3 className="text-xl font-bold">Transition Marketing AI</h3>
                 </div>
               </div>
-              <p className="text-gray-400">
-                AI-powered lead generation platform for modern marketers.
+              <p className="text-gray-400 mb-4">
+                AI-powered lead generation platform built for Indian businesses.
               </p>
+              <div className="flex items-center gap-3 text-gray-400">
+                <span className="text-2xl">🇮🇳</span>
+                <span className="text-sm">Made in India</span>
+              </div>
             </div>
 
+            {/* Product Links */}
             <div>
               <h4 className="text-lg font-semibold mb-4">Product</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white">AI Lead Generation</a></li>
-                <li><a href="#" className="hover:text-white">CRM Pipeline</a></li>
-                <li><a href="#" className="hover:text-white">Email Automation</a></li>
-                <li><a href="#" className="hover:text-white">Analytics</a></li>
+              <ul className="space-y-3 text-gray-400">
+                <li><a href="#how-it-works" className="hover:text-white transition-colors">How It Works</a></li>
+                <li><a href="#features" className="hover:text-white transition-colors">Features</a></li>
+                <li><a href="#pricing" className="hover:text-white transition-colors">Pricing</a></li>
+                <li><Link href="/dashboard" className="hover:text-white transition-colors">Dashboard</Link></li>
+                <li><Link href="/credits" className="hover:text-white transition-colors">Buy Credits</Link></li>
               </ul>
             </div>
 
+            {/* Company Links */}
             <div>
               <h4 className="text-lg font-semibold mb-4">Company</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white">About Us</a></li>
-                <li><a href="#" className="hover:text-white">Contact</a></li>
-                <li><a href="#" className="hover:text-white">Careers</a></li>
-                <li><a href="#" className="hover:text-white">Blog</a></li>
+              <ul className="space-y-3 text-gray-400">
+                <li><a href="#" className="hover:text-white transition-colors">About Us</a></li>
+                <li><a href="mailto:hello@transitionmarketingai.com" className="hover:text-white transition-colors">Contact Us</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Partners</a></li>
               </ul>
             </div>
 
+            {/* Legal & Support */}
             <div>
-              <h4 className="text-lg font-semibold mb-4">Support</h4>
-              <ul className="space-y-2 text-gray-400">
-                                  <li><a href="#" className="hover:text-white">Help Center</a></li>
-                                <li><a href="#" className="hover:text-white">Documentation</a></li>
-                                <li><a href="#" className="hover:text-white">API Reference</a></li>
-                                <li><a href="#" className="hover:text-white">Status</a></li>
+              <h4 className="text-lg font-semibold mb-4">Legal & Support</h4>
+              <ul className="space-y-3 text-gray-400">
+                <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Documentation</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Refund Policy</a></li>
               </ul>
             </div>
           </div>
 
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 Transition Marketing AI. All rights reserved.</p>
+          {/* Trust Signals */}
+          <div className="border-t border-gray-800 pt-8 mb-8">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="flex flex-wrap items-center justify-center gap-6">
+                <div className="flex items-center gap-2 text-gray-400 text-sm">
+                  <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span>Secure Payments</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-400 text-sm">
+                  <svg className="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z" />
+                    <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z" />
+                  </svg>
+                  <span>24/7 Support</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-400 text-sm">
+                  <svg className="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  <span>14-Day Free Trial</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-400 text-sm">
+                  <svg className="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+                  </svg>
+                  <span>No Long-term Contracts</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Bar */}
+          <div className="border-t border-gray-800 pt-8">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-400">
+              <div>
+                <p>&copy; {new Date().getFullYear()} Transition Marketing AI. All rights reserved.</p>
+              </div>
+              <div className="flex items-center gap-6">
+                <a href="mailto:hello@transitionmarketingai.com" className="hover:text-white transition-colors">
+                  hello@transitionmarketingai.com
+                </a>
+                <span className="text-gray-600">|</span>
+                <div className="flex gap-4">
+                  <a href="#" className="hover:text-white transition-colors" aria-label="Twitter">
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"/></svg>
+                  </a>
+                  <a href="#" className="hover:text-white transition-colors" aria-label="LinkedIn">
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                  </a>
+                  <a href="#" className="hover:text-white transition-colors" aria-label="YouTube">
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </footer>

@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "build": "next build",
+    "start": "next start",
+    "dev": "next dev --turbopack",
+    "lint": "next lint",
+    "deploy:vercel": "vercel --prod",
+    "deploy:build": "npm run build && npm run deploy:vercel",
+    "test:responsive": "open responsive_test.html",
+    "prod:test": "npm run build && npm run start"
+  }
+}
+
+

@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import SessionProvider from "@/components/SessionProvider";
 import StructuredData from "@/components/StructuredData";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { Toaster } from 'sonner';
 
 // Mobile viewport meta tag
 export const viewport = {
@@ -137,9 +139,12 @@ export default function RootLayout({
         {/* Subtle radial gradient glow behind content */}
         <div className="relative z-10">
           <StructuredData type="organization" />
-          <SessionProvider>
-            {children}
-          </SessionProvider>
+          <AuthProvider>
+            <SessionProvider>
+              {children}
+            </SessionProvider>
+          </AuthProvider>
+          <Toaster position="top-right" richColors />
         </div>
       </body>
     </html>

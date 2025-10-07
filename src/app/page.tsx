@@ -1,936 +1,788 @@
+'use client';
+
+import React, { useState } from 'react';
 import Link from 'next/link';
-import Navigation from '@/components/Navigation';
+import Image from 'next/image';
+import AuditForm from '@/components/AuditForm';
 
-// Hero Section - Indian Lead Generation Focus
-function HeroSection() {
-  return (
-    <section className="relative bg-gradient-to-br from-blue-50 via-white to-indigo-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {/* Two column layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          
-          {/* Left Column - Content */}
-          <div>
-            {/* Trust Badge */}
-            <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium mb-6">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              Trusted by 500+ Indian Businesses
-            </div>
+export default function HomePage() {
+  const [activeFeature, setActiveFeature] = useState('overview');
 
-            <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
-              The Complete{' '}
-              <span className="text-blue-600">AI Lead Generation</span>{' '}
-              Ecosystem for Indian Businesses
-            </h1>
-            
-            <p className="text-xl text-gray-600 leading-relaxed mb-8">
-              Stop struggling with cold outreach. Our AI generates, qualifies, and nurtures leads automatically using 
-              industry-specific templates. Complete platform: LinkedIn scraping → lead scoring → personalized outreach → CRM integration.
-              Built specifically for Indian markets with Hindi, English & 12 regional languages. Success guarantee or refund.
-            </p>
-            
-            {/* Success Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-              <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                <div className="text-2xl font-bold text-blue-600">8+</div>
-                <div className="text-sm text-gray-600">Industry-Specific AI Templates</div>
-              </div>
-              <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                <div className="text-2xl font-bold text-green-600">₹26</div>
-                <div className="text-sm text-gray-600">Avg cost per qualified lead</div>
-              </div>
-              <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                <div className="text-2xl font-bold text-purple-600">89%</div>
-                <div className="text-sm text-gray-600">Lead qualification accuracy</div>
-              </div>
-              <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                <div className="text-2xl font-bold text-orange-600">15 min</div>
-                <div className="text-sm text-gray-600">Setup to first leads</div>
-              </div>
-            </div>
-            
-            {/* CTA Buttons */}
-            {/* Primary CTA - Clear hierarchy */}
-            <div className="mb-6">
-              <Link 
-                href="/signup"
-                className="inline-flex items-center justify-center px-10 py-5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold rounded-xl transition-all duration-300 hover:shadow-xl text-xl w-full sm:w-auto"
-              >
-                <svg className="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-                Start Your FREE Trial Now →
-              </Link>
-            </div>
-
-            {/* Secondary option - Less prominent */}
-            <div className="flex flex-col sm:flex-row gap-3 mb-6">
-              <div className="text-sm text-gray-500 text-center">Want to see it first?</div>
-              <Link 
-                href="/demo"
-                className="inline-flex items-center justify-center px-6 py-3 text-blue-600 hover:text-blue-700 font-medium rounded-lg transition-colors text-sm border border-blue-200 hover:border-blue-300"
-              >
-                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.828 14.828 0 01-5.656 0M9 10h1m4 0h1m-6 4h1m4 0h1m-6-8h1m4 0h1M5 7h14M4 14h16" />
-                </svg>
-                📺 Watch 2-Min Demo
-              </Link>
-            </div>
-            
-            <p className="text-sm text-gray-500 font-medium">
-              ✅ 14-day free trial • ✅ Setup in 15 minutes • ✅ Cancel anytime • ✅ Success guarantee
-            </p>
-          </div>
-          
-          {/* Right Column - Dashboard Preview */}
-          <div className="relative">
-            <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200 transform hover:scale-105 transition-transform duration-300">
-              {/* Browser Bar */}
-              <div className="bg-gray-50 px-4 py-2 flex items-center justify-between border-b border-gray-200">
-                <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-red-400 rounded-full"></div>
-                  <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                  <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-                  <span className="text-xs text-gray-600 ml-2 font-mono">transitionmarketingai.ai/dashboard</span>
-                </div>
-                <div className="flex space-x-1">
-                  <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
-                  <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
-                </div>
-              </div>
-              
-              {/* Dashboard Content */}
-              <div className="p-6">
-                {/* AI Banner */}
-                <div className="bg-gradient-to-r from-green-50 to-blue-50 px-4 py-3 mb-4 rounded-lg border border-green-200">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="text-sm font-semibold text-gray-900">🚀 AI Lead Generation LIVE</h3>
-                      <p className="text-xs text-gray-600">Scraping LinkedIn + Company databases + Industry directories • Real-time</p>
-                    </div>
-                    <span className="flex items-center gap-1 text-xs font-medium text-green-700 bg-green-100 px-2 py-1 rounded-full animate-pulse">
-                      <div className="w-2 h-2 bg-green-500 rounded-full animate-ping"></div>
-                      ACTIVE
-                    </span>
-                  </div>
-                </div>
-
-                {/* Campaign Card */}
-                <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg p-4 text-white mb-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="text-sm opacity-90">🎯 Bangalore IT Startups Campaign</div>
-                    <span className="text-xs opacity-75">Active</span>
-                  </div>
-                  <div className="text-lg font-bold mb-1">47 leads generated today</div>
-                  <div className="text-sm opacity-90">₹26 avg cost • 89% quality score • ₹65K pipeline value</div>
-                </div>
-                
-                {/* Lead Examples */}
-                <div className="space-y-3">
-                  <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                        <span className="text-lg">👨‍💼</span>
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between">
-                          <h4 className="font-semibold text-gray-900">Rajesh Sharma</h4>
-                          <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">92% Match</span>
-                        </div>
-                        <p className="text-sm text-gray-600">CTO • TechCorp Solutions • Bangalore</p>
-                        <p className="text-xs text-gray-500">Series A startup • Hiring developers</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                        <span className="text-lg">👩‍💼</span>
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between">
-                          <h4 className="font-semibold text-gray-900">Priya Singh</h4>
-                          <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full font-medium">87% Match</span>
-                        </div>
-                        <p className="text-sm text-gray-600">Founder • DigitalFirst Apps • Chennai</p>
-                        <p className="text-xs text-gray-500">Fintech expansion • Scaling operations</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
-                        <span className="text-lg">👨‍💻</span>
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between">
-                          <h4 className="font-semibold text-gray-900">Amit Kumar</h4>
-                          <span className="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full font-medium">83% Match</span>
-                        </div>
-                        <p className="text-sm text-gray-600">Product Manager • NextGen Tech • Hyderabad</p>
-                        <p className="text-xs text-gray-500">B2B SaaS • Evaluating solutions</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Action Button */}
-                <div className="mt-4 pt-4 border-t border-gray-100">
-                  <button className="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-medium">
-                    📧 AI-Generated Outreach Ready
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Floating Elements */}
-            <div className="absolute -top-4 -right-4 bg-yellow-400 text-yellow-900 px-3 py-1 rounded-full text-xs font-bold animate-bounce">
-              ⚡ 23 leads generated!
-            </div>
-            <div className="absolute -bottom-4 -left-4 bg-green-400 text-green-900 px-3 py-1 rounded-full text-xs font-bold">
-              🎯 Avg ₹47 cost/lead
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// Features Section
-function FeaturesSection() {
   const features = [
     {
-      icon: '🎯',
-      title: 'Industry-Specific AI Templates',
-      description: 'Pre-built campaigns for 8+ Indian industries: IT, E-commerce, Real Estate, Healthcare, Consulting, Manufacturing, Education, Finance',
-      emphasize: true
-    },
-    {
-      icon: '🔍',
-      title: 'Intelligent Lead Discovery',
-      description: 'AI scrapes LinkedIn, Company databases, Indian business directories & industry events automatically'
-    },
-    {
-      icon: '📧',
-      title: 'Multi-Language Outreach',
-      description: 'Personalized messaging in Hindi, English & 12 regional languages for authentic communication'
-    },
-    {
+      id: 'overview',
+      name: 'Dashboard Overview',
       icon: '📊',
-      title: 'AI Lead Scoring & Qualification',
-      description: '89% accuracy rate - automatic lead qualification with Indian business context understanding'
+      description: 'Real-time metrics and performance tracking',
+      image: '/screenshots/dashboard-overview.jpg',
+      details: 'Monitor your campaigns across Indian markets - Delhi, Mumbai, Bangalore, Chennai with region-specific analytics and Indian customer insights.'
     },
     {
-      icon: '🏢',
-      title: 'Pan-India City Targeting',
-      description: 'Campaign targeting across all major Indian cities with local cultural adaptation & market awareness'
+      id: 'ai-leads',
+      name: 'AI Lead Generation',
+      icon: '🤖',
+      description: 'AI-powered lead discovery and enrichment',
+      image: '/screenshots/ai-lead-generation.jpg',
+      details: 'Generate leads from Indian companies using AI that understands Indian business patterns - CII members, FICCI companies, Mumbai corporates, Bangalore startups.'
     },
     {
-      icon: '📱',
-      title: 'Multi-Channel Omnichannel',
-      description: 'Email, LinkedIn, WhatsApp Business, Voice calling, SMS & social media for complete reach'
+      id: 'crm-pipeline',
+      name: 'CRM Pipeline',
+      icon: '🏗️',
+      description: 'Visual deal pipeline with drag & drop',
+      image: '/screenshots/crm-pipeline.jpg',
+      details: 'Indian sales process management - track deals through traditional Indian sales cycles, regional customization, and local payment methods.'
     },
     {
-      icon: '🔄',
-      title: 'Complete Lead Lifecycle',
-      description: 'From prospect discovery → qualification → nurturing → conversion with automated workflows'
-    },
-    {
-      icon: '👥',
-      title: 'Team Collaboration & Handoffs',
-      description: 'Role-based access, seamless team coordination, lead assignment & performance tracking'
-    },
-    {
-      icon: '📈',
-      title: 'Advanced ROI Analytics',
-      description: 'Real-time performance tracking, cost per lead optimization & revenue attribution insights'
+      id: 'billing',
+      name: 'Credit Management',
+      icon: '💰',
+      description: 'Flexible credit system and billing',
+      image: '/screenshots/credit-management.jpg',
+      details: 'Flexible pricing in INR with Razorpay, Paytm integrations. Scale across Indian markets without currency conversion or international fees.'
     }
   ];
 
   return (
-    <section id="features" className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-            Everything You Need to Generate & Convert Leads in India
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Stop building pipelines manually. Our AI handles the complete lead journey: LinkedIn scraping → 
-            lead qualification → personalized outreach → CRM sync → ROI tracking. Built specifically for 
-            Indian business culture, communication styles, and market dynamics.
-          </p>
-        </div>
+    <>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+        <meta name="description" content="AI-powered lead generation with smart unlocking. Preview unlimited leads FREE, unlock contacts for 5 credits. Try before you buy!" />
+        <meta name="keywords" content="AI lead generation, credit-based leads, unlock contacts, lead preview, marketing automation, CRM, B2B leads India" />
+      </head>
+      <div className="min-h-screen bg-white">
+      {/* Navigation */}
+      <nav className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center">
+              <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-blue-600 rounded-xl flex items-center justify-center text-white font-bold shadow-sm">
+                T
+              </div>
+              <div className="ml-3">
+                <h1 className="text-xl font-bold text-gray-900">Transition Marketing AI</h1>
+              </div>
+            </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((feature, index) => (
-            <div key={index} className={`p-8 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow ${
-              feature.emphasize ? 'bg-blue-50 border-blue-200 border-2' : 'bg-white'
-            }`}>
-              <div className="text-4xl mb-4">{feature.icon}</div>
-              <h3 className={`text-xl font-semibold mb-3 ${
-                feature.emphasize ? 'text-blue-900' : 'text-gray-900'
-              }`}>{feature.title}</h3>
-              <p className={`${feature.emphasize ? 'text-blue-800' : 'text-gray-600'}`}>{feature.description}</p>
+            <div className="hidden md:flex items-center space-x-8">
+              <a href="#features" className="text-gray-600 hover:text-gray-900 font-medium">Features</a>
+              <a href="#pricing" className="text-gray-600 hover:text-gray-900 font-medium">Pricing</a>
+              <a href="#contact" className="text-gray-600 hover:text-gray-900 font-medium">Contact</a>
             </div>
-          ))}
-        </div>
 
-        {/* Success Metrics */}
-        <div className="mt-16 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-8 shadow-sm border border-blue-200">
-          <h3 className="text-center text-2xl font-bold text-gray-900 mb-8">Proven Results from Indian Businesses</h3>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-3xl font-bold text-blue-600 mb-2">2.5M+</div>
-              <div className="text-gray-600">Leads Generated</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-green-600 mb-2">₹26</div>
-              <div className="text-gray-600">Avg Cost per Qualified Lead</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-purple-600 mb-2">89%</div>
-              <div className="text-gray-600">Lead Qualification Accuracy</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-orange-600 mb-2">500+</div>
-              <div className="text-gray-600">Indian Businesses Trusting Us</div>
+            <div className="flex items-center space-x-2 md:space-x-4">
+              <Link href="/signin" className="hidden sm:block text-gray-600 hover:text-gray-900 text-sm md:text-base font-medium">
+                Sign In
+              </Link>
+              <Link href="/signup" className="px-3 py-2 md:px-6 md:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm md:text-base font-medium">
+                <span className="hidden sm:inline">Start Free Trial</span>
+                <span className="sm:hidden">Start Trial</span>
+              </Link>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-  );
-}
+      </nav>
 
-// Industry Focus Section
-function IndustryFocusSection() {
-  const industries = [
-    { name: 'Technology & IT', icon: '💻', leads: '200-800/month', cost: '₹50 avg', popular: ['Bangalore', 'Hyderabad', 'Pune'] },
-    { name: 'E-commerce & Retail', icon: '🛒', leads: '500-2000/month', cost: '₹45 avg', popular: ['Mumbai', 'Delhi', 'Bangalore'] },
-    { name: 'Business Consulting', icon: '💼', leads: '100-500/month', cost: '₹125 avg', popular: ['Mumbai', 'Delhi', 'Pune'] },
-    { name: 'Real Estate', icon: '🏢', leads: '200-800/month', cost: '₹65 avg', popular: ['Mumbai', 'Delhi', 'Bangalore'] },
-    { name: 'Healthcare', icon: '🏥', leads: '50-300/month', cost: '₹85 avg', popular: ['Mumbai', 'Delhi', 'Bangalore'] },
-    { name: 'Education', icon: '🎓', leads: '300-1500/month', cost: '₹35 avg', popular: ['Chennai', 'Hyderabad', 'Pune'] }
-  ];
-
-  return (
-    <section id="industries" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-            Built for Indian Industries
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Our AI understands the Indian business landscape and generates leads tailored 
-            to your specific industry with local market knowledge and cultural context.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {industries.map((industry, index) => (
-            <div key={index} className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-8 hover:shadow-lg transition-shadow border border-gray-200 hover:border-blue-300">
-              <div className="text-center mb-6">
-                <div className="text-4xl mb-4">{industry.icon}</div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">{industry.name}</h3>
-                <p className="text-gray-600">Proven lead generation for Indian businesses</p>
+      {/* Hero Section */}
+      <section className="relative bg-gradient-to-br from-emerald-50 via-blue-50 to-purple-50 pt-20 pb-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+              <span className="bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">Preview Unlimited Leads FREE.</span><br/>
+              Unlock Only the Best.
+            </h1>
+            <p className="text-lg sm:text-xl text-gray-600 mb-4 max-w-3xl mx-auto px-4">
+              Generate unlimited leads with AI. See company names, AI scores, and quality indicators for FREE. 
+              Only pay 20 credits to unlock the contacts you actually want.
+            </p>
+            <div className="flex items-center justify-center gap-6 mb-8 text-sm font-medium">
+              <div className="flex items-center gap-2">
+                <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span className="text-gray-700">Unlimited Searches</span>
               </div>
-              
-              <div className="space-y-3 mb-6">
-                <div className="flex justify-between items-center p-3 bg-white rounded-lg">
-                  <span className="text-gray-600">Monthly Leads</span>
-                  <span className="font-semibold text-blue-600">{industry.leads}</span>
-                </div>
-                <div className="flex justify-between items-center p-3 bg-white rounded-lg">
-                  <span className="text-gray-600">Cost per Lead</span>
-                  <span className="font-semibold text-green-600">{industry.cost}</span>
-                </div>
+              <div className="flex items-center gap-2">
+                <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span className="text-gray-700">AI-Scored Quality</span>
               </div>
-
-              <div className="mb-6">
-                <p className="text-sm text-gray-600 mb-2">Popular in:</p>
-                <div className="flex flex-wrap gap-2">
-                  {industry.popular.map((city) => (
-                    <span key={city} className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs font-medium">
-                      {city}
-                    </span>
-                  ))}
-                </div>
+              <div className="flex items-center gap-2">
+                <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span className="text-gray-700">Pay Per Unlock</span>
               </div>
-
-              <button className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
-                Create Campaign for {industry.name}
-              </button>
             </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+              <Link href="/dashboard" className="px-8 py-4 bg-blue-600 text-white rounded-xl hover:bg-blue-700 font-semibold shadow-lg hover:shadow-xl transition-all">
+                Try AI Lead Generation
+              </Link>
+              <Link href="/checkout?plan=starter" className="px-8 py-4 border-2 border-gray-300 text-gray-700 rounded-xl hover:border-gray-400 font-semibold">
+                Start Free Trial
+              </Link>
+            </div>
 
-// How It Works Section
-function HowItWorksSection() {
-  const steps = [
-    {
-      step: '01',
-      title: 'Choose Your Industry',
-      description: 'Select from 8+ Indian business templates or create custom targeting',
-      image: '🤖',
-      details: ['Select industry (IT, E-commerce, Consulting, etc.)', 'Choose target locations (Bangalore, Mumbai, Delhi, etc.)', 'Set decision-maker roles and company size']
-    },
-    {
-      step: '02', 
-      title: 'AI Finds Your Prospects',
-      description: 'Our AI scans LinkedIn, company websites, and databases in real-time',
-      image: '🔍',
-      details: ['Scans 10M+ Indian business profiles', 'Evaluates decision-making authority', 'Scores lead quality (85-95% accuracy)']
-    },
-    {
-      step: '03',
-      title: 'AI-Written Outreach',
-      description: 'Personalized emails, LinkedIn messages, and WhatsApp outreach',
-      image: '📧',
-      details: ['Creates industry-specific messaging', 'Personalizes each message', 'Supports Hindi, English & regional languages']
-    },
-    {
-      step: '04',
-      title: 'Track & Convert',
-      description: 'Monitor engagement, responses, and optimize campaigns for better ROI',
-      image: '📊',
-      details: ['Real-time lead tracking', 'Response rate analytics', 'AI-powered optimization']
-    }
-  ];
-
-  return (
-    <section id="how-it-works" className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-            How AI Lead Generation Works
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            From industry selection to closing deals - all automated with AI specifically 
-            trained for Indian business contexts and communication styles.
-          </p>
-        </div>
-
-        <div className="space-y-16">
-          {steps.map((step, index) => (
-            <div key={index} className={`flex flex-col lg:flex-row gap-12 items-center ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
-              <div className="flex-1">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="flex items-center justify-center w-12 h-12 bg-blue-600 text-white rounded-full text-lg font-bold">
-                    {step.step}
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-900">{step.title}</h3>
-                </div>
-                <p className="text-xl text-gray-600 mb-6">{step.description}</p>
-                
-                <div className="space-y-3">
-                  {step.details.map((detail, i) => (
-                    <div key={i} className="flex items-center gap-3">
-                      <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                        <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-                        </svg>
-                      </div>
-                      <span className="text-gray-700">{detail}</span>
-                    </div>
-                  ))}
+            {/* Hero Dashboard Preview */}
+            <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 p-6 mx-auto max-w-6xl">
+              <div className="bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg p-4 mb-4">
+                <div className="flex items-center space-x-2 text-sm text-gray-600">
+                  <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                  <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                  <span className="ml-4">Transition Marketing AI Dashboard</span>
                 </div>
               </div>
               
-              <div className="flex-1">
-                <div className="bg-white rounded-xl p-8 shadow-lg border border-gray-200">
-                  <div className="text-center mb-6">
-                    <div className="text-8xl mb-4">{step.image}</div>
-                    <h4 className="text-lg font-semibold text-gray-900">{step.title}</h4>
+              {/* Lead Preview Mockup - Shows Unlock Feature */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                {/* Locked Lead Card */}
+                <div className="bg-white border-2 border-gray-200 rounded-lg p-4">
+                  <div className="flex items-start justify-between mb-3">
+                    <div>
+                      <div className="font-bold text-gray-900">TechCorp Solutions</div>
+                      <div className="text-xs text-gray-600">Technology · Mumbai · 50-200</div>
+                    </div>
+                    <div className="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold">95</div>
                   </div>
-                  
-                  {index === 1 && (
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
-                        <span className="text-sm text-gray-700">Profiles Scanned</span>
-                        <span className="font-bold text-blue-600">247K</span>
-                      </div>
-                      <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
-                        <span className="text-sm text-gray-700">Quality Score</span>
-                        <span className="font-bold text-green-600">89.4%</span>
-                      </div>
-                      <div className="flex items-center justify-between p-3 bg-purple-50 rounded-lg">
-                        <span className="text-sm text-gray-700">Leads Found</span>
-                        <span className="font-bold text-purple-600">23</span>
-                      </div>
+                  <div className="bg-blue-50 border border-blue-100 rounded p-2 mb-3">
+                    <div className="text-xs text-blue-800">💡 Growing company, active online</div>
+                  </div>
+                  <div className="bg-gray-50 rounded p-2 mb-2 filter blur-sm">
+                    <div className="text-xs text-gray-400">Contact: ████████</div>
+                    <div className="text-xs text-gray-400">Email: ████@████.com</div>
+                  </div>
+                  <button className="w-full py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs rounded font-medium">
+                    🔓 Unlock - 20 Credits
+                  </button>
+                </div>
+
+                {/* Unlocked Lead Card */}
+                <div className="bg-white border-2 border-green-200 rounded-lg p-4">
+                  <div className="flex items-start justify-between mb-3">
+                    <div>
+                      <div className="font-bold text-gray-900">HealthFirst Clinic</div>
+                      <div className="text-xs text-gray-600">Healthcare · Delhi · 10-50</div>
                     </div>
-                  )}
-                  
-                  {index === 2 && (
-                    <div className="space-y-4">
-                      <div className="p-4 bg-blue-50 rounded-lg">
-                        <p className="text-sm text-gray-700 mb-2">Hi Rajesh,</p>
-                        <p className="text-sm text-gray-600">I noticed TechCorp Solutions recently raised Series A funding. Congratulations on scaling up...</p>
-                        <p className="text-xs text-gray-500 mt-2">👤 Personalized based in LinkedIn profile</p>
-                      </div>
-                    </div>
-                  )}
+                    <div className="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold">92</div>
+                  </div>
+                  <div className="bg-green-50 border border-green-200 rounded p-2 mb-2">
+                    <div className="text-xs text-gray-700"><strong>Contact:</strong> Dr. Sharma</div>
+                    <div className="text-xs text-gray-700"><strong>Email:</strong> sharma@health.com</div>
+                    <div className="text-xs text-gray-700"><strong>Phone:</strong> +91-98765-43210</div>
+                  </div>
+                  <div className="flex gap-1">
+                    <button className="flex-1 py-1.5 border border-blue-300 text-blue-700 text-xs rounded font-medium">CRM</button>
+                    <button className="flex-1 py-1.5 bg-purple-600 text-white text-xs rounded font-medium">Email</button>
+                  </div>
+                  <div className="mt-2 text-xs text-green-600 text-center">✅ Unlocked</div>
+                </div>
+              </div>
+
+              {/* Stats Row */}
+              <div className="grid grid-cols-3 gap-3">
+                <div className="bg-blue-50 rounded-lg p-3 text-center">
+                  <div className="text-lg font-bold text-blue-900">127</div>
+                  <div className="text-xs text-blue-700">Leads This Week</div>
+                </div>
+                <div className="bg-purple-50 rounded-lg p-3 text-center">
+                  <div className="text-lg font-bold text-purple-900">18</div>
+                  <div className="text-xs text-purple-700">Unlocked</div>
+                </div>
+                <div className="bg-green-50 rounded-lg p-3 text-center">
+                  <div className="text-lg font-bold text-green-900">640</div>
+                  <div className="text-xs text-green-700">Credits Left</div>
                 </div>
               </div>
             </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// Indian Market Advantages Section
-function IndianMarketAdvantagesSection() {
-  const advantages = [
-    {
-      title: "Hindi + Regional Languages",
-      description: "Authentic communication in Hindi, Tamil, Telugu, Kannada, Bengali, Gujarati & 6 more languages",
-      icon: "🇮🇳",
-      metric: "12 Languages"
-    },
-    {
-      title: "Indian Business Context",
-      description: "AI trained on Indian business culture, communication styles, festivals, and local market dynamics",
-      icon: "🏢",
-      metric: "100% Localized"
-    },
-    {
-      title: "GST-Compliant Invoicing",
-      description: "Automated GST invoice generation, tax calculations, and compliance reporting for Indian businesses",
-      icon: "📄",
-      metric: "GST Ready"
-    },
-    {
-      title: "Indian Payment Gateway",
-      description: "Seamless payments via Razorpay, PhonePe, UPI, and all major Indian payment methods",
-      icon: "💰",
-      metric: "UPI Integration"
-    },
-    {
-      title: "Indian Business Hours",
-      description: "Campaign timing optimized for Indian business hours, time zones, and cultural preferences",
-      icon: "🕐",
-      metric: "IST Optimized"
-    },
-    {
-      title: "Local Support Team",
-      description: "Dedicated Indian customer success team available in Hindi and English for round-the-clock support",
-      icon: "👥",
-      metric: "24/7 Support"
-    }
-  ];
-
-  return (
-    <section className="py-20 bg-gradient-to-br from-blue-50 via-white to-green-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium mb-6">
-            <span className="text-lg">🇮🇳</span>
-            Made for Indian Businesses
           </div>
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-            Built Specifically for Indian Market Success
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            We understand Indian business culture, communication preferences, and market dynamics. 
-            Our platform is designed to help Indian businesses succeed in lead generation with local context and authenticity.
-          </p>
         </div>
+      </section>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {advantages.map((advantage, index) => (
-            <div key={index} className="bg-white rounded-xl p-6 shadow-lg border border-gray-200 hover:shadow-xl transition-shadow">
-              <div className="text-center mb-4">
-                <div className="text-4xl mb-3">{advantage.icon}</div>
-                <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
-                  {advantage.metric}
+      {/* Features Section */}
+      <section id="features" className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Everything You Need to Scale Your Business
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              From AI-powered lead generation to automated outreach and pipeline management, 
+              we provide the complete toolkit for modern marketers.
+            </p>
+          </div>
+
+          {/* Feature Tabs */}
+          <div className="flex justify-center mb-12">
+            <div className="flex space-x-1 bg-gray-100 rounded-lg p-1">
+              {features.map((feature) => (
+                <button
+                  key={feature.id}
+                  onClick={() => setActiveFeature(feature.id)}
+                  className={`px-6 py-3 rounded-md font-medium transition-all duration-200 ${
+                    activeFeature === feature.id
+                      ? 'bg-white text-blue-600 shadow-sm'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  <div className="flex items-center space-x-2">
+                    <span>{feature.icon}</span>
+                    <span>{feature.name}</span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Active Feature Display */}
+          <div className="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+              {/* Feature Description */}
+              <div className="p-12">
+                <div className="mb-6">
+                  <div className="inline-flex items-center px-4 py-2 bg-gray-100 rounded-full text-sm font-medium text-gray-600 mb-4">
+                    <span className="mr-2">{features.find(f => f.id === activeFeature)?.icon}</span>
+                    {features.find(f => f.id === activeFeature)?.name}
+                  </div>
+                  <h3 className="text-3xl font-bold text-gray-900 mb-4">
+                    {features.find(f => f.id === activeFeature)?.description}
+                  </h3>
+                  <p className="text-lg text-gray-600 mb-8">
+                    {features.find(f => f.id === activeFeature)?.details}
+                  </p>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="flex items-center">
+                    <span className="w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm mr-3">✓</span>
+                    <span className="text-gray-700">Advanced AI algorithms for precise targeting</span>
+                  </div>
+                  <div className="flex items-center">
+                    <span className="w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm mr-3">✓</span>
+                    <span className="text-gray-700">Real-time data enrichment and validation</span>
+                  </div>
+                  <div className="flex items-center">
+                    <span className="w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm mr-3">✓</span>
+                    <span className="text-gray-700">Automated scoring and qualification</span>
+                  </div>
+                  <div className="flex items-center">
+                    <span className="w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm mr-3">✓</span>
+                    <span className="text-gray-700">Seamless CRM integration</span>
+                  </div>
+                </div>
+
+                <div className="mt-8">
+                  <Link href="/signup" className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold">
+                    Try Feature Now
+                  </Link>
+                </div>
+              </div>
+
+              {/* Feature Screenshot */}
+              <div className="bg-gray-50 p-6 flex items-center justify-center">
+                <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-4 w-full max-w-lg">
+                  <div className="bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg p-3 mb-4">
+                    <div className="flex items-center space-x-2 text-xs text-gray-600">
+                      <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                      <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <span className="ml-2">{features.find(f => f.id === activeFeature)?.name}</span>
+                    </div>
+                  </div>
+                  
+                  {/* Mock Feature Interface */}
+                  <div className="space-y-4">
+                    {activeFeature === 'overview' && (
+                      <>
+                        <div className="grid grid-cols-2 gap-3">
+                          <div className="bg-blue-50 rounded-lg p-3">
+                            <div className="text-lg font-bold text-blue-900">1,247</div>
+                            <div className="text-xs text-blue-700">Total Leads</div>
+                          </div>
+                          <div className="bg-green-50 rounded-lg p-3">
+                            <div className="text-lg font-bold text-green-900">12.8%</div>
+                            <div className="text-xs text-green-700">Conversion</div>
+                          </div>
+                        </div>
+                        <div className="h-20 bg-gray-100 rounded-lg flex items-end p-2">
+                          <div className="flex space-x-1 w-full">
+                            {[30, 50, 70, 60, 80, 90, 85].map((h, i) => (
+                              <div key={i} className="bg-blue-500 rounded-t" style={{ height: `${h}%`, flex: 1 }}></div>
+                            ))}
+                          </div>
+                        </div>
+                      </>
+                    )}
+                    
+                    {activeFeature === 'ai-leads' && (
+                      <>
+                        <div className="space-y-2">
+                          <div className="bg-white border border-gray-200 rounded-lg p-3">
+                            <div className="flex items-center">
+                              <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center text-xs mr-2">SJ</div>
+                              <div className="flex-1">
+                                <div className="text-sm font-medium">Sarah Johnson</div>
+                                <div className="text-XS text-gray-500">TechCorp Solutions</div>
+                              </div>
+                              <div className="w-8 bg-gray-200 rounded-full h-1">
+                                <div className="bg-green-500 h-1 rounded-full" style={{ width: '87%' }}></div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="bg-white border border-gray-200 rounded-lg p-3">
+                            <div className="flex items-center">
+                              <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center text-xs mr-2">MC</div>
+                              <div className="flex-1">
+                                <div className="text-sm font-medium">Michael Chen</div>
+                                <div className="text-XS text-gray-500">StartupXYZ</div>
+                              </div>
+                              <div className="w-8 bg-gray-200 rounded-full h-1">
+                                <div className="bg-green-500 h-1 rounded-full" style={{ width: '95%' }}></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <button className="w-full py-2 bg-blue-600 text-white rounded-lg text-sm font-medium">
+                          🚀 Generate AI Leads
+                        </button>
+                      </>
+                    )}
+
+                    {activeFeature === 'crm-pipeline' && (
+                      <div className="space-y-3">
+                        <div className="text-sm font-medium text-gray-900">Pipeline Overview</div>
+                        <div className="grid grid-cols-2 gap-2">
+                          <div className="bg-purple-50 rounded p-2">
+                            <div className="text-lg font-bold text-purple-900">8</div>
+                            <div className="text-xs text-purple-700">Qualified</div>
+                          </div>
+                          <div className="bg-blue-50 rounded p-2">
+                            <div className="text-lg font-bold text-blue-900">5</div>
+                            <div className="text-xs text-blue-700">Proposals</div>
+                          </div>
+                        </div>
+                        <div className="bg-gray-100 rounded-lg p-2 h-16 flex items-center justify-center">
+                          <div className="text-xs text-gray-600">Drag & drop interface</div>
+                        </div>
+                      </div>
+                    )}
+
+                    {activeFeature === 'billing' && (
+                      <div className="space-y-3">
+                        <div className="text-sm font-medium text-gray-900">Credit Balance</div>
+                        <div className="bg-blue-50 rounded-lg p-4">
+                          <div className="text-2xl font-bold text-blue-900">1,250</div>
+                          <div className="text-xs text-blue-700">Available Credits</div>
+                        </div>
+                        <div className="space-y-2">
+                          <div className="flex justify-between items-center text-xs">
+                            <span className="text-gray-600">Used this month</span>
+                            <span className="text-gray-900">4,890 credits</span>
+                          </div>
+                          <div className="bg-gray-200 rounded-full h-2">
+                            <div className="bg-green-500 h-2 rounded-full" style={{ width: '70%' }}></div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Social Proof */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Trusted by Marketing Teams Worldwide
+            </h2>
+            <p className="text-xl text-gray-600">
+              Join thousands of marketers who've scaled their lead generation with AI
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
+              <div className="text-4xl font-bold text-emerald-600 mb-2">2.5M+</div>
+              <div className="text-lg font-semibold text-gray-900 mb-2">Leads Generated</div>
+              <div className="text-gray-600">Across all customer campaigns</div>
+            </div>
+
+            <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
+              <div className="text-4xl font-bold text-blue-600 mb-2">89%</div>
+              <div className="text-lg font-semibold text-gray-900 mb-2">Success Rate</div>
+              <div className="text-gray-600">Campaign conversion average</div>
+            </div>
+
+            <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
+              <div className="text-4xl font-bold text-purple-600 mb-2">10,000+</div>
+              <div className="text-lg font-semibold text-gray-900 mb-2">Active Users</div>
+              <div className="text-gray-600">Growing every day</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Pay Only for Leads You Want
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Monthly subscription for platform access + credits. Generate unlimited leads FREE, unlock only the best contacts.
+            </p>
+            <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-200 rounded-full">
+              <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+              </svg>
+              <span className="text-sm font-medium text-blue-900">20 credits = 1 unlocked contact (name + email + phone)</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Starter Plan */}
+            <div className="bg-white rounded-xl border-2 border-gray-200 p-8 relative">
+              <div className="text-center mb-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Starter</h3>
+                <div className="text-4xl font-bold text-gray-900 mb-2">₹4,999</div>
+                <div className="text-gray-600 mb-4">per month</div>
+                <p className="text-gray-600">Perfect for small businesses getting started</p>
+              </div>
+
+              <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-blue-900 mb-1">200 Credits</div>
+                  <div className="text-sm text-blue-700">= 10 Unlocked Contacts/month</div>
+                </div>
+              </div>
+
+              <ul className="space-y-4 mb-8">
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3 mt-1">✓</span>
+                  <span className="text-gray-700"><strong>Unlimited</strong> lead generation</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3 mt-1">✓</span>
+                  <span className="text-gray-700"><strong>Unlimited</strong> FREE previews</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3 mt-1">✓</span>
+                  <span className="text-gray-700">200 credits (10 unlocks)</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3 mt-1">✓</span>
+                  <span className="text-gray-700">AI-powered lead scoring</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3 mt-1">✓</span>
+                  <span className="text-gray-700">Email & CRM tools</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3 mt-1">✓</span>
+                  <span className="text-gray-700">Real-time analytics</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3 mt-1">✓</span>
+                  <span className="text-gray-700">Email support</span>
+                </li>
+              </ul>
+
+              <Link href="/signup" className="w-full py-3 border border-gray-300 text-gray-700 rounded-lg hover:border-gray-400 font-semibold text-center block">
+                Start Free Trial
+              </Link>
+            </div>
+
+            {/* Professional Plan */}
+            <div className="bg-white rounded-xl border-2 border-blue-500 p-8 relative shadow-xl">
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                <span className="bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-medium">
+                  Most Popular
                 </span>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-3 text-center">{advantage.title}</h3>
-              <p className="text-gray-600 text-center">{advantage.description}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* Success Stories Banner */}
-        <div className="mt-16 bg-gradient-to-r from-green-500 to-blue-600 rounded-xl p-8 text-white text-center">
-          <h3 className="text-2xl font-bold mb-4">Real Success from Real Indian Businesses</h3>
-          <p className="text-lg opacity-90 mb-6">
-            From Mumbai startups to Bangalore IT companies to Delhi consulting firms - see how Indian businesses 
-            are scaling their lead generation with our platform.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white bg-opacity-20 rounded-lg p-4">
-              <div className="text-2xl font-bold mb-1">₹12 Lakh</div>
-              <div className="text-sm opacity-90">Revenue Generated</div>
-            </div>
-            <div className="bg-white bg-opacity-20 rounded-lg p-4">
-              <div className="text-2xl font-bold mb-1">3,500+</div>
-              <div className="text-sm opacity-90">Qualified Leads</div>
-            </div>
-            <div className="bg-white bg-opacity-20 rounded-lg p-4">
-              <div className="text-2xl font-bold mb-1">₹18</div>
-              <div className="text-sm opacity-90">Avg Cost per Lead</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// Pricing Section
-function PricingSection() {
-  const plans = [
-    {
-      name: 'Starter',
-      price: '₹4,999',
-      period: 'month',
-      description: 'Perfect for consultants & small agencies',
-      features: [
-        '200 qualified leads delivered monthly',
-        'Choose from 8 industry templates',
-        'AI-powered lead scoring & qualification',
-        'Multi-channel nurture sequences',
-        'WhatsApp, Email, LinkedIn outreach',
-        'Real-time analytics dashboard',
-        'Priority customer support',
-        'All major Indian cities covered'
-      ],
-      highlighted: false,
-      buttonText: 'Start FREE Trial',
-      costPerLead: '₹25 per lead',
-      guarantee: '500+ leads guarantee or refund'
-    },
-    {
-      name: 'Growth',
-      price: '₹12,999',
-      period: 'month', 
-      description: 'Most popular for growing businesses',
-      features: [
-        '500 qualified leads delivered monthly',
-        'All industry templates + custom options',
-        'Advanced AI lead qualification',
-        'Complete lead management platform',
-        'AI-powered nurture sequences',
-        'Multi-language support (Hindi + Regional)',
-        'Dedicated account manager',
-        'API access for integrations'
-      ],
-      highlighted: true,
-      buttonText: 'Start FREE Trial',
-      costPerLead: '₹26 per lead',
-      guarantee: '1000+ leads guarantee or refund'
-    },
-    {
-      name: 'Enterprise',
-      price: '₹24,999',
-      period: 'month',
-      description: 'For enterprises & revenue teams',
-      features: [
-        '1000+ qualified leads delivered monthly',
-        'Custom industry templates',
-        'Advanced lead intelligence & insights',
-        'Full CRM integration & automation',
-        'Team collaboration & lead assignment',
-        'Custom outreach campaigns',
-        'White-label options available',
-        'Dedicated success manager & SLA'
-      ],
-      highlighted: false,
-      buttonText: 'Contact Sales Team',
-      costPerLead: '₹25 per lead',
-      guarantee: '2000+ leads guarantee or refund'
-    }
-  ];
-
-  return (
-    <section id="pricing" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-            Transparent Lead Generation Pricing
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Pay only for qualified leads delivered. No complex features, no hidden fees. 
-            Every plan includes industry-specific AI templates and guaranteed lead delivery.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {plans.map((plan, index) => (
-            <div key={index} className={`relative rounded-xl border-2 p-8 ${plan.highlighted ? 'border-blue-500 bg-blue-50' : 'border-gray-200 bg-white'}`}>
-              {plan.highlighted && (
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <span className="bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-medium">
-                    Most Popular
-                  </span>
-                </div>
-              )}
               
               <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
-                <p className="text-gray-600 mb-4">{plan.description}</p>
-                <div className="mb-4">
-                  <span className="text-4xl font-bold text-gray-900">{plan.price}</span>
-                  <span className="text-gray-600">/{plan.period}</span>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Growth</h3>
+                <div className="text-4xl font-bold text-gray-900 mb-2">₹12,999</div>
+                <div className="text-gray-600 mb-4">per month</div>
+                <p className="text-gray-600">For growing teams with higher volume needs</p>
+              </div>
+
+              <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-300 rounded-lg">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-purple-900 mb-1">500 Credits</div>
+                  <div className="text-sm text-purple-700">= 25 Unlocked Contacts/month</div>
                 </div>
               </div>
 
-              <div className="space-y-4 mb-8">
-                {plan.features.map((feature, i) => (
-                  <div key={i} className="flex items-center gap-3">
-                    <div className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <svg className="w-3 h-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+              <ul className="space-y-4 mb-8">
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3 mt-1">✓</span>
+                  <span className="text-gray-700"><strong>Unlimited</strong> lead generation</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3 mt-1">✓</span>
+                  <span className="text-gray-700"><strong>Unlimited</strong> FREE previews</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3 mt-1">✓</span>
+                  <span className="text-gray-700">500 credits (25 unlocks)</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3 mt-1">✓</span>
+                  <span className="text-gray-700">Saved searches</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3 mt-1">✓</span>
+                  <span className="text-gray-700">Advanced AI insights</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3 mt-1">✓</span>
+                  <span className="text-gray-700">Multi-channel outreach</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3 mt-1">✓</span>
+                  <span className="text-gray-700">Priority support + API access</span>
+                </li>
+              </ul>
+
+              <Link href="/signup" className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold text-center block">
+                Start Free Trial
+              </Link>
+            </div>
+
+            {/* Enterprise Plan */}
+            <div className="bg-white rounded-xl border-2 border-gray-200 p-8 relative">
+              <div className="text-center mb-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Enterprise</h3>
+                <div className="text-4xl font-bold text-gray-900 mb-2">₹24,999</div>
+                <div className="text-gray-600 mb-4">per month</div>
+                <p className="text-gray-600">Custom solutions for large organizations</p>
+              </div>
+
+              <div className="mb-6 p-4 bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-300 rounded-lg">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-indigo-900 mb-1">1000 Credits</div>
+                  <div className="text-sm text-indigo-700">= 50 Unlocked Contacts/month</div>
+                </div>
+              </div>
+
+              <ul className="space-y-4 mb-8">
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3 mt-1">✓</span>
+                  <span className="text-gray-700"><strong>Unlimited</strong> lead generation</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3 mt-1">✓</span>
+                  <span className="text-gray-700"><strong>Unlimited</strong> FREE previews</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3 mt-1">✓</span>
+                  <span className="text-gray-700">1000 credits (50 unlocks)</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3 mt-1">✓</span>
+                  <span className="text-gray-700">Saved searches + favorites</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3 mt-1">✓</span>
+                  <span className="text-gray-700">Custom integrations</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3 mt-1">✓</span>
+                  <span className="text-gray-700">White-label options</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3 mt-1">✓</span>
+                  <span className="text-gray-700">Dedicated success manager</span>
+                </li>
+              </ul>
+
+              <Link href="/contact" className="w-full py-3 border border-gray-300 text-gray-700 rounded-lg hover:border-gray-400 font-semibold text-center block">
+                Contact Sales
+              </Link>
+            </div>
+          </div>
+
+          {/* How Credits Work */}
+          <div className="mt-16 max-w-4xl mx-auto">
+            <div className="bg-gradient-to-br from-blue-50 to-purple-50 border-2 border-blue-200 rounded-2xl p-8">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">💎 How Credits Work</h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div className="bg-white rounded-lg p-4 border border-gray-200">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                      <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
                     </div>
-                    <span className="text-gray-700 text-sm">{feature}</span>
+                    <div>
+                      <h4 className="font-bold text-gray-900 mb-1">Always FREE</h4>
+                      <ul className="text-sm text-gray-600 space-y-1">
+                        <li>• Generate unlimited leads</li>
+                        <li>• Preview company names</li>
+                        <li>• See AI quality scores</li>
+                        <li>• View basic insights</li>
+                      </ul>
+                    </div>
                   </div>
-                ))}
+                </div>
+
+                <div className="bg-white rounded-lg p-4 border border-gray-200">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                      <svg className="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-gray-900 mb-1">Pay Per Unlock</h4>
+                      <ul className="text-sm text-gray-600 space-y-1">
+                        <li>• 20 credits per contact</li>
+                        <li>• Get name, email, phone</li>
+                        <li>• Detailed AI insights</li>
+                        <li>• Keep unlocked forever</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              <button className={`w-full py-3 rounded-lg font-semibold transition-colors ${
-                plan.highlighted 
-                  ? 'bg-blue-600 text-white hover:bg-blue-700' 
-                  : 'bg-gray-900 text-white hover:bg-gray-800'
-              }`}>
-                {plan.buttonText}
-              </button>
+              <div className="bg-white rounded-lg p-6 border-2 border-purple-300">
+                <h4 className="font-bold text-gray-900 mb-4 text-center">Need More Credits?</h4>
+                <div className="grid grid-cols-3 gap-4 text-center">
+                  <div>
+                    <div className="text-2xl font-bold text-gray-900">100</div>
+                    <div className="text-sm text-gray-600">credits</div>
+                    <div className="text-lg font-bold text-blue-600 mt-1">₹1,000</div>
+                    <div className="text-xs text-gray-500">(₹10/credit)</div>
+                  </div>
+                  <div className="bg-blue-50 rounded-lg p-2">
+                    <div className="text-xs text-blue-600 font-medium mb-1">BEST VALUE</div>
+                    <div className="text-2xl font-bold text-gray-900">500</div>
+                    <div className="text-sm text-gray-600">credits</div>
+                    <div className="text-lg font-bold text-blue-600 mt-1">₹4,000</div>
+                    <div className="text-xs text-gray-500">(₹8/credit - 20% off)</div>
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-gray-900">1000</div>
+                    <div className="text-sm text-gray-600">credits</div>
+                    <div className="text-lg font-bold text-blue-600 mt-1">₹7,000</div>
+                    <div className="text-xs text-gray-500">(₹7/credit - 30% off)</div>
+                  </div>
+                </div>
+              </div>
             </div>
-          ))}
+          </div>
         </div>
+      </section>
 
-        <div className="text-center mt-12">
-          <p className="text-gray-600 mb-4">
-            ✅ 14-day free trial • ✅ No credit card required • ✅ Cancel anytime
-          </p>
-          <p className="text-sm text-gray-500">
-            All plans include GST. Invoice generation available for Indian businesses.
-          </p>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// Testimonials Section
-function TestimonialsSection() {
-  const testimonials = [
-    {
-      name: 'Rajesh Sharma',
-      role: 'Founder',
-      company: 'TechCorp Solutions',
-      location: 'Bangalore',
-      image: '👨‍💼',
-      content: 'Started with 50 leads/month, now getting 500 qualified leads delivered every month. Our sales pipeline is always full.',
-      metrics: '500 leads/month delivered'
-    },
-    {
-      name: 'Priya Singh', 
-      role: 'Marketing Director',
-      company: 'DigitalFirst Apps',
-      location: 'Chennai',
-      image: '👩‍💼',
-      content: 'At ₹26 per qualified lead, this is 60% cheaper than hiring a sales development team. The industry templates work perfectly for SaaS.',
-      metrics: '₹26 per qualified lead'
-    },
-    {
-      name: 'Amit Kumar',
-      role: 'CEO',
-      company: 'RealEstateTech',
-      location: 'Mumbai', 
-      image: '👨‍💻',
-      content: 'Real estate template found our ideal buyers automatically. From 2 deals/month to 8 deals using the Mumbai property template.',
-      metrics: '4x more deals closed'
-    },
-    {
-      name: 'Sunita Reddy',
-      role: 'Business Owner',
-      company: 'Healthcare Connect',
-      location: 'Hyderabad',
-      image: '👩‍⚕️',
-      content: 'Healthcare professionals template delivered 157 qualified doctors in first month. ROI was evident within 15 days.',
-      metrics: '157 doctors in month 1'
-    },
-    {
-      name: 'Vikram Mehta',
-      role: 'Sales Head',
-      company: 'ManufacturingCorp',
-      location: 'Pune',
-      image: '👨‍🔧',
-      content: 'Industrial template found procurement managers at Pune companies automatically. Our sales cycle reduced from 6 months to 3 months.',
-      metrics: '50% faster sales cycle'
-    },
-    {
-      name: 'Deepika Kapoor',
-      role: 'Agency Owner',
-      company: 'DigitalGrowth Agency',
-      location: 'Delhi',
-      image: '👩‍💼',
-      content: 'Using multiple industry templates for our 8 clients. Each gets 200+ leads/month without any manual work from our team.',
-      metrics: '8 clients, 1600+ leads total'
-    }
-  ];
-
-  return (
-    <section className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-            Real Results from Indian Business Owners
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-to-r from-emerald-600 to-blue-600">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-4xl font-bold text-white mb-4">
+            Try Before You Buy. Unlock Only the Best.
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            500+ businesses now rely on our AI-powered lead generation platform. 
-            See how they're getting qualified leads delivered automatically every month.
+          <p className="text-xl text-emerald-100 mb-8 max-w-3xl mx-auto">
+            Generate unlimited leads with AI. Preview quality for FREE. Pay only for the contacts you actually want to reach.
+            Start your 14-day trial with 200 free credits!
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/signup" className="px-8 py-4 bg-white text-blue-600 rounded-xl hover:bg-gray-50 font-semibold shadow-lg">
+              Start Free Trial
+            </Link>
+            <button className="px-8 py-4 border-2 border-white text-white rounded-xl hover:bg-white hover:text-blue-600 font-semibold">
+              Schedule Demo
+            </button>
+          </div>
+
+          <p className="text-emerald-100 mt-6 text-sm">
+            ✅ No credit card required • ✅ 14-day trial + 200 credits FREE • ✅ Cancel anytime
           </p>
         </div>
+      </section>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <div key={index} className="bg-white rounded-xl p-8 shadow-lg border border-gray-200">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-2xl">
-                  {testimonial.image}
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900">{testimonial.name}</h4>
-                  <p className="text-gray-600">{testimonial.role}, {testimonial.company}</p>
-                  <p className="text-sm text-gray-500">{testimonial.location}</p>
-                </div>
-              </div>
-              
-              <blockquote className="text-gray-700 mb-6 italic">
-                "{testimonial.content}"
-              </blockquote>
-              
-              <div className="flex items-center justify-between">
-                <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
-                  {testimonial.metrics}
-                </span>
-                <div className="flex text-yellow-400">
-                  {[...Array(5)].map((_, i) => (
-                    <svg key={i} className="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.851-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// Main Component
-export default function HomePage() {
-  return (
-    <div className="min-h-screen bg-white">
-      <Navigation />
-      
-          <main>
-        <HeroSection />
-        <FeaturesSection />
-        <IndustryFocusSection />
-        <HowItWorksSection />
-        <IndianMarketAdvantagesSection />
-        <PricingSection />
-        <TestimonialsSection />
-        
-        {/* CTA Section */}
-        <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600">
-          <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">
-              Stop Struggling. Start Generating Leads Today.
-            </h2>
-            <p className="text-xl text-blue-100 mb-8">
-              Join 500+ Indian businesses who've transformed their sales pipeline with automated AI lead generation. 
-              Setup in 15 minutes. Success guaranteed or full refund. No credit card required for trial.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link 
-                href="/signup"
-                className="px-8 py-4 bg-white text-blue-600 rounded-lg hover:bg-gray-100 font-semibold text-lg transition-colors"
-              >
-                🚀 Free Trial - No Credit Card Required
-              </Link>
-              <Link 
-                href="/demo"
-                className="px-8 py-4 border-2 border-white text-white rounded-lg hover:bg-white hover:text-blue-600 font-semibold text-lg transition-colors"
-              >
-                📺 Watch 2-Min Demo
-              </Link>
-            </div>
-            <p className="text-blue-200 text-sm mt-4">
-              ✅ Setup in 15 minutes • ✅ Cancel anytime • ✅ Success guarantee • ✅ Indian support team
+      {/* Free AI Marketing Audit Form */}
+      <section className="py-16 bg-gradient-to-r from-blue-50 to-indigo-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Get a Free AI Marketing Audit</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Tell us about your business and goals. We'll send you a personalized audit with recommended automations and strategies.
             </p>
           </div>
-        </section>
-      </main>
-      
+          
+          <div className="max-w-2xl mx-auto">
+            <AuditForm />
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold">TM</span>
+              <div className="flex items-center mb-4">
+                <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-blue-600 rounded-xl flex items-center justify-center text-white font-bold shadow-sm">
+                  T
                 </div>
-                <span className="font-bold text-lg">Transition Marketing AI</span>
+                <div className="ml-3">
+                  <h3 className="text-xl font-bold">Transition Marketing AI</h3>
+                </div>
               </div>
               <p className="text-gray-400">
-                AI-powered lead generation platform built for Indian businesses.
+                AI-powered lead generation platform for modern marketers.
               </p>
             </div>
-            
+
             <div>
-              <h3 className="font-semibold mb-4">Platform</h3>
+              <h4 className="text-lg font-semibold mb-4">Product</h4>
               <ul className="space-y-2 text-gray-400">
                 <li><a href="#" className="hover:text-white">AI Lead Generation</a></li>
-                <li><a href="#" className="hover:text-white">Industry Templates</a></li>
-                <li><a href="#" className="hover:text-white">Analytics Dashboard</a></li>
-                <li><a href="#" className="hover:text-white">API Integration</a></li>
+                <li><a href="#" className="hover:text-white">CRM Pipeline</a></li>
+                <li><a href="#" className="hover:text-white">Email Automation</a></li>
+                <li><a href="#" className="hover:text-white">Analytics</a></li>
               </ul>
             </div>
-            
+
             <div>
-              <h3 className="font-semibold mb-4">Support</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white">Help Center</a></li>
-                <li><a href="#" className="hover:text-white">Contact Support</a></li>
-                <li><a href="#" className="hover:text-white">Community</a></li>
-                <li><a href="#" className="hover:text-white">Status</a></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h3 className="font-semibold mb-4">Company</h3>
+              <h4 className="text-lg font-semibold mb-4">Company</h4>
               <ul className="space-y-2 text-gray-400">
                 <li><a href="#" className="hover:text-white">About Us</a></li>
-                <li><a href="#" className="hover:text-white">Privacy Policy</a></li>
-                <li><a href="#" className="hover:text-white">Terms of Service</a></li>
-                <li><a href="#" className="hover:text-white">Compliance</a></li>
+                <li><a href="#" className="hover:text-white">Contact</a></li>
+                <li><a href="#" className="hover:text-white">Careers</a></li>
+                <li><a href="#" className="hover:text-white">Blog</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Support</h4>
+              <ul className="space-y-2 text-gray-400">
+                                  <li><a href="#" className="hover:text-white">Help Center</a></li>
+                                <li><a href="#" className="hover:text-white">Documentation</a></li>
+                                <li><a href="#" className="hover:text-white">API Reference</a></li>
+                                <li><a href="#" className="hover:text-white">Status</a></li>
               </ul>
             </div>
           </div>
-          
+
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 Transition Marketing AI. All rights reserved. Built for Indian businesses.</p>
+            <p>&copy; 2024 Transition Marketing AI. All rights reserved.</p>
           </div>
         </div>
       </footer>
-    </div>
+      </div>
+    </>
   );
 }

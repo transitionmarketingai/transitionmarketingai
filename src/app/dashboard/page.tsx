@@ -1,177 +1,1748 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { useSession, signOut } from 'next-auth/react';
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { dataService, Contact, Deal } from '@/lib/dataService';
-import OnboardingFlow from '@/components/OnboardingFlow';
-import DashboardSidebar from '@/components/DashboardSidebar';
-import DashboardTopNav from '@/components/DashboardTopNav';
-import MobileDashboardSidebar from '@/components/MobileDashboardSidebar';
-import MobileDashboardNav from '@/components/MobileDashboardNav';
-import SetupGuide from '@/components/SetupGuide';
-import ContactsPage from '@/components/ContactsPage';
-import ToolsAndApps from '@/components/ToolsAndApps';
-import DealsPage from '@/components/DealsPage';
-import ActivitiesPage from '@/components/ActivitiesPage';
-import LeadsPage from '@/components/LeadsPage';
-import InsightsPage from '@/components/InsightsPage';
-import CommunicationsPage from '@/components/CommunicationsPage';
-import ProductsPage from '@/components/ProductsPage';
-import TeamManagement from '@/components/TeamManagement';
-import AIContentCreator from '@/components/AIContentCreator';
-import IndianLeadDashboard from '@/components/IndianLeadDashboard';
+import { useAuth } from '@/contexts/AuthContext';
+import DashboardOnboarding from '@/components/DashboardOnboarding';
+import NotificationCenter from '@/components/NotificationCenter';
+import LeadGenerationModal from '@/components/LeadGenerationModal';
+import LeadUnlockModal from '@/components/LeadUnlockModal';
+import LeadCard from '@/components/LeadCard';
+import LeadGenerationForm from '@/components/LeadGenerationForm';
+import LeadPreviewCard from '@/components/LeadPreviewCard';
+import { toast } from 'sonner';
+import { supabase } from '@/lib/supabase';
 
-function DashboardPage() {
-  const { data: session, status } = useSession();
+interface Lead {
+  id: number;
+  company: string;
+  contact_name?: string;
+  email?: string;
+  phone?: string;
+  website?: string;
+  industry: string;
+  location: string;
+  company_size: string;
+  ai_score: number;
+  insights?: string[];
+  status: string;
+  is_unlocked: boolean;
+  unlocked_at?: string;
+  unlocked_by?: string;
+  credits_used?: number;
+  created_at: string;
+}
+
+interface Deal {
+  id: number;
+  company: string;
+  contact: string;
+  value: number;
+  stage: string;
+  probability: number;
+  created_at: string;
+}
+
+type DashboardSection = 'overview' | 'ai-leads' | 'crm-pipeline' | 'credit-management' | 'email-campaigns' | 'whatsapp-outreach' | 'linkedin-outreach' | 'industry-templates' | 'analytics' | 'team-collaboration' | 'api-integrations' | 'white-label' | 'multi-language' | 'settings';
+
+interface NavigationGroup {
+  label: string;
+  items: Array<{ id: DashboardSection; label: string; icon: string; description?: string }>;
+}
+
+export default function Dashboard() {
+  const { user, signOut, loading: authLoading } = useAuth();
   const router = useRouter();
-  const [activeSection, setActiveSection] = useState('overview');
+  const [activeSection, setActiveSection] = useState<DashboardSection>('overview');
+  const [leads, setLeads] = useState<Lead[]>([]);
+  const [deals, setDeals] = useState<Deal[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [generating, setGenerating] = useState(false);
+  const [exporting, setExporting] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [notificationOpen, setNotificationOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  
+  // New lead generation states
+  const [leadPreviews, setLeadPreviews] = useState<any[]>([]);
+  const [selectedLeads, setSelectedLeads] = useState<number[]>([]);
+  const [userCredits, setUserCredits] = useState(0); // Start at 0, fetch from DB
+  const [unlocking, setUnlocking] = useState(false);
+  const [onboardingPreferences, setOnboardingPreferences] = useState<any>(null);
+  const [showLeadGenModal, setShowLeadGenModal] = useState(false);
+  const [showUnlockModal, setShowUnlockModal] = useState(false);
+  const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
+  const [unlockedLeads, setUnlockedLeads] = useState<Lead[]>([]); // Track unlocked leads
+  const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({
+    'Core': true,
+    'Outreach': false,
+    'Advanced': false,
+    'Settings': false,
+  });
 
+  // Load dark mode preference
   useEffect(() => {
-    if (status === 'loading') return;
+    const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+    setDarkMode(savedDarkMode);
+  }, []);
 
-    if (!session) {
-      router.push('/signin');
+  // Toggle dark mode
+  const toggleDarkMode = () => {
+    const newMode = !darkMode;
+    setDarkMode(newMode);
+    localStorage.setItem('darkMode', String(newMode));
+  };
+  const [filters, setFilters] = useState({
+    industry: [] as string[],
+    status: [] as string[],
+    minScore: 0,
+    dateRange: 'all' as 'all' | '7days' | '30days' | 'custom',
+    location: [] as string[],
+  });
+  const [savedViews, setSavedViews] = useState([
+    { id: '1', name: 'High Value Leads', filters: { minScore: 80, industry: ['Technology'] } },
+    { id: '2', name: 'Mumbai Hot Leads', filters: { location: ['Mumbai'], minScore: 70 } },
+  ]);
+
+  // Fetch user credits from database
+  useEffect(() => {
+    const fetchUserCredits = async () => {
+      if (!user?.id) return;
+      
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('credits, onboarding_preferences')
+          .eq('id', user.id)
+          .single();
+        
+        if (error) {
+          console.error('Error fetching user credits:', error);
+          toast.error('Failed to load credit balance');
+          return;
+        }
+        
+        if (data) {
+          setUserCredits(data.credits || 0);
+          
+          // Also load onboarding preferences if they exist
+          if (data.onboarding_preferences) {
+            setOnboardingPreferences(data.onboarding_preferences);
+          }
+        }
+      } catch (error) {
+        console.error('Error in fetchUserCredits:', error);
+      }
+    };
+    
+    fetchUserCredits();
+  }, [user]);
+
+  // Fetch unlocked leads for this user
+  useEffect(() => {
+    const fetchUnlockedLeads = async () => {
+      if (!user?.id) return;
+      
+      try {
+        // Query the unlocked_leads table to get lead IDs
+        const { data: unlockedData, error: unlockedError } = await supabase
+          .from('unlocked_leads')
+          .select('lead_id')
+          .eq('user_id', user.id);
+        
+        if (unlockedError) {
+          console.error('Error fetching unlocked leads:', unlockedError);
+          return;
+        }
+        
+        if (unlockedData && unlockedData.length > 0) {
+          const leadIds = unlockedData.map((item: any) => item.lead_id);
+          
+          // Fetch the actual lead details
+          const { data: leadsData, error: leadsError } = await supabase
+            .from('leads')
+            .select('*')
+            .in('id', leadIds);
+          
+          if (leadsError) {
+            console.error('Error fetching lead details:', leadsError);
+            return;
+          }
+          
+          if (leadsData) {
+            setUnlockedLeads(leadsData.map((lead: any) => ({
+              ...lead,
+              is_unlocked: true,
+              insights: typeof lead.insights === 'string' ? JSON.parse(lead.insights) : lead.insights,
+            })));
+          }
+        }
+      } catch (error) {
+        console.error('Error in fetchUnlockedLeads:', error);
+      }
+    };
+    
+    fetchUnlockedLeads();
+  }, [user]);
+
+  // Check if user is new (first-time visit)
+  useEffect(() => {
+    const hasSeenOnboarding = localStorage.getItem('hasSeenOnboarding');
+    if (!hasSeenOnboarding) {
+      setShowOnboarding(true);
+    }
+  }, []);
+
+  const handleOnboardingComplete = async (preferences?: any) => {
+    localStorage.setItem('hasSeenOnboarding', 'true');
+    setShowOnboarding(false);
+    
+    // Save preferences to database if provided
+    if (preferences && user?.id) {
+      try {
+        const { error } = await supabase
+          .from('profiles')
+          .update({ onboarding_preferences: preferences })
+          .eq('id', user.id);
+        
+        if (error) {
+          console.error('Error saving onboarding preferences:', error);
+        } else {
+          setOnboardingPreferences(preferences);
+          toast.success('Onboarding preferences saved!');
+        }
+      } catch (error) {
+        console.error('Error in handleOnboardingComplete:', error);
+      }
+    }
+  };
+
+  const handleOnboardingSkip = () => {
+    localStorage.setItem('hasSeenOnboarding', 'true');
+    setShowOnboarding(false);
+  };
+
+  // Mock data for comprehensive dashboard
+  useEffect(() => {
+    // Mock leads data
+    setLeads([
+      {
+        id: 1,
+        company: 'TechCorp Solutions',
+        contact_name: 'Rajesh Kumar',
+        email: 'rajesh@techcorp.com',
+        phone: '+91-9876543210',
+        website: 'https://techcorp.com',
+        industry: 'Technology',
+        location: 'Mumbai',
+        company_size: '50-200',
+        ai_score: 85,
+        insights: ['Growing startup', 'Active in AI space', 'Recently funded'],
+        status: 'new',
+        created_at: '2024-01-15'
+      },
+      {
+        id: 2,
+        company: 'HealthFirst Clinic',
+        contact_name: 'Dr. Priya Sharma',
+        email: 'priya@healthfirst.com',
+        phone: '+91-9876543211',
+        website: 'https://healthfirst.com',
+        industry: 'Healthcare',
+        location: 'Delhi',
+        company_size: '20-50',
+        ai_score: 78,
+        insights: ['Expanding operations', 'Digital transformation', 'Looking for automation'],
+        status: 'contacted',
+        created_at: '2024-01-14'
+      }
+    ]);
+
+    // Mock deals data
+    setDeals([
+      {
+        id: 1,
+        company: 'TechCorp Solutions',
+        contact: 'Rajesh Kumar',
+        value: 50000,
+        stage: 'Proposal',
+        probability: 75,
+        created_at: '2024-01-15'
+      },
+      {
+        id: 2,
+        company: 'HealthFirst Clinic',
+        contact: 'Dr. Priya Sharma',
+        value: 35000,
+        stage: 'Negotiation',
+        probability: 60,
+        created_at: '2024-01-14'
+      }
+    ]);
+
+    setLoading(false);
+  }, []);
+
+  // NEW: Generate lead previews with user filters
+  const handleGenerateLeads = async (filters: any) => {
+    setGenerating(true);
+    toast.loading('Generating lead previews...', { id: 'generate-leads' });
+    
+    try {
+      const response = await fetch('/api/leads/generate-v2', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...filters,
+          userId: user?.id,
+        }),
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        setLeadPreviews(data.leads);
+        toast.success(`Found ${data.total} qualified leads! 🎯`, { id: 'generate-leads' });
+        
+        if (filters.saveSearch) {
+          toast.success(`Saved as "${filters.searchName}"`, { duration: 3000 });
+        }
+      } else {
+        toast.error(data.error || 'Failed to generate leads', { id: 'generate-leads' });
+      }
+    } catch (error) {
+      console.error('Error generating leads:', error);
+      toast.error('Network error. Please try again.', { id: 'generate-leads' });
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  // NEW: Unlock single lead
+  const handleUnlockLead = async (leadId: number) => {
+    // Check if user has enough credits
+    if (userCredits < 5) {
+      toast.error('Insufficient credits! Please top up to unlock this lead.');
       return;
     }
 
-    // Check if user needs onboarding
-    checkOnboardingStatus();
-  }, [session, status, router]);
+    setUnlocking(true);
+    toast.loading('Unlocking contact information...', { id: 'unlock' });
+    
+    try {
+      const response = await fetch('/api/leads/unlock', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          leadId,
+          userId: user?.id,
+        }),
+      });
 
-  const checkOnboardingStatus = async () => {
-    if (session?.user?.email) {
-      // Skip onboarding for demo user (they already know the platform)
-      if (session.user.email === 'demo@transitionai.com') {
+      const data = await response.json();
+      
+      if (data.success) {
+        // Update lead in previews
+        setLeadPreviews(prev => prev.map(lead => 
+          lead.id === leadId ? { ...lead, ...data.lead, unlocked: true } : lead
+        ));
+        
+        // Add to unlocked leads list
+        setUnlockedLeads(prev => [
+          ...prev,
+          { ...data.lead, is_unlocked: true, insights: data.lead.insights || [] }
+        ]);
+        
+        // Update credits
+        setUserCredits(data.creditsRemaining);
+        toast.success(`Contact unlocked! ${data.creditsRemaining} credits remaining 🔓`, { id: 'unlock' });
+      } else {
+        toast.error(data.error || 'Failed to unlock lead', { id: 'unlock' });
+      }
+    } catch (error) {
+      console.error('Error unlocking lead:', error);
+      toast.error('Network error. Please try again.', { id: 'unlock' });
+    } finally {
+      setUnlocking(false);
+    }
+  };
+
+  // NEW: Bulk unlock selected leads
+  const handleBulkUnlock = async () => {
+    if (selectedLeads.length === 0) {
+      toast.error('Please select leads to unlock');
+      return;
+    }
+
+    const totalCost = selectedLeads.length * 5;
+    if (userCredits < totalCost) {
+      toast.error(`Insufficient credits. Need ${totalCost}, have ${userCredits}`);
+      return;
+    }
+
+    setUnlocking(true);
+    toast.loading(`Unlocking ${selectedLeads.length} leads...`, { id: 'bulk-unlock' });
+    
+    try {
+      const response = await fetch('/api/leads/unlock', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          leadIds: selectedLeads,
+          userId: user?.id,
+        }),
+      });
+
+      const data = await response.json();
+      
+      if (data.success) {
+        // Update leads in state
+        setLeadPreviews(prev => prev.map(lead => 
+          selectedLeads.includes(lead.id) 
+            ? { ...lead, ...data.leads.find((l: any) => l.id === lead.id), unlocked: true }
+            : lead
+        ));
+        
+        setUserCredits(data.creditsRemaining);
+        setSelectedLeads([]);
+        toast.success(`Unlocked ${data.unlockedCount} leads! ${data.creditsRemaining} credits remaining 🔓`, { id: 'bulk-unlock' });
+      } else {
+        toast.error(data.error || 'Failed to unlock leads', { id: 'bulk-unlock' });
+      }
+    } catch (error) {
+      console.error('Error bulk unlocking:', error);
+      toast.error('Network error. Please try again.', { id: 'bulk-unlock' });
+    } finally {
+      setUnlocking(false);
+    }
+  };
+
+  // OLD: Generate new leads (kept for backwards compatibility)
+  const generateLeads = async () => {
+    // This will be replaced by handleGenerateLeads
+    setActiveSection('ai-leads');
+  };
+
+  // Fetch leads from database
+  const fetchLeads = async () => {
+    try {
+      const response = await fetch('/api/leads');
+      const data = await response.json();
+      setLeads(data.leads || []);
+    } catch (error) {
+      console.error('Error fetching leads:', error);
+    }
+  };
+
+  const filteredLeads = leads.filter(lead => {
+    if (filters.industry.length > 0 && !filters.industry.includes(lead.industry)) return false;
+    if (filters.status.length > 0 && !filters.status.includes(lead.status)) return false;
+    if (filters.location.length > 0 && !filters.location.includes(lead.location)) return false;
+    if (lead.ai_score < filters.minScore) return false;
+    return true;
+  });
+
+  const toggleFilter = (type: 'industry' | 'status' | 'location', value: string) => {
+    setFilters(prev => ({
+      ...prev,
+      [type]: prev[type].includes(value)
+        ? prev[type].filter((v: string) => v !== value)
+        : [...prev[type], value]
+    }));
+  };
+
+  const clearFilters = () => {
+    setFilters({
+      industry: [],
+      status: [],
+      minScore: 0,
+      dateRange: 'all',
+      location: [],
+    });
+  };
+
+  const exportToCSV = async () => {
+    try {
+      if (filteredLeads.length === 0) {
+        toast.error('No leads to export');
         return;
       }
+
+      setExporting(true);
+      toast.loading('Preparing export...', { id: 'export' });
+
+      // Simulate processing time for better UX
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      const headers = ['Company', 'Contact', 'Email', 'Phone', 'Industry', 'Location', 'AI Score', 'Status', 'Website', 'Created Date'];
+      const csvData = filteredLeads.map(lead => [
+        lead.company,
+        lead.contact_name,
+        lead.email,
+        lead.phone || '',
+        lead.industry,
+        lead.location,
+        lead.ai_score,
+        lead.status,
+        lead.website || '',
+        new Date(lead.created_at).toLocaleDateString()
+      ]);
+
+      const csvContent = [
+        headers.join(','),
+        ...csvData.map(row => row.map(cell => {
+          const cellStr = String(cell);
+          if (cellStr.includes(',') || cellStr.includes('"')) {
+            return `"${cellStr.replace(/"/g, '""')}"`;
+          }
+          return cellStr;
+        }).join(','))
+      ].join('\n');
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', `leads-export-${new Date().toISOString().split('T')[0]}.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
       
-      const isCompleted = await dataService.isOnboardingCompleted();
-      if (!isCompleted) {
-        setShowOnboarding(true);
-      }
+      toast.success(`Exported ${filteredLeads.length} leads to CSV! 📊`, { id: 'export' });
+    } catch (error) {
+      console.error('Export error:', error);
+      toast.error('Failed to export leads', { id: 'export' });
+    } finally {
+      setExporting(false);
     }
   };
 
-  const handleOnboardingComplete = () => {
-    setShowOnboarding(false);
-    // Refresh the page or redirect to ensure clean state
-    window.location.reload();
+  const exportToPDF = () => {
+    toast.info('PDF export feature coming soon! Use CSV export for now.');
   };
 
-  const renderMainContent = () => {
-    switch (activeSection) {
-      case 'overview':
-        return <IndianLeadDashboard />;
-      case 'campaigns':
-        return <IndianLeadDashboard />;
-      case 'leads':
-        return <IndianLeadDashboard />;
-      case 'industries':
-        return <IndianLeadDashboard />;
-      case 'settings':
-        return <IndianLeadDashboard />;
-      case 'setup-guide':
-        return <SetupGuide />;
-      case 'contacts':
-        return <ContactsPage />;
-      case 'organizations':
-        return (
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="mb-8 flex justify-between items-start">
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900">Organizations</h1>
-                <p className="text-gray-600 mt-2">Manage your B2B target organizations and accounts</p>
-              </div>
-            </div>
-            <div className="p-8 text-center">
-              <p className="text-gray-600">B2B organization management coming soon...</p>
-            </div>
-          </div>
-        );
-      case 'leads':
-        return <LeadsPage />;
-      case 'tools-apps':
-        return <ToolsAndApps />;
-      case 'campaigns':
-        return (
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="text-center">
-              <h1 className="text-2xl font-bold text-gray-900 mb-4">AI Campaigns</h1>
-              <p className="text-gray-600">AI-powered marketing campaigns coming soon...</p>
-            </div>
-          </div>
-        );
-      case 'products':
-        return <AIContentCreator />;
-      case 'deals':
-        return <DealsPage />;
-      case 'activities':
-        return <ActivitiesPage />;
-      case 'analytics':
-        return <InsightsPage />;
-      case 'communications':
-        return <CommunicationsPage />;
-      case 'products':
-        return <ProductsPage />;
-      case 'team':
-        return <TeamManagement />;
-      default:
-        return <SetupGuide />;
+  const getScoreColor = (score: number) => {
+    if (score >= 80) return 'text-green-600 bg-green-100';
+    if (score >= 60) return 'text-yellow-600 bg-yellow-100';
+    return 'text-red-600 bg-red-100';
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'new': return 'text-blue-600 bg-blue-100';
+      case 'contacted': return 'text-purple-600 bg-purple-100';
+      case 'qualified': return 'text-green-600 bg-green-100';
+      case 'converted': return 'text-emerald-600 bg-emerald-100';
+      default: return 'text-gray-600 bg-gray-100';
     }
   };
 
-  if (status === 'loading') {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading dashboard...</p>
+  const getStageColor = (stage: string) => {
+    switch (stage) {
+      case 'Lead': return 'text-blue-600 bg-blue-100';
+      case 'Proposal': return 'text-yellow-600 bg-yellow-100';
+      case 'Negotiation': return 'text-orange-600 bg-orange-100';
+      case 'Closed Won': return 'text-green-600 bg-green-100';
+      case 'Closed Lost': return 'text-red-600 bg-red-100';
+      default: return 'text-gray-600 bg-gray-100';
+    }
+  };
+
+  // Grouped navigation for better UX
+  const navigationGroups: NavigationGroup[] = [
+    {
+      label: 'Core',
+      items: [
+        { id: 'overview', label: 'Dashboard', icon: '📊', description: 'Overview & metrics' },
+        { id: 'ai-leads', label: 'AI Leads', icon: '🤖', description: 'Generate & manage' },
+        { id: 'crm-pipeline', label: 'Pipeline', icon: '🏗️', description: 'Track deals' },
+      ]
+    },
+    {
+      label: 'Outreach',
+      items: [
+        { id: 'email-campaigns', label: 'Email', icon: '📧', description: 'Email campaigns' },
+        { id: 'whatsapp-outreach', label: 'WhatsApp', icon: '📱', description: 'WhatsApp messaging' },
+        { id: 'linkedin-outreach', label: 'LinkedIn', icon: '💼', description: 'LinkedIn automation' },
+        { id: 'industry-templates', label: 'Templates', icon: '🏭', description: 'Industry templates' },
+      ]
+    },
+    {
+      label: 'Advanced',
+      items: [
+        { id: 'analytics', label: 'Analytics', icon: '📈', description: 'Performance metrics' },
+        { id: 'team-collaboration', label: 'Team', icon: '👥', description: 'Collaborate' },
+        { id: 'api-integrations', label: 'Integrations', icon: '🔧', description: 'API & tools' },
+        { id: 'white-label', label: 'Branding', icon: '🎨', description: 'White-label' },
+        { id: 'multi-language', label: 'Languages', icon: '🌐', description: 'Multi-language' },
+      ]
+    },
+    {
+      label: 'Settings',
+      items: [
+        { id: 'credit-management', label: 'Credits', icon: '💰', description: 'Manage credits' },
+        { id: 'settings', label: 'Settings', icon: '⚙️', description: 'Account settings' },
+      ]
+    }
+  ];
+
+  const toggleGroup = (groupLabel: string) => {
+    setExpandedGroups(prev => ({
+      ...prev,
+      [groupLabel]: !prev[groupLabel]
+    }));
+  };
+
+  const handleSectionChange = (section: DashboardSection) => {
+    setActiveSection(section);
+    setMobileMenuOpen(false); // Close mobile menu on selection
+  };
+
+  const renderOverview = () => (
+    <div className="space-y-6">
+      {/* Key Metrics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="text-2xl font-bold text-gray-900">{leads.length}</div>
+          <div className="text-sm text-gray-600">Total Leads</div>
+          <div className="text-xs text-green-600 mt-1">+12% this month</div>
+        </div>
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="text-2xl font-bold text-green-600">{deals.length}</div>
+          <div className="text-sm text-gray-600">Active Deals</div>
+          <div className="text-xs text-green-600 mt-1">₹{deals.reduce((acc, deal) => acc + deal.value, 0).toLocaleString()}</div>
+        </div>
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="text-2xl font-bold text-blue-600">24.5%</div>
+          <div className="text-sm text-gray-600">Conversion Rate</div>
+          <div className="text-xs text-green-600 mt-1">+3.2% this month</div>
+        </div>
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="text-2xl font-bold text-purple-600">₹2.4M</div>
+          <div className="text-sm text-gray-600">Revenue</div>
+          <div className="text-xs text-green-600 mt-1">+18% this quarter</div>
         </div>
       </div>
-    );
-  }
 
-  if (!session) {
-    return null; // Will redirect to signin
-  }
+      {/* Indian Market Analytics - Enhanced */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold mb-4">Indian Market Analytics</h3>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          {[
+            { city: 'Mumbai', leads: 45, growth: 8, color: 'blue', percentage: 75 },
+            { city: 'Delhi', leads: 38, growth: 12, color: 'green', percentage: 63 },
+            { city: 'Bangalore', leads: 52, growth: 15, color: 'purple', percentage: 87 },
+            { city: 'Chennai', leads: 29, growth: 5, color: 'orange', percentage: 48 },
+          ].map((location) => (
+            <div key={location.city} className="text-center">
+              <div className={`text-2xl font-bold text-${location.color}-600`}>{location.city}</div>
+              <div className="text-sm text-gray-600 mb-2">{location.leads} leads</div>
+              <div className="w-full bg-gray-200 rounded-full h-2 mb-1">
+                <div
+                  className={`bg-${location.color}-600 h-2 rounded-full transition-all duration-500`}
+                  style={{ width: `${location.percentage}%` }}
+                />
+              </div>
+              <div className="text-xs text-green-600">+{location.growth}% this week</div>
+            </div>
+          ))}
+        </div>
+      </div>
 
-  const getCurrentPageTitle = () => {
-        const titles = {
-          'setup-guide': 'AI Setup Guide',
-          'leads': 'AI Lead Generation',
-          'contacts': 'Contact Management',
-          'organizations': 'B2B Organizations',
-          'campaigns': 'AI Campaigns',
-          'timeline': 'Marketing Timeline',
-          'merge': 'Lead Deduplication',
-          'deals': 'Sales Pipeline',
-          'activities': 'Marketing Activities',
-          'analytics': 'Marketing Analytics',
-          'communications': 'Email & Outreach',
-          'products': 'AI Content Creation',
-          'team': 'Team Management',
-          'tools-apps': 'Marketing Tools',
-          'automations': 'Marketing Automation'
-        };
-    return titles[activeSection as keyof typeof titles] || activeSection.charAt(0).toUpperCase() + activeSection.slice(1);
-  };
+      {/* Lead Velocity Chart */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold mb-4">Lead Velocity (Last 7 Days)</h3>
+        <div className="h-48 flex items-end justify-between gap-2">
+          {[12, 15, 10, 18, 22, 17, 25].map((value, index) => {
+            const percentage = (value / 25) * 100;
+            const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            return (
+              <div key={index} className="flex-1 flex flex-col items-center justify-end">
+                <div className="text-xs font-medium text-gray-700 mb-1">{value}</div>
+                <div
+                  className="w-full bg-gradient-to-t from-blue-600 to-blue-400 rounded-t-lg transition-all duration-500 hover:opacity-80 cursor-pointer"
+                  style={{ height: `${percentage}%` }}
+                  title={`${value} leads on ${days[index]}`}
+                />
+                <div className="text-xs text-gray-500 mt-2">{days[index]}</div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
 
-      return (
-        <div className="min-h-screen bg-gray-50">
-          {/* Use the new Indian Lead Dashboard */}
-          <IndianLeadDashboard />
+      {/* Quick Actions */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold mb-4">Quick Actions</h3>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <button
+            onClick={generateLeads}
+            disabled={generating}
+            className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {generating ? (
+              <>
+                <div className="animate-spin text-2xl mb-2">⚙️</div>
+                <div className="font-medium">Generating...</div>
+                <div className="text-sm text-gray-600">Please wait</div>
+              </>
+            ) : (
+              <>
+                <div className="text-2xl mb-2">🤖</div>
+                <div className="font-medium">Generate AI Leads</div>
+                <div className="text-sm text-gray-600">Create qualified prospects</div>
+              </>
+            )}
+          </button>
+          <button className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-green-500 hover:bg-green-50 transition-colors">
+            <div className="text-2xl mb-2">🏗️</div>
+            <div className="font-medium">Add Deal</div>
+            <div className="text-sm text-gray-600">Create new opportunity</div>
+          </button>
+          <button className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-purple-500 hover:bg-purple-50 transition-colors">
+            <div className="text-2xl mb-2">📧</div>
+            <div className="font-medium">Create Campaign</div>
+            <div className="text-sm text-gray-600">Start email outreach</div>
+          </button>
+          <button className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-orange-500 hover:bg-orange-50 transition-colors">
+            <div className="text-2xl mb-2">💰</div>
+            <div className="font-medium">Add Credits</div>
+            <div className="text-sm text-gray-600">Top up your account</div>
+          </button>
+        </div>
+      </div>
+
+      {/* Conversion Funnel */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold mb-4">Conversion Funnel</h3>
+        <div className="space-y-3">
+          {[
+            { stage: 'Leads Generated', count: 150, percentage: 100, color: 'blue' },
+            { stage: 'Contacted', count: 120, percentage: 80, color: 'purple' },
+            { stage: 'Qualified', count: 75, percentage: 50, color: 'yellow' },
+            { stage: 'Proposal Sent', count: 45, percentage: 30, color: 'orange' },
+            { stage: 'Closed Won', count: 30, percentage: 20, color: 'green' },
+          ].map((stage, index) => (
+            <div key={stage.stage} className="relative">
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-sm font-medium text-gray-700">{stage.stage}</span>
+                <span className="text-sm text-gray-600">{stage.count} ({stage.percentage}%)</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-8 relative overflow-hidden">
+                <div
+                  className={`bg-${stage.color}-500 h-full rounded-full transition-all duration-700 flex items-center px-3 text-white text-xs font-medium`}
+                  style={{ width: `${stage.percentage}%` }}
+                >
+                  {stage.percentage >= 30 && `${stage.count} leads`}
+                </div>
+              </div>
+              {index < 4 && (
+                <div className="flex justify-center my-1">
+                  <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+        <div className="mt-4 p-3 bg-blue-50 rounded-lg">
+          <div className="text-sm text-blue-700">
+            <strong>Conversion Rate:</strong> 20% (30 out of 150 leads)
+          </div>
+        </div>
+      </div>
+
+      {/* Recent Activity */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="bg-white rounded-lg shadow p-6">
+          <h3 className="text-lg font-semibold mb-4">Recent Leads</h3>
+          <div className="space-y-3">
+            {leads.slice(0, 5).map((lead) => (
+              <div key={lead.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center">
+                  <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-sm font-medium">
+                    {lead.company.charAt(0)}
+                  </div>
+                  <div className="ml-3">
+                    <div className="font-medium text-gray-900">{lead.company}</div>
+                    <div className="text-sm text-gray-600">{lead.contact_name}</div>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getScoreColor(lead.ai_score)}`}>
+                    {lead.ai_score}
+                  </div>
+                  <div className="text-xs text-gray-500 mt-1">{lead.status}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg shadow p-6">
+          <h3 className="text-lg font-semibold mb-4">Pipeline Overview</h3>
+          <div className="space-y-3">
+            {deals.map((deal) => (
+              <div key={deal.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center">
+                  <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center text-green-600 text-sm font-medium">
+                    {deal.company.charAt(0)}
+                  </div>
+                  <div className="ml-3">
+                    <div className="font-medium text-gray-900">{deal.company}</div>
+                    <div className="text-sm text-gray-600">{deal.contact}</div>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="font-medium text-gray-900">₹{deal.value.toLocaleString()}</div>
+                  <div className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStageColor(deal.stage)}`}>
+                    {deal.stage}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  // NEW: Render AI Leads Section with Freemium Model
+  const renderAILeads = () => (
+    <div className="space-y-6">
+      {/* Credit Balance Banner */}
+      <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl shadow-lg p-6 text-white">
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="text-3xl font-bold mb-2">{userCredits} Credits</h3>
+            <p className="text-blue-100">
+              You can unlock {Math.floor(userCredits / 5)} more leads
+            </p>
+            {userCredits < 50 && (
+              <div className="mt-3 flex items-center gap-2 text-yellow-300">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                </svg>
+                <span className="font-semibold">Low on credits!</span>
+              </div>
+            )}
+          </div>
+          <Link
+            href="/dashboard?section=credit-management"
+            className="px-6 py-3 bg-white text-blue-600 rounded-lg font-bold hover:bg-blue-50 transition-colors"
+          >
+            Top Up Credits
+          </Link>
+        </div>
+      </div>
+
+      {/* My Unlocked Leads Section */}
+      {unlockedLeads.length > 0 && (
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h3 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                <span>🔓</span> My Unlocked Leads
+                <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold">
+                  {unlockedLeads.length}
+                </span>
+              </h3>
+              <p className="text-sm text-gray-600 mt-1">
+                Leads you've unlocked with full contact information
+              </p>
+            </div>
+            <button
+              onClick={() => {
+                // Export unlocked leads to CSV
+                const csv = [
+                  ['Company', 'Contact', 'Email', 'Phone', 'Website', 'Industry', 'Location', 'Company Size', 'AI Score'].join(','),
+                  ...unlockedLeads.map(lead => [
+                    lead.company,
+                    lead.contact_name || '',
+                    lead.email || '',
+                    lead.phone || '',
+                    lead.website || '',
+                    lead.industry,
+                    lead.location,
+                    lead.company_size,
+                    lead.ai_score
+                  ].join(','))
+                ].join('\n');
+                
+                const blob = new Blob([csv], { type: 'text/csv' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `unlocked-leads-${new Date().toISOString().split('T')[0]}.csv`;
+                a.click();
+                toast.success('Unlocked leads exported to CSV!');
+              }}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center gap-2"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              Export to CSV
+            </button>
+          </div>
           
-          {/* Onboarding Flow */}
-          {showOnboarding && session?.user?.email && (
-            <OnboardingFlow 
-              userEmail={session.user.email}
-              onComplete={handleOnboardingComplete}
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {unlockedLeads.slice(0, 6).map(lead => (
+              <div key={lead.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <h4 className="font-bold text-gray-900">{lead.company}</h4>
+                    <p className="text-sm text-gray-600">{lead.industry} • {lead.location}</p>
+                  </div>
+                  <span className="px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-bold">
+                    {lead.ai_score}
+                  </span>
+                </div>
+                <div className="space-y-1 text-sm">
+                  <p className="flex items-center gap-2">
+                    <span className="font-medium text-gray-700">Contact:</span>
+                    <span className="text-gray-900">{lead.contact_name}</span>
+                  </p>
+                  <p className="flex items-center gap-2">
+                    <span className="font-medium text-gray-700">Email:</span>
+                    <a href={`mailto:${lead.email}`} className="text-blue-600 hover:underline">
+                      {lead.email}
+                    </a>
+                  </p>
+                  {lead.phone && (
+                    <p className="flex items-center gap-2">
+                      <span className="font-medium text-gray-700">Phone:</span>
+                      <a href={`tel:${lead.phone}`} className="text-blue-600 hover:underline">
+                        {lead.phone}
+                      </a>
+                    </p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          {unlockedLeads.length > 6 && (
+            <div className="mt-4 text-center">
+              <button
+                onClick={() => {
+                  // Show all unlocked leads
+                  toast.info('Showing all unlocked leads...');
+                }}
+                className="text-blue-600 hover:underline font-medium"
+              >
+                Show all {unlockedLeads.length} unlocked leads →
+              </button>
+            </div>
           )}
         </div>
-      );
-}
+      )}
 
-export default DashboardPage;
+      {/* Lead Generation Form */}
+      <LeadGenerationForm
+        onGenerate={handleGenerateLeads}
+        onboardingPreferences={onboardingPreferences}
+        loading={generating}
+      />
+
+      {/* Lead Previews Results */}
+      {leadPreviews.length > 0 && (
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h3 className="text-2xl font-bold text-gray-900">
+                Search Results: {leadPreviews.length} Leads Found
+              </h3>
+              <p className="text-sm text-gray-600 mt-1">
+                Preview is FREE • Unlock contact info for 5 credits each
+              </p>
+            </div>
+            <div className="flex items-center gap-4">
+              {/* Credit Balance */}
+              <div className="text-right">
+                <div className="text-sm text-gray-600">Your Credits</div>
+                <div className="text-2xl font-bold text-blue-600">{userCredits}</div>
+                <div className="text-xs text-gray-500">{Math.floor(userCredits / 5)} unlocks left</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Bulk Actions */}
+          {selectedLeads.length > 0 && (
+            <div className="mb-4 p-4 bg-blue-50 border-2 border-blue-200 rounded-xl flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  checked={selectedLeads.length === leadPreviews.filter(l => !l.unlocked).length}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setSelectedLeads(leadPreviews.filter(l => !l.unlocked).map(l => l.id));
+                    } else {
+                      setSelectedLeads([]);
+                    }
+                  }}
+                  className="w-5 h-5 text-blue-600 rounded"
+                />
+                <span className="font-semibold text-gray-900">
+                  {selectedLeads.length} lead{selectedLeads.length > 1 ? 's' : ''} selected
+                </span>
+              </div>
+              <button
+                onClick={handleBulkUnlock}
+                disabled={unlocking}
+                className="px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg font-bold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              >
+                {unlocking ? (
+                  <>
+                    <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Unlocking...
+                  </>
+                ) : (
+                  <>
+                    🔓 Unlock Selected ({selectedLeads.length * 5} credits)
+                  </>
+                )}
+              </button>
+            </div>
+          )}
+
+          {/* Sort & Filter Controls */}
+          <div className="mb-4 flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <select
+                className="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                onChange={(e) => {
+                  const sorted = [...leadPreviews].sort((a, b) => {
+                    if (e.target.value === 'score-high') return b.aiScore - a.aiScore;
+                    if (e.target.value === 'score-low') return a.aiScore - b.aiScore;
+                    if (e.target.value === 'company') return a.company.localeCompare(b.company);
+                    return 0;
+                  });
+                  setLeadPreviews(sorted);
+                }}
+              >
+                <option value="score-high">Sort: AI Score (High to Low)</option>
+                <option value="score-low">Sort: AI Score (Low to High)</option>
+                <option value="company">Sort: Company Name (A-Z)</option>
+              </select>
+
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-gray-600">Show:</span>
+                <button className="px-3 py-1 border border-gray-300 rounded-lg text-sm hover:bg-gray-50">
+                  All ({leadPreviews.length})
+                </button>
+                <button className="px-3 py-1 border border-gray-300 rounded-lg text-sm hover:bg-gray-50">
+                  Unlocked ({leadPreviews.filter(l => l.unlocked).length})
+                </button>
+                <button className="px-3 py-1 border border-gray-300 rounded-lg text-sm hover:bg-gray-50">
+                  Locked ({leadPreviews.filter(l => !l.unlocked).length})
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Lead Preview Cards Grid */}
+          <div className="grid grid-cols-1 gap-4">
+            {leadPreviews.map(lead => (
+              <div key={lead.id} className="relative">
+                {!lead.unlocked && (
+                  <div className="absolute top-4 left-4 z-10">
+                    <input
+                      type="checkbox"
+                      checked={selectedLeads.includes(lead.id)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedLeads([...selectedLeads, lead.id]);
+                        } else {
+                          setSelectedLeads(selectedLeads.filter(id => id !== lead.id));
+                        }
+                      }}
+                      className="w-5 h-5 text-blue-600 rounded"
+                    />
+                  </div>
+                )}
+                <LeadPreviewCard
+                  lead={lead}
+                  userCredits={userCredits}
+                  onUnlock={handleUnlockLead}
+                  onAddToCRM={(leadId) => {
+                    toast.success('Lead added to CRM pipeline!');
+                    // Add CRM logic here
+                  }}
+                  unlocking={unlocking}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Empty State */}
+      {leadPreviews.length === 0 && !generating && (
+        <div className="bg-white rounded-lg shadow p-12 text-center">
+          <div className="text-6xl mb-4">🔍</div>
+          <h3 className="text-2xl font-bold text-gray-900 mb-2">Ready to Find Leads?</h3>
+          <p className="text-gray-600 mb-6">
+            Use the form above to search for qualified prospects. Preview is FREE!
+          </p>
+          <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
+            <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+            </svg>
+            <span>Preview: FREE (0 credits)</span>
+            <span className="mx-2">•</span>
+            <span>Unlock: 5 credits per lead</span>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+
+  const renderCRMPipeline = () => (
+    <div className="space-y-6">
+      {/* Pipeline Stages */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold mb-4">Sales Pipeline</h3>
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+          {['Lead', 'Proposal', 'Negotiation', 'Closed Won', 'Closed Lost'].map((stage) => (
+            <div key={stage} className="border-2 border-dashed border-gray-300 rounded-lg p-4">
+              <h4 className="font-medium mb-2">{stage}</h4>
+              <div className="text-2xl font-bold text-gray-900">
+                {deals.filter(deal => deal.stage === stage).length}
+              </div>
+              <div className="text-sm text-gray-600">
+                ₹{deals.filter(deal => deal.stage === stage).reduce((acc, deal) => acc + deal.value, 0).toLocaleString()}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Deals Table */}
+      <div className="bg-white rounded-lg shadow overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-200">
+          <h3 className="text-lg font-semibold">Active Deals ({deals.length})</h3>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Value</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stage</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Probability</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {deals.map((deal) => (
+                <tr key={deal.id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm font-medium text-gray-900">{deal.company}</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm text-gray-900">{deal.contact}</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm font-medium text-gray-900">₹{deal.value.toLocaleString()}</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStageColor(deal.stage)}`}>
+                      {deal.stage}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm text-gray-900">{deal.probability}%</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <button className="text-blue-600 hover:text-blue-900 mr-4">Edit</button>
+                    <button className="text-green-600 hover:text-green-900">Move</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderCreditManagement = () => (
+    <div className="space-y-6">
+      {/* Credit Balance */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold mb-4">Credit Balance</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="text-center">
+            <div className="text-3xl font-bold text-blue-600">₹25,000</div>
+            <div className="text-sm text-gray-600">Available Credits</div>
+          </div>
+          <div className="text-center">
+            <div className="text-3xl font-bold text-green-600">₹5,000</div>
+            <div className="text-sm text-gray-600">Used This Month</div>
+          </div>
+          <div className="text-center">
+            <div className="text-3xl font-bold text-purple-600">₹30,000</div>
+            <div className="text-sm text-gray-600">Total Purchased</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Credit Packages */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold mb-4">Credit Packages</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="border-2 border-gray-200 rounded-lg p-6">
+            <h4 className="font-medium mb-2">Starter</h4>
+            <div className="text-2xl font-bold text-gray-900 mb-2">₹10,000</div>
+            <div className="text-sm text-gray-600 mb-4">1,000 credits</div>
+            <button className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+              Purchase
+            </button>
+          </div>
+          <div className="border-2 border-blue-500 rounded-lg p-6">
+            <h4 className="font-medium mb-2">Growth</h4>
+            <div className="text-2xl font-bold text-gray-900 mb-2">₹25,000</div>
+            <div className="text-sm text-gray-600 mb-4">3,000 credits</div>
+            <button className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+              Purchase
+            </button>
+          </div>
+          <div className="border-2 border-gray-200 rounded-lg p-6">
+            <h4 className="font-medium mb-2">Enterprise</h4>
+            <div className="text-2xl font-bold text-gray-900 mb-2">₹50,000</div>
+            <div className="text-sm text-gray-600 mb-4">7,000 credits</div>
+            <button className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+              Purchase
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Usage History */}
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold mb-4">Usage History</h3>
+        <div className="space-y-3">
+          <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+            <div>
+              <div className="font-medium">Lead Generation</div>
+              <div className="text-sm text-gray-600">100 leads generated</div>
+            </div>
+            <div className="text-right">
+              <div className="font-medium">-₹500</div>
+              <div className="text-sm text-gray-600">Jan 15, 2024</div>
+            </div>
+          </div>
+          <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+            <div>
+              <div className="font-medium">Email Campaign</div>
+              <div className="text-sm text-gray-600">500 emails sent</div>
+            </div>
+            <div className="text-right">
+              <div className="font-medium">-₹250</div>
+              <div className="text-sm text-gray-600">Jan 14, 2024</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderEmailCampaigns = () => (
+    <div className="space-y-6">
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold mb-4">Email Campaigns</h3>
+        <div className="text-center py-12">
+          <div className="text-4xl mb-4">📧</div>
+          <h4 className="text-lg font-medium text-gray-900 mb-2">No campaigns yet</h4>
+          <p className="text-gray-600 mb-4">Create your first email campaign to start reaching out to leads.</p>
+          <button className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            Create Campaign
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderWhatsAppOutreach = () => (
+    <div className="space-y-6">
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold mb-4">WhatsApp Outreach</h3>
+        <div className="text-center py-12">
+          <div className="text-4xl mb-4">📱</div>
+          <h4 className="text-lg font-medium text-gray-900 mb-2">WhatsApp Integration</h4>
+          <p className="text-gray-600 mb-4">Connect WhatsApp Business API for automated messaging to Indian leads.</p>
+          <button className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700">
+            Setup WhatsApp
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderLinkedInOutreach = () => (
+    <div className="space-y-6">
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold mb-4">LinkedIn Outreach</h3>
+        <div className="text-center py-12">
+          <div className="text-4xl mb-4">💼</div>
+          <h4 className="text-lg font-medium text-gray-900 mb-2">LinkedIn Automation</h4>
+          <p className="text-gray-600 mb-4">Automate LinkedIn connection requests and messages for B2B outreach.</p>
+          <button className="px-6 py-3 bg-blue-700 text-white rounded-lg hover:bg-blue-800">
+            Connect LinkedIn
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderIndustryTemplates = () => (
+    <div className="space-y-6">
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold mb-4">Industry Templates</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[
+            { name: 'Technology', icon: '💻', leads: 150 },
+            { name: 'Healthcare', icon: '🏥', leads: 120 },
+            { name: 'Finance', icon: '🏦', leads: 100 },
+            { name: 'Education', icon: '🎓', leads: 80 },
+            { name: 'Real Estate', icon: '🏠', leads: 90 },
+            { name: 'Retail', icon: '🛍️', leads: 70 },
+            { name: 'Manufacturing', icon: '🏭', leads: 60 },
+            { name: 'SaaS/Startup', icon: '🚀', leads: 110 },
+          ].map((template) => (
+            <div key={template.name} className="border-2 border-gray-200 rounded-lg p-6 hover:border-blue-500 transition-colors">
+              <div className="text-3xl mb-3">{template.icon}</div>
+              <h4 className="font-medium mb-2">{template.name}</h4>
+              <div className="text-sm text-gray-600 mb-4">{template.leads} leads available</div>
+              <button className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                Use Template
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderTeamCollaboration = () => (
+    <div className="space-y-6">
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold mb-4">Team Collaboration</h3>
+        <div className="text-center py-12">
+          <div className="text-4xl mb-4">👥</div>
+          <h4 className="text-lg font-medium text-gray-900 mb-2">Team Management</h4>
+          <p className="text-gray-600 mb-4">Assign leads to team members and track collaboration.</p>
+          <button className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
+            Invite Team Members
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderAPIIntegrations = () => (
+    <div className="space-y-6">
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold mb-4">API & Integrations</h3>
+        <div className="text-center py-12">
+          <div className="text-4xl mb-4">🔧</div>
+          <h4 className="text-lg font-medium text-gray-900 mb-2">API Access</h4>
+          <p className="text-gray-600 mb-4">Connect with your existing tools and systems.</p>
+          <button className="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700">
+            View API Docs
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderWhiteLabel = () => (
+    <div className="space-y-6">
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold mb-4">White-label Options</h3>
+        <div className="text-center py-12">
+          <div className="text-4xl mb-4">🎨</div>
+          <h4 className="text-lg font-medium text-gray-900 mb-2">Custom Branding</h4>
+          <p className="text-gray-600 mb-4">Customize the platform with your brand colors and logo.</p>
+          <button className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+            Customize Branding
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderMultiLanguage = () => (
+    <div className="space-y-6">
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold mb-4">Multi-language Support</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="border-2 border-gray-200 rounded-lg p-6">
+            <h4 className="font-medium mb-2">Hindi Support</h4>
+            <p className="text-sm text-gray-600 mb-4">Full Hindi language support for Indian markets</p>
+            <button className="w-full px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700">
+              Enable Hindi
+            </button>
+          </div>
+          <div className="border-2 border-gray-200 rounded-lg p-6">
+            <h4 className="font-medium mb-2">Regional Languages</h4>
+            <p className="text-sm text-gray-600 mb-4">Support for Tamil, Telugu, Bengali, and more</p>
+            <button className="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+              Add Regional
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderAnalytics = () => (
+    <div className="space-y-6">
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold mb-4">Performance Analytics</h3>
+        <div className="text-center py-12">
+          <div className="text-4xl mb-4">📈</div>
+          <h4 className="text-lg font-medium text-gray-900 mb-2">Analytics coming soon</h4>
+          <p className="text-gray-600">Track your lead generation performance and campaign metrics.</p>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderSettings = () => (
+    <div className="space-y-6">
+      <div className="bg-white rounded-lg shadow p-6">
+        <h3 className="text-lg font-semibold mb-4">Account Settings</h3>
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
+            <input
+              type="text"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Your company name"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+            <input
+              type="email"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="your@email.com"
+            />
+          </div>
+          <button className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            Save Settings
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderContent = () => {
+    switch (activeSection) {
+      case 'overview': return renderOverview();
+      case 'ai-leads': return renderAILeads();
+      case 'crm-pipeline': return renderCRMPipeline();
+      case 'credit-management': return renderCreditManagement();
+      case 'email-campaigns': return renderEmailCampaigns();
+      case 'whatsapp-outreach': return renderWhatsAppOutreach();
+      case 'linkedin-outreach': return renderLinkedInOutreach();
+      case 'industry-templates': return renderIndustryTemplates();
+      case 'analytics': return renderAnalytics();
+      case 'team-collaboration': return renderTeamCollaboration();
+      case 'api-integrations': return renderAPIIntegrations();
+      case 'white-label': return renderWhiteLabel();
+      case 'multi-language': return renderMultiLanguage();
+      case 'settings': return renderSettings();
+      default: return renderOverview();
+    }
+  };
+
+  return (
+    <div className={`min-h-screen transition-colors duration-200 ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
+      {/* Onboarding Modal */}
+      {showOnboarding && (
+        <DashboardOnboarding
+          onComplete={handleOnboardingComplete}
+          onSkip={handleOnboardingSkip}
+        />
+      )}
+
+      {/* Notification Center */}
+      <NotificationCenter
+        isOpen={notificationOpen}
+        onClose={() => setNotificationOpen(false)}
+      />
+
+      {/* Header */}
+      <div className={`shadow-sm border-b sticky top-0 z-40 ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center">
+              {/* Mobile menu button */}
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="lg:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 mr-2"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  {mobileMenuOpen ? (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  ) : (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  )}
+                </svg>
+              </button>
+              <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-blue-600 rounded-xl flex items-center justify-center text-white font-bold shadow-sm">
+                T
+              </div>
+              <div className="ml-3">
+                <h1 className={`text-lg sm:text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Transition Marketing AI</h1>
+              </div>
+            </div>
+            <div className="flex items-center space-x-2 sm:space-x-4">
+              <button
+                onClick={toggleDarkMode}
+                className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+                title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              >
+                {darkMode ? (
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                ) : (
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                  </svg>
+                )}
+              </button>
+              <button
+                onClick={() => setShowOnboarding(true)}
+                className="text-sm text-gray-600 hover:text-gray-900 hidden sm:flex items-center gap-1"
+                title="Restart tour"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Help
+              </button>
+              <button
+                onClick={() => setNotificationOpen(true)}
+                className="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+                title="Notifications"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                </svg>
+                <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
+              </button>
+              <Link href="/" className="text-sm sm:text-base text-gray-600 hover:text-gray-900 hidden sm:block">
+                Back to Home
+              </Link>
+              
+              {/* User Menu Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  className="flex items-center gap-2 hover:bg-gray-100 rounded-lg p-1.5 transition-colors"
+                >
+                  <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-sm font-semibold text-white">
+                    {user?.email?.charAt(0).toUpperCase() || 'U'}
+                  </div>
+                  <div className="hidden md:block text-left">
+                    <div className="text-sm font-medium text-gray-900">
+                      {user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User'}
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      {user?.email}
+                    </div>
+                  </div>
+                  <svg 
+                    className={`w-4 h-4 text-gray-400 transition-transform hidden md:block ${userMenuOpen ? 'rotate-180' : ''}`} 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+
+                {/* Dropdown Menu */}
+                {userMenuOpen && (
+                  <>
+                    {/* Backdrop */}
+                    <div 
+                      className="fixed inset-0 z-40" 
+                      onClick={() => setUserMenuOpen(false)}
+                    />
+                    
+                    {/* Menu */}
+                    <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50">
+                      {/* User Info */}
+                      <div className="px-4 py-3 border-b border-gray-100">
+                        <div className="text-sm font-medium text-gray-900">
+                          {user?.user_metadata?.full_name || 'User Account'}
+                        </div>
+                        <div className="text-xs text-gray-500 truncate">
+                          {user?.email}
+                        </div>
+                        <div className="mt-2 text-xs text-gray-400">
+                          Credits: <span className="font-semibold text-blue-600">{userCredits}</span>
+                        </div>
+                      </div>
+
+                      {/* Menu Items */}
+                      <div className="py-2">
+                        <button
+                          onClick={() => {
+                            setActiveSection('settings');
+                            setUserMenuOpen(false);
+                          }}
+                          className="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                        >
+                          <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          </svg>
+                          <span>Account Settings</span>
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            setActiveSection('credit-management');
+                            setUserMenuOpen(false);
+                          }}
+                          className="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                        >
+                          <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          <span>Billing & Credits</span>
+                        </button>
+
+                        <Link
+                          href="/"
+                          className="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                          onClick={() => setUserMenuOpen(false)}
+                        >
+                          <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                          </svg>
+                          <span>Back to Home</span>
+                        </Link>
+                      </div>
+
+                      <div className="border-t border-gray-100 pt-2">
+                        <button
+                          onClick={async () => {
+                            try {
+                              toast.loading('Signing out...', { id: 'signout' });
+                              await signOut();
+                              toast.success('Signed out successfully', { id: 'signout' });
+                              router.push('/signin');
+                            } catch (error) {
+                              toast.error('Failed to sign out', { id: 'signout' });
+                            }
+                          }}
+                          className="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                          </svg>
+                          <span>Sign Out</span>
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Menu Overlay */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 z-30 lg:hidden" onClick={() => setMobileMenuOpen(false)} />
+      )}
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-8">
+        <div className="flex gap-6 lg:gap-8">
+          {/* Sidebar - Desktop & Mobile */}
+          <div className={`
+            ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+            ${darkMode ? 'bg-gray-800' : 'bg-white'}
+            fixed lg:static inset-y-0 left-0 z-30
+            w-72 lg:w-64 rounded-none lg:rounded-lg shadow-xl lg:shadow p-6 h-screen lg:h-fit
+            transition-all duration-300 ease-in-out
+            overflow-y-auto
+          `}>
+            <nav className="space-y-1">
+              {navigationGroups.map((group) => (
+                <div key={group.label} className="mb-4">
+                  <button
+                    onClick={() => toggleGroup(group.label)}
+                    className={`w-full flex items-center justify-between px-3 py-2 text-sm font-semibold rounded-lg transition-colors ${
+                      darkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50'
+                    }`}
+                  >
+                    <span>{group.label}</span>
+                    <svg
+                      className={`w-4 h-4 transition-transform ${expandedGroups[group.label] ? 'rotate-90' : ''}`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                  {expandedGroups[group.label] && (
+                    <div className="mt-1 space-y-1">
+                      {group.items.map((item) => (
+                        <button
+                          key={item.id}
+                          onClick={() => handleSectionChange(item.id)}
+                          className={`w-full flex items-start px-4 py-2.5 text-left rounded-lg transition-all ${
+                            activeSection === item.id
+                              ? darkMode 
+                                ? 'bg-blue-900 text-blue-300 border border-blue-700'
+                                : 'bg-blue-50 text-blue-700 border border-blue-200'
+                              : darkMode
+                              ? 'text-gray-300 hover:bg-gray-700'
+                              : 'text-gray-700 hover:bg-gray-50'
+                          }`}
+                        >
+                          <span className="text-lg mr-3 flex-shrink-0">{item.icon}</span>
+                          <div className="flex-1 min-w-0">
+                            <div className="font-medium text-sm">{item.label}</div>
+                            {item.description && (
+                              <div className="text-xs text-gray-500 mt-0.5 hidden sm:block">{item.description}</div>
+                            )}
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </nav>
+          </div>
+
+          {/* Main Content */}
+          <div className="flex-1 min-w-0">
+            {renderContent()}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

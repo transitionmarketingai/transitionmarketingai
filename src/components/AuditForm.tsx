@@ -78,7 +78,7 @@ export default function AuditForm() {
         const errorData = await response.json();
         setError(errorData.error || "Something went wrong. Please try again.");
       }
-    } catch {
+    } catch (err) {
       setError("Network error. Please check your connection and try again.");
     } finally {
       setIsLoading(false);
@@ -94,16 +94,16 @@ export default function AuditForm() {
           </svg>
         </div>
         <h3 className="text-xl font-semibold text-slate-50 mb-2">Thanks!</h3>
-        <p className="text-slate-300">Your audit request is in. We&apos;ll email you within 24–48 hours.</p>
+        <p className="text-slate-300">Your audit request is in. We'll email you within 24–48 hours.</p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-2xl mx-auto space-y-8">
+    <form onSubmit={handleSubmit} className="max-w-2xl mx-auto space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="space-y-2">
-          <label htmlFor="name" className="block text-body-sm font-medium text-secondary">
+        <div>
+          <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
             Name *
           </label>
           <input
@@ -112,15 +112,15 @@ export default function AuditForm() {
             name="name"
             value={formData.name}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 rounded-lg border border-subtle bg-surface text-primary placeholder-secondary focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-200"
+            className="w-full px-4 py-3 rounded-xl border border-slate-700 bg-slate-800/50 text-slate-50 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
             placeholder="Your full name"
             required
             aria-invalid={error && !formData.name.trim() ? "true" : "false"}
           />
         </div>
 
-        <div className="space-y-2">
-          <label htmlFor="email" className="block text-body-sm font-medium text-secondary">
+        <div>
+          <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
             Work Email *
           </label>
           <input
@@ -129,7 +129,7 @@ export default function AuditForm() {
             name="email"
             value={formData.email}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 rounded-lg border border-subtle bg-surface text-primary placeholder-secondary focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-200"
+            className="w-full px-4 py-3 rounded-xl border border-slate-700 bg-slate-800/50 text-slate-50 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
             placeholder="you@company.com"
             required
             aria-invalid={error && !formData.email.trim() ? "true" : "false"}
@@ -138,8 +138,8 @@ export default function AuditForm() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="space-y-2">
-          <label htmlFor="company" className="block text-body-sm font-medium text-secondary">
+        <div>
+          <label htmlFor="company" className="block text-sm font-medium text-gray-300 mb-2">
             Company *
           </label>
           <input
@@ -148,15 +148,15 @@ export default function AuditForm() {
             name="company"
             value={formData.company}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 rounded-lg border border-subtle bg-surface text-primary placeholder-secondary focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-200"
+            className="w-full px-4 py-3 rounded-xl border border-slate-700 bg-slate-800/50 text-slate-50 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
             placeholder="Your company name"
             required
             aria-invalid={error && !formData.company.trim() ? "true" : "false"}
           />
         </div>
 
-        <div className="space-y-2">
-          <label htmlFor="website" className="block text-body-sm font-medium text-secondary">
+        <div>
+          <label htmlFor="website" className="block text-sm font-medium text-gray-300 mb-2">
             Website
           </label>
           <input
@@ -165,15 +165,15 @@ export default function AuditForm() {
             name="website"
             value={formData.website}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 rounded-lg border border-subtle bg-surface text-primary placeholder-secondary focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-200"
+            className="w-full px-4 py-3 rounded-xl border border-slate-700 bg-slate-800/50 text-slate-50 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
             placeholder="https://yourcompany.com"
             aria-invalid={error && formData.website && !formData.website.startsWith("http") ? "true" : "false"}
           />
         </div>
       </div>
 
-      <div className="space-y-2">
-        <label htmlFor="industry" className="block text-body-sm font-medium text-secondary">
+      <div>
+        <label htmlFor="industry" className="block text-sm font-medium text-gray-300 mb-2">
           Industry *
         </label>
         <select
@@ -181,7 +181,7 @@ export default function AuditForm() {
           name="industry"
           value={formData.industry}
           onChange={handleInputChange}
-          className="w-full px-4 py-3 rounded-lg border border-subtle bg-surface text-primary focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-200"
+          className="w-full px-4 py-3 rounded-xl border border-slate-700 bg-slate-800/50 text-slate-50 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
           required
           aria-invalid={error && !formData.industry ? "true" : "false"}
         >
@@ -195,8 +195,8 @@ export default function AuditForm() {
         </select>
       </div>
 
-      <div className="space-y-2">
-        <label htmlFor="goal" className="block text-body-sm font-medium text-secondary">
+      <div>
+        <label htmlFor="goal" className="block text-sm font-medium text-gray-300 mb-2">
           Goal *
         </label>
         <textarea
@@ -204,8 +204,8 @@ export default function AuditForm() {
           name="goal"
           value={formData.goal}
           onChange={handleInputChange}
-          rows={4}
-          className="w-full px-4 py-3 rounded-lg border border-subtle bg-surface text-primary placeholder-secondary focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent resize-none transition-all duration-200"
+          rows={3}
+          className="w-full px-4 py-3 rounded-xl border border-slate-700 bg-slate-800/50 text-slate-50 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent resize-none"
           placeholder="What are your main marketing goals? (e.g., generate more leads, increase brand awareness, drive sales)"
           required
           aria-invalid={error && !formData.goal.trim() ? "true" : "false"}
@@ -213,28 +213,20 @@ export default function AuditForm() {
       </div>
 
       {error && (
-        <div className="p-4 rounded-lg bg-red-500/20 border border-red-500/40">
-          <p className="text-red-300 text-body-sm">{error}</p>
+        <div className="p-4 rounded-xl bg-red-500/20 border border-red-500/40">
+          <p className="text-red-300 text-sm">{error}</p>
         </div>
       )}
 
-      <div className="text-center pt-4">
+      <div className="text-center">
         <button
           type="submit"
           disabled={isLoading}
-          className="btn-primary px-8 py-4 text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-gradient-to-r from-cyan-500 to-green-500 text-slate-900 font-semibold px-8 py-3 rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isLoading ? (
-            <div className="flex items-center justify-center gap-2">
-              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-              Submitting...
-            </div>
-          ) : (
-            "Request Audit"
-          )}
+          {isLoading ? "Submitting..." : "Request Audit"}
         </button>
       </div>
     </form>
   );
 }
-

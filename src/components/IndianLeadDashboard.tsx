@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import GuidedTours from './GuidedTours';
 import DashboardSidebar from './DashboardSidebar';
 import MobileDashboardOptimizer from './MobileDashboardOptimizer';
 import RealTimeValueDemonstrator from './RealTimeValueDemonstrator';
@@ -69,7 +68,6 @@ interface QuickAction {
 export default function IndianLeadDashboard() {
   const { data: session } = useSession();
   const [activeTab, setActiveTab] = useState<'overview' | 'campaigns' | 'leads' | 'automation' | 'analytics' | 'templates' | 'value-demo' | 'social-proof' | 'personalization' | 'integrations' | 'partnerships' | 'market-expansion'>('overview');
-  const [showTour, setShowTour] = useState(false);
   const [showCampaignCreator, setShowCampaignCreator] = useState(false);
   const [showLeadImport, setShowLeadImport] = useState(false);
   const [showAutomationBuilder, setShowAutomationBuilder] = useState(false);
@@ -591,9 +589,12 @@ export default function IndianLeadDashboard() {
                 <span className="text-sm text-green-700 font-medium">AI Active</span>
               </div>
               <button 
-                onClick={() => setShowTour(true)}
-                className="px-6 py-3 bg-blue-600 text-white border-0 rounded-lg hover:bg-blue-700 hover:shadow-lg transition-all duration-200 text-sm font-semibold flex items-center space-x-2 z-50 relative"
-                title="Platform tour - Start guided walkthrough"
+                onClick={() => {
+                  // Tour functionality temporarily disabled
+                  alert('Tour feature will be available soon!');
+                }}
+                className="px-6 py-3 bg-gray-400 text-white border-0 rounded-lg hover:bg-gray-500 hover:shadow-lg transition-all duration-200 text-sm font-semibold flex items-center space-x-2 z-50 relative"
+                title="Platform tour temporarily disabled"
               >
                 <span className="text-base">🎯</span>
                 <span className="font-bold">Take Tour</span>
@@ -679,93 +680,8 @@ export default function IndianLeadDashboard() {
         )}
       </div>
 
-      {/* Platform Tour Modal */}
-      {showTour && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-[9999]"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) {
-              setShowTour(false);
-            }
-          }}
-        >
-          <div 
-            className="bg-white rounded-xl p-6 max-w-lg w-full mx-4 shadow-xl relative z-[10000]"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Close Button */}
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setShowTour(false);
-              }}
-              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center text-lg transition-colors z-[10001]"
-              aria-label="Close tour"
-            >
-              ×
-            </button>
-            
-            {/* Content */}
-            <div className="pr-8">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">🎯 Platform Tour</h3>
-              <p className="text-gray-600 mb-4">Welcome to your AI Lead Generation Dashboard!</p>
-              
-              <div className="space-y-3 text-sm">
-                <div className="flex items-start space-x-3">
-                  <span className="text-lg">📊</span>
-                  <div>
-                    <h4 className="font-medium text-gray-900">Overview</h4>
-                    <p className="text-gray-600">Track real-time metrics and performance</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <span className="text-lg">🎯</span>
-                  <div>
-                    <h4 className="font-medium text-gray-900">Campaigns</h4>
-                    <p className="text-gray-600">Create AI-powered lead generation campaigns</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <span className="text-lg">🤝</span>
-                  <div>
-                    <h4 className="font-medium text-gray-900">Partnerships</h4>
-                    <p className="text-gray-600">Manage strategic business alliances</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            {/* Action Buttons */}
-            <div className="mt-6 flex justify-end space-x-3">
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setShowTour(false);
-                }}
-                className="px-4 py-2 text-sm border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
-              >
-                Skip Tour
-              </button>
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setShowTour(false);
-                }}
-                className="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                Start Exploring
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
       </div>
       
-      {/* Enhanced Guided Tours */}
-      <GuidedTours activeTour={activeTab} onCloseTour={() => setShowTour(false)} />
       
       {/* Real Campaign Creator Modal */}
       <RealCampaignCreator 

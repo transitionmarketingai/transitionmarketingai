@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Management Screenshot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-6 border border-green-200 mb-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-lg font-semibold text-gray-900 mb-2">Credit Management</h1>
+                    <p class="text-gray-600">Manage credits, billing, and subscriptions</p>
+                </div>
+                <div class="w-16 h-16 bg-gradient-to-br from-green-100 to-blue-100 rounded-2xl flex items-center justify-center">
+                    <span class="text-2xl">💰</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Credit Balance Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4 border border-blue-200">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm font-medium text-blue-700">Available Credits</span>
+                    <span class="text-blue-600">💰</span>
+                </div>
+                <div class="text-2xl font-bold text-blue-900">1,250</div>
+                <div class="text-xs text-blue-600 mt-1">Ready to use</div>
+            </div>
+
+            <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-4 border border-green-200">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm font-medium text-green-700">Credits Used</span>
+                    <span class="text-green-600">📊</span>
+                </div>
+                <div class="text-2xl font-bold text-green-900">4,890</div>
+                <div class="text-xs text-green-600 mt-1">This month</div>
+            </div>
+
+            <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-4 border border-purple-200">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm font-medium text-purple-700">Pending Credits</span>
+                    <span class="text-purple-600">⏳</span>
+                </div>
+                <div class="text-2xl font-bold text-purple-900">150</div>
+                <div class="text-xs text-purple-600 mt-1">Processing</div>
+            </div>
+
+            <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-lg p-4 border border-orange-200">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm font-medium text-orange-700">Plan Credits</span>
+                    <span class="text-orange-600">🎯</span>
+                </div>
+                <div class="text-2xl font-bold text-orange-900">10,000</div>
+                <div class="text-xs text-orange-600 mt-1">Per month</div>
+            </div>
+        </div>
+
+        <!-- Current Plan -->
+        <div class="bg-white rounded-lg border border-gray-200 p-6 mb-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Current Subscription</h3>
+            <div class="border-2 border-blue-200 rounded-lg p-4 bg-blue-50">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h4 class="text-lg font-medium text-gray-900">Starter Plan</h4>
+                        <p class="text-gray-600">
+                            $49/month • 1,000 credits included
+                        </p>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-sm text-gray-600">Next billing</div>
+                        <div class="font-medium text-gray-900">April 1, 2024</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Transactions -->
+        <div class="bg-white rounded-lg border border-gray-200 p-6 mb-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-900">Recent Transactions</h3>
+                <button class="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                    View All
+                </button>
+            </div>
+            <div class="space-y-3">
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div class="flex items-center">
+                        <span class="w-8 h-8 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-sm font-medium">⬇</span>
+                        <div class="ml-3">
+                            <div class="text-sm font-medium text-gray-900">AI Lead Generation Campaign - March Tech Recruitment</div>
+                            <div class="text-xs text-gray-600">
+                                March 15, 2024 at 10:30 AM
+                            </div>
+                        </div>
+                    </div>
+                    <span class="text-sm font-medium text-red-600">-500 credits</span>
+                </div>
+
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div class="flex items-center">
+                        <span class="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-medium">🎁</span>
+                        <div class="ml-3">
+                            <div class="text-sm font-medium text-gray-900">Welcome Bonus for New Features</div>
+                            <div class="text-xs text-gray-600">
+                                March 10, 2024 at 9:00 AM
+                            </div>
+                        </div>
+                    </div>
+                    <span class="text-sm font-medium text-green-600">+1,000 credits</span>
+                </div>
+
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div class="flex items-center">
+                        <span class="w-8 h-8 bg-green-100 text-white rounded-full flex items-center justify-center text-sm font-medium">💰</span>
+                        <div class="ml-3">
+                            <div class="text-sm font-medium text-gray-900">Additional Credits Purchase</div>
+                            <div class="text-xs text-gray-600">
+                                March 5, 2024 at 2:22 PM
+                            </div>
+                        </div>
+                    </div>
+                    <span class="text-sm font-medium text-green-600">+150 credits</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Plan Options -->
+        <div class="bg-white rounded-lg border border-gray-200 p-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-6">Choose Your Plan</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-lg border-2 border-gray-200 p-6 relative">
+                    <div class="text-center mb-6">
+                        <h4 class="text-xl font-semibold text-gray-900">Starter</h4>
+                        
+                        <div class="mt-2">
+                            <span class="text-3xl font-bold text-gray-900">$49</span>
+                            <span class="text-gray-600">/month</span>
+                        </div>
+                        
+                        <div class="mt-2 text-sm text-gray-600">
+                            1,000 credits included
+                        </div>
+                    </div>
+
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span class="text-gray-700">1,000 credits/month</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span class="text-gray-700">Basic AI personalization</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span class="text-gray-700">Email campaigns</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span class="text-gray-700">Basic analytics</span>
+                        </li>
+                    </ul>
+
+                    <div class="flex justify-center">
+                        <button disabled class="w-full py-2 px-4 bg-gray-100 text-gray-400 rounded-lg">
+                            Current Plan
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg border-2 border-blue-500 p-6 relative shadow-lg">
+                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                        <span class="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                            Popular
+                        </span>
+                    </div>
+                    
+                    <div class="text-center mb-6">
+                        <h4 class="text-xl font-semibold text-gray-900">Professional</h4>
+                        <div class="mt-2">
+                            <span class="text-3xl font-bold text-gray-900">$149</span>
+                            <span class="text-gray-600">/month</span>
+                        </div>
+                        <div class="mt-2 text-sm text-gray-600">
+                            5,000 credits included
+                        </div>
+                    </div>
+
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span class="text-gray-700">5,000 credits/month</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span class="text-gray-700">Advanced AI personalization</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span class="text-gray-700">Multi-channel campaigns</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span class="text-gray-700">LinkedIn automation</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span class="text-gray-700">Advanced analytics</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span class="text-gray-700">Priority support</span>
+                        </li>
+                    </ul>
+
+                    <div class="flex justify-center">
+                        <button class="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                            Upgrade Plan
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg border-2 border-gray-200 p-6 relative">
+                    <div class="text-center mb-6">
+                        <h4 class="text-xl font-semibold text-gray-900">Enterprise</h4>
+                        <div class="mt-2">
+                            <span class="text-3xl font-bold text-gray-900">$399</span>
+                            <span class="text-gray-600">/month</span>
+                        </div>
+                        <div class="mt-2 text-sm text-gray-600">
+                            20,000 credits included
+                        </div>
+                    </div>
+
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span class="text-gray-700">20,000 credits/month</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span class="text-gray-700">Enterprise AI features</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span class="text-gray-700">Custom integrations</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span class="text-gray-700">White-label options</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span class="text-gray-700">Dedicated account manager</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="text-green-500 mr-2">✓</span>
+                            <span class="text-gray-700">Custom pricing</span>
+                        </li>
+                    </ul>
+
+                    <div class="flex justify-center">
+                        <button class="w-full py-2 px-4 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
+                            Choose Plan
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

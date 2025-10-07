@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { teamService } from '@/lib/teamService';
 
 interface RazorpayButtonProps {
   teamId: string;
@@ -29,7 +28,17 @@ export default function RazorpayButton({
     
     try {
       // Create payment order
-      const orderData = await teamService.createPaymentOrder(teamId, planId);
+      const orderResponse = await fetch('/api/payments/create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ planId, teamId }),
+      });
+      
+      if (!orderResponse.ok) {
+        throw new Error('Failed to create order');
+      }
+      
+      const orderData = await orderResponse.json();
       
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,

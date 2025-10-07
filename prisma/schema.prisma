@@ -1,0 +1,541 @@
+// Transition Marketing AI - Comprehensive Database Schema
+// Lead Generation + CRM + Messaging Platform
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================================
+// ENUMS
+// ============================================================================
+
+enum UserRole {
+  ADMIN
+  USER
+  MANAGER
+  VIEWER
+}
+
+enum UserPlan {
+  STARTER
+  PROFESSIONAL
+  ENTERPRISE
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  CANCELLED
+}
+
+enum LeadSource {
+  LINKEDIN
+  COMPANY_WEBSITE
+  APOLLO
+  CLEARBIT
+  ZOOMINFO
+  MANUAL_IMPORT
+  AI_GENERATED
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  PROPOSAL
+  NEGOTIATION
+  CLOSED_WON
+  CLOSED_LOST
+}
+
+enum ActivityType {
+  EMAIL_SENT
+  EMAIL_OPENED
+  EMAIL_CLICKED
+  LINKEDIN_MESSAGE
+  LINKEDIN_CONNECT
+  CALL_MADE
+  MEETING_SCHEDULED
+  RESPONSE_RECEIVED
+}
+
+enum CampaignStatus {
+  DRAFT
+  SCHEDULED
+  ACTIVE
+  PAUSED
+  COMPLETED
+  CANCELLED
+}
+
+enum MessageChannel {
+  EMAIL
+  LINKEDIN
+  WHATSAPP
+  SMS
+  VOICE_CALL
+}
+
+enum CreditTransactionType {
+  PURCHASE
+  CONSUMPTION
+  REFUND
+  BONUS
+}
+
+// ============================================================================
+// CORE USER MANAGEMENT
+// ============================================================================
+
+model User {
+  id                String     @id @default(cuid())
+  email             String     @unique
+  name              String?
+  avatar            String?
+  phone             String?
+  company           String?
+  industry          String?
+  plan              UserPlan   @default(STARTER)
+  role              UserRole   @default(USER)
+  status            UserStatus @default(ACTIVE)
+  timezone          String     @default("UTC")
+  
+  // Credit System
+  creditBalance     Int        @default(500) // Starter credits
+  totalCreditsUsed  Int        @default(0)
+  
+  // Tracking
+  lastLoginAt       DateTime?
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+
+  // Relations
+  businessProfile   BusinessProfile?
+  credits           CreditTransaction[]
+  campaigns        Campaign[]
+  leads             Lead[]
+  messages         Message[]
+  activities        Activity[]
+  integrations      Integration[]
+  notifications     Notification[]
+  
+  @@index([email])
+  @@index([plan])
+  @@index([status])
+  @@map("users")
+}
+
+model BusinessProfile {
+  id                    String   @id @default(cuid())
+  userId                String   @unique
+  businessName          String?
+  website               String?
+  description           String?
+  brandVoice            String?  // professional, casual, friendly
+  targetAudience        String?
+  marketingGoals        String[]
+  idealCustomerProfile  Json?    // JSON object with ICP criteria
+  
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  // Relations
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("business_profiles")
+}
+
+// ============================================================================
+// CREDIT SYSTEM
+// ============================================================================
+
+model CreditTransaction {
+  id              String                   @id @default(cuid())
+  userId          String
+  type            CreditTransactionType
+  amount          Int                      // Positive for purchases, negative for consumption
+  description     String
+  metadata        Json?                   // Additional context (campaign_id, lead_id, etc.)
+  
+  createdAt       DateTime                 @default(now())
+
+  // Relations
+  user            User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("credit_transactions")
+}
+
+model Package {
+  id              String   @id @default(cuid())
+  name            String
+  credits         Int
+  price           Int       // Price in cents (INR)
+  currency        String    @default("INR")
+  description     String?
+  features        String[]
+  isActive        Boolean   @default(true)
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("packages")
+}
+
+// ============================================================================
+// LEAD GENERATION ENGINE
+// ============================================================================
+
+model Campaign {
+  id              String          @id @default(cuid())
+  userId          String
+  name            String
+  description     String?
+  
+  // Targeting Criteria
+  industry        String
+  targetRoles     String[]
+  locations       String[]
+  companySizes    String[]
+  keywords        String[]
+  
+  // Campaign Settings
+  leadLimit       Int             @default(100)
+  budget          Int             @default(2000) // Credits
+  status          CampaignStatus  @default(DRAFT)
+  
+  // AI Settings
+  aiSettings      Json?           // Custom AI parameters
+  
+  // Performance
+  totalLeadsFound Int             @default(0)
+  leadsProcessed  Int             @default(0)
+  conversionRate  Float           @default(0.0)
+  
+  // Scheduling
+  scheduledFor    DateTime?
+  startedAt       DateTime?
+  completedAt     DateTime?
+  
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  // Relations
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  leads           Lead[]
+  messages        Message[]
+
+  @@map("campaigns")
+}
+
+model Lead {
+  id              String      @id @default(cuid())
+  campaignId      String?
+  userId          String
+  
+  // Basic Info
+  firstName       String
+  lastName        String
+  email           String?
+  phone           String?
+  linkedinUrl     String?
+  company         String
+  jobTitle        String?
+  industry        String
+  
+  // Scoring & Status
+  score           Int         @default(0) // 0-100
+  status          LeadStatus  @default(NEW)
+  source          LeadSource  @default(AI_GENERATED)
+  
+  // Enrichment Data
+  companySize     String?
+  location        String?
+  website         String?
+  socialProfiles  Json?       // LinkedIn, Twitter, etc.
+  
+  // Metadata
+  notes           String[]
+  tags            String[]
+  lastActivityAt  DateTime?
+  
+  // Assignment
+  assignedTo      String?     // User ID
+  
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  // Relations
+  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  campaign        Campaign?   @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+  activities      Activity[]
+  messages        Message[]
+
+  @@index([userId, status])
+  @@index([campaignId])
+  @@index([score])
+  @@index([company])
+  @@map("leads")
+}
+
+model IndustryTemplate {
+  id                  String   @id @default(cuid())
+  industryId          String   @unique
+  name                String
+  description         String?
+  
+  // Pricing Info
+  avgCostPerLead      Int      @default(50)
+  conversionRate      String   @default("8-15%")
+  
+  // Targeting
+  keyCities           String[]
+  targetKeywords      String[]
+  idealRoles          String[]
+  
+  // Templates
+  emailTemplates      Json?    // Default email templates
+  linkedinTemplates   Json?    // Default LinkedIn messages
+  tags                String[]
+  
+  isActive            Boolean  @default(true)
+  
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@map("industry_templates")
+}
+
+// ============================================================================
+// MESSAGING & OUTREACH
+// ============================================================================
+
+model Message {
+  id                String             @id @default(cuid())
+  leadId            String
+  campaignId        String?
+  userId            String
+  
+  // Message Content
+  channel           MessageChannel
+  subject           String?
+  content           String
+  templateUsed      String?
+  
+  // Status & Tracking
+  status            String             @default("pending") // pending, sent, delivered, opened, clicked, replied
+  scheduledFor      DateTime?
+  sentAt            DateTime?
+  
+  // Performance
+  openedAt          DateTime?
+  clickedAt         DateTime?
+  repliedAt         DateTime?
+  
+  // Tracking Data
+  trackingId        String             @unique @default(cuid())
+  webhookData       Json?              // Platform webhook responses
+  
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+
+  // Relations
+  lead              Lead               @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  campaign          Campaign?          @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+  user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("messages")
+}
+
+model MessageTemplate {
+  id                String          @id @default(cuid())
+  userId            String?
+  name              String
+  channel           MessageChannel
+  
+  // Template Content
+  subject           String?
+  content           String
+  variables         String[]        // Available template variables
+  
+  // Settings
+  industry          String?
+  tags              String[]
+  isPublic          Boolean         @default(false) // Public templates for all users
+  isActive          Boolean         @default(true)
+  
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  @@map("message_templates")
+}
+
+model Sequence {
+  id                String          @id @default(cuid())
+  userId            String
+  name              String
+  description       String?
+  
+  // Sequence Steps
+  steps             Json            // Array of step objects
+  
+  // Targeting
+  industry          String?
+  tags              String[]
+  
+  // Performance
+  totalSent         Int             @default(0)
+  openRate          Float           @default(0.0)
+  clickRate         Float           @default(0.0)
+  responseRate      Float           @default(0.0)
+  
+  // Settings
+  isActive          Boolean         @default(true)
+  isPublic          Boolean         @default(false)
+  
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  @@map("sequences")
+}
+
+// ============================================================================
+// ACTIVITY TRACKING
+// ============================================================================
+
+model Activity {
+  id                String          @id @default(cuid())
+  leadId            String
+  userId            String
+  
+  type              ActivityType
+  description       String
+  metadata          Json?           // Additional activity data
+  
+  createdAt         DateTime        @default(now())
+
+  // Relations
+  lead              Lead            @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  user              User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("activities")
+}
+
+// ============================================================================
+// INTEGRATIONS
+// ============================================================================
+
+model Integration {
+  id                String          @id @default(cuid())
+  userId            String
+  
+  // Connection Info
+  platform          String          // linkedin, hubspot, salesforce, etc.
+  accountName       String?
+  accountEmail      String?
+  
+  // Auth Data
+  accessToken       String?
+  refreshToken      String?
+  expiresAt         DateTime?
+  
+  // Status & Metadata
+  status            String          @default("active") // active, disconnected, error
+  metadata          Json?           // Platform-specific data
+  
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  // Relations
+  user              User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, platform])
+  @@map("integrations")
+}
+
+// ============================================================================
+// ANALYTICS & REPORTING
+// ============================================================================
+
+model AnalyticsSnapshot {
+  id                String          @id @default(cuid())
+  userId            String
+  date              DateTime        @db.Date
+  period            String          // daily, weekly, monthly
+  
+  // Lead Metrics
+  totalLeads        Int             @default(0)
+  newLeads          Int             @default(0)
+  qualifiedLeads    Int             @default(0)
+  
+  // Messaging Metrics
+  emailsSent        Int             @default(0)
+  emailsOpened      Int             @default(0)
+  emailsClicked     Int             @default(0)
+  repliesReceived   Int             @default(0)
+  
+  // Performance Metrics
+  conversionRate    Float           @default(0.0)
+  responseRate      Float           @default(0.0)
+  averageScore      Float           @default(0.0)
+  
+  // Credit Usage
+  creditsUsed       Int             @default(0)
+  
+  createdAt         DateTime        @default(now())
+
+  @@unique([userId, date, period])
+  @@map("analytics_snapshots")
+}
+
+model AiInsight {
+  id                String          @id @default(cuid())
+  userId            String
+  
+  // Insight Content
+  type              String          // recommendation, alert, opportunity, warning
+  title             String
+  description       String
+  confidence        Float           // 0.0 - 1.0
+  
+  // Action
+  actionable        Boolean         @default(true)
+  actionUrl         String?
+  actioned          Boolean         @default(false)
+  
+  // Metadata
+  metadata          Json?           // AI analysis data
+  
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  @@map("ai_insights")
+}
+
+// ============================================================================
+// NOTIFICATIONS
+// ============================================================================
+
+model Notification {
+  id                String          @id @default(cuid())
+  userId            String
+  
+  type              String          // success, error, warning, info
+  title             String
+  message           String
+  actionUrl         String?
+  
+  readAt            DateTime?
+  createdAt         DateTime        @default(now())
+
+  // Relations
+  user              User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
+
+// Note: Indexes are defined within each model for better performance

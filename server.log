@@ -103,11 +103,11 @@
  ✓ Compiled in 776ms (514 modules)
  ✓ Compiled in 1709ms (514 modules)
  ✓ Compiled in 1639ms (514 modules)
-296ms
- ✓ Compiled /manifest.webmanifest in 391ms (1146 modules)
- GET /manifest.webmanifest 200 in 646ms
- ✓ Compiled in 965ms (1160 modules)
- GET / 200 in 201ms
+ ✓ Compiled in 1551ms (514 modules)
+ ✓ Compiled in 927ms (514 modules)
+ ✓ Compiled in 600ms (514 modules)
+ ✓ Compiled in 527ms (514 modules)
+/ 200 in 201ms
  ⨯ SyntaxError: Unexpected end of JSON input
     at JSON.parse (<anonymous>) {
   page: '/manifest.webmanifest'
@@ -172,3 +172,175 @@
  GET /dashboard 200 in 124ms
  ✓ Compiled /manifest.webmanifest in 220ms (1006 modules)
  GET /manifest.webmanifest 200 in 344ms
+ GET /signin 200 in 139ms
+ GET /manifest.webmanifest 200 in 24ms
+ GET / 200 in 54ms
+ GET /manifest.webmanifest 200 in 12ms
+ GET /signin 200 in 42ms
+ GET /manifest.webmanifest 200 in 17ms
+ GET /signin 200 in 160ms
+ GET / 200 in 274ms
+ GET /dashboard 200 in 276ms
+ GET /signin 200 in 277ms
+ GET /static/css/main.css 404 in 230ms
+ GET /signup 200 in 238ms
+ GET /static/js/bundle.js 404 in 231ms
+ GET / 200 in 25ms
+ GET /manifest.webmanifest 200 in 18ms
+ GET /dashboard 200 in 39ms
+ GET /manifest.webmanifest 200 in 20ms
+ GET /api/auth/session 200 in 599ms
+ GET / 200 in 40ms
+ GET /manifest.webmanifest 200 in 18ms
+ GET / 200 in 85ms
+ GET /api/auth/session 200 in 47ms
+ GET /icon?6eb2c0c7450eacb3 200 in 490ms
+ GET / 200 in 512ms
+ GET /dashboard 200 in 513ms
+ GET /signin 200 in 519ms
+ GET /signup 200 in 148ms
+ GET /static/css/main.css 404 in 123ms
+ GET /static/js/bundle.js 404 in 125ms
+ GET /api/auth/session 200 in 613ms
+ GET /api/auth/session 200 in 110ms
+ GET /api/auth/session 200 in 69ms
+ GET /api/auth/session 200 in 44ms
+ GET / 200 in 139ms
+ GET /icon?6eb2c0c7450eacb3 200 in 50ms
+ GET /api/auth/session 200 in 92ms
+ GET /signin 200 in 534ms
+ GET / 200 in 546ms
+ GET /dashboard 200 in 579ms
+ GET /static/css/main.css 404 in 171ms
+ GET /signup 200 in 184ms
+ GET /static/js/bundle.js 404 in 172ms
+ GET /api/auth/session 200 in 32ms
+ ✓ Compiled in 840ms (514 modules)
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/.next/routes-manifest.json',
+  page: '/'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/.next/routes-manifest.json',
+  page: '/'
+}
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 1046ms (1235 modules)
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/.next/server/webpack-runtime.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/.next/server/pages/_document.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/server/require.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/server/load-components.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/build/utils.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/build/swc/options.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/build/swc/index.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/server/lib/router-server.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/.next/server/webpack-runtime.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/.next/server/pages/_document.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/server/require.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/server/load-components.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/build/utils.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/build/swc/options.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/build/swc/index.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/server/lib/router-server.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: ENOENT: no such file or directory, open '/Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/.next/routes-manifest.json',
+  page: '/'
+}
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/.next/server/webpack-runtime.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/.next/server/pages/_document.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/server/require.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/server/load-components.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/build/utils.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/build/swc/options.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/build/swc/index.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/server/lib/router-server.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: ENOENT: no such file or directory, open '/Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/.next/routes-manifest.json',
+  page: '/'
+}
+ ⨯ Error: Cannot find module './5611.js'
+Require stack:
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/.next/server/webpack-runtime.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/.next/server/pages/_document.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/server/require.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/server/load-components.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/build/utils.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/build/swc/options.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/build/swc/index.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/build/analysis/parse-module.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/server/lib/router-server.js
+- /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:1:327)
+    at Object.<anonymous> (.next/server/pages/_document.js:1:374) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: ENOENT: no such file or directory, open '/Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/.next/routes-manifest.json'
+}
+ GET / 500 in 5522ms
+ GET / 500 in 199ms
+[Error: ENOENT: no such file or directory, open '/Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/.next/routes-manifest.json'
+}
+ GET / 500 in 5399ms
+ GET / 500 in 46ms
+ ✓ Compiled in 628ms (515 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename '/Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/.next/cache/webpack/client-development-fallback/0.pack.gz_' -> '/Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI/.next/cache/webpack/client-development-fallback/0.pack.gz'
+ ✓ Compiled in 611ms (515 modules)
+ ✓ Compiled in 541ms (515 modules)

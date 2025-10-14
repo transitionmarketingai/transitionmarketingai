@@ -1,0 +1,2147 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { toast } from 'sonner';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/ui/dialog';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { 
+  LayoutDashboard, 
+  Users, 
+  MessageSquare,
+  Settings,
+  Phone,
+  Mail,
+  Search,
+  TrendingUp,
+  Target,
+  Clock,
+  CheckCircle,
+  ArrowUp,
+  Star,
+  MapPin,
+  Home,
+  Activity,
+  Bell,
+  ChevronDown,
+  ChevronRight,
+  Copy,
+  Send,
+  BarChart3,
+  DollarSign,
+  Calendar,
+  Filter,
+  Download,
+  LogOut,
+  User,
+  Shield,
+  FileText
+} from 'lucide-react';
+import Link from 'next/link';
+import Logo from '@/components/Logo';
+import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+
+// Demo customer data
+const DEMO_CUSTOMER = {
+  id: 'demo-123',
+  business_name: 'ABC Real Estate',
+  contact_person: 'Demo User',
+  industry: 'real_estate',
+  current_plan: 'growth',
+  phone: '+91 98765 43210',
+  email: 'demo@abcrealestate.com'
+};
+
+const DEMO_SUBSCRIPTION = {
+  plan_name: 'Professional Plan',
+  leads_quota: 50,
+  leads_delivered: 48,
+  price_inr: 9999,
+  period_start: 'Jan 15, 2024',
+  period_end: 'Feb 15, 2024',
+  days_remaining: 12
+};
+
+// Demo leads with complete details
+const DEMO_LEADS = [
+  {
+    id: 1,
+    name: 'Rajesh Kumar',
+    phone: '+91 98765 43210',
+    email: 'rajesh.k@email.com',
+    score: 92,
+    status: 'new',
+    property: '3BHK Apartment',
+    budget: '₹80L-₹1Cr',
+    location: 'Andheri West, Mumbai',
+    preferredAreas: 'Andheri, Powai, BKC',
+    timeline: 'Immediate',
+    financing: 'Pre-approved for ₹75L',
+    firstTimeBuyer: false,
+    parking: 'Needs 2 car parking',
+    source: 'Facebook Ads',
+    campaign: '3BHK Andheri Campaign',
+    received: '5 mins ago',
+    notes: []
+  },
+  {
+    id: 2,
+    name: 'Priya Sharma',
+    phone: '+91 98123 45678',
+    email: 'priya.sharma@email.com',
+    score: 88,
+    status: 'contacted',
+    property: '2BHK Apartment',
+    budget: '₹60L-₹80L',
+    location: 'Powai, Mumbai',
+    preferredAreas: 'Powai, Vikhroli, Kanjurmarg',
+    timeline: '3 months',
+    financing: 'Need home loan assistance',
+    firstTimeBuyer: true,
+    parking: '1 car parking',
+    source: 'Google Ads',
+    campaign: 'Budget Homes Campaign',
+    received: '2 hours ago',
+    notes: ['Contacted via WhatsApp', 'Interested in ready possession']
+  },
+  {
+    id: 3,
+    name: 'Amit Patel',
+    phone: '+91 97654 32109',
+    email: 'amit.patel@email.com',
+    score: 91,
+    status: 'qualified',
+    property: '4BHK Penthouse',
+    budget: '₹1.5Cr-₹2Cr',
+    location: 'BKC, Mumbai',
+    preferredAreas: 'BKC, Worli, Lower Parel',
+    timeline: '1 month',
+    financing: 'Cash buyer',
+    firstTimeBuyer: false,
+    parking: '3 car parking + valet',
+    source: 'Facebook Ads',
+    campaign: 'Luxury Apartments Campaign',
+    received: '1 day ago',
+    notes: ['Meeting scheduled for Friday', 'Looking for high-end amenities']
+  },
+  {
+    id: 4,
+    name: 'Sneha Reddy',
+    phone: '+91 96543 21098',
+    email: 'sneha.r@email.com',
+    score: 79,
+    status: 'new',
+    property: '2BHK Apartment',
+    budget: '₹50L-₹70L',
+    location: 'Thane West',
+    preferredAreas: 'Thane, Kalyan, Dombivli',
+    timeline: '6 months',
+    financing: 'Saving for down payment',
+    firstTimeBuyer: true,
+    parking: '1 car parking',
+    source: 'Google Ads',
+    campaign: 'Thane Properties Campaign',
+    received: '2 days ago',
+    notes: []
+  },
+  {
+    id: 5,
+    name: 'Vikram Singh',
+    phone: '+91 95432 10987',
+    email: 'vikram.singh@email.com',
+    score: 94,
+    status: 'new',
+    property: '3BHK with Study',
+    budget: '₹90L-₹1.2Cr',
+    location: 'Bandra East, Mumbai',
+    preferredAreas: 'Bandra, Khar, Santacruz',
+    timeline: 'Immediate',
+    financing: 'Pre-approved',
+    firstTimeBuyer: false,
+    parking: '2 car parking',
+    source: 'Facebook Ads',
+    campaign: '3BHK Premium Campaign',
+    received: '3 hours ago',
+    notes: []
+  }
+];
+
+const DEMO_CAMPAIGNS = [
+  {
+    id: 1,
+    name: '3BHK Andheri Campaign',
+    platform: 'Facebook Ads',
+    status: 'active',
+    leads: 28,
+    cpl: '₹302',
+    budget: '₹15,000',
+    spent: '₹8,456'
+  },
+  {
+    id: 2,
+    name: 'Luxury Apartments BKC',
+    platform: 'Google Ads',
+    status: 'active',
+    leads: 16,
+    cpl: '₹625',
+    budget: '₹20,000',
+    spent: '₹10,000'
+  },
+  {
+    id: 3,
+    name: 'Budget Homes Campaign',
+    platform: 'Facebook Ads',
+    status: 'paused',
+    leads: 12,
+    cpl: '₹350',
+    budget: '₹10,000',
+    spent: '₹4,200'
+  }
+];
+
+// Chart data for Reports page
+const LEADS_TREND_DATA = [
+  { date: 'Jan 5', leads: 12 },
+  { date: 'Jan 10', leads: 18 },
+  { date: 'Jan 15', leads: 22 },
+  { date: 'Jan 20', leads: 28 },
+  { date: 'Jan 25', leads: 35 },
+  { date: 'Jan 30', leads: 42 },
+  { date: 'Feb 5', leads: 48 }
+];
+
+const CONVERSION_DATA = [
+  { stage: 'Received', count: 48, fill: '#3b82f6' },
+  { stage: 'Contacted', count: 44, fill: '#10b981' },
+  { stage: 'Meetings', count: 22, fill: '#f59e0b' },
+  { stage: 'Proposals', count: 12, fill: '#8b5cf6' },
+  { stage: 'Won', count: 8, fill: '#06b6d4' }
+];
+
+const SOURCE_DATA = [
+  { name: 'Facebook Ads', value: 58, fill: '#3b82f6' },
+  { name: 'Google Ads', value: 42, fill: '#10b981' }
+];
+
+export default function DashboardPage() {
+  const searchParams = useSearchParams();
+  const isDemoMode = searchParams?.get('demo') === 'true' ||
+                     (typeof window !== 'undefined' && localStorage?.getItem('demo_mode') === 'true');
+
+  const [currentView, setCurrentView] = useState('dashboard');
+  const [customer] = useState(DEMO_CUSTOMER);
+  const [subscription] = useState(DEMO_SUBSCRIPTION);
+  const [leads, setLeads] = useState(DEMO_LEADS);
+  
+  // Modal states
+  const [selectedLead, setSelectedLead] = useState<typeof DEMO_LEADS[0] | null>(null);
+  const [showContactModal, setShowContactModal] = useState(false);
+  const [contactMethod, setContactMethod] = useState<'call' | 'email' | 'whatsapp'>('call');
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [showNoteModal, setShowNoteModal] = useState(false);
+  const [newNote, setNewNote] = useState('');
+  
+  // Messaging states
+  const [messageInput, setMessageInput] = useState('');
+  const [messages, setMessages] = useState<{ [key: number]: Array<{ text: string; sender: 'user' | 'lead'; timestamp: string }> }>({});
+  
+  // Campaign states
+  const [showCreateCampaignModal, setShowCreateCampaignModal] = useState(false);
+  const [editingCampaign, setEditingCampaign] = useState<typeof DEMO_CAMPAIGNS[0] | null>(null);
+  const [campaigns, setCampaigns] = useState(DEMO_CAMPAIGNS);
+  
+  // Add Lead states
+  const [showAddLeadModal, setShowAddLeadModal] = useState(false);
+  const [newLead, setNewLead] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    property: '',
+    budget: '',
+    location: '',
+    timeline: ''
+  });
+  
+  // Settings states
+  const [profileSettings, setProfileSettings] = useState({
+    businessName: customer.business_name,
+    contactPerson: customer.contact_person,
+    phone: customer.phone,
+    email: customer.email
+  });
+  const [notificationSettings, setNotificationSettings] = useState({
+    email: true,
+    whatsapp: true,
+    sms: false
+  });
+  
+  // Filters
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filterStatus, setFilterStatus] = useState('all');
+  const [sortBy, setSortBy] = useState('newest');
+
+  const stats = {
+    totalLeads: leads.length,
+    newLeads: leads.filter(l => l.status === 'new').length,
+    contacted: leads.filter(l => l.status === 'contacted').length,
+    qualified: leads.filter(l => l.status === 'qualified').length,
+    won: leads.filter(l => l.status === 'won').length,
+    avgScore: Math.round(leads.reduce((acc, l) => acc + l.score, 0) / leads.length),
+    contactRate: Math.round((leads.filter(l => l.status !== 'new').length / leads.length) * 100),
+    conversionRate: 16.7
+  };
+
+  const filteredLeads = leads
+    .filter(lead => {
+      const matchesSearch = lead.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                           lead.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                           lead.property.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesStatus = filterStatus === 'all' || lead.status === filterStatus;
+      return matchesSearch && matchesStatus;
+    })
+    .sort((a, b) => {
+      if (sortBy === 'newest') return b.id - a.id;
+      if (sortBy === 'score') return b.score - a.score;
+      return 0;
+    });
+
+  const handleContact = (lead: typeof DEMO_LEADS[0], method: 'call' | 'email' | 'whatsapp') => {
+    setSelectedLead(lead);
+    setContactMethod(method);
+    setShowContactModal(true);
+  };
+
+  const handleViewDetails = (lead: typeof DEMO_LEADS[0]) => {
+    setSelectedLead(lead);
+    setShowDetailsModal(true);
+  };
+
+  const handleAddNote = () => {
+    if (selectedLead && newNote.trim()) {
+      const updatedLeads = leads.map(l => 
+        l.id === selectedLead.id 
+          ? { ...l, notes: [...l.notes, `${new Date().toLocaleTimeString()}: ${newNote}`] }
+          : l
+      );
+      setLeads(updatedLeads);
+      setNewNote('');
+      setShowNoteModal(false);
+    }
+  };
+
+  const handleStatusChange = (leadId: number, newStatus: string) => {
+    const updatedLeads = leads.map(l => 
+      l.id === leadId ? { ...l, status: newStatus } : l
+    );
+    setLeads(updatedLeads);
+  };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    alert(`Copied: ${text}`);
+  };
+
+  // Load messages from localStorage on mount
+  useEffect(() => {
+    const savedMessages = localStorage.getItem('leadMessages');
+    if (savedMessages) {
+      setMessages(JSON.parse(savedMessages));
+    }
+  }, []);
+
+  // Send message function
+  const sendMessage = () => {
+    if (!messageInput.trim() || !selectedLead) return;
+
+    const newMessage = {
+      text: messageInput,
+      sender: 'user' as const,
+      timestamp: new Date().toISOString()
+    };
+
+    const updatedMessages = {
+      ...messages,
+      [selectedLead.id]: [...(messages[selectedLead.id] || []), newMessage]
+    };
+
+    setMessages(updatedMessages);
+    localStorage.setItem('leadMessages', JSON.stringify(updatedMessages));
+    setMessageInput('');
+
+    toast.success('Message sent!', {
+      description: `Sent to ${selectedLead.name}`
+    });
+  };
+
+  // Load data from localStorage on mount
+  useEffect(() => {
+    // Load campaigns
+    const savedCampaigns = localStorage.getItem('campaigns');
+    if (savedCampaigns) {
+      setCampaigns(JSON.parse(savedCampaigns));
+    }
+    
+    // Load leads
+    const savedLeads = localStorage.getItem('leads');
+    if (savedLeads) {
+      setLeads(JSON.parse(savedLeads));
+    }
+    
+    // Load settings
+    const savedProfile = localStorage.getItem('profileSettings');
+    if (savedProfile) {
+      setProfileSettings(JSON.parse(savedProfile));
+    }
+    
+    const savedNotifications = localStorage.getItem('notificationSettings');
+    if (savedNotifications) {
+      setNotificationSettings(JSON.parse(savedNotifications));
+    }
+  }, []);
+
+  // Toggle campaign status
+  const toggleCampaignStatus = (campaignId: number) => {
+    const updated = campaigns.map(c => 
+      c.id === campaignId 
+        ? { ...c, status: c.status === 'active' ? 'paused' : 'active' }
+        : c
+    );
+    setCampaigns(updated);
+    localStorage.setItem('campaigns', JSON.stringify(updated));
+    
+    const campaign = campaigns.find(c => c.id === campaignId);
+    toast.success(`Campaign ${campaign?.status === 'active' ? 'paused' : 'resumed'}!`, {
+      description: campaign?.name
+    });
+  };
+
+  // Delete campaign
+  const deleteCampaign = (campaignId: number) => {
+    const campaign = campaigns.find(c => c.id === campaignId);
+    if (confirm(`Delete campaign "${campaign?.name}"? This cannot be undone.`)) {
+      const updated = campaigns.filter(c => c.id !== campaignId);
+      setCampaigns(updated);
+      localStorage.setItem('campaigns', JSON.stringify(updated));
+      toast.success('Campaign deleted!');
+    }
+  };
+
+  // Save profile settings
+  const saveProfileSettings = () => {
+    localStorage.setItem('profileSettings', JSON.stringify(profileSettings));
+    toast.success('Profile updated successfully!', {
+      description: 'Your changes have been saved'
+    });
+  };
+
+  // Save notification settings
+  const saveNotificationSettings = () => {
+    localStorage.setItem('notificationSettings', JSON.stringify(notificationSettings));
+    toast.success('Notification settings updated!', {
+      description: 'Your preferences have been saved'
+    });
+  };
+
+  // Add new lead
+  const addNewLead = () => {
+    if (!newLead.name || !newLead.phone || !newLead.email) {
+      toast.error('Please fill in required fields', {
+        description: 'Name, phone, and email are required'
+      });
+      return;
+    }
+
+    const leadToAdd = {
+      id: Date.now(),
+      ...newLead,
+      score: Math.floor(Math.random() * 30) + 70, // Random score 70-100
+      status: 'new',
+      source: 'Manual Entry',
+      received: 'Just now',
+      notes: []
+    };
+
+    const updatedLeads = [leadToAdd, ...leads];
+    setLeads(updatedLeads);
+    localStorage.setItem('leads', JSON.stringify(updatedLeads));
+
+    toast.success('Lead added successfully!', {
+      description: `${newLead.name} added to your leads`
+    });
+
+    setNewLead({
+      name: '',
+      phone: '',
+      email: '',
+      property: '',
+      budget: '',
+      location: '',
+      timeline: ''
+    });
+    setShowAddLeadModal(false);
+  };
+
+  // Export leads to CSV
+  const exportToCSV = () => {
+    const csvHeaders = ['Name', 'Phone', 'Email', 'Property', 'Budget', 'Location', 'Timeline', 'Score', 'Status', 'Source', 'Received'];
+    const csvRows = leads.map(lead => [
+      lead.name,
+      lead.phone,
+      lead.email,
+      lead.property,
+      lead.budget,
+      lead.location,
+      lead.timeline,
+      lead.score,
+      lead.status,
+      lead.source,
+      lead.received
+    ]);
+
+    const csvContent = [
+      csvHeaders.join(','),
+      ...csvRows.map(row => row.join(','))
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `leads_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    toast.success('Leads exported!', {
+      description: `${leads.length} leads downloaded as CSV`
+    });
+  };
+
+  return (
+    <div className="flex min-h-screen bg-gray-50">
+      {/* Left Sidebar */}
+      <aside className="w-64 bg-white border-r flex flex-col fixed h-full">
+        <div className="p-6 border-b">
+          <Link href="/">
+            <Logo size="sm" className="mb-2" />
+          </Link>
+          <p className="text-sm font-medium text-gray-900">{customer.business_name}</p>
+          <p className="text-xs text-gray-600">{customer.current_plan.charAt(0).toUpperCase() + customer.current_plan.slice(1)} Plan</p>
+        </div>
+
+        <nav className="flex-1 p-4">
+          <div className="space-y-1">
+            {[
+              { id: 'dashboard', icon: LayoutDashboard, label: 'Dashboard', badge: null },
+              { id: 'leads', icon: Users, label: 'My Leads', badge: stats.newLeads },
+              { id: 'inbox', icon: MessageSquare, label: 'Inbox', badge: stats.newLeads },
+              { id: 'reports', icon: BarChart3, label: 'Reports', badge: null },
+              { id: 'campaigns', icon: Target, label: 'Campaigns', badge: null },
+              { id: 'settings', icon: Settings, label: 'Settings', badge: null },
+            ].map((item) => (
+              <button
+                key={item.id}
+                onClick={() => setCurrentView(item.id)}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                  currentView === item.id ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'
+                }`}
+              >
+                <item.icon className="h-5 w-5" />
+                <span className="font-medium flex-1 text-left">{item.label}</span>
+                {item.badge && item.badge > 0 && (
+                  <Badge className="bg-red-500">{item.badge}</Badge>
+                )}
+              </button>
+            ))}
+          </div>
+        </nav>
+
+        <div className="p-4 border-t">
+          <Card>
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm text-gray-600">Lead Quota</span>
+                <span className="text-sm font-bold text-gray-900">
+                  {subscription.leads_delivered}/{subscription.leads_quota}
+                </span>
+              </div>
+              <Progress 
+                value={(subscription.leads_delivered / subscription.leads_quota) * 100} 
+                className="h-2 mb-2"
+              />
+              <p className="text-xs text-gray-500">
+                {subscription.leads_quota - subscription.leads_delivered} leads remaining
+              </p>
+              <p className="text-xs text-gray-500 mt-2">
+                Resets in {subscription.days_remaining} days
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      </aside>
+
+      {/* Main Content */}
+      <main className="flex-1 ml-64">
+        <header className="bg-white border-b px-8 py-4 sticky top-0 z-10">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">
+                {currentView === 'dashboard' && 'Dashboard'}
+                {currentView === 'leads' && 'My Leads'}
+                {currentView === 'inbox' && 'Inbox'}
+                {currentView === 'reports' && 'Reports & Analytics'}
+                {currentView === 'campaigns' && 'Your Campaigns'}
+                {currentView === 'settings' && 'Settings'}
+              </h1>
+              <p className="text-sm text-gray-600">Welcome back, {customer.contact_person}!</p>
+            </div>
+            <div className="flex items-center gap-3">
+              {/* Notification Dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                    <Bell className="h-5 w-5 text-gray-700" />
+                    <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-80">
+                  <DropdownMenuLabel>Notifications</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <div className="max-h-96 overflow-y-auto">
+                    {[
+                      { icon: Users, text: 'New lead: Rajesh Kumar (92/100)', time: '5 mins ago', color: 'text-green-600' },
+                      { icon: Phone, text: 'Lead contacted: Priya Sharma', time: '2 hours ago', color: 'text-blue-600' },
+                      { icon: Calendar, text: 'Meeting scheduled with Amit Patel', time: '1 day ago', color: 'text-purple-600' },
+                      { icon: Target, text: 'Campaign optimized: 3BHK Andheri', time: '1 day ago', color: 'text-yellow-600' },
+                      { icon: CheckCircle, text: 'Subscription renewed successfully', time: '2 days ago', color: 'text-green-600' },
+                    ].map((notif, idx) => (
+                      <DropdownMenuItem key={idx} className="flex items-start gap-3 p-3">
+                        <notif.icon className={`h-5 w-5 ${notif.color} flex-shrink-0`} />
+                        <div className="flex-1">
+                          <p className="text-sm font-medium text-gray-900">{notif.text}</p>
+                          <p className="text-xs text-gray-500">{notif.time}</p>
+                        </div>
+                      </DropdownMenuItem>
+                    ))}
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="text-center text-blue-600 font-medium cursor-pointer">
+                    View All Notifications
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              {/* Profile Dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <div className="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200 transition-colors">
+                    <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center">
+                      <span className="text-white font-semibold text-sm">{customer.contact_person.charAt(0)}</span>
+                    </div>
+                    <div className="hidden md:block text-left">
+                      <p className="text-sm font-medium text-gray-900">{customer.contact_person}</p>
+                      <p className="text-xs text-gray-500">{customer.business_name}</p>
+                    </div>
+                    <ChevronDown className="h-4 w-4 text-gray-600" />
+                  </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="cursor-pointer">
+                    <User className="mr-2 h-4 w-4" />
+                    <span>Account Settings</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer" onClick={exportToCSV}>
+                    <Download className="mr-2 h-4 w-4" />
+                    <span>Export Leads (CSV)</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/admin" className="cursor-pointer flex items-center">
+                      <Shield className="mr-2 h-4 w-4" />
+                      <span>Admin Dashboard</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="cursor-pointer text-red-600">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Logout</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </div>
+        </header>
+
+        <div className="p-8">
+          {isDemoMode && (
+            <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Activity className="h-5 w-5 text-blue-600" />
+                <div>
+                  <p className="font-semibold text-blue-900">Demo Mode</p>
+                  <p className="text-sm text-blue-700">You're viewing sample data. Sign up to get real leads!</p>
+                </div>
+              </div>
+              <Button variant="outline" asChild>
+                <Link href="/onboarding">Start Free Trial</Link>
+              </Button>
+            </div>
+          )}
+
+          {/* DASHBOARD VIEW */}
+          {currentView === 'dashboard' && (
+            <div className="space-y-6">
+              {/* Stats Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <Card>
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-gray-600">This Month's Leads</p>
+                        <p className="text-3xl font-bold text-gray-900 mt-1">{subscription.leads_delivered}/{subscription.leads_quota}</p>
+                        <Progress value={(subscription.leads_delivered / subscription.leads_quota) * 100} className="h-1 mt-2" />
+                      </div>
+                      <Home className="h-10 w-10 text-blue-600" />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-gray-600">New Leads</p>
+                        <p className="text-3xl font-bold text-green-600 mt-1">{stats.newLeads}</p>
+                        <p className="text-xs text-gray-500 mt-2">Awaiting contact</p>
+                      </div>
+                      <Users className="h-10 w-10 text-green-600" />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-gray-600">Contact Rate</p>
+                        <p className="text-3xl font-bold text-gray-900 mt-1">{stats.contactRate}%</p>
+                        <p className="text-xs text-green-600 flex items-center mt-2">
+                          <ArrowUp className="h-3 w-3 mr-1" />
+                          Above average
+                        </p>
+                      </div>
+                      <CheckCircle className="h-10 w-10 text-yellow-600" />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-gray-600">Avg Quality Score</p>
+                        <p className="text-3xl font-bold text-gray-900 mt-1">{stats.avgScore}/100</p>
+                        <p className="text-xs text-gray-500 mt-2">Excellent quality</p>
+                      </div>
+                      <Star className="h-10 w-10 text-purple-600" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* New Leads Section */}
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <CardTitle className="flex items-center gap-2">
+                        🔥 New Leads ({stats.newLeads})
+                      </CardTitle>
+                      <CardDescription>Received in the last 24 hours - Contact them now!</CardDescription>
+                    </div>
+                    <Button variant="outline" onClick={() => setCurrentView('leads')}>
+                      View All
+                      <ChevronRight className="h-4 w-4 ml-2" />
+                    </Button>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {leads.filter(l => l.status === 'new').slice(0, 3).map((lead) => (
+                      <div key={lead.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors">
+                        <div className="flex items-center gap-4 flex-1">
+                          <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                            <span className="text-blue-600 font-bold text-lg">{lead.name.charAt(0)}</span>
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-1">
+                              <h4 className="font-semibold text-gray-900">{lead.name}</h4>
+                              <Badge className="bg-green-100 text-green-700">
+                                <Star className="h-3 w-3 mr-1" />
+                                {lead.score}/100
+                              </Badge>
+                            </div>
+                            <p className="text-sm text-gray-600">{lead.property} • {lead.location}</p>
+                            <p className="text-xs text-gray-500">{lead.budget} • {lead.timeline}</p>
+                          </div>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button size="sm" variant="outline" onClick={() => handleContact(lead, 'call')}>
+                            <Phone className="h-4 w-4" />
+                          </Button>
+                          <Button size="sm" variant="outline" onClick={() => handleContact(lead, 'whatsapp')}>
+                            <MessageSquare className="h-4 w-4" />
+                          </Button>
+                          <Button size="sm" className="bg-blue-600 hover:bg-blue-700" onClick={() => handleViewDetails(lead)}>
+                            View Details
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Campaign Performance */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Your Campaigns (Managed by Us)</CardTitle>
+                    <CardDescription>Performance overview of active campaigns</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      {campaigns.filter(c => c.status === 'active').map((campaign) => (
+                        <div key={campaign.id} className="p-4 border rounded-lg">
+                          <div className="flex items-center justify-between mb-3">
+                            <div>
+                              <h4 className="font-semibold text-gray-900">{campaign.name}</h4>
+                              <p className="text-sm text-gray-600">{campaign.platform}</p>
+                            </div>
+                            <Badge className="bg-green-100 text-green-700">Active</Badge>
+                          </div>
+                          <div className="grid grid-cols-3 gap-3 text-sm">
+                            <div>
+                              <p className="text-gray-600">Leads</p>
+                              <p className="font-bold text-gray-900">{campaign.leads}</p>
+                            </div>
+                            <div>
+                              <p className="text-gray-600">CPL</p>
+                              <p className="font-bold text-gray-900">{campaign.cpl}</p>
+                            </div>
+                            <div>
+                              <p className="text-gray-600">Spent</p>
+                              <p className="font-bold text-gray-900">{campaign.spent}</p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Recent Activity</CardTitle>
+                    <CardDescription>Your latest interactions</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      {[
+                        { time: '5 mins ago', text: 'New lead: Rajesh Kumar (92/100)', icon: Users, color: 'text-green-600' },
+                        { time: '2 hours ago', text: 'Lead contacted: Priya Sharma', icon: Phone, color: 'text-blue-600' },
+                        { time: '1 day ago', text: 'Meeting scheduled with Amit Patel', icon: Calendar, color: 'text-purple-600' },
+                        { time: '2 days ago', text: 'Campaign optimized: 3BHK Andheri', icon: Target, color: 'text-yellow-600' },
+                      ].map((activity, idx) => (
+                        <div key={idx} className="flex items-start gap-3">
+                          <div className={`w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center ${activity.color}`}>
+                            <activity.icon className="h-4 w-4" />
+                          </div>
+                          <div className="flex-1">
+                            <p className="text-sm text-gray-900">{activity.text}</p>
+                            <p className="text-xs text-gray-500">{activity.time}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          )}
+
+          {/* MY LEADS VIEW */}
+          {currentView === 'leads' && (
+            <div className="space-y-6">
+              {/* Add Lead Button */}
+              <div className="flex justify-end">
+                <Button 
+                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                  onClick={() => setShowAddLeadModal(true)}
+                >
+                  <Users className="h-4 w-4 mr-2" />
+                  Add Lead Manually
+                </Button>
+              </div>
+
+              {/* Filters */}
+              <Card>
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-4">
+                    <div className="flex-1">
+                      <div className="relative">
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                        <Input
+                          placeholder="Search by name, email, or property type..."
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                          className="pl-10"
+                        />
+                      </div>
+                    </div>
+                    <Select value={filterStatus} onValueChange={setFilterStatus}>
+                      <SelectTrigger className="w-48">
+                        <SelectValue placeholder="Filter by status" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Leads ({leads.length})</SelectItem>
+                        <SelectItem value="new">New ({stats.newLeads})</SelectItem>
+                        <SelectItem value="contacted">Contacted ({stats.contacted})</SelectItem>
+                        <SelectItem value="qualified">Qualified ({stats.qualified})</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Select value={sortBy} onValueChange={setSortBy}>
+                      <SelectTrigger className="w-40">
+                        <SelectValue placeholder="Sort" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="newest">Newest First</SelectItem>
+                        <SelectItem value="score">Highest Score</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Leads List */}
+              <div className="space-y-4">
+                {filteredLeads.map((lead) => (
+                  <Card key={lead.id} className="hover:shadow-md transition-shadow">
+                    <CardContent className="p-6">
+                      <div className="flex items-start justify-between">
+                        <div className="flex items-start gap-4 flex-1">
+                          <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <span className="text-blue-600 font-bold text-lg">{lead.name.charAt(0)}</span>
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex items-center gap-3 mb-2">
+                              <h3 className="text-lg font-bold text-gray-900">{lead.name}</h3>
+                              <Badge className={`${
+                                lead.status === 'new' ? 'bg-blue-100 text-blue-700' :
+                                lead.status === 'contacted' ? 'bg-yellow-100 text-yellow-700' :
+                                lead.status === 'qualified' ? 'bg-green-100 text-green-700' :
+                                'bg-purple-100 text-purple-700'
+                              }`}>
+                                {lead.status.charAt(0).toUpperCase() + lead.status.slice(1)}
+                              </Badge>
+                              <Badge className="bg-green-100 text-green-700">
+                                <Star className="h-3 w-3 mr-1" />
+                                {lead.score}/100
+                              </Badge>
+                              {lead.score >= 90 && <span className="text-lg">🔥</span>}
+                            </div>
+                            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm mb-3">
+                              <div className="flex items-center gap-2 text-gray-600">
+                                <Phone className="h-4 w-4" />
+                                <span>{lead.phone}</span>
+                                <Button 
+                                  size="sm" 
+                                  variant="ghost" 
+                                  className="h-5 w-5 p-0"
+                                  onClick={() => copyToClipboard(lead.phone)}
+                                >
+                                  <Copy className="h-3 w-3" />
+                                </Button>
+                              </div>
+                              <div className="flex items-center gap-2 text-gray-600">
+                                <Mail className="h-4 w-4" />
+                                <span className="truncate">{lead.email}</span>
+                              </div>
+                              <div className="flex items-center gap-2 text-gray-600">
+                                <MapPin className="h-4 w-4" />
+                                <span>{lead.location}</span>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-4 text-sm">
+                              <span className="text-gray-600">
+                                <strong>Property:</strong> {lead.property}
+                              </span>
+                              <span className="text-gray-600">
+                                <strong>Budget:</strong> {lead.budget}
+                              </span>
+                              <span className="text-gray-600">
+                                <strong>Timeline:</strong> {lead.timeline}
+                              </span>
+                            </div>
+                            <div className="mt-2 text-xs text-gray-500">
+                              {lead.source} • {lead.received}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex flex-col gap-2">
+                          <Button 
+                            size="sm" 
+                            className="bg-green-600 hover:bg-green-700"
+                            onClick={() => handleContact(lead, 'call')}
+                          >
+                            <Phone className="h-4 w-4 mr-2" />
+                            Call Now
+                          </Button>
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            onClick={() => handleContact(lead, 'whatsapp')}
+                          >
+                            <MessageSquare className="h-4 w-4 mr-2" />
+                            WhatsApp
+                          </Button>
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            onClick={() => handleViewDetails(lead)}
+                          >
+                            <ChevronDown className="h-4 w-4 mr-2" />
+                            Details
+                          </Button>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* INBOX VIEW */}
+          {currentView === 'inbox' && (
+            <div className="grid grid-cols-3 gap-6 h-[calc(100vh-200px)]">
+              {/* Conversation List */}
+              <Card className="col-span-1">
+                <CardHeader>
+                  <CardTitle className="text-lg">Conversations</CardTitle>
+                </CardHeader>
+                <CardContent className="p-0">
+                  <div className="divide-y">
+                    {leads.slice(0, 5).map((lead) => (
+                      <button
+                        key={lead.id}
+                        className="w-full p-4 text-left hover:bg-gray-50 transition-colors"
+                        onClick={() => setSelectedLead(lead)}
+                      >
+                        <div className="flex items-center gap-3 mb-2">
+                          <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                            <span className="text-blue-600 font-semibold">{lead.name.charAt(0)}</span>
+                          </div>
+                          <div className="flex-1">
+                            <p className="font-semibold text-gray-900 text-sm">{lead.name}</p>
+                            <p className="text-xs text-gray-500">Last message: {lead.received}</p>
+                          </div>
+                          {lead.status === 'new' && (
+                            <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                          )}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Message Thread */}
+              <Card className="col-span-2 flex flex-col">
+                <CardHeader className="border-b">
+                  {selectedLead ? (
+                    <div>
+                      <CardTitle className="text-lg">{selectedLead.name}</CardTitle>
+                      <CardDescription>{selectedLead.phone} • {selectedLead.email}</CardDescription>
+                    </div>
+                  ) : (
+                    <CardTitle className="text-lg text-gray-500">Select a conversation</CardTitle>
+                  )}
+                </CardHeader>
+                <CardContent className="flex-1 p-6 overflow-y-auto">
+                  {selectedLead ? (
+                    <div className="space-y-4">
+                      <div className="text-sm text-gray-600 bg-gray-50 p-3 rounded-lg text-center">
+                        Lead received {selectedLead.received} via {selectedLead.source}
+                      </div>
+                      {selectedLead.notes.length > 0 && selectedLead.notes.map((note, idx) => (
+                        <div key={idx} className="flex justify-start">
+                          <div className="bg-gray-100 rounded-lg p-3 max-w-md">
+                            <p className="text-sm text-gray-900">{note}</p>
+                            <p className="text-xs text-gray-500 mt-1">Lead's inquiry</p>
+                          </div>
+                        </div>
+                      ))}
+                      
+                      {/* Saved messages from localStorage */}
+                      {messages[selectedLead.id]?.map((msg, idx) => (
+                        <div key={idx} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+                          <div className={`rounded-lg p-3 max-w-md ${
+                            msg.sender === 'user' 
+                              ? 'bg-blue-600 text-white' 
+                              : 'bg-gray-100 text-gray-900'
+                          }`}>
+                            <p className="text-sm">{msg.text}</p>
+                            <p className={`text-xs mt-1 ${msg.sender === 'user' ? 'opacity-75' : 'text-gray-500'}`}>
+                              {new Date(msg.timestamp).toLocaleTimeString('en-IN', { 
+                                hour: '2-digit', 
+                                minute: '2-digit' 
+                              })}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                      
+                      {(!messages[selectedLead.id] || messages[selectedLead.id].length === 0) && (
+                        <div className="flex justify-center">
+                          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 max-w-md text-center">
+                            <p className="text-sm text-yellow-800">No messages yet. Send your first message below!</p>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center justify-center h-full text-gray-400">
+                      <MessageSquare className="h-16 w-16 mb-4" />
+                      <p className="text-sm">Select a lead to start messaging</p>
+                    </div>
+                  )}
+                </CardContent>
+                {selectedLead && (
+                  <div className="border-t p-4">
+                    <div className="flex gap-2 mb-3">
+                      <Button size="sm" variant="outline" className="text-xs">
+                        Use Template
+                      </Button>
+                      <Button size="sm" variant="outline" className="text-xs">
+                        Schedule Follow-up
+                      </Button>
+                    </div>
+                    <div className="flex gap-2">
+                      <Textarea 
+                        placeholder="Type your message..." 
+                        className="flex-1" 
+                        rows={2}
+                        value={messageInput}
+                        onChange={(e) => setMessageInput(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' && !e.shiftKey) {
+                            e.preventDefault();
+                            sendMessage();
+                          }
+                        }}
+                      />
+                      <Button 
+                        className="bg-blue-600 hover:bg-blue-700 text-white"
+                        onClick={sendMessage}
+                        disabled={!messageInput.trim()}
+                      >
+                        <Send className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </Card>
+            </div>
+          )}
+
+          {/* REPORTS VIEW */}
+          {currentView === 'reports' && (
+            <div className="space-y-6">
+              {/* Performance Metrics */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <Card>
+                  <CardContent className="p-6">
+                    <p className="text-sm text-gray-600 mb-1">Conversion Rate</p>
+                    <p className="text-3xl font-bold text-gray-900">{stats.conversionRate}%</p>
+                    <p className="text-xs text-green-600 flex items-center mt-2">
+                      <ArrowUp className="h-3 w-3 mr-1" />
+                      3.2% from last month
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-6">
+                    <p className="text-sm text-gray-600 mb-1">Avg Response Time</p>
+                    <p className="text-3xl font-bold text-gray-900">2.3h</p>
+                    <p className="text-xs text-gray-500 mt-2">Industry avg: 4.5h</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-6">
+                    <p className="text-sm text-gray-600 mb-1">Revenue This Month</p>
+                    <p className="text-3xl font-bold text-green-600">₹12.8L</p>
+                    <p className="text-xs text-gray-500 mt-2">8 deals closed</p>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Leads Trend Chart */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Leads Trend</CardTitle>
+                  <CardDescription>Your lead generation over time</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ResponsiveContainer width="100%" height={300}>
+                    <LineChart data={LEADS_TREND_DATA}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                      <XAxis dataKey="date" stroke="#6b7280" />
+                      <YAxis stroke="#6b7280" />
+                      <Tooltip />
+                      <Legend />
+                      <Line type="monotone" dataKey="leads" stroke="#3b82f6" strokeWidth={3} dot={{ r: 5 }} activeDot={{ r: 8 }} />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Conversion Funnel Bar Chart */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Conversion Funnel</CardTitle>
+                    <CardDescription>Lead journey stages</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ResponsiveContainer width="100%" height={300}>
+                      <BarChart data={CONVERSION_DATA}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                        <XAxis dataKey="stage" stroke="#6b7280" />
+                        <YAxis stroke="#6b7280" />
+                        <Tooltip />
+                        <Bar dataKey="count" radius={[8, 8, 0, 0]}>
+                          {CONVERSION_DATA.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.fill} />
+                          ))}
+                        </Bar>
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </CardContent>
+                </Card>
+
+                {/* Lead Sources Pie Chart */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Lead Sources</CardTitle>
+                    <CardDescription>Campaign distribution</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ResponsiveContainer width="100%" height={300}>
+                      <PieChart>
+                        <Pie
+                          data={SOURCE_DATA}
+                          cx="50%"
+                          cy="50%"
+                          labelLine={false}
+                          label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                          outerRadius={80}
+                          fill="#8884d8"
+                          dataKey="value"
+                        >
+                          {SOURCE_DATA.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.fill} />
+                          ))}
+                        </Pie>
+                        <Tooltip />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* ROI Calculator */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Lead Sources</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <Activity className="h-5 w-5 text-blue-600" />
+                          </div>
+                          <div>
+                            <p className="font-semibold text-gray-900">Facebook Ads</p>
+                            <p className="text-sm text-gray-600">28 leads this month</p>
+                          </div>
+                        </div>
+                        <span className="text-xl font-bold text-gray-900">58%</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                            <TrendingUp className="h-5 w-5 text-green-600" />
+                          </div>
+                          <div>
+                            <p className="font-semibold text-gray-900">Google Ads</p>
+                            <p className="text-sm text-gray-600">20 leads this month</p>
+                          </div>
+                        </div>
+                        <span className="text-xl font-bold text-gray-900">42%</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle>ROI This Month</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      <div className="flex justify-between">
+                        <span className="text-sm text-gray-600">Subscription Cost:</span>
+                        <span className="font-semibold">₹14,999</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-sm text-gray-600">Leads Received:</span>
+                        <span className="font-semibold">48 leads</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-sm text-gray-600">Cost Per Lead:</span>
+                        <span className="font-semibold">₹312</span>
+                      </div>
+                      <div className="border-t pt-3 mt-3">
+                        <div className="flex justify-between mb-2">
+                          <span className="text-sm text-gray-600">Deals Closed:</span>
+                          <span className="font-semibold">8 deals</span>
+                        </div>
+                        <div className="flex justify-between mb-2">
+                          <span className="text-sm text-gray-600">Revenue Generated:</span>
+                          <span className="font-semibold text-green-600">₹12,80,000</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="font-bold text-gray-900">ROI:</span>
+                          <span className="text-2xl font-bold text-green-600">8,433%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          )}
+
+          {/* CAMPAIGNS VIEW */}
+          {currentView === 'campaigns' && (
+            <div className="space-y-6">
+              <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+                <p className="text-sm text-blue-900">
+                  <strong>Note:</strong> Our team manages campaigns for you. Below is a demo interface showing what campaign management looks like.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                {campaigns.map((campaign) => (
+                  <Card key={campaign.id}>
+                    <CardContent className="p-6">
+                      <div className="flex items-start justify-between mb-4">
+                        <div>
+                          <h3 className="text-lg font-bold text-gray-900">{campaign.name}</h3>
+                          <p className="text-sm text-gray-600">{campaign.platform}</p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Badge className={`${
+                            campaign.status === 'active' ? 'bg-green-100 text-green-700' :
+                            'bg-yellow-100 text-yellow-700'
+                          }`}>
+                            {campaign.status.charAt(0).toUpperCase() + campaign.status.slice(1)}
+                          </Badge>
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            onClick={() => toggleCampaignStatus(campaign.id)}
+                          >
+                            {campaign.status === 'active' ? 'Pause' : 'Resume'}
+                          </Button>
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            className="text-red-600 hover:bg-red-50"
+                            onClick={() => deleteCampaign(campaign.id)}
+                          >
+                            Delete
+                          </Button>
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-4 gap-6 mb-4">
+                        <div>
+                          <p className="text-sm text-gray-600 mb-1">Leads Generated</p>
+                          <p className="text-2xl font-bold text-gray-900">{campaign.leads}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-600 mb-1">Cost Per Lead</p>
+                          <p className="text-2xl font-bold text-gray-900">{campaign.cpl}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-600 mb-1">Budget</p>
+                          <p className="text-2xl font-bold text-gray-900">{campaign.budget}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-600 mb-1">Spent</p>
+                          <p className="text-2xl font-bold text-gray-900">{campaign.spent}</p>
+                        </div>
+                      </div>
+                      <Progress value={(parseInt(campaign.spent.replace(/[^0-9]/g, '')) / parseInt(campaign.budget.replace(/[^0-9]/g, ''))) * 100} className="h-2" />
+                      <p className="text-xs text-gray-500 mt-2">
+                        Budget utilization: {((parseInt(campaign.spent.replace(/[^0-9]/g, '')) / parseInt(campaign.budget.replace(/[^0-9]/g, ''))) * 100).toFixed(0)}%
+                      </p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* SETTINGS VIEW */}
+          {currentView === 'settings' && (
+            <div className="space-y-6">
+              <Tabs defaultValue="profile" className="w-full">
+                <TabsList className="grid w-full grid-cols-7 mb-6">
+                  <TabsTrigger value="profile">Profile</TabsTrigger>
+                  <TabsTrigger value="preferences">Preferences</TabsTrigger>
+                  <TabsTrigger value="notifications">Notifications</TabsTrigger>
+                  <TabsTrigger value="team">Team</TabsTrigger>
+                  <TabsTrigger value="subscription">Subscription</TabsTrigger>
+                  <TabsTrigger value="integrations">Integrations</TabsTrigger>
+                  <TabsTrigger value="addons">Add-Ons</TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="profile">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Business Profile</CardTitle>
+                      <CardDescription>Update your account information</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Business Name</label>
+                        <Input 
+                          value={profileSettings.businessName} 
+                          onChange={(e) => setProfileSettings({...profileSettings, businessName: e.target.value})}
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Contact Person</label>
+                          <Input 
+                            value={profileSettings.contactPerson} 
+                            onChange={(e) => setProfileSettings({...profileSettings, contactPerson: e.target.value})}
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Industry</label>
+                          <Input value="Real Estate" readOnly />
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+                          <Input 
+                            value={profileSettings.phone} 
+                            onChange={(e) => setProfileSettings({...profileSettings, phone: e.target.value})}
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                          <Input 
+                            value={profileSettings.email} 
+                            onChange={(e) => setProfileSettings({...profileSettings, email: e.target.value})}
+                          />
+                        </div>
+                      </div>
+                      <Button 
+                        className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                        onClick={saveProfileSettings}
+                      >
+                        Save Changes
+                      </Button>
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+
+                <TabsContent value="preferences">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Lead Preferences</CardTitle>
+                      <CardDescription>Set your ideal lead criteria</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Property Types (Interested in)</label>
+                        <Input value="2BHK, 3BHK, 4BHK" readOnly />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Budget Range</label>
+                          <Input value="₹50L - ₹1.5Cr" readOnly />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Preferred Timeline</label>
+                          <Input value="Immediate, 1 month, 3 months" readOnly />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Service Areas</label>
+                        <Input value="Andheri, BKC, Powai, Bandra, Worli" readOnly />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+
+                <TabsContent value="notifications">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Notification Settings</CardTitle>
+                      <CardDescription>Manage how you receive alerts</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="font-medium">Email Notifications</p>
+                          <p className="text-sm text-gray-600">Receive updates via email</p>
+                        </div>
+                        <input 
+                          type="checkbox" 
+                          checked={notificationSettings.email}
+                          onChange={(e) => setNotificationSettings({...notificationSettings, email: e.target.checked})}
+                          className="w-4 h-4" 
+                        />
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="font-medium">WhatsApp Alerts</p>
+                          <p className="text-sm text-gray-600">Get instant WhatsApp messages for new leads</p>
+                        </div>
+                        <input 
+                          type="checkbox" 
+                          checked={notificationSettings.whatsapp}
+                          onChange={(e) => setNotificationSettings({...notificationSettings, whatsapp: e.target.checked})}
+                          className="w-4 h-4" 
+                        />
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="font-medium">SMS Alerts</p>
+                          <p className="text-sm text-gray-600">Receive SMS for urgent updates</p>
+                        </div>
+                        <input 
+                          type="checkbox" 
+                          checked={notificationSettings.sms}
+                          onChange={(e) => setNotificationSettings({...notificationSettings, sms: e.target.checked})}
+                          className="w-4 h-4" 
+                        />
+                      </div>
+                      <Button 
+                        className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                        onClick={saveNotificationSettings}
+                      >
+                        Save Preferences
+                      </Button>
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+
+                <TabsContent value="team">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Team Members</CardTitle>
+                      <CardDescription>Manage your team access</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-gray-600">Team member management available in Business plan. <Link href="#" className="text-blue-600 font-medium">Upgrade now</Link></p>
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+
+                <TabsContent value="subscription">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Subscription Plan</CardTitle>
+                      <CardDescription>Current: {subscription.plan_name}</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="flex justify-between items-center p-4 bg-blue-50 rounded-lg">
+                        <div>
+                          <p className="font-bold text-lg">{subscription.plan_name}</p>
+                          <p className="text-sm text-gray-600">{subscription.leads_quota} leads/month</p>
+                        </div>
+                        <p className="text-2xl font-bold text-blue-600">₹{subscription.price_inr.toLocaleString()}/mo</p>
+                      </div>
+                      <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                        <DollarSign className="h-4 w-4 mr-2" />
+                        Upgrade Plan
+                      </Button>
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+
+                <TabsContent value="integrations">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Integrations</CardTitle>
+                      <CardDescription>Connect with your favorite tools</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      {[
+                        { name: 'WhatsApp Business', status: 'Connected', icon: '✅' },
+                        { name: 'Zoho CRM', status: 'Not Connected', icon: '⚪' },
+                        { name: 'Google Sheets', status: 'Not Connected', icon: '⚪' },
+                      ].map((integration) => (
+                        <div key={integration.name} className="flex items-center justify-between p-3 border rounded-lg">
+                          <div className="flex items-center gap-3">
+                            <span className="text-2xl">{integration.icon}</span>
+                            <div>
+                              <p className="font-medium">{integration.name}</p>
+                              <p className="text-sm text-gray-600">{integration.status}</p>
+                            </div>
+                          </div>
+                          <Button variant="outline" size="sm">
+                            {integration.status === 'Connected' ? 'Disconnect' : 'Connect'}
+                          </Button>
+                        </div>
+                      ))}
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+
+                <TabsContent value="addons">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Premium Add-Ons</CardTitle>
+                      <CardDescription>Enhance your lead generation</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      {[
+                        { name: 'AI Lead Scoring Plus', price: '₹999/mo', desc: 'Advanced predictive scoring' },
+                        { name: 'Dedicated Account Manager', price: '₹4,999/mo', desc: 'Personal support expert' },
+                        { name: 'Custom Reporting', price: '₹1,499/mo', desc: 'Advanced analytics & insights' },
+                      ].map((addon) => (
+                        <div key={addon.name} className="flex items-center justify-between p-4 border rounded-lg">
+                          <div>
+                            <p className="font-medium">{addon.name}</p>
+                            <p className="text-sm text-gray-600">{addon.desc}</p>
+                          </div>
+                          <div className="text-right">
+                            <p className="font-bold text-lg">{addon.price}</p>
+                            <Button size="sm" variant="outline">Add</Button>
+                          </div>
+                        </div>
+                      ))}
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+              </Tabs>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Notification Settings</CardTitle>
+                  <CardDescription>How you want to be notified about new leads</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center justify-between p-4 border rounded-lg">
+                    <div>
+                      <p className="font-medium text-gray-900">WhatsApp Notifications</p>
+                      <p className="text-sm text-gray-600">Get instant lead alerts on WhatsApp</p>
+                    </div>
+                    <input type="checkbox" className="h-5 w-5 text-blue-600" defaultChecked />
+                  </div>
+                  <div className="flex items-center justify-between p-4 border rounded-lg">
+                    <div>
+                      <p className="font-medium text-gray-900">Email Notifications</p>
+                      <p className="text-sm text-gray-600">Daily summary emails</p>
+                    </div>
+                    <input type="checkbox" className="h-5 w-5 text-blue-600" defaultChecked />
+                  </div>
+                  <div className="flex items-center justify-between p-4 border rounded-lg">
+                    <div>
+                      <p className="font-medium text-gray-900">SMS Alerts</p>
+                      <p className="text-sm text-gray-600">Urgent leads only</p>
+                    </div>
+                    <input type="checkbox" className="h-5 w-5 text-blue-600" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Subscription Details</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div className="flex justify-between">
+                    <span className="text-sm text-gray-600">Current Plan:</span>
+                    <span className="font-semibold">Growth Plan</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-gray-600">Monthly Leads:</span>
+                    <span className="font-semibold">50 leads/month</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-gray-600">Billing Period:</span>
+                    <span className="font-semibold">{subscription.period_start} - {subscription.period_end}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-gray-600">Auto-renewal:</span>
+                    <Badge className="bg-green-100 text-green-700">Active</Badge>
+                  </div>
+                  <div className="border-t pt-3 mt-3">
+                    <Button className="w-full" variant="outline">
+                      Upgrade Plan
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+        </div>
+      </main>
+
+      {/* Contact Lead Modal */}
+      <Dialog open={showContactModal} onOpenChange={setShowContactModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>
+              {contactMethod === 'call' && 'Call Lead'}
+              {contactMethod === 'email' && 'Email Lead'}
+              {contactMethod === 'whatsapp' && 'WhatsApp Lead'}
+            </DialogTitle>
+            <DialogDescription>
+              Contact {selectedLead?.name} directly
+            </DialogDescription>
+          </DialogHeader>
+          {selectedLead && (
+            <div className="space-y-4">
+              {contactMethod === 'call' && (
+                <div>
+                  <p className="text-sm text-gray-600 mb-3">Phone Number:</p>
+                  <div className="flex items-center gap-2">
+                    <Input value={selectedLead.phone} readOnly className="flex-1" />
+                    <Button onClick={() => {
+                      copyToClipboard(selectedLead.phone);
+                      
+                      // Track contact in localStorage
+                      const contactHistory = JSON.parse(localStorage.getItem('contactHistory') || '{}');
+                      contactHistory[selectedLead.id] = {
+                        ...contactHistory[selectedLead.id],
+                        call: new Date().toISOString(),
+                        lastContact: new Date().toISOString(),
+                        method: 'call'
+                      };
+                      localStorage.setItem('contactHistory', JSON.stringify(contactHistory));
+                      
+                      // Show success toast
+                      toast.success('Phone number copied!', {
+                        description: `Ready to call ${selectedLead.name}`
+                      });
+                    }}>
+                      <Copy className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-2">Click to copy, then call from your phone</p>
+                  <Button 
+                    className="w-full mt-3 bg-blue-600 hover:bg-blue-700 text-white"
+                    onClick={() => {
+                      window.location.href = `tel:${selectedLead.phone}`;
+                      
+                      // Track contact
+                      const contactHistory = JSON.parse(localStorage.getItem('contactHistory') || '{}');
+                      contactHistory[selectedLead.id] = {
+                        ...contactHistory[selectedLead.id],
+                        call: new Date().toISOString(),
+                        lastContact: new Date().toISOString(),
+                        method: 'call'
+                      };
+                      localStorage.setItem('contactHistory', JSON.stringify(contactHistory));
+                      
+                      toast.success('Initiating call...', {
+                        description: `Calling ${selectedLead.name}`
+                      });
+                      
+                      setShowContactModal(false);
+                    }}
+                  >
+                    <Phone className="h-4 w-4 mr-2" />
+                    Call Now
+                  </Button>
+                </div>
+              )}
+              {contactMethod === 'whatsapp' && (
+                <div>
+                  <p className="text-sm text-gray-600 mb-3">WhatsApp Template Message:</p>
+                  <Textarea 
+                    rows={4}
+                    defaultValue={`Hi ${selectedLead.name}, I have perfect ${selectedLead.property} properties in ${selectedLead.location} within your budget of ${selectedLead.budget}. Can we schedule a viewing?`}
+                  />
+                  <Button 
+                    className="w-full mt-3 bg-green-600 hover:bg-green-700"
+                    onClick={() => {
+                      // Open WhatsApp
+                      window.open(`https://wa.me/${selectedLead.phone.replace(/[^0-9]/g, '')}?text=Hi ${selectedLead.name}, I have perfect properties for you!`, '_blank');
+                      
+                      // Track contact in localStorage
+                      const contactHistory = JSON.parse(localStorage.getItem('contactHistory') || '{}');
+                      contactHistory[selectedLead.id] = {
+                        ...contactHistory[selectedLead.id],
+                        whatsapp: new Date().toISOString(),
+                        lastContact: new Date().toISOString(),
+                        method: 'whatsapp'
+                      };
+                      localStorage.setItem('contactHistory', JSON.stringify(contactHistory));
+                      
+                      // Show success toast
+                      toast.success('WhatsApp opened successfully!', {
+                        description: `Messaging ${selectedLead.name} on WhatsApp`
+                      });
+                      
+                      setShowContactModal(false);
+                    }}
+                  >
+                    <MessageSquare className="h-4 w-4 mr-2" />
+                    Open WhatsApp
+                  </Button>
+                </div>
+              )}
+              {contactMethod === 'email' && (
+                <div>
+                  <div className="mb-3">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">To:</label>
+                    <Input value={selectedLead.email} readOnly />
+                  </div>
+                  <div className="mb-3">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Subject:</label>
+                    <Input defaultValue={`Perfect ${selectedLead.property} for you in ${selectedLead.location}`} />
+                  </div>
+                  <div className="mb-3">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Message:</label>
+                    <Textarea 
+                      rows={5}
+                      defaultValue={`Hi ${selectedLead.name},\n\nI have some excellent ${selectedLead.property} properties in ${selectedLead.location} that match your budget of ${selectedLead.budget}.\n\nWould you like to schedule a viewing this week?\n\nBest regards,\n${customer.contact_person}\n${customer.business_name}`}
+                    />
+                  </div>
+                  <Button 
+                    className="w-full bg-blue-600 hover:bg-blue-700"
+                    onClick={() => {
+                      // Open Email
+                      window.open(`mailto:${selectedLead.email}`, '_blank');
+                      
+                      // Track contact in localStorage
+                      const contactHistory = JSON.parse(localStorage.getItem('contactHistory') || '{}');
+                      contactHistory[selectedLead.id] = {
+                        ...contactHistory[selectedLead.id],
+                        email: new Date().toISOString(),
+                        lastContact: new Date().toISOString(),
+                        method: 'email'
+                      };
+                      localStorage.setItem('contactHistory', JSON.stringify(contactHistory));
+                      
+                      // Show success toast
+                      toast.success('Email client opened!', {
+                        description: `Compose email to ${selectedLead.name}`
+                      });
+                      
+                      setShowContactModal(false);
+                    }}
+                  >
+                    <Mail className="h-4 w-4 mr-2" />
+                    Open Email Client
+                  </Button>
+                </div>
+              )}
+            </div>
+          )}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowContactModal(false)}>
+              Close
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Lead Details Modal */}
+      <Dialog open={showDetailsModal} onOpenChange={setShowDetailsModal}>
+        <DialogContent className="sm:max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="text-xl">{selectedLead?.name} - Lead Details</DialogTitle>
+            <DialogDescription>Complete information and quality breakdown</DialogDescription>
+          </DialogHeader>
+          {selectedLead && (
+            <div className="space-y-4">
+              {/* Contact Info */}
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <h4 className="font-semibold mb-3">Contact Information</h4>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Phone className="h-4 w-4 text-gray-600" />
+                      <span className="text-sm">{selectedLead.phone}</span>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button size="sm" variant="outline" onClick={() => copyToClipboard(selectedLead.phone)}>
+                        <Copy className="h-3 w-3" />
+                      </Button>
+                      <Button size="sm" className="bg-green-600" onClick={() => handleContact(selectedLead, 'call')}>
+                        Call Now
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Mail className="h-4 w-4 text-gray-600" />
+                      <span className="text-sm">{selectedLead.email}</span>
+                    </div>
+                    <Button size="sm" variant="outline" onClick={() => copyToClipboard(selectedLead.email)}>
+                      <Copy className="h-3 w-3" />
+                    </Button>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <MapPin className="h-4 w-4 text-gray-600" />
+                    <span className="text-sm">Currently in {selectedLead.location}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Requirements */}
+              <div className="bg-blue-50 p-4 rounded-lg">
+                <h4 className="font-semibold mb-3">Requirements</h4>
+                <div className="grid grid-cols-2 gap-3 text-sm">
+                  <div>
+                    <p className="text-gray-600">Property Type:</p>
+                    <p className="font-semibold">{selectedLead.property}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-600">Budget Range:</p>
+                    <p className="font-semibold">{selectedLead.budget}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-600">Preferred Areas:</p>
+                    <p className="font-semibold">{selectedLead.preferredAreas}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-600">Timeline:</p>
+                    <p className="font-semibold">{selectedLead.timeline}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-600">Financing:</p>
+                    <p className="font-semibold">{selectedLead.financing}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-600">Parking:</p>
+                    <p className="font-semibold">{selectedLead.parking}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-600">First-time Buyer:</p>
+                    <p className="font-semibold">{selectedLead.firstTimeBuyer ? 'Yes' : 'No'}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Quality Score */}
+              <div className="bg-green-50 p-4 rounded-lg">
+                <h4 className="font-semibold mb-3">Quality Score: {selectedLead.score}/100</h4>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span>✓ Budget verified</span>
+                    <span className="font-semibold text-green-600">+25</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>✓ {selectedLead.timeline === 'Immediate' ? 'Urgent timeline' : 'Timeline provided'}</span>
+                    <span className="font-semibold text-green-600">+20</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>✓ Location specific</span>
+                    <span className="font-semibold text-green-600">+15</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>✓ {selectedLead.financing.includes('Pre-approved') ? 'Loan pre-approved' : 'Financing clarified'}</span>
+                    <span className="font-semibold text-green-600">+{selectedLead.financing.includes('Pre-approved') ? '20' : '12'}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>✓ Complete information</span>
+                    <span className="font-semibold text-green-600">+12</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Lead Source */}
+              <div>
+                <h4 className="font-semibold mb-2 text-sm">Lead Source</h4>
+                <p className="text-sm text-gray-600">{selectedLead.source} • {selectedLead.campaign} • Received {selectedLead.received}</p>
+              </div>
+
+              {/* Status & Actions */}
+              <div className="flex gap-3">
+                <Select 
+                  value={selectedLead.status} 
+                  onValueChange={(val) => handleStatusChange(selectedLead.id, val)}
+                >
+                  <SelectTrigger className="flex-1">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="new">New</SelectItem>
+                    <SelectItem value="contacted">Contacted</SelectItem>
+                    <SelectItem value="qualified">Qualified</SelectItem>
+                    <SelectItem value="won">Won</SelectItem>
+                    <SelectItem value="lost">Lost</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Button variant="outline" onClick={() => {
+                  setShowDetailsModal(false);
+                  setShowNoteModal(true);
+                }}>
+                  Add Note
+                </Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Add Note Modal */}
+      <Dialog open={showNoteModal} onOpenChange={setShowNoteModal}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add Note</DialogTitle>
+            <DialogDescription>Add a note for {selectedLead?.name}</DialogDescription>
+          </DialogHeader>
+          <Textarea
+            placeholder="Enter your note..."
+            value={newNote}
+            onChange={(e) => setNewNote(e.target.value)}
+            rows={4}
+          />
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowNoteModal(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleAddNote} className="bg-blue-600">
+              Save Note
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Add Lead Modal */}
+      <Dialog open={showAddLeadModal} onOpenChange={setShowAddLeadModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Add New Lead</DialogTitle>
+            <DialogDescription>Manually add a lead to your dashboard</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+              <Input 
+                value={newLead.name}
+                onChange={(e) => setNewLead({...newLead, name: e.target.value})}
+                placeholder="e.g., Rajesh Kumar"
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Phone *</label>
+                <Input 
+                  value={newLead.phone}
+                  onChange={(e) => setNewLead({...newLead, phone: e.target.value})}
+                  placeholder="+91 98765 43210"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+                <Input 
+                  value={newLead.email}
+                  onChange={(e) => setNewLead({...newLead, email: e.target.value})}
+                  placeholder="email@example.com"
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Property Interest</label>
+                <Input 
+                  value={newLead.property}
+                  onChange={(e) => setNewLead({...newLead, property: e.target.value})}
+                  placeholder="e.g., 3BHK"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Budget</label>
+                <Input 
+                  value={newLead.budget}
+                  onChange={(e) => setNewLead({...newLead, budget: e.target.value})}
+                  placeholder="e.g., ₹75L - ₹1Cr"
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
+                <Input 
+                  value={newLead.location}
+                  onChange={(e) => setNewLead({...newLead, location: e.target.value})}
+                  placeholder="e.g., Andheri West"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Timeline</label>
+                <Input 
+                  value={newLead.timeline}
+                  onChange={(e) => setNewLead({...newLead, timeline: e.target.value})}
+                  placeholder="e.g., Immediate"
+                />
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowAddLeadModal(false)}>
+              Cancel
+            </Button>
+            <Button 
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+              onClick={addNewLead}
+            >
+              Add Lead
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}

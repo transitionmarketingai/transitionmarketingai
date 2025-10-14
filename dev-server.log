@@ -1,0 +1,30 @@
+
+> transition-marketing-ai@0.1.0 dev
+> next dev
+
+ ⚠ Port 3000 is in use by process 93163, using available port 3010 instead.
+   ▲ Next.js 15.5.4
+   - Local:        http://localhost:3010
+   - Network:      http://192.168.1.106:3010
+   - Environments: .env.local
+   - Experiments (use with caution):
+     · optimizePackageImports
+
+ ✓ Starting...
+ ✓ Ready in 1407ms
+ ○ Compiling / ...
+ ✓ Compiled / in 3s (896 modules)
+ ✓ Compiled in 732ms (352 modules)
+ GET / 200 in 3877ms
+ ○ Compiling /signin ...
+ ✓ Compiled /signin in 2.6s (1381 modules)
+ GET /icon?6eb2c0c7450eacb3 200 in 3509ms
+ GET /dashboard 200 in 3596ms
+ GET / 200 in 3599ms
+ GET /signin 200 in 3594ms
+ ✓ Compiled /_not-found in 389ms (1151 modules)
+ GET /signup 200 in 623ms
+ GET /static/js/bundle.js 404 in 617ms
+ GET /static/css/main.css 404 in 616ms
+ GET /api/auth/session 200 in 4407ms
+ ✓ Compiled in 1875ms (880 modules)

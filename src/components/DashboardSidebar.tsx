@@ -1,238 +1,145 @@
 'use client';
 
-import React, { useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
+import {
+  LayoutDashboard,
+  Users,
+  CheckCircle,
+  Target,
+  Send,
+  MessageCircle,
+  BarChart3,
+  Settings,
+  Home,
+  Search,
+  Facebook,
+  Chrome,
+  Mail,
+} from 'lucide-react';
 
-interface SidebarProps {
-  activeSection: string;
-  onSectionChange: (section: string) => void;
-}
-
-interface SidebarItem {
-  id: string;
-  label: string;
-  icon: string;
-  badge?: string | null;
-  category: 'primary' | 'secondary' | 'advanced';
-  description: string;
-}
-
-const sidebarItems: SidebarItem[] = [
-  // PRIMARY ACTIONS (Most Important)
-  { 
-    id: 'overview', 
-    label: 'Dashboard', 
-    icon: '📊', 
-    badge: null,
-    category: 'primary',
-    description: 'Real-time performance & metrics'
+const navigation = [
+  {
+    name: 'Overview',
+    href: '/dashboard',
+    icon: LayoutDashboard,
   },
-  { 
-    id: 'campaigns', 
-    label: 'Campaigns', 
-    icon: '🎯', 
-    badge: '8 Active',
-    category: 'primary',
-    description: 'AI lead generation campaigns'
+  {
+    name: 'Contacts',
+    href: '/dashboard/contacts',
+    icon: Users,
+    description: 'Unverified leads',
   },
-  { 
-    id: 'leads', 
-    label: 'Leads', 
-    icon: '👥', 
-    badge: '1,247',
-    category: 'primary',
-    description: 'Qualified leads & scoring'
+  {
+    name: 'Leads',
+    href: '/dashboard/leads',
+    icon: CheckCircle,
+    description: 'Verified leads',
   },
-  
-  // SECONDARY ACTIONS (Regular Use)
-  { 
-    id: 'templates', 
-    label: 'Templates', 
-    icon: '🏭', 
-    badge: null,
-    category: 'secondary',
-    description: 'Industry-specific templates'
+  {
+    name: 'Campaigns',
+    href: '/dashboard/campaigns',
+    icon: Target,
   },
-  { 
-    id: 'automation', 
-    label: 'Automation', 
-    icon: '⚡', 
-    badge: null,
-    category: 'secondary',
-    description: 'Smart nurturing workflows'
+  {
+    name: 'Outreach',
+    href: '/dashboard/outreach',
+    icon: Send,
   },
-  { 
-    id: 'analytics', 
-    label: 'Analytics', 
-    icon: '📈', 
-    badge: null,
-    category: 'secondary',
-    description: 'Performance insights'
+  {
+    name: 'Conversations',
+    href: '/dashboard/conversations',
+    icon: MessageCircle,
   },
-  
-  // ADVANCED FEATURES (Occasional Use)
-  { 
-    id: 'integrations', 
-    label: 'Integrations', 
-    icon: '🔗', 
-    badge: null,
-    category: 'advanced',
-    description: 'CRM & system connections'
+  {
+    name: 'Analytics',
+    href: '/dashboard/analytics',
+    icon: BarChart3,
   },
-  { 
-    id: 'partnerships', 
-    label: 'Partnerships', 
-    icon: '🤝', 
-    badge: '12',
-    category: 'advanced',
-    description: 'Strategic business alliances'
+  {
+    name: 'Settings',
+    href: '/dashboard/settings',
+    icon: Settings,
   },
-  { 
-    id: 'market-expansion', 
-    label: 'Market Expansion', 
-    icon: '🏙️', 
-    badge: '6',
-    category: 'advanced',
-    description: 'Tier-2/3 city penetration'
-  },
-  { 
-    id: 'team', 
-    label: 'Team', 
-    icon: '👥', 
-    badge: null,
-    category: 'advanced',
-    description: 'Team management'
-  },
-  { 
-    id: 'settings', 
-    label: 'Settings', 
-    icon: '⚙️', 
-    badge: null,
-    category: 'advanced',
-    description: 'Account & preferences'
-  }
 ];
 
-const categoryColors = {
-  primary: 'bg-blue-600',
-  secondary: 'bg-blue-800', 
-  advanced: 'bg-gray-600'
-};
-
-const categoryLabels = {
-  primary: 'Core Actions',
-  secondary: 'Regular Use',
-  advanced: 'Advanced'
-};
-
-export default function DashboardSidebar({ activeSection, onSectionChange }: SidebarProps) {
-  const [showCategoryFolders, setShowCategoryFolders] = useState(true);
-  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-
-  const itemsByCategory = sidebarItems.reduce((acc, item) => {
-    if (!acc[item.category]) acc[item.category] = [];
-    acc[item.category].push(item);
-    return acc;
-  }, {} as Record<string, SidebarItem[]>);
-
-  const renderCategorySection = (category: keyof typeof categoryColors, label: string) => {
-    const items = itemsByCategory[category];
-    if (!items.length) return null;
-
-    const bgColor = categoryColors[category];
-
-    return (
-      <div key={category} className="mb-4">
-        {/* Category Header - Compact */}
-        <button
-          onClick={() => setShowCategoryFolders(!showCategoryFolders)}
-          className={`w-full px-2 py-1 flex items-center justify-center ${bgColor} rounded-lg mb-2 transition-all duration-200 hover:opacity-90`}
-        >
-          <span className="text-white text-xs font-medium">
-            {showCategoryFolders ? label : '⋯'}
-          </span>
-        </button>
-
-        {/* Category Items */}
-        {showCategoryFolders && (
-          <div className="space-y-1">
-            {items.map(item => (
-              <button
-                key={item.id}
-                onMouseEnter={() => setHoveredItem(item.id)}
-                onMouseLeave={() => setHoveredItem(null)}
-                onClick={() => onSectionChange(item.id)}
-                className={`w-full flex items-center justify-center py-2 px-1 relative group transition-all duration-200 ${
-                  activeSection === item.id 
-                    ? 'bg-blue-700 scale-105 shadow-lg' 
-                    : 'hover:bg-blue-800 hover:scale-102'
-                }`}
-              >
-                {/* Icon */}
-                <div className="text-white text-base">
-                  {item.icon}
-                </div>
-                
-                {/* Tooltip for collapsed view */}
-                {!showCategoryFolders && hoveredItem === item.id && (
-                  <div className="absolute left-full ml-3 bg-gray-900 text-white px-3 py-2 rounded-xl shadow-lg z-50 opacity-100 transition-all duration-200">
-                    <div className="font-medium text-sm">{item.label}</div>
-                    <div className="text-xs text-gray-300 mt-1">{item.description}</div>
-                    <div className="absolute -left-1 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-gray-900 rotate-45"></div>
-                  </div>
-                )}
-                
-                {/* Badge */}
-                {item.badge && (
-                  <div className={`absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs px-1 py-1 min-w-[18px] h-4 flex items-center justify-center font-semibold ${
-                    !showCategoryFolders ? 'left-full ml-2 top-1' : ''
-                  }`}>
-                    {item.badge}
-                  </div>
-                )}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-    );
-  };
+export default function DashboardSidebar() {
+  const pathname = usePathname();
 
   return (
-    <div className={`${showCategoryFolders ? 'w-56' : 'w-14'} bg-blue-900 flex flex-col h-screen fixed left-0 top-0 z-50 transition-all duration-300 shadow-lg`}>
+    <div className="w-64 bg-white border-r min-h-screen p-4">
       {/* Logo */}
-      <div className="p-3 border-b border-blue-800">
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white w-10 h-10 rounded-xl flex items-center justify-center text-lg font-bold shadow-lg">
-          TM
+      <Link href="/" className="flex items-center gap-2 mb-8 p-2">
+        <div className="h-8 w-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold">
+          T
         </div>
-        {showCategoryFolders && (
-          <div className="text-white text-xs font-medium mt-2 text-center">
-            Lead AI
-          </div>
-        )}
-      </div>
+        <span className="font-bold text-lg">Transition AI</span>
+      </Link>
 
-      {/* Navigation Sections */}
-      <div className="flex-1 pt-4 overflow-y-auto">
-        <div className="px-2">
-          {renderCategorySection('primary', `${categoryLabels.primary}`)}
-          {renderCategorySection('secondary', `${categoryLabels.secondary}`)}
-          {renderCategorySection('advanced', `${categoryLabels.advanced}`)}
-        </div>
-      </div>
+      {/* Navigation */}
+      <nav className="space-y-1">
+        {navigation.map((item) => {
+          const isActive = pathname === item.href || pathname?.startsWith(item.href + '/');
+          const Icon = item.icon;
 
-      {/* Bottom spacer with user */}
-      <div className="p-3 border-t border-blue-800">
-        <div className="flex items-center space-x-2">
-          <div className="w-7 h-7 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-            <span className="text-white text-xs font-bold">U</span>
-          </div>
-          {showCategoryFolders && (
-            <div className="text-white">
-              <div className="text-xs font-medium">Account</div>
-              <div className="text-xs text-blue-300">Premium</div>
+          return (
+            <div key={item.name}>
+              <Link
+                href={item.href}
+                className={cn(
+                  'flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-colors',
+                  isActive
+                    ? 'bg-blue-50 text-blue-700'
+                    : 'text-gray-700 hover:bg-gray-50'
+                )}
+              >
+                <div className="flex items-center gap-3">
+                  <Icon className="h-5 w-5" />
+                  <span>{item.name}</span>
+                </div>
+                {item.badge && (
+                  <span className={cn(
+                    "px-2 py-0.5 rounded-full text-xs font-medium",
+                    isActive ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700"
+                  )}>
+                    {item.badge}
+                  </span>
+                )}
+              </Link>
+
+              {/* Submenu */}
+              {item.submenu && isActive && (
+                <div className="ml-11 mt-1 space-y-1">
+                  {item.submenu.map((subItem) => {
+                    const SubIcon = subItem.icon;
+                    return (
+                      <Link
+                        key={subItem.name}
+                        href={subItem.href}
+                        className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-gray-600 hover:bg-gray-50"
+                      >
+                        <SubIcon className="h-4 w-4" />
+                        {subItem.name}
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
             </div>
-          )}
-        </div>
+          );
+        })}
+      </nav>
+
+      {/* Bottom Section */}
+      <div className="mt-auto pt-8">
+        <Link
+          href="/"
+          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-700 hover:bg-gray-50"
+        >
+          <Home className="h-5 w-5" />
+          <span>Back to Home</span>
+        </Link>
       </div>
     </div>
   );

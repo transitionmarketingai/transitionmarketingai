@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import SessionProvider from "@/components/SessionProvider";
 import StructuredData from "@/components/StructuredData";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { Toaster } from 'sonner';
@@ -140,9 +139,7 @@ export default function RootLayout({
         <div className="relative z-10">
           <StructuredData type="organization" />
           <AuthProvider>
-            <SessionProvider>
-              {children}
-            </SessionProvider>
+            {children}
           </AuthProvider>
           <Toaster position="top-right" richColors />
         </div>

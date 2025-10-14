@@ -1,0 +1,48 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - link "Transition Marketing AI" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e7] [cursor=pointer]:
+            - img [ref=e9] [cursor=pointer]
+            - generic [ref=e16] [cursor=pointer]:
+              - generic [ref=e18] [cursor=pointer]: Transition
+              - generic [ref=e20] [cursor=pointer]: Marketing AI
+        - paragraph [ref=e21]: Welcome back
+      - generic [ref=e22]:
+        - generic [ref=e23]:
+          - heading "Sign In" [level=3] [ref=e24]
+          - paragraph [ref=e25]: Enter your credentials to access your dashboard
+        - generic [ref=e26]:
+          - generic [ref=e27]:
+            - generic [ref=e28]:
+              - generic [ref=e29]: Email
+              - textbox "Email" [ref=e30]
+            - generic [ref=e31]:
+              - generic [ref=e32]: Password
+              - generic [ref=e33]:
+                - textbox "Password" [ref=e34]
+                - button [ref=e35] [cursor=pointer]:
+                  - img [ref=e36] [cursor=pointer]
+            - button "Sign In" [ref=e39] [cursor=pointer]
+          - generic [ref=e40]:
+            - generic [ref=e45]: Or
+            - button "Try Demo Dashboard" [ref=e46] [cursor=pointer]:
+              - img [ref=e47] [cursor=pointer]
+              - text: Try Demo Dashboard
+              - img [ref=e49] [cursor=pointer]
+            - paragraph [ref=e51]: Explore full platform with sample data • No signup required
+          - paragraph [ref=e53]:
+            - text: Don't have an account?
+            - link "Start Free Trial" [ref=e54] [cursor=pointer]:
+              - /url: /onboarding
+      - paragraph [ref=e55]: By signing in, you agree to our Terms of Service and Privacy Policy
+    - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e61] [cursor=pointer]:
+    - img [ref=e62] [cursor=pointer]
+  - alert [ref=e65]
+```

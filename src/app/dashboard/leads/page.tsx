@@ -1,232 +1,195 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import {
-  Search,
-  Phone,
-  Mail,
-  MessageCircle,
+import { 
+  CheckCircle, 
+  Phone, 
+  Mail, 
+  MessageCircle, 
   Star,
-  TrendingUp,
-  Facebook,
-  Chrome,
-  Zap,
-  MapPin,
   Calendar,
+  MapPin,
+  TrendingUp,
+  Clock,
+  Target,
+  Trophy,
+  X,
+  Plus,
 } from 'lucide-react';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { toast } from 'sonner';
 
-interface Lead {
-  id: string;
-  name: string;
-  email?: string;
-  phone: string;
-  source: string;
-  quality_score: number;
-  intent: string;
-  status: string;
-  lead_data: any;
-  city?: string;
-  received_at: string;
-  last_contact_at?: string;
-}
+const DEMO_LEADS = [
+  {
+    id: '1',
+    name: 'Rajesh Kumar',
+    phone: '+91 98765 43210',
+    email: 'rajesh@example.com',
+    source: 'meta_ads',
+    quality_score: 92,
+    intent: 'hot',
+    status: 'new',
+    city: 'Mumbai',
+    received_at: new Date().toISOString(),
+    lead_data: { budget: '₹80L-1Cr', property: '3BHK' },
+  },
+  {
+    id: '2',
+    name: 'Priya Sharma',
+    phone: '+91 98765 43211',
+    email: 'priya@example.com',
+    source: 'outreach_response',
+    quality_score: 85,
+    intent: 'warm',
+    status: 'contacted',
+    city: 'Delhi',
+    received_at: new Date().toISOString(),
+    lead_data: { interested_in: 'Office Space' },
+  },
+  {
+    id: '3',
+    name: 'Amit Patel',
+    phone: '+91 98765 43212',
+    email: 'amit@example.com',
+    source: 'google_ads',
+    quality_score: 78,
+    intent: 'warm',
+    status: 'qualified',
+    city: 'Bangalore',
+    received_at: new Date().toISOString(),
+    lead_data: { budget: '₹60-80L' },
+  },
+];
 
-export default function LeadsPage() {
+export default function LeadsPageUpdated() {
   const router = useRouter();
-  const [leads, setLeads] = useState<Lead[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [leads] = useState(DEMO_LEADS);
   const [activeTab, setActiveTab] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filterStatus, setFilterStatus] = useState('all');
-  const [stats, setStats] = useState({
-    total: 0,
-    by_source: { outreach: 0, meta_ads: 0, google_ads: 0 },
-    by_status: { new: 0, contacted: 0, qualified: 0, won: 0 },
-    by_intent: { hot: 0, warm: 0, cold: 0 },
-  });
 
-  useEffect(() => {
-    loadLeads();
-  }, [activeTab, filterStatus]);
-
-  const loadLeads = async () => {
-    setLoading(true);
-    try {
-      const params = new URLSearchParams();
-      
-      // Source filter based on active tab
-      if (activeTab !== 'all') {
-        params.append('source', activeTab);
-      }
-      
-      if (filterStatus !== 'all') params.append('status', filterStatus);
-      if (searchQuery) params.append('search', searchQuery);
-
-      const response = await fetch(`/api/v2/leads?${params.toString()}`);
-      const data = await response.json();
-
-      if (response.ok) {
-        setLeads(data.leads || []);
-        setStats(data.statistics || stats);
-      } else {
-        toast.error('Failed to load leads');
-      }
-    } catch (error) {
-      console.error('Load leads error:', error);
-      toast.error('Failed to load leads');
-    } finally {
-      setLoading(false);
-    }
+  const filterLeadsByStage = (stage: string) => {
+    if (stage === 'all') return leads;
+    return leads.filter(l => l.status === stage);
   };
 
-  const openChat = (leadId: string) => {
-    router.push(`/dashboard/conversations?leadId=${leadId}`);
+  const displayLeads = filterLeadsByStage(activeTab);
+
+  const stats = {
+    new: leads.filter(l => l.status === 'new').length,
+    contacted: leads.filter(l => l.status === 'contacted').length,
+    qualified: leads.filter(l => l.status === 'qualified').length,
+    meeting: leads.filter(l => l.status === 'meeting_scheduled').length,
+    won: leads.filter(l => l.status === 'won').length,
+    lost: leads.filter(l => l.status === 'lost').length,
   };
 
-  const getIntentBadge = (intent: string) => {
-    const config: Record<string, { variant: any; icon: any }> = {
-      hot: { variant: 'destructive', icon: TrendingUp },
-      warm: { variant: 'default', icon: Star },
-      cold: { variant: 'secondary', icon: Star },
+  const getStatusBadge = (status: string) => {
+    const config: Record<string, any> = {
+      new: { color: 'bg-blue-100 text-blue-700', icon: Clock },
+      contacted: { color: 'bg-yellow-100 text-yellow-700', icon: Phone },
+      qualified: { color: 'bg-green-100 text-green-700', icon: CheckCircle },
+      meeting_scheduled: { color: 'bg-purple-100 text-purple-700', icon: Calendar },
+      won: { color: 'bg-green-600 text-white', icon: Trophy },
+      lost: { color: 'bg-gray-300 text-gray-700', icon: X },
     };
 
-    const { variant, icon: Icon } = config[intent] || config.warm;
+    const { color, icon: Icon } = config[status] || config.new;
 
     return (
-      <Badge variant={variant} className="flex items-center gap-1">
-        <Icon className="h-3 w-3" />
-        {intent.toUpperCase()}
+      <Badge className={color}>
+        <Icon className="h-3 w-3 mr-1" />
+        {status.replace('_', ' ')}
       </Badge>
     );
   };
 
-  const getSourceIcon = (source: string) => {
-    if (source === 'meta_ads') return <Facebook className="h-4 w-4 text-blue-600" />;
-    if (source === 'google_ads') return <Chrome className="h-4 w-4 text-red-600" />;
-    if (source === 'outreach_response') return <Zap className="h-4 w-4 text-green-600" />;
-    return <Star className="h-4 w-4" />;
+  const getIntentBadge = (intent: string) => {
+    if (intent === 'hot') return <Badge className="bg-red-600">🔥 Hot</Badge>;
+    if (intent === 'warm') return <Badge className="bg-yellow-600">Warm</Badge>;
+    return <Badge variant="secondary">Cold</Badge>;
   };
 
   return (
     <div className="p-6 space-y-6">
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold">Verified Leads</h1>
-        <p className="text-gray-600">High-quality leads ready for follow-up</p>
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold">Leads Pipeline</h1>
+          <p className="text-gray-600">Track your leads through each stage</p>
+        </div>
+        <Button className="bg-green-600 hover:bg-green-700">
+          <Plus className="h-4 w-4 mr-2" />
+          Add Lead Manually
+        </Button>
       </div>
 
-      {/* Stats Overview */}
-      <div className="grid grid-cols-4 gap-4">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Total Leads</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.total}</div>
+      {/* Stage Stats */}
+      <div className="grid grid-cols-6 gap-4">
+        <Card className="cursor-pointer hover:shadow-lg" onClick={() => setActiveTab('new')}>
+          <CardContent className="pt-6 text-center">
+            <div className="text-3xl font-bold text-blue-600">{stats.new}</div>
+            <div className="text-sm text-gray-600 mt-1">New</div>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-1">
-              <Facebook className="h-4 w-4" /> Meta Ads
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-blue-600">{stats.by_source.meta_ads}</div>
+        <Card className="cursor-pointer hover:shadow-lg" onClick={() => setActiveTab('contacted')}>
+          <CardContent className="pt-6 text-center">
+            <div className="text-3xl font-bold text-yellow-600">{stats.contacted}</div>
+            <div className="text-sm text-gray-600 mt-1">Contacted</div>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-1">
-              <Chrome className="h-4 w-4" /> Google Ads
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-red-600">{stats.by_source.google_ads}</div>
+        <Card className="cursor-pointer hover:shadow-lg" onClick={() => setActiveTab('qualified')}>
+          <CardContent className="pt-6 text-center">
+            <div className="text-3xl font-bold text-green-600">{stats.qualified}</div>
+            <div className="text-sm text-gray-600 mt-1">Qualified</div>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-1">
-              <Zap className="h-4 w-4" /> Outreach
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-600">{stats.by_source.outreach}</div>
+        <Card className="cursor-pointer hover:shadow-lg" onClick={() => setActiveTab('meeting_scheduled')}>
+          <CardContent className="pt-6 text-center">
+            <div className="text-3xl font-bold text-purple-600">{stats.meeting}</div>
+            <div className="text-sm text-gray-600 mt-1">Meetings</div>
+          </CardContent>
+        </Card>
+        <Card className="cursor-pointer hover:shadow-lg" onClick={() => setActiveTab('won')}>
+          <CardContent className="pt-6 text-center">
+            <div className="text-3xl font-bold text-green-700">{stats.won}</div>
+            <div className="text-sm text-gray-600 mt-1">Won</div>
+          </CardContent>
+        </Card>
+        <Card className="cursor-pointer hover:shadow-lg" onClick={() => setActiveTab('lost')}>
+          <CardContent className="pt-6 text-center">
+            <div className="text-3xl font-bold text-gray-500">{stats.lost}</div>
+            <div className="text-sm text-gray-600 mt-1">Lost</div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Leads Table with Tabs */}
+      {/* Leads Table */}
       <Card>
         <CardHeader>
-          <CardTitle>Leads by Source</CardTitle>
+          <CardTitle>
+            {activeTab === 'all' ? 'All Leads' : `${activeTab.replace('_', ' ')} Leads`} ({displayLeads.length})
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="grid w-full grid-cols-4">
-              <TabsTrigger value="all">All Leads</TabsTrigger>
-              <TabsTrigger value="outreach_response">From Outreach</TabsTrigger>
-              <TabsTrigger value="meta_ads">Meta Ads</TabsTrigger>
-              <TabsTrigger value="google_ads">Google Ads</TabsTrigger>
+            <TabsList>
+              <TabsTrigger value="all">All</TabsTrigger>
+              <TabsTrigger value="new">New</TabsTrigger>
+              <TabsTrigger value="contacted">Contacted</TabsTrigger>
+              <TabsTrigger value="qualified">Qualified</TabsTrigger>
+              <TabsTrigger value="meeting_scheduled">Meeting</TabsTrigger>
+              <TabsTrigger value="won">Won</TabsTrigger>
+              <TabsTrigger value="lost">Lost</TabsTrigger>
             </TabsList>
 
-            <TabsContent value={activeTab} className="space-y-4">
-              {/* Filters */}
-              <div className="flex gap-4">
-                <div className="relative flex-1">
-                  <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                  <Input
-                    placeholder="Search leads..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && loadLeads()}
-                    className="pl-10"
-                  />
-                </div>
-                <Select value={filterStatus} onValueChange={setFilterStatus}>
-                  <SelectTrigger className="w-48">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Statuses</SelectItem>
-                    <SelectItem value="new">New</SelectItem>
-                    <SelectItem value="contacted">Contacted</SelectItem>
-                    <SelectItem value="qualified">Qualified</SelectItem>
-                    <SelectItem value="meeting_scheduled">Meeting Scheduled</SelectItem>
-                    <SelectItem value="won">Won</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Table */}
-              {loading ? (
-                <div className="text-center py-12">Loading leads...</div>
-              ) : leads.length === 0 ? (
+            <TabsContent value={activeTab} className="mt-4">
+              {displayLeads.length === 0 ? (
                 <div className="text-center py-12 text-gray-500">
-                  <Star className="h-12 w-12 mx-auto mb-4 text-gray-300" />
-                  <p>No leads in this category yet</p>
+                  <CheckCircle className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                  <p>No leads in this stage</p>
                 </div>
               ) : (
                 <Table>
@@ -235,22 +198,19 @@ export default function LeadsPage() {
                       <TableHead>Lead</TableHead>
                       <TableHead>Intent</TableHead>
                       <TableHead>Quality</TableHead>
+                      <TableHead>Source</TableHead>
                       <TableHead>Status</TableHead>
                       <TableHead>Location</TableHead>
-                      <TableHead>Received</TableHead>
                       <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {leads.map((lead) => (
-                      <TableRow key={lead.id} className="cursor-pointer hover:bg-gray-50">
+                    {displayLeads.map((lead) => (
+                      <TableRow key={lead.id}>
                         <TableCell>
-                          <div className="flex items-center gap-2">
-                            {getSourceIcon(lead.source)}
-                            <div>
-                              <div className="font-medium">{lead.name}</div>
-                              <div className="text-sm text-gray-500">{lead.phone}</div>
-                            </div>
+                          <div>
+                            <div className="font-medium">{lead.name}</div>
+                            <div className="text-sm text-gray-500">{lead.phone}</div>
                           </div>
                         </TableCell>
                         <TableCell>{getIntentBadge(lead.intent)}</TableCell>
@@ -261,28 +221,23 @@ export default function LeadsPage() {
                           </div>
                         </TableCell>
                         <TableCell>
-                          <Badge variant="outline">{lead.status}</Badge>
+                          <Badge variant="outline">{lead.source.replace('_', ' ')}</Badge>
                         </TableCell>
+                        <TableCell>{getStatusBadge(lead.status)}</TableCell>
                         <TableCell>
                           <div className="flex items-center gap-1 text-sm">
                             <MapPin className="h-3 w-3" />
-                            {lead.city || 'Unknown'}
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-1 text-sm text-gray-500">
-                            <Calendar className="h-3 w-3" />
-                            {new Date(lead.received_at).toLocaleDateString()}
+                            {lead.city}
                           </div>
                         </TableCell>
                         <TableCell className="text-right">
                           <Button
                             size="sm"
-                            onClick={() => openChat(lead.id)}
                             className="bg-blue-600 hover:bg-blue-700"
+                            onClick={() => router.push(`/dashboard/conversations?leadId=${lead.id}`)}
                           >
-                            <MessageCircle className="h-4 w-4 mr-2" />
-                            Open Chat
+                            <MessageCircle className="h-4 w-4 mr-1" />
+                            Chat
                           </Button>
                         </TableCell>
                       </TableRow>

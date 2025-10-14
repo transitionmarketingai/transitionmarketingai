@@ -1,4 +1,4 @@
-import DashboardSidebarNew from '@/components/DashboardSidebarNew';
+import DashboardSidebarFinal from '@/components/DashboardSidebarFinal';
 
 export default function DashboardLayout({
   children,
@@ -7,7 +7,7 @@ export default function DashboardLayout({
 }) {
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <DashboardSidebarNew />
+      <DashboardSidebarFinal />
       <main className="flex-1">
         {children}
       </main>

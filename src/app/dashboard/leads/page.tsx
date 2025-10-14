@@ -36,7 +36,7 @@ const DEMO_LEADS = [
     status: 'new',
     city: 'Mumbai',
     received_at: new Date().toISOString(),
-    lead_data: { budget: '₹80L-1Cr', property: '3BHK' },
+    lead_data: { company: 'Tech Solutions Pvt Ltd', inquiry: 'Product Demo' },
   },
   {
     id: '2',
@@ -49,7 +49,7 @@ const DEMO_LEADS = [
     status: 'contacted',
     city: 'Delhi',
     received_at: new Date().toISOString(),
-    lead_data: { interested_in: 'Office Space' },
+    lead_data: { company: 'Digital Marketing Agency', inquiry: 'Enterprise Plan' },
   },
   {
     id: '3',
@@ -62,11 +62,11 @@ const DEMO_LEADS = [
     status: 'qualified',
     city: 'Bangalore',
     received_at: new Date().toISOString(),
-    lead_data: { budget: '₹60-80L' },
+    lead_data: { company: 'E-commerce Startup', inquiry: 'Pricing Information' },
   },
 ];
 
-export default function LeadsPageUpdated() {
+export default function LeadsPage() {
   const router = useRouter();
   const [leads] = useState(DEMO_LEADS);
   const [activeTab, setActiveTab] = useState('all');

@@ -1,12 +1,25 @@
 'use client';
 
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Chrome, Plus } from 'lucide-react';
+import { Chrome, Plus, Link as LinkIcon } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
+import { toast } from 'sonner';
 
 export default function GoogleLeadGenPage() {
+  const [isConnected, setIsConnected] = useState(false);
+  
+  const handleConnect = () => {
+    toast.loading('Opening Google Ads OAuth...');
+    setTimeout(() => {
+      toast.dismiss();
+      toast.success('Google Ads account connected successfully!');
+      setIsConnected(true);
+    }, 2000);
+  };
+
   const campaigns = [
     {
       id: 1,
@@ -30,11 +43,45 @@ export default function GoogleLeadGenPage() {
           </h1>
           <p className="text-gray-600 mt-1">Capture leads from Google Search</p>
         </div>
-        <Button className="bg-red-600 hover:bg-red-700">
+        <Button 
+          className="bg-red-600 hover:bg-red-700"
+          disabled={!isConnected}
+        >
           <Plus className="h-4 w-4 mr-2" />
           Create Campaign
         </Button>
       </div>
+
+      {/* Connection Status */}
+      {!isConnected && (
+        <Card className="border-2 border-red-200 bg-red-50">
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div className="flex-1">
+                <h3 className="font-semibold text-lg mb-2">Connect Your Google Ads Account</h3>
+                <p className="text-sm text-gray-700 mb-4">
+                  To create Google campaigns, connect your Google Ads account. Your ad budget will be charged directly by Google—we automate campaign setup and lead capture.
+                </p>
+                <ul className="text-sm text-gray-600 space-y-1">
+                  <li>✓ Secure OAuth connection</li>
+                  <li>✓ You control your budget on Google Ads</li>
+                  <li>✓ We automate targeting & lead form setup</li>
+                </ul>
+              </div>
+              <div className="ml-6">
+                <Button 
+                  size="lg"
+                  className="bg-red-600 hover:bg-red-700"
+                  onClick={handleConnect}
+                >
+                  <LinkIcon className="h-5 w-5 mr-2" />
+                  Connect Google Ads
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Stats */}
       <div className="grid grid-cols-4 gap-4">

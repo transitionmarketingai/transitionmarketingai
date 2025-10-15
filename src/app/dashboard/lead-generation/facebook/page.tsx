@@ -4,10 +4,12 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Facebook, Plus, Play, Pause, DollarSign, TrendingUp } from 'lucide-react';
+import { Facebook, Plus, Play, Pause, DollarSign, TrendingUp, Link as LinkIcon } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
+import { toast } from 'sonner';
 
 export default function FacebookLeadGenPage() {
+  const [isConnected, setIsConnected] = useState(false);
   const [campaigns] = useState([
     {
       id: 1,
@@ -22,6 +24,15 @@ export default function FacebookLeadGenPage() {
     },
   ]);
 
+  const handleConnect = () => {
+    toast.loading('Opening Facebook OAuth...');
+    setTimeout(() => {
+      toast.dismiss();
+      toast.success('Facebook account connected successfully!');
+      setIsConnected(true);
+    }, 2000);
+  };
+
   return (
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
@@ -32,11 +43,58 @@ export default function FacebookLeadGenPage() {
           </h1>
           <p className="text-gray-600 mt-1">Capture leads directly from Facebook</p>
         </div>
-        <Button className="bg-blue-600 hover:bg-blue-700">
+        <Button 
+          className="bg-blue-600 hover:bg-blue-700"
+          disabled={!isConnected}
+          onClick={() => toast.info('Campaign creation modal opens...')}
+        >
           <Plus className="h-4 w-4 mr-2" />
           Create Campaign
         </Button>
       </div>
+
+      {/* Connection Status */}
+      {!isConnected ? (
+        <Card className="border-2 border-blue-200 bg-blue-50">
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div className="flex-1">
+                <h3 className="font-semibold text-lg mb-2">Connect Your Facebook Ad Account</h3>
+                <p className="text-sm text-gray-700 mb-4">
+                  To create Facebook campaigns, connect your Facebook Business account. Your ad budget will be charged directly by Facebook—we only automate campaign creation and management.
+                </p>
+                <ul className="text-sm text-gray-600 space-y-1">
+                  <li>✓ Secure OAuth connection (we never see your password)</li>
+                  <li>✓ You control your budget on Facebook</li>
+                  <li>✓ We automate targeting, optimization & lead capture</li>
+                </ul>
+              </div>
+              <div className="ml-6">
+                <Button 
+                  size="lg"
+                  className="bg-blue-600 hover:bg-blue-700"
+                  onClick={handleConnect}
+                >
+                  <LinkIcon className="h-5 w-5 mr-2" />
+                  Connect Facebook
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      ) : (
+        <Card className="border-green-200 bg-green-50">
+          <CardContent className="pt-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 bg-green-600 rounded-full"></div>
+                <span className="font-medium text-green-900">Facebook Account Connected</span>
+              </div>
+              <Button variant="outline" size="sm">Disconnect</Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Stats */}
       <div className="grid grid-cols-5 gap-4">

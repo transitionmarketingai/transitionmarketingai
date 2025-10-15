@@ -87,6 +87,28 @@ export default function DashboardOverview() {
 
   return (
     <div className="p-6 space-y-6">
+      {/* Free Trial Banner */}
+      <Card className="border-2 border-blue-600 bg-gradient-to-r from-blue-50 to-purple-50">
+        <CardContent className="pt-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                14
+              </div>
+              <div>
+                <div className="font-bold text-lg">Free Trial Active</div>
+                <div className="text-sm text-gray-600">
+                  14 days remaining • Growth plan access • No credit card required
+                </div>
+              </div>
+            </div>
+            <Button className="bg-blue-600 hover:bg-blue-700" onClick={() => router.push('/pricing')}>
+              View Plans
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold">Dashboard Overview</h1>

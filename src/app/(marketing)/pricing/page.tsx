@@ -1,428 +1,276 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
+import { Check, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { 
-  CheckCircle,
-  X,
-  ArrowRight,
-  HelpCircle,
-  Zap,
-  Shield,
-  TrendingUp
-} from 'lucide-react';
-import Link from 'next/link';
 
 export default function PricingPage() {
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly');
 
   const plans = [
     {
-      id: 'starter',
       name: 'Starter',
-      price: { monthly: 7999, annual: 79990 },
-      leads: 20,
-      overagePrice: 500,
-      description: 'Perfect for individual agents and freelancers',
+      price: billingCycle === 'monthly' ? 999 : 9990,
+      period: billingCycle === 'monthly' ? 'month' : 'year',
+      savings: billingCycle === 'annual' ? '₹2,000' : null,
+      description: 'Perfect for small businesses starting with lead generation',
       features: [
-        { text: '20 qualified leads per month', included: true },
-        { text: 'Facebook + Google Ads', included: true },
-        { text: 'WhatsApp + Email messaging', included: true },
-        { text: 'Basic analytics dashboard', included: true },
-        { text: 'Email support', included: true },
-        { text: 'Extra leads at ₹500 each', included: true },
-        { text: 'Dedicated account manager', included: false },
-        { text: 'API access', included: false },
-        { text: 'White-label option', included: false }
-      ]
+        { name: 'Platform access', included: true },
+        { name: '1 connected ad account', included: true },
+        { name: 'AI Search: 500 contacts/month', included: true },
+        { name: 'Email outreach: 1,000/month', included: true },
+        { name: 'WhatsApp: 500/month', included: true },
+        { name: 'Basic support', included: true },
+        { name: 'Campaign templates', included: false },
+        { name: 'Priority support', included: false },
+        { name: 'API access', included: false },
+      ],
+      cta: 'Start Free Trial',
+      popular: false,
     },
     {
-      id: 'growth',
       name: 'Growth',
-      price: { monthly: 14999, annual: 149990 },
-      leads: 50,
-      overagePrice: 400,
-      popular: true,
-      description: 'Best for growing teams and small agencies',
+      price: billingCycle === 'monthly' ? 2999 : 29990,
+      period: billingCycle === 'monthly' ? 'month' : 'year',
+      savings: billingCycle === 'annual' ? '₹6,000' : null,
+      description: 'Ideal for growing businesses scaling their lead generation',
       features: [
-        { text: '50 qualified leads per month', included: true },
-        { text: 'Facebook + Google + LinkedIn Ads', included: true },
-        { text: 'Full messaging suite (WhatsApp, Email, SMS)', included: true },
-        { text: 'Advanced analytics + reports', included: true },
-        { text: 'Phone + WhatsApp support', included: true },
-        { text: 'Extra leads at ₹400 each', included: true },
-        { text: 'Dedicated account manager', included: true },
-        { text: 'CRM integrations (HubSpot, Salesforce)', included: true },
-        { text: 'API access', included: false },
-        { text: 'White-label option', included: false }
-      ]
+        { name: 'Everything in Starter', included: true },
+        { name: '3 connected ad accounts', included: true },
+        { name: 'AI Search: 2,000 contacts/month', included: true },
+        { name: 'Email outreach: 5,000/month', included: true },
+        { name: 'WhatsApp: 2,000/month', included: true },
+        { name: 'Priority support', included: true },
+        { name: 'Campaign templates', included: true },
+        { name: 'Advanced analytics', included: true },
+        { name: 'API access', included: false },
+      ],
+      cta: 'Start Free Trial',
+      popular: true,
     },
     {
-      id: 'professional',
-      name: 'Professional',
-      price: { monthly: 29999, annual: 299990 },
-      leads: 120,
-      overagePrice: 350,
-      description: 'For established businesses and large teams',
+      name: 'Business',
+      price: billingCycle === 'monthly' ? 4999 : 49990,
+      period: billingCycle === 'monthly' ? 'month' : 'year',
+      savings: billingCycle === 'annual' ? '₹10,000' : null,
+      description: 'For enterprises needing unlimited scale and customization',
       features: [
-        { text: '120 qualified leads per month', included: true },
-        { text: 'All ad platforms + priority placement', included: true },
-        { text: 'Unlimited messaging channels', included: true },
-        { text: 'Premium analytics + custom reports', included: true },
-        { text: '24/7 priority support', included: true },
-        { text: 'Extra leads at ₹350 each', included: true },
-        { text: 'Dedicated success manager', included: true },
-        { text: 'CRM integrations + automation', included: true },
-        { text: 'Full API access', included: true },
-        { text: 'White-label option', included: true }
-      ]
-    }
+        { name: 'Everything in Growth', included: true },
+        { name: 'Unlimited ad accounts', included: true },
+        { name: 'AI Search: Unlimited', included: true },
+        { name: 'Email/WhatsApp: Unlimited', included: true },
+        { name: 'Dedicated support', included: true },
+        { name: 'API access', included: true },
+        { name: 'Custom integrations', included: true },
+        { name: 'Onboarding assistance', included: true },
+        { name: 'White-label option', included: true },
+      ],
+      cta: 'Start Free Trial',
+      popular: false,
+    },
   ];
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-sm border-b z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold text-xl px-3 py-1 rounded-lg">
-                LeadGen Pro
-              </div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      {/* Header */}
+      <div className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <Link href="/" className="text-xl font-bold text-blue-600">
+            Transition Marketing AI
+          </Link>
+          <div className="flex gap-4">
+            <Link href="/signin">
+              <Button variant="outline">Sign In</Button>
             </Link>
-            <Button variant="outline" asChild>
-              <Link href="/login">Login</Link>
-            </Button>
-          </div>
-        </div>
-      </nav>
-
-      {/* Hero */}
-      <section className="pt-32 pb-16 px-4 bg-gradient-to-br from-blue-50 via-white to-purple-50">
-        <div className="max-w-4xl mx-auto text-center">
-          <Badge className="mb-4">Transparent Pricing</Badge>
-          <h1 className="text-5xl font-bold text-gray-900 mb-6">
-            Simple, Honest Pricing
-          </h1>
-          <p className="text-xl text-gray-600 mb-8">
-            No hidden fees. No surprises. Pay only for results.
-          </p>
-
-          {/* Billing Toggle */}
-          <div className="inline-flex items-center gap-4 bg-white rounded-full p-2 shadow-md">
-            <button
-              onClick={() => setBillingCycle('monthly')}
-              className={`px-6 py-2 rounded-full transition-all ${
-                billingCycle === 'monthly'
-                  ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              Monthly
-            </button>
-            <button
-              onClick={() => setBillingCycle('annual')}
-              className={`px-6 py-2 rounded-full transition-all ${
-                billingCycle === 'annual'
-                  ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              Annual
-              <Badge className="ml-2 bg-green-500">Save 17%</Badge>
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing Cards */}
-      <section className="pb-20 px-4 -mt-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {plans.map((plan) => (
-              <Card 
-                key={plan.id}
-                className={`relative ${
-                  plan.popular 
-                    ? 'border-2 border-blue-500 shadow-2xl scale-105 z-10' 
-                    : 'border'
-                }`}
-              >
-                {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <Badge className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 text-sm">
-                      ⭐ Most Popular
-                    </Badge>
-                  </div>
-                )}
-
-                <CardHeader className="text-center pt-8 pb-6">
-                  <CardTitle className="text-2xl mb-2">{plan.name}</CardTitle>
-                  <p className="text-sm text-gray-500 mb-4">{plan.description}</p>
-                  
-                  <div className="mb-2">
-                    <span className="text-5xl font-bold text-gray-900">
-                      ₹{billingCycle === 'monthly' ? plan.price.monthly.toLocaleString('en-IN') : (plan.price.annual / 12).toLocaleString('en-IN')}
-                    </span>
-                    <span className="text-gray-500">/month</span>
-                  </div>
-
-                  {billingCycle === 'annual' && (
-                    <p className="text-sm text-green-600 font-medium">
-                      Save ₹{((plan.price.monthly * 12) - plan.price.annual).toLocaleString('en-IN')}/year
-                    </p>
-                  )}
-
-                  <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg py-4 px-4 mt-4">
-                    <p className="text-sm text-gray-600">Up to</p>
-                    <p className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-                      {plan.leads} Leads
-                    </p>
-                    <p className="text-xs text-gray-500 mt-1">per month</p>
-                  </div>
-                </CardHeader>
-
-                <CardContent className="space-y-6">
-                  <Button 
-                    className={`w-full ${
-                      plan.popular 
-                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700' 
-                        : ''
-                    }`}
-                    variant={plan.popular ? 'default' : 'outline'}
-                    size="lg"
-                    asChild
-                  >
-                    <Link href="/onboarding">
-                      Start Free Trial
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
-
-                  <div className="space-y-3">
-                    {plan.features.map((feature, idx) => (
-                      <div key={idx} className="flex items-start gap-3">
-                        {feature.included ? (
-                          <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
-                        ) : (
-                          <X className="h-5 w-5 text-gray-300 flex-shrink-0 mt-0.5" />
-                        )}
-                        <span className={`text-sm ${feature.included ? 'text-gray-700' : 'text-gray-400'}`}>
-                          {feature.text}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          {/* Enterprise */}
-          <div className="mt-12 max-w-3xl mx-auto">
-            <Card className="border-2 border-gray-200">
-              <CardContent className="p-8">
-                <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                  <div className="flex-1">
-                    <h3 className="text-2xl font-bold mb-2">Enterprise</h3>
-                    <p className="text-gray-600">
-                      Custom solutions for large organizations, franchises, and agencies. 
-                      Unlimited leads, dedicated team, and custom integrations.
-                    </p>
-                  </div>
-                  <Button size="lg" variant="outline" asChild>
-                    <Link href="/contact">Contact Sales</Link>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="py-20 px-4 bg-gray-50">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <Badge className="mb-4">FAQ</Badge>
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Frequently Asked Questions
-            </h2>
-          </div>
-
-          <div className="space-y-4">
-            {[
-              {
-                q: 'How does the free trial work?',
-                a: '7 days completely free. No credit card required. You\'ll receive 5-10 sample leads to test the quality. If you\'re satisfied, add payment details to continue. Cancel anytime with one click.'
-              },
-              {
-                q: 'What if I don\'t get enough leads?',
-                a: 'We guarantee minimum 60% of your quota (e.g., 30 of 50 leads). If we deliver less, you get prorated billing or credits for next month. Your success is our success.'
-              },
-              {
-                q: 'What if the lead quality is poor?',
-                a: 'Report any poor-quality lead within 7 days and get instant credit. We stand behind every lead. Typical dispute rate is <5% because our AI pre-qualifies everything.'
-              },
-              {
-                q: 'Do I need my own Facebook or Google ad account?',
-                a: 'No! We run all campaigns in OUR ad accounts. You don\'t need any technical knowledge or ad account setup. We handle everything.'
-              },
-              {
-                q: 'How quickly will I get leads?',
-                a: 'First leads typically arrive within 24-48 hours of signup. Our team sets up your campaigns the same day you join. Most customers get 1-2 leads per day.'
-              },
-              {
-                q: 'Can I cancel anytime?',
-                a: 'Yes! Cancel with one click from your dashboard. No long-term contracts. No cancellation fees. We only succeed if you succeed.'
-              },
-              {
-                q: 'What payment methods do you accept?',
-                a: 'We accept UPI, Credit/Debit Cards, Net Banking, and all major digital wallets through Razorpay. 100% secure payments with bank-level encryption.'
-              },
-              {
-                q: 'Do you work with businesses outside India?',
-                a: 'Currently we focus exclusively on the Indian market for optimal performance and lower costs. International expansion planned for 2026.'
-              }
-            ].map((faq, idx) => (
-              <Card key={idx} className="hover:shadow-md transition-shadow">
-                <CardContent className="pt-6">
-                  <div className="flex gap-4">
-                    <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                      <HelpCircle className="h-5 w-5 text-blue-600" />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-lg text-gray-900 mb-2">{faq.q}</h3>
-                      <p className="text-gray-600 leading-relaxed">{faq.a}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Comparison Table */}
-      <section className="py-20 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Compare Plans
-            </h2>
-            <p className="text-xl text-gray-600">
-              Choose the plan that fits your business needs
-            </p>
-          </div>
-
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b-2">
-                  <th className="text-left py-4 px-4">Feature</th>
-                  <th className="text-center py-4 px-4">Starter</th>
-                  <th className="text-center py-4 px-4 bg-blue-50">Growth ⭐</th>
-                  <th className="text-center py-4 px-4">Professional</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  { feature: 'Monthly Leads', starter: '20', growth: '50', professional: '120' },
-                  { feature: 'Quality Score', starter: '70+', growth: '75+', professional: '80+' },
-                  { feature: 'Facebook Ads', starter: '✓', growth: '✓', professional: '✓' },
-                  { feature: 'Google Ads', starter: '✓', growth: '✓', professional: '✓' },
-                  { feature: 'LinkedIn Ads', starter: '—', growth: '✓', professional: '✓' },
-                  { feature: 'WhatsApp Messaging', starter: '✓', growth: '✓', professional: '✓' },
-                  { feature: 'Email Integration', starter: 'Basic', growth: 'Advanced', professional: 'Premium' },
-                  { feature: 'SMS Messaging', starter: '—', growth: '✓', professional: '✓' },
-                  { feature: 'Team Members', starter: '1', growth: '3', professional: '10' },
-                  { feature: 'Support Level', starter: 'Email', growth: 'Phone + WhatsApp', professional: '24/7 Priority' },
-                  { feature: 'Account Manager', starter: '—', growth: '✓', professional: 'Dedicated' },
-                  { feature: 'API Access', starter: '—', growth: '—', professional: '✓' },
-                  { feature: 'White-Label', starter: '—', growth: '—', professional: '✓' }
-                ].map((row, idx) => (
-                  <tr key={idx} className="border-b">
-                    <td className="py-4 px-4 font-medium">{row.feature}</td>
-                    <td className="py-4 px-4 text-center">{row.starter}</td>
-                    <td className="py-4 px-4 text-center bg-blue-50 font-medium">{row.growth}</td>
-                    <td className="py-4 px-4 text-center">{row.professional}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      {/* Value Props */}
-      <section className="py-20 px-4 bg-gradient-to-br from-blue-50 to-purple-50">
-        <div className="max-w-5xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card>
-              <CardContent className="pt-6 text-center">
-                <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-4">
-                  <Zap className="h-8 w-8 text-blue-600" />
-                </div>
-                <h3 className="font-bold text-lg mb-2">Fast Setup</h3>
-                <p className="text-sm text-gray-600">
-                  Start receiving leads within 24 hours. No technical knowledge required.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="pt-6 text-center">
-                <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
-                  <Shield className="h-8 w-8 text-green-600" />
-                </div>
-                <h3 className="font-bold text-lg mb-2">Quality Guaranteed</h3>
-                <p className="text-sm text-gray-600">
-                  7-day money-back on any invalid lead. We verify every contact.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="pt-6 text-center">
-                <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-4">
-                  <TrendingUp className="h-8 w-8 text-purple-600" />
-                </div>
-                <h3 className="font-bold text-lg mb-2">ROI Focused</h3>
-                <p className="text-sm text-gray-600">
-                  Average customers close 10-15% of leads. 3-5x return on investment.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Final CTA */}
-      <section className="py-20 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold text-gray-900 mb-6">
-            Start Your 7-Day Free Trial
-          </h2>
-          <p className="text-xl text-gray-600 mb-8">
-            No credit card required. Cancel anytime. Get started in 5 minutes.
-          </p>
-          <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 text-lg px-12" asChild>
             <Link href="/onboarding">
-              Start Free Trial Now
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <Button className="bg-blue-600 hover:bg-blue-700">Start Free Trial</Button>
             </Link>
-          </Button>
-          <div className="flex items-center justify-center gap-8 mt-8 text-sm text-gray-500">
-            <span>✓ No setup fees</span>
-            <span>✓ No contracts</span>
-            <span>✓ Cancel anytime</span>
           </div>
         </div>
-      </section>
+      </div>
+
+      {/* Hero Section */}
+      <div className="max-w-7xl mx-auto px-6 py-16 text-center">
+        <h1 className="text-5xl font-bold mb-4">
+          Simple, Transparent Pricing
+        </h1>
+        <p className="text-xl text-gray-600 mb-8">
+          Choose the plan that fits your business. Start with a 14-day free trial.
+        </p>
+
+        {/* Billing Toggle */}
+        <div className="flex items-center justify-center gap-4 mb-12">
+          <button
+            onClick={() => setBillingCycle('monthly')}
+            className={`px-6 py-2 rounded-full font-medium transition-all ${
+              billingCycle === 'monthly'
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
+          >
+            Monthly
+          </button>
+          <button
+            onClick={() => setBillingCycle('annual')}
+            className={`px-6 py-2 rounded-full font-medium transition-all ${
+              billingCycle === 'annual'
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
+          >
+            Annual
+            <span className="ml-2 text-xs bg-green-500 text-white px-2 py-1 rounded-full">
+              Save 17%
+            </span>
+          </button>
+        </div>
+
+        {/* Pricing Cards */}
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {plans.map((plan) => (
+            <Card
+              key={plan.name}
+              className={`relative ${
+                plan.popular
+                  ? 'border-2 border-blue-600 shadow-xl scale-105'
+                  : 'border border-gray-200'
+              }`}
+            >
+              {plan.popular && (
+                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                  <span className="bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-medium">
+                    Most Popular
+                  </span>
+                </div>
+              )}
+
+              <CardHeader className="pt-8">
+                <CardTitle className="text-2xl mb-2">{plan.name}</CardTitle>
+                <p className="text-sm text-gray-600 min-h-12">{plan.description}</p>
+                <div className="mt-4">
+                  <div className="flex items-baseline justify-center gap-2">
+                    <span className="text-4xl font-bold">₹{plan.price.toLocaleString()}</span>
+                    <span className="text-gray-600">/{plan.period}</span>
+                  </div>
+                  {plan.savings && (
+                    <p className="text-sm text-green-600 mt-1">Save {plan.savings}/year</p>
+                  )}
+                </div>
+              </CardHeader>
+
+              <CardContent>
+                <Link href="/onboarding">
+                  <Button
+                    className={`w-full mb-6 ${
+                      plan.popular
+                        ? 'bg-blue-600 hover:bg-blue-700'
+                        : 'bg-gray-800 hover:bg-gray-900'
+                    }`}
+                    size="lg"
+                  >
+                    {plan.cta}
+                  </Button>
+                </Link>
+
+                <div className="space-y-3 text-left">
+                  {plan.features.map((feature, idx) => (
+                    <div key={idx} className="flex items-start gap-3">
+                      {feature.included ? (
+                        <Check className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
+                      ) : (
+                        <X className="h-5 w-5 text-gray-300 flex-shrink-0 mt-0.5" />
+                      )}
+                      <span
+                        className={`text-sm ${
+                          feature.included ? 'text-gray-700' : 'text-gray-400'
+                        }`}
+                      >
+                        {feature.name}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        {/* Free Trial Info */}
+        <div className="mt-16 bg-blue-50 rounded-2xl p-8 max-w-4xl mx-auto">
+          <h3 className="text-2xl font-bold mb-4">14-Day Free Trial Includes:</h3>
+          <div className="grid md:grid-cols-3 gap-6 text-left">
+            <div>
+              <div className="font-semibold mb-2">✨ Full Platform Access</div>
+              <p className="text-sm text-gray-600">
+                Try all Growth plan features for 14 days, no credit card required
+              </p>
+            </div>
+            <div>
+              <div className="font-semibold mb-2">🔍 AI Lead Search</div>
+              <p className="text-sm text-gray-600">
+                Generate up to 100 contacts using our AI-powered scraping
+              </p>
+            </div>
+            <div>
+              <div className="font-semibold mb-2">📧 Outreach Tools</div>
+              <p className="text-sm text-gray-600">
+                Send 500 emails and 500 WhatsApp messages to test outreach
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* FAQ Section */}
+        <div className="mt-16 max-w-3xl mx-auto text-left">
+          <h3 className="text-2xl font-bold mb-6 text-center">Frequently Asked Questions</h3>
+          <div className="space-y-6">
+            <div>
+              <div className="font-semibold mb-2">Do I need to pay for ads separately?</div>
+              <p className="text-gray-600">
+                Yes. You pay us only for the platform subscription. Ad spend on Facebook, Instagram, or Google goes directly to those platforms using your own ad accounts.
+              </p>
+            </div>
+            <div>
+              <div className="font-semibold mb-2">Can I upgrade or downgrade anytime?</div>
+              <p className="text-gray-600">
+                Absolutely! You can change your plan at any time. Upgrades take effect immediately, downgrades at the end of your billing cycle.
+              </p>
+            </div>
+            <div>
+              <div className="font-semibold mb-2">What happens after my free trial?</div>
+              <p className="text-gray-600">
+                Your trial lasts 14 days with full Growth plan access. After that, you can choose a paid plan to continue, or your account will be limited to view-only mode.
+              </p>
+            </div>
+            <div>
+              <div className="font-semibold mb-2">Is my ad account data safe?</div>
+              <p className="text-gray-600">
+                Yes. We use OAuth for secure, read-only access to your ad accounts. We never store your passwords and you can revoke access anytime.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* CTA Section */}
+        <div className="mt-16 text-center">
+          <h3 className="text-3xl font-bold mb-4">Ready to Get Started?</h3>
+          <p className="text-xl text-gray-600 mb-8">
+            Start your 14-day free trial today. No credit card required.
+          </p>
+          <Link href="/onboarding">
+            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-lg px-8 py-6">
+              Start Free Trial →
+            </Button>
+          </Link>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="border-t mt-16 py-8 text-center text-gray-600">
+        <p>© 2024 Transition Marketing AI. All rights reserved.</p>
+      </div>
     </div>
   );
 }
-
-

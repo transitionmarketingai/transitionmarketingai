@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
-import { CheckCircle, ArrowRight, Building2, Target, Bell, Sparkles } from 'lucide-react';
+import { CheckCircle, ArrowRight, Building2, Target, Bell, Sparkles, CreditCard, Check } from 'lucide-react';
 import { toast } from 'sonner';
 import Logo from '@/components/Logo';
 
@@ -34,7 +34,7 @@ export default function OnboardingPage() {
     whatsappNotifications: true,
   });
 
-  const progress = (step / 4) * 100;
+  const progress = (step / 5) * 100;
 
   const handleNext = () => {
     // Validation
@@ -57,7 +57,7 @@ export default function OnboardingPage() {
       }
     }
     
-    if (step < 4) {
+    if (step < 5) {
       setStep(step + 1);
     } else {
       handleComplete();
@@ -101,7 +101,7 @@ export default function OnboardingPage() {
         {/* Progress */}
         <div className="mb-8">
           <div className="flex justify-between text-sm text-gray-600 mb-2">
-            <span>Step {step} of 4</span>
+            <span>Step {step} of 5</span>
             <span>{Math.round(progress)}% Complete</span>
           </div>
           <Progress value={progress} className="h-2" />
@@ -115,6 +115,7 @@ export default function OnboardingPage() {
               {step === 2 && <><Target className="h-6 w-6 text-green-600" /> Target & Goals</>}
               {step === 3 && <><Sparkles className="h-6 w-6 text-purple-600" /> Lead Generation</>}
               {step === 4 && <><Bell className="h-6 w-6 text-orange-600" /> Notifications</>}
+              {step === 5 && <><CreditCard className="h-6 w-6 text-blue-600" /> Start Your Free Trial</>}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -267,11 +268,59 @@ export default function OnboardingPage() {
                     />
                   </div>
                 </div>
+              </>
+            )}
 
-                <div className="bg-green-50 border border-green-200 rounded-lg p-4 mt-6">
-                  <p className="font-semibold text-green-900 mb-2">🎉 You're All Set!</p>
-                  <p className="text-sm text-green-700">
-                    Your dashboard will be ready with sample campaigns and demo leads to explore all features.
+            {/* Step 5: Free Trial Confirmation */}
+            {step === 5 && (
+              <>
+                <div className="text-center py-6">
+                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <CheckCircle className="h-10 w-10 text-green-600" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-2">You're All Set!</h3>
+                  <p className="text-gray-600 mb-6">
+                    Start your 14-day free trial with full Growth plan access
+                  </p>
+                </div>
+
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                  <h4 className="font-semibold text-blue-900 mb-4">Your Free Trial Includes:</h4>
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <Check className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                      <div>
+                        <div className="font-medium">Full Platform Access (14 Days)</div>
+                        <div className="text-sm text-gray-600">Explore all Growth plan features</div>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <Check className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                      <div>
+                        <div className="font-medium">AI Search: 100 Free Contacts</div>
+                        <div className="text-sm text-gray-600">Find potential customers instantly</div>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <Check className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                      <div>
+                        <div className="font-medium">Email & WhatsApp Outreach</div>
+                        <div className="text-sm text-gray-600">500 emails + 500 WhatsApp messages</div>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <Check className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                      <div>
+                        <div className="font-medium">Connect Your Ad Accounts (Optional)</div>
+                        <div className="text-sm text-gray-600">Run Facebook, Instagram, or Google ads with your own budget</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-green-50 border border-green-200 rounded-lg p-4 mt-4">
+                  <p className="text-sm text-green-900 text-center">
+                    ✨ <strong>No credit card required</strong> • Cancel anytime • Upgrade when ready
                   </p>
                 </div>
               </>
@@ -292,8 +341,8 @@ export default function OnboardingPage() {
                 onClick={handleNext}
                 className="flex-1 bg-blue-600 hover:bg-blue-700"
               >
-                {step === 4 ? (
-                  <>Complete Setup</>
+                {step === 5 ? (
+                  <>🚀 Start Free Trial</>
                 ) : (
                   <>Next <ArrowRight className="h-4 w-4 ml-2" /></>
                 )}

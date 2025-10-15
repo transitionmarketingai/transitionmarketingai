@@ -102,8 +102,8 @@ export default function DashboardOverview() {
                 </div>
               </div>
             </div>
-            <Button className="bg-blue-600 hover:bg-blue-700" onClick={() => router.push('/pricing')}>
-              View Plans
+            <Button className="bg-blue-600 hover:bg-blue-700" onClick={() => router.push('/dashboard/upgrade')}>
+              Upgrade Now
             </Button>
           </div>
         </CardContent>

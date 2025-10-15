@@ -229,9 +229,11 @@ export default function SettingsPage() {
                     <div className="text-2xl font-bold">Free Trial</div>
                     <div className="text-sm text-gray-600">14 days remaining • Growth plan access</div>
                   </div>
-                  <Button className="bg-blue-600 hover:bg-blue-700">
-                    View Plans
-                  </Button>
+                  <a href="/dashboard/upgrade">
+                    <Button className="bg-blue-600 hover:bg-blue-700">
+                      Upgrade Plan
+                    </Button>
+                  </a>
                 </div>
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                   <p className="text-sm text-blue-900">

@@ -4,12 +4,16 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Facebook, Plus, Play, Pause, DollarSign, TrendingUp, Link as LinkIcon } from 'lucide-react';
+import { Facebook, Plus, Play, Pause, DollarSign, TrendingUp, Link as LinkIcon, Sparkles, Target } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 import { toast } from 'sonner';
+import { getTemplatesByPlatform } from '@/lib/campaign-templates';
 
 export default function FacebookLeadGenPage() {
   const [isConnected, setIsConnected] = useState(false);
+  const [showTemplates, setShowTemplates] = useState(false);
+  const templates = getTemplatesByPlatform('facebook');
+  
   const [campaigns] = useState([
     {
       id: 1,
@@ -196,9 +200,67 @@ export default function FacebookLeadGenPage() {
                 <Button size="sm" className="bg-blue-600 hover:bg-blue-700">View in Facebook</Button>
               </div>
             </CardContent>
-          </Card>
-        ))}
+        </Card>
+      ))}
       </div>
+
+      {/* Campaign Templates (shown when connected) */}
+      {isConnected && (
+        <div className="space-y-4">
+          <div className="flex justify-between items-center">
+            <h2 className="text-xl font-semibold">Campaign Templates</h2>
+            <Button 
+              variant="outline" 
+              onClick={() => setShowTemplates(!showTemplates)}
+            >
+              {showTemplates ? 'Hide Templates' : 'Browse Templates'}
+            </Button>
+          </div>
+
+          {showTemplates && (
+            <div className="grid md:grid-cols-3 gap-4">
+              {templates.map((template) => (
+                <Card key={template.id} className="hover:shadow-lg transition-shadow">
+                  <CardHeader>
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <CardTitle className="text-lg">{template.name}</CardTitle>
+                        <Badge variant="outline" className="mt-2">{template.industry}</Badge>
+                      </div>
+                      <Sparkles className="h-5 w-5 text-purple-600" />
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <p className="text-sm text-gray-600">{template.description}</p>
+                    
+                    <div className="border-t pt-3 space-y-2 text-sm">
+                      <div className="flex items-center gap-2">
+                        <Target className="h-4 w-4 text-gray-400" />
+                        <span className="text-gray-600">Target: {template.targetAudience.age}, {template.targetAudience.location}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <DollarSign className="h-4 w-4 text-gray-400" />
+                        <span className="text-gray-600">Recommended: ₹{template.budget.recommended.toLocaleString()}/month</span>
+                      </div>
+                    </div>
+
+                    <Button 
+                      className="w-full bg-blue-600 hover:bg-blue-700"
+                      onClick={() => {
+                        toast.success(`Campaign "${template.name}" created! Setting up...`);
+                        setShowTemplates(false);
+                      }}
+                    >
+                      <Play className="h-4 w-4 mr-2" />
+                      Launch Campaign
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Info */}
       <Card className="bg-blue-50 border-blue-200">

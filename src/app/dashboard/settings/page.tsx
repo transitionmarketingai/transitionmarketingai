@@ -217,12 +217,95 @@ export default function SettingsPage() {
         </TabsContent>
 
         <TabsContent value="billing">
-          <Card>
-            <CardContent className="py-12 text-center text-gray-500">
-              <CreditCard className="h-12 w-12 mx-auto mb-4 text-gray-300" />
-              <p>Billing settings coming soon</p>
-            </CardContent>
-          </Card>
+          <div className="space-y-6">
+            {/* Current Plan */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Current Plan</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <div className="text-2xl font-bold">Free Trial</div>
+                    <div className="text-sm text-gray-600">14 days remaining • Growth plan access</div>
+                  </div>
+                  <Button className="bg-blue-600 hover:bg-blue-700">
+                    View Plans
+                  </Button>
+                </div>
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <p className="text-sm text-blue-900">
+                    🎉 You're on a free trial with full Growth plan features. No credit card required!
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Usage This Month */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Usage This Month</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {/* AI Search Usage */}
+                <div>
+                  <div className="flex justify-between text-sm mb-2">
+                    <span className="font-medium">AI Search Contacts</span>
+                    <span className="text-gray-600">23 / 100</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="bg-purple-600 h-2 rounded-full" style={{ width: '23%' }}></div>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-1">77 searches remaining this month</p>
+                </div>
+
+                {/* Email Usage */}
+                <div>
+                  <div className="flex justify-between text-sm mb-2">
+                    <span className="font-medium">Email Outreach</span>
+                    <span className="text-gray-600">156 / 500</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="bg-blue-600 h-2 rounded-full" style={{ width: '31%' }}></div>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-1">344 emails remaining this month</p>
+                </div>
+
+                {/* WhatsApp Usage */}
+                <div>
+                  <div className="flex justify-between text-sm mb-2">
+                    <span className="font-medium">WhatsApp Messages</span>
+                    <span className="text-gray-600">89 / 500</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="bg-green-600 h-2 rounded-full" style={{ width: '18%' }}></div>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-1">411 messages remaining this month</p>
+                </div>
+
+                <div className="border-t pt-4 mt-4">
+                  <p className="text-sm text-gray-600">
+                    Usage resets on the 1st of each month. Need more? <a href="/pricing" className="text-blue-600 hover:underline">Upgrade your plan</a>
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Payment Method */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Payment Method</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center py-8 text-gray-500">
+                  <CreditCard className="h-12 w-12 mx-auto mb-3 text-gray-300" />
+                  <p className="mb-4">No payment method on file</p>
+                  <p className="text-sm mb-4">Add a payment method before your trial ends to continue using the platform.</p>
+                  <Button variant="outline">Add Payment Method</Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </TabsContent>
 
         <TabsContent value="integrations">

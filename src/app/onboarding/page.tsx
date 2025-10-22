@@ -6,12 +6,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { Progress } from '@/components/ui/progress';
-import { CheckCircle, ArrowRight, Building2, Target, Bell, Sparkles, CreditCard, Check } from 'lucide-react';
+import { CheckCircle, ArrowRight, Building2, Target, Bot, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 import Logo from '@/components/Logo';
 
-export default function OnboardingPage() {
+export default function OnboardingPageAIFirst() {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -19,45 +20,33 @@ export default function OnboardingPage() {
     businessName: '',
     industry: '',
     contactEmail: '',
-    contactPhone: '',
+    whatYouSell: '',
     
-    // Step 2: Target & Goals
+    // Step 2: Ideal Customer
     targetIndustry: '',
     targetLocation: '',
-    leadGoal: '',
-    
-    // Step 3: Lead Gen Preferences
-    leadGenMethods: [] as string[],
-    
-    // Step 4: Notifications
-    emailNotifications: true,
-    whatsappNotifications: true,
+    companySize: '',
+    painPoint: '',
   });
 
-  const progress = (step / 5) * 100;
+  const progress = (step / 3) * 100;
 
   const handleNext = () => {
     // Validation
     if (step === 1) {
-      if (!formData.businessName || !formData.industry || !formData.contactEmail) {
+      if (!formData.businessName || !formData.industry || !formData.contactEmail || !formData.whatYouSell) {
         toast.error('Please fill in all required fields');
         return;
       }
     }
     if (step === 2) {
       if (!formData.targetIndustry || !formData.targetLocation) {
-        toast.error('Please fill in all required fields');
-        return;
-      }
-    }
-    if (step === 3) {
-      if (formData.leadGenMethods.length === 0) {
-        toast.error('Please select at least one lead generation method');
+        toast.error('Please fill in target industry and location');
         return;
       }
     }
     
-    if (step < 5) {
+    if (step < 3) {
       setStep(step + 1);
     } else {
       handleComplete();
@@ -65,43 +54,33 @@ export default function OnboardingPage() {
   };
 
   const handleComplete = () => {
-    toast.success('Welcome to your dashboard! 🎉');
+    toast.success('🤖 AI is now finding your ideal prospects!');
     // Save to localStorage for demo
     localStorage.setItem('onboarding_completed', 'true');
     localStorage.setItem('user_data', JSON.stringify(formData));
+    localStorage.setItem('ai_autopilot', 'active');
     router.push('/dashboard');
   };
 
-  const toggleLeadGenMethod = (method: string) => {
-    if (formData.leadGenMethods.includes(method)) {
-      setFormData({
-        ...formData,
-        leadGenMethods: formData.leadGenMethods.filter(m => m !== method),
-      });
-    } else {
-      setFormData({
-        ...formData,
-        leadGenMethods: [...formData.leadGenMethods, method],
-      });
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-6">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 flex items-center justify-center p-6">
       <div className="w-full max-w-2xl">
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
             <Logo size="lg" />
           </div>
-          <h1 className="text-3xl font-bold mb-2">Welcome! Let's Get You Set Up</h1>
-          <p className="text-gray-600">Just a few quick questions to personalize your experience</p>
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Bot className="h-6 w-6 text-purple-600" />
+            <h1 className="text-3xl font-bold">AI is Ready to Work for You</h1>
+          </div>
+          <p className="text-gray-600">Just 3 quick questions so AI knows who to find</p>
         </div>
 
         {/* Progress */}
         <div className="mb-8">
           <div className="flex justify-between text-sm text-gray-600 mb-2">
-            <span>Step {step} of 5</span>
+            <span>Step {step} of 3</span>
             <span>{Math.round(progress)}% Complete</span>
           </div>
           <Progress value={progress} className="h-2" />
@@ -112,10 +91,8 @@ export default function OnboardingPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               {step === 1 && <><Building2 className="h-6 w-6 text-blue-600" /> Your Business</>}
-              {step === 2 && <><Target className="h-6 w-6 text-green-600" /> Target & Goals</>}
-              {step === 3 && <><Sparkles className="h-6 w-6 text-purple-600" /> Lead Generation</>}
-              {step === 4 && <><Bell className="h-6 w-6 text-orange-600" /> Notifications</>}
-              {step === 5 && <><CreditCard className="h-6 w-6 text-blue-600" /> Start Your Free Trial</>}
+              {step === 2 && <><Target className="h-6 w-6 text-purple-600" /> Your Ideal Customer</>}
+              {step === 3 && <><Sparkles className="h-6 w-6 text-green-600" /> AI is Ready!</>}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -123,7 +100,7 @@ export default function OnboardingPage() {
             {step === 1 && (
               <>
                 <div>
-                  <Label htmlFor="businessName">Business Name *</Label>
+                  <Label htmlFor="businessName">Your Business Name *</Label>
                   <Input
                     id="businessName"
                     placeholder="e.g., ABC Solutions Pvt Ltd"
@@ -135,49 +112,54 @@ export default function OnboardingPage() {
                   <Label htmlFor="industry">Your Industry *</Label>
                   <Input
                     id="industry"
-                    placeholder="e.g., Software, E-commerce, Healthcare"
+                    placeholder="e.g., Software, E-commerce, Consulting"
                     value={formData.industry}
                     onChange={(e) => setFormData({ ...formData, industry: e.target.value })}
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="contactEmail">Email *</Label>
-                    <Input
-                      id="contactEmail"
-                      type="email"
-                      placeholder="your@email.com"
-                      value={formData.contactEmail}
-                      onChange={(e) => setFormData({ ...formData, contactEmail: e.target.value })}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="contactPhone">Phone</Label>
-                    <Input
-                      id="contactPhone"
-                      placeholder="+91 98765 43210"
-                      value={formData.contactPhone}
-                      onChange={(e) => setFormData({ ...formData, contactPhone: e.target.value })}
-                    />
-                  </div>
+                <div>
+                  <Label htmlFor="contactEmail">Your Email *</Label>
+                  <Input
+                    id="contactEmail"
+                    type="email"
+                    placeholder="your@email.com"
+                    value={formData.contactEmail}
+                    onChange={(e) => setFormData({ ...formData, contactEmail: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="whatYouSell">What do you sell? *</Label>
+                  <Textarea
+                    id="whatYouSell"
+                    placeholder="e.g., Marketing automation software that helps businesses generate more leads"
+                    value={formData.whatYouSell}
+                    onChange={(e) => setFormData({ ...formData, whatYouSell: e.target.value })}
+                    rows={3}
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    AI will use this to write personalized emails for you
+                  </p>
                 </div>
               </>
             )}
 
-            {/* Step 2: Target & Goals */}
+            {/* Step 2: Ideal Customer */}
             {step === 2 && (
               <>
                 <div>
                   <Label htmlFor="targetIndustry">Who are your ideal customers? *</Label>
                   <Input
                     id="targetIndustry"
-                    placeholder="e.g., Software Companies, E-commerce Businesses"
+                    placeholder="e.g., E-commerce businesses, Software companies, Marketing agencies"
                     value={formData.targetIndustry}
                     onChange={(e) => setFormData({ ...formData, targetIndustry: e.target.value })}
                   />
+                  <p className="text-xs text-gray-500 mt-1">
+                    AI will search for businesses matching this description
+                  </p>
                 </div>
                 <div>
-                  <Label htmlFor="targetLocation">Target Location *</Label>
+                  <Label htmlFor="targetLocation">Where are they located? *</Label>
                   <Input
                     id="targetLocation"
                     placeholder="e.g., Mumbai, Bangalore, Delhi NCR, Pan India"
@@ -186,133 +168,98 @@ export default function OnboardingPage() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="leadGoal">Monthly Lead Goal</Label>
+                  <Label htmlFor="companySize">Company Size (Optional)</Label>
                   <select
-                    id="leadGoal"
+                    id="companySize"
                     className="w-full border rounded-md p-2"
-                    value={formData.leadGoal}
-                    onChange={(e) => setFormData({ ...formData, leadGoal: e.target.value })}
+                    value={formData.companySize}
+                    onChange={(e) => setFormData({ ...formData, companySize: e.target.value })}
                   >
-                    <option value="">Select goal</option>
-                    <option value="10-25">10-25 leads</option>
-                    <option value="25-50">25-50 leads</option>
-                    <option value="50-100">50-100 leads</option>
-                    <option value="100+">100+ leads</option>
+                    <option value="">Any size</option>
+                    <option value="1-10">1-10 employees</option>
+                    <option value="10-50">10-50 employees</option>
+                    <option value="50-200">50-200 employees</option>
+                    <option value="200+">200+ employees</option>
                   </select>
                 </div>
+                <div>
+                  <Label htmlFor="painPoint">Their biggest challenge? (Optional)</Label>
+                  <Textarea
+                    id="painPoint"
+                    placeholder="e.g., Struggling to generate consistent leads, spending too much on ads"
+                    value={formData.painPoint}
+                    onChange={(e) => setFormData({ ...formData, painPoint: e.target.value })}
+                    rows={2}
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    AI will use this to personalize outreach
+                  </p>
+                </div>
               </>
             )}
 
-            {/* Step 3: Lead Gen Methods */}
+            {/* Step 3: AI Ready */}
             {step === 3 && (
               <>
-                <p className="text-sm text-gray-600 mb-2">Select how you want to generate leads:</p>
-                <div className="space-y-3">
-                  {[
-                    { id: 'ai_search', name: 'AI Search', desc: 'Find leads using AI from Google Maps, LinkedIn' },
-                    { id: 'facebook', name: 'Facebook Ads', desc: 'Run lead generation campaigns on Facebook' },
-                    { id: 'instagram', name: 'Instagram Ads', desc: 'Capture leads from Instagram Stories & Feed' },
-                    { id: 'google', name: 'Google Ads', desc: 'Get leads from Google Search' },
-                  ].map((method) => (
-                    <div
-                      key={method.id}
-                      onClick={() => toggleLeadGenMethod(method.id)}
-                      className={`border rounded-lg p-4 cursor-pointer transition-all ${
-                        formData.leadGenMethods.includes(method.id)
-                          ? 'border-blue-600 bg-blue-50'
-                          : 'border-gray-200 hover:border-blue-300'
-                      }`}
-                    >
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <div className="font-semibold">{method.name}</div>
-                          <div className="text-sm text-gray-600">{method.desc}</div>
-                        </div>
-                        {formData.leadGenMethods.includes(method.id) && (
-                          <CheckCircle className="h-5 w-5 text-blue-600" />
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
-
-            {/* Step 4: Notifications */}
-            {step === 4 && (
-              <>
-                <p className="text-sm text-gray-600 mb-4">Choose how you want to be notified about new leads:</p>
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between border rounded-lg p-4">
-                    <div>
-                      <div className="font-semibold">Email Notifications</div>
-                      <div className="text-sm text-gray-600">Get lead alerts via email</div>
-                    </div>
-                    <input
-                      type="checkbox"
-                      checked={formData.emailNotifications}
-                      onChange={(e) => setFormData({ ...formData, emailNotifications: e.target.checked })}
-                      className="w-5 h-5"
-                    />
-                  </div>
-                  <div className="flex items-center justify-between border rounded-lg p-4">
-                    <div>
-                      <div className="font-semibold">WhatsApp Notifications</div>
-                      <div className="text-sm text-gray-600">Instant alerts on WhatsApp</div>
-                    </div>
-                    <input
-                      type="checkbox"
-                      checked={formData.whatsappNotifications}
-                      onChange={(e) => setFormData({ ...formData, whatsappNotifications: e.target.checked })}
-                      className="w-5 h-5"
-                    />
-                  </div>
-                </div>
-              </>
-            )}
-
-            {/* Step 5: Free Trial Confirmation */}
-            {step === 5 && (
-              <>
                 <div className="text-center py-6">
-                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <CheckCircle className="h-10 w-10 text-green-600" />
+                  <div className="w-20 h-20 bg-gradient-to-br from-purple-100 to-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Bot className="h-12 w-12 text-purple-600" />
                   </div>
-                  <h3 className="text-2xl font-bold mb-2">You're All Set!</h3>
+                  <h3 className="text-2xl font-bold mb-2">AI is Ready to Work!</h3>
                   <p className="text-gray-600 mb-6">
-                    Start your 14-day free trial with full Growth plan access
+                    Your AI marketing team will start finding prospects immediately
                   </p>
                 </div>
 
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-                  <h4 className="font-semibold text-blue-900 mb-4">Your Free Trial Includes:</h4>
+                <div className="bg-gradient-to-r from-purple-50 to-blue-50 border-2 border-purple-200 rounded-lg p-6">
+                  <h4 className="font-semibold text-purple-900 mb-4 flex items-center gap-2">
+                    <Sparkles className="h-5 w-5" />
+                    What Happens Next (100% Automated):
+                  </h4>
                   <div className="space-y-3">
                     <div className="flex items-start gap-3">
-                      <Check className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                      <div className="w-6 h-6 bg-purple-600 text-white rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">
+                        1
+                      </div>
                       <div>
-                        <div className="font-medium">Full Platform Access (14 Days)</div>
-                        <div className="text-sm text-gray-600">Explore all Growth plan features</div>
+                        <div className="font-medium">AI Finds Your Prospects (Today)</div>
+                        <div className="text-sm text-gray-600">AI will search for "{formData.targetIndustry}" in {formData.targetLocation} and deliver 50 qualified prospects by tomorrow morning</div>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
-                      <Check className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                      <div className="w-6 h-6 bg-purple-600 text-white rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">
+                        2
+                      </div>
                       <div>
-                        <div className="font-medium">AI Search: 100 Free Contacts</div>
-                        <div className="text-sm text-gray-600">Find potential customers instantly</div>
+                        <div className="font-medium">AI Writes Personalized Emails (Automatic)</div>
+                        <div className="text-sm text-gray-600">For each prospect, AI writes a unique email about "{formData.whatYouSell}"</div>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
-                      <Check className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                      <div className="w-6 h-6 bg-purple-600 text-white rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">
+                        3
+                      </div>
                       <div>
-                        <div className="font-medium">Email & WhatsApp Outreach</div>
-                        <div className="text-sm text-gray-600">500 emails + 500 WhatsApp messages</div>
+                        <div className="font-medium">You Review & Approve (5 minutes)</div>
+                        <div className="text-sm text-gray-600">See AI-written emails, approve the best ones, send with one click</div>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
-                      <Check className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                      <div className="w-6 h-6 bg-purple-600 text-white rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">
+                        4
+                      </div>
                       <div>
-                        <div className="font-medium">Connect Your Ad Accounts (Optional)</div>
-                        <div className="text-sm text-gray-600">Run Facebook, Instagram, or Google ads with your own budget</div>
+                        <div className="font-medium">AI Handles Follow-Ups (Automatic)</div>
+                        <div className="text-sm text-gray-600">If no response, AI sends 2-3 follow-ups automatically</div>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 bg-green-600 text-white rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">
+                        5
+                      </div>
+                      <div>
+                        <div className="font-medium">Get Meetings Booked</div>
+                        <div className="text-sm text-gray-600">When prospects respond, AI helps you close the conversation</div>
                       </div>
                     </div>
                   </div>
@@ -320,7 +267,13 @@ export default function OnboardingPage() {
 
                 <div className="bg-green-50 border border-green-200 rounded-lg p-4 mt-4">
                   <p className="text-sm text-green-900 text-center">
-                    ✨ <strong>No credit card required</strong> • Cancel anytime • Upgrade when ready
+                    ✨ <strong>Your 14-day free trial includes:</strong> 50 AI-found prospects + 50 AI-written emails + AI conversation assistant
+                  </p>
+                </div>
+
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-4">
+                  <p className="text-xs text-blue-900 text-center">
+                    No credit card required • AI starts working immediately • Cancel anytime
                   </p>
                 </div>
               </>
@@ -339,10 +292,11 @@ export default function OnboardingPage() {
               )}
               <Button
                 onClick={handleNext}
-                className="flex-1 bg-blue-600 hover:bg-blue-700"
+                className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                size="lg"
               >
-                {step === 5 ? (
-                  <>🚀 Start Free Trial</>
+                {step === 3 ? (
+                  <>🚀 Start AI Prospecting</>
                 ) : (
                   <>Next <ArrowRight className="h-4 w-4 ml-2" /></>
                 )}
@@ -350,6 +304,13 @@ export default function OnboardingPage() {
             </div>
           </CardContent>
         </Card>
+
+        {/* What to Expect */}
+        {step < 3 && (
+          <div className="mt-6 text-center text-sm text-gray-500">
+            <p>⚡ Setup takes 3 minutes • AI delivers results in 24 hours</p>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -15,17 +15,17 @@ export default function PricingPage() {
       price: billingCycle === 'monthly' ? 999 : 9990,
       period: billingCycle === 'monthly' ? 'month' : 'year',
       savings: billingCycle === 'annual' ? '₹2,000' : null,
-      description: 'Perfect for small businesses starting with lead generation',
+      description: 'AI finds prospects & writes emails automatically',
       features: [
-        { name: 'Platform access', included: true },
-        { name: '1 connected ad account', included: true },
-        { name: 'AI Search: 500 contacts/month', included: true },
-        { name: 'Email outreach: 1,000/month', included: true },
-        { name: 'WhatsApp: 500/month', included: true },
-        { name: 'Basic support', included: true },
-        { name: 'Campaign templates', included: false },
+        { name: '500 AI-found prospects/month', included: true },
+        { name: '1,000 AI-written emails/month', included: true },
+        { name: 'AI lead scoring & qualification', included: true },
+        { name: 'AI follow-up automation (3 per lead)', included: true },
+        { name: 'Email & WhatsApp outreach', included: true },
+        { name: 'Basic analytics', included: true },
+        { name: 'AI conversation suggestions', included: false },
         { name: 'Priority support', included: false },
-        { name: 'API access', included: false },
+        { name: 'AI ad campaigns', included: false },
       ],
       cta: 'Start Free Trial',
       popular: false,
@@ -35,17 +35,17 @@ export default function PricingPage() {
       price: billingCycle === 'monthly' ? 2999 : 29990,
       period: billingCycle === 'monthly' ? 'month' : 'year',
       savings: billingCycle === 'annual' ? '₹6,000' : null,
-      description: 'Ideal for growing businesses scaling their lead generation',
+      description: 'Full AI automation—prospecting, outreach & meetings',
       features: [
-        { name: 'Everything in Starter', included: true },
-        { name: '3 connected ad accounts', included: true },
-        { name: 'AI Search: 2,000 contacts/month', included: true },
-        { name: 'Email outreach: 5,000/month', included: true },
-        { name: 'WhatsApp: 2,000/month', included: true },
+        { name: '2,000 AI-found prospects/month', included: true },
+        { name: '5,000 AI-written emails/month', included: true },
+        { name: 'AI WhatsApp outreach (2,000/month)', included: true },
+        { name: 'AI conversation assistant', included: true },
+        { name: 'AI meeting scheduler', included: true },
+        { name: 'AI follow-up automation (unlimited)', included: true },
+        { name: 'Advanced analytics with AI insights', included: true },
         { name: 'Priority support', included: true },
-        { name: 'Campaign templates', included: true },
-        { name: 'Advanced analytics', included: true },
-        { name: 'API access', included: false },
+        { name: 'AI ad campaigns (premium add-on)', included: false },
       ],
       cta: 'Start Free Trial',
       popular: true,
@@ -55,16 +55,16 @@ export default function PricingPage() {
       price: billingCycle === 'monthly' ? 4999 : 49990,
       period: billingCycle === 'monthly' ? 'month' : 'year',
       savings: billingCycle === 'annual' ? '₹10,000' : null,
-      description: 'For enterprises needing unlimited scale and customization',
+      description: 'Your complete AI marketing team—unlimited everything',
       features: [
-        { name: 'Everything in Growth', included: true },
-        { name: 'Unlimited ad accounts', included: true },
-        { name: 'AI Search: Unlimited', included: true },
-        { name: 'Email/WhatsApp: Unlimited', included: true },
-        { name: 'Dedicated support', included: true },
-        { name: 'API access', included: true },
-        { name: 'Custom integrations', included: true },
-        { name: 'Onboarding assistance', included: true },
+        { name: 'Unlimited AI prospecting', included: true },
+        { name: 'Unlimited AI emails & WhatsApp', included: true },
+        { name: 'AI content creator (10 posts/month)', included: true },
+        { name: 'AI sales assistant (auto-qualifies)', included: true },
+        { name: 'AI ad campaign generator', included: true },
+        { name: 'Dedicated AI training (learns your style)', included: true },
+        { name: 'API access & webhooks', included: true },
+        { name: 'Dedicated success manager', included: true },
         { name: 'White-label option', included: true },
       ],
       cta: 'Start Free Trial',
@@ -94,10 +94,10 @@ export default function PricingPage() {
       {/* Hero Section */}
       <div className="max-w-7xl mx-auto px-6 py-16 text-center">
         <h1 className="text-5xl font-bold mb-4">
-          Simple, Transparent Pricing
+          Your AI Marketing Team, Priced Like Software
         </h1>
         <p className="text-xl text-gray-600 mb-8">
-          Choose the plan that fits your business. Start with a 14-day free trial.
+          Get AI-powered prospecting, email writing, and lead management—all automated. Start with 50 free AI-found prospects in 24 hours.
         </p>
 
         {/* Billing Toggle */}

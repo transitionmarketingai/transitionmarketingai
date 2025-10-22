@@ -60,21 +60,23 @@ export default function LandingPage() {
       <section className="pt-32 pb-20 px-4 bg-gradient-to-br from-blue-50 via-white to-indigo-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-4xl mx-auto">
-            <Badge className="mb-6 bg-blue-600">
-              <Sparkles className="h-3 w-3 mr-1" />
-              Fully Automated Lead Generation
+            <Badge className="mb-6 bg-gradient-to-r from-purple-600 to-blue-600 text-white">
+              <Bot className="h-3 w-3 mr-1" />
+              Your AI Marketing Team
             </Badge>
             
             <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-8 leading-tight">
-              AI Finds Your Leads.
+              AI Finds 500 Prospects Monthly.
               <br />
-              <span className="text-blue-600">You Close The Deals.</span>
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Writes Every Email. Books Meetings.
+              </span>
             </h1>
             
             <p className="text-xl md:text-2xl text-gray-600 mb-10 leading-relaxed max-w-3xl mx-auto">
-              100% automated lead generation platform. AI scrapes the web, sends outreach, 
-              and delivers verified leads directly to your dashboard. 
-              <strong className="text-gray-900"> Zero manual work required.</strong>
+              Your entire lead generation runs on autopilot. AI discovers ideal prospects daily, 
+              writes personalized outreach, handles follow-ups, and delivers qualified meetings.
+              <strong className="text-gray-900"> Get your first 50 prospects in 24 hours.</strong>
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">

@@ -6,7 +6,7 @@ import { aiLeadScorer } from '@/lib/ai/leadScorer';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const supabase = createClient();
+    const supabase = await createClient();
 
     // Get current user
     const {
@@ -139,7 +139,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
 
     // Get current user
     const {

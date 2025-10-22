@@ -7,7 +7,7 @@ export async function GET(
   { params }: { params: { leadId: string } }
 ) {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const {
       data: { user },
@@ -66,7 +66,7 @@ export async function PATCH(
 ) {
   try {
     const body = await request.json();
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const {
       data: { user },
@@ -143,7 +143,7 @@ export async function DELETE(
   { params }: { params: { leadId: string } }
 ) {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const {
       data: { user },

@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { planId } = body;
 
-    const supabase = createClient();
+    const supabase = await createClient();
 
     // Get current user
     const {

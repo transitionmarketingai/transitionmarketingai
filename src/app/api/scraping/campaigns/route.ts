@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 // GET - Fetch scraping campaigns
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const {
       data: { user },
@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const {
       data: { user },

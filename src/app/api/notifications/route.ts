@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 // GET - Fetch notifications for customer
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const {
       data: { user },
@@ -70,7 +70,7 @@ export async function PATCH(request: NextRequest) {
     const body = await request.json();
     const { notificationIds } = body;
 
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const {
       data: { user },

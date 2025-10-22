@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 export async function PATCH(request: NextRequest, { params }: { params: { campaignId: string } }) {
   try {
     const body = await request.json();
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const {
       data: { user },
@@ -55,7 +55,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { campai
 // DELETE - Delete scraping campaign
 export async function DELETE(request: NextRequest, { params }: { params: { campaignId: string } }) {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const {
       data: { user },

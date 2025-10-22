@@ -7,7 +7,7 @@ export async function GET(
   { params }: { params: { conversationId: string } }
 ) {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const {
       data: { user },
@@ -98,7 +98,7 @@ export async function POST(
 ) {
   try {
     const body = await request.json();
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const {
       data: { user },

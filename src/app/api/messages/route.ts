@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 // GET - Fetch messages for a lead
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const searchParams = request.nextUrl.searchParams;
     const leadId = searchParams.get('leadId');
 
@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const {
       data: { user },

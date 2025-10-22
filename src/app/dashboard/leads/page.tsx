@@ -31,7 +31,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { LeadPredictionCard } from '@/components/ai/LeadPredictionCard';
 import { FollowUpGenerator } from '@/components/ai/FollowUpGenerator';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function LeadsPage() {
   const router = useRouter();

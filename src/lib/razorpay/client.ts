@@ -1,11 +1,13 @@
 import Razorpay from 'razorpay';
 import crypto from 'crypto';
 
-// Initialize Razorpay instance
-export const razorpayInstance = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID!,
-  key_secret: process.env.RAZORPAY_KEY_SECRET!,
-});
+// Function to get Razorpay instance
+function getRazorpayInstance() {
+  return new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID!,
+    key_secret: process.env.RAZORPAY_KEY_SECRET!,
+  });
+}
 
 /**
  * Create a Razorpay order for one-time payment
@@ -17,6 +19,7 @@ export async function createRazorpayOrder(params: {
   notes?: Record<string, any>;
 }) {
   try {
+    const razorpayInstance = getRazorpayInstance();
     const order = await razorpayInstance.orders.create({
       amount: params.amount,
       currency: params.currency || 'INR',
@@ -50,6 +53,7 @@ export async function createRazorpaySubscription(params: {
   addons?: Array<{ item: { name: string; amount: number; currency: string } }>;
 }) {
   try {
+    const razorpayInstance = getRazorpayInstance();
     const subscription = await razorpayInstance.subscriptions.create({
       plan_id: params.planId,
       customer_id: params.customerId,
@@ -84,6 +88,7 @@ export async function createRazorpayCustomer(params: {
   notes?: Record<string, any>;
 }) {
   try {
+    const razorpayInstance = getRazorpayInstance();
     const customer = await razorpayInstance.customers.create({
       name: params.name,
       email: params.email,
@@ -171,6 +176,7 @@ export function verifyWebhookSignature(
  */
 export async function fetchPaymentDetails(paymentId: string) {
   try {
+    const razorpayInstance = getRazorpayInstance();
     const payment = await razorpayInstance.payments.fetch(paymentId);
     return {
       success: true,
@@ -194,6 +200,7 @@ export async function createRefund(params: {
   notes?: Record<string, any>;
 }) {
   try {
+    const razorpayInstance = getRazorpayInstance();
     const refund = await razorpayInstance.payments.refund(params.paymentId, {
       amount: params.amount,
       notes: params.notes || {},
@@ -220,6 +227,7 @@ export async function cancelSubscription(
   cancelAtCycleEnd: boolean = false
 ) {
   try {
+    const razorpayInstance = getRazorpayInstance();
     const subscription = await razorpayInstance.subscriptions.cancel(
       subscriptionId,
       cancelAtCycleEnd
@@ -243,6 +251,7 @@ export async function cancelSubscription(
  */
 export async function pauseSubscription(subscriptionId: string) {
   try {
+    const razorpayInstance = getRazorpayInstance();
     const subscription = await razorpayInstance.subscriptions.pause(subscriptionId);
 
     return {
@@ -263,6 +272,7 @@ export async function pauseSubscription(subscriptionId: string) {
  */
 export async function resumeSubscription(subscriptionId: string) {
   try {
+    const razorpayInstance = getRazorpayInstance();
     const subscription = await razorpayInstance.subscriptions.resume(subscriptionId);
 
     return {
@@ -295,6 +305,7 @@ export async function createInvoice(params: {
   }>;
 }) {
   try {
+    const razorpayInstance = getRazorpayInstance();
     const invoice = await razorpayInstance.invoices.create({
       customer_id: params.customerId,
       amount: params.amount,
@@ -323,6 +334,7 @@ export async function createInvoice(params: {
  */
 export async function issueInvoice(invoiceId: string) {
   try {
+    const razorpayInstance = getRazorpayInstance();
     const invoice = await razorpayInstance.invoices.issue(invoiceId);
 
     return {

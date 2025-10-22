@@ -45,6 +45,23 @@ export default function LoginPage() {
           current_plan: 'growth'
         }));
         
+        // Check if onboarding is complete
+        const onboardingCompleted = localStorage.getItem('onboarding_completed');
+        if (!onboardingCompleted) {
+          localStorage.setItem('onboarding_completed', 'true');
+          localStorage.setItem('onboarding_data', JSON.stringify({
+            businessName: 'ABC Real Estate',
+            industry: 'Real Estate',
+            location: 'Mumbai, Maharashtra',
+            businessSize: '11-50 employees',
+            targetAudience: 'Property buyers and investors',
+            monthlyBudget: '₹25,000 - ₹50,000',
+            goals: ['Generate more qualified leads', 'Increase sales conversion'],
+            contactMethods: ['WhatsApp', 'Email'],
+            adAccounts: { facebook: true, google: false }
+          }));
+        }
+        
         setTimeout(() => {
           router.push('/dashboard?demo=true');
         }, 500);

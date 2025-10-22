@@ -1,318 +1,463 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Progress } from '@/components/ui/progress';
-import { CheckCircle, ArrowRight, Building2, Target, Bot, Sparkles } from 'lucide-react';
-import { toast } from 'sonner';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
+import { 
+  ArrowRight, 
+  ArrowLeft, 
+  CheckCircle, 
+  Target, 
+  MapPin, 
+  Building, 
+  Users, 
+  MessageSquare, 
+  Settings,
+  Zap,
+  Bot,
+  Search,
+  Send,
+  BarChart3,
+  Mail,
+  Phone,
+  Globe,
+  Calendar,
+  DollarSign
+} from 'lucide-react';
 import Logo from '@/components/Logo';
 
-export default function OnboardingPageAIFirst() {
-  const router = useRouter();
-  const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({
-    // Step 1: Business Info
+interface OnboardingData {
+  businessName: string;
+  industry: string;
+  location: string;
+  businessSize: string;
+  targetAudience: string;
+  monthlyBudget: string;
+  goals: string[];
+  contactMethods: string[];
+  adAccounts: {
+    facebook: boolean;
+    google: boolean;
+  };
+}
+
+export default function OnboardingFlow() {
+  const [currentStep, setCurrentStep] = useState(1);
+  const [data, setData] = useState<OnboardingData>({
     businessName: '',
     industry: '',
-    contactEmail: '',
-    whatYouSell: '',
-    
-    // Step 2: Ideal Customer
-    targetIndustry: '',
-    targetLocation: '',
-    companySize: '',
-    painPoint: '',
+    location: '',
+    businessSize: '',
+    targetAudience: '',
+    monthlyBudget: '',
+    goals: [],
+    contactMethods: [],
+    adAccounts: {
+      facebook: false,
+      google: false
+    }
   });
 
-  const progress = (step / 3) * 100;
+  const totalSteps = 5;
 
-  const handleNext = () => {
-    // Validation
-    if (step === 1) {
-      if (!formData.businessName || !formData.industry || !formData.contactEmail || !formData.whatYouSell) {
-        toast.error('Please fill in all required fields');
-        return;
-      }
-    }
-    if (step === 2) {
-      if (!formData.targetIndustry || !formData.targetLocation) {
-        toast.error('Please fill in target industry and location');
-        return;
-      }
-    }
-    
-    if (step < 3) {
-      setStep(step + 1);
-    } else {
-      handleComplete();
+  const updateData = (field: keyof OnboardingData, value: any) => {
+    setData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const nextStep = () => {
+    if (currentStep < totalSteps) {
+      setCurrentStep(currentStep + 1);
     }
   };
 
-  const handleComplete = () => {
-    toast.success('🤖 AI is now finding your ideal prospects!');
-    // Save to localStorage for demo
+  const prevStep = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
+  const completeOnboarding = () => {
+    // Save onboarding data and redirect to dashboard
     localStorage.setItem('onboarding_completed', 'true');
-    localStorage.setItem('user_data', JSON.stringify(formData));
-    localStorage.setItem('ai_autopilot', 'active');
-    router.push('/dashboard');
+    localStorage.setItem('onboarding_data', JSON.stringify(data));
+    window.location.href = '/dashboard';
   };
+
+  const industries = [
+    'Real Estate', 'Healthcare', 'Consulting', 'Manufacturing', 'E-commerce',
+    'Technology', 'Education', 'Finance', 'Legal', 'Marketing', 'Other'
+  ];
+
+  const businessSizes = [
+    '1-10 employees', '11-50 employees', '51-200 employees', '201-1000 employees', '1000+ employees'
+  ];
+
+  const budgetRanges = [
+    '₹5,000 - ₹10,000', '₹10,000 - ₹25,000', '₹25,000 - ₹50,000', '₹50,000 - ₹1,00,000', '₹1,00,000+'
+  ];
+
+  const goals = [
+    'Generate more qualified leads',
+    'Increase sales conversion',
+    'Automate outreach campaigns',
+    'Improve lead quality',
+    'Reduce manual work',
+    'Scale business growth'
+  ];
+
+  const contactMethods = [
+    'WhatsApp', 'Email', 'Phone calls', 'SMS', 'LinkedIn messages'
+  ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 flex items-center justify-center p-6">
-      <div className="w-full max-w-2xl">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="flex justify-center mb-4">
-            <Logo size="lg" />
-          </div>
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Bot className="h-6 w-6 text-purple-600" />
-            <h1 className="text-3xl font-bold">AI is Ready to Work for You</h1>
-          </div>
-          <p className="text-gray-600">Just 3 quick questions so AI knows who to find</p>
-        </div>
-
-        {/* Progress */}
-        <div className="mb-8">
-          <div className="flex justify-between text-sm text-gray-600 mb-2">
-            <span>Step {step} of 3</span>
-            <span>{Math.round(progress)}% Complete</span>
-          </div>
-          <Progress value={progress} className="h-2" />
-        </div>
-
-        {/* Form */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              {step === 1 && <><Building2 className="h-6 w-6 text-blue-600" /> Your Business</>}
-              {step === 2 && <><Target className="h-6 w-6 text-purple-600" /> Your Ideal Customer</>}
-              {step === 3 && <><Sparkles className="h-6 w-6 text-green-600" /> AI is Ready!</>}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {/* Step 1: Business Info */}
-            {step === 1 && (
-              <>
-                <div>
-                  <Label htmlFor="businessName">Your Business Name *</Label>
-                  <Input
-                    id="businessName"
-                    placeholder="e.g., ABC Solutions Pvt Ltd"
-                    value={formData.businessName}
-                    onChange={(e) => setFormData({ ...formData, businessName: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="industry">Your Industry *</Label>
-                  <Input
-                    id="industry"
-                    placeholder="e.g., Software, E-commerce, Consulting"
-                    value={formData.industry}
-                    onChange={(e) => setFormData({ ...formData, industry: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="contactEmail">Your Email *</Label>
-                  <Input
-                    id="contactEmail"
-                    type="email"
-                    placeholder="your@email.com"
-                    value={formData.contactEmail}
-                    onChange={(e) => setFormData({ ...formData, contactEmail: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="whatYouSell">What do you sell? *</Label>
-                  <Textarea
-                    id="whatYouSell"
-                    placeholder="e.g., Marketing automation software that helps businesses generate more leads"
-                    value={formData.whatYouSell}
-                    onChange={(e) => setFormData({ ...formData, whatYouSell: e.target.value })}
-                    rows={3}
-                  />
-                  <p className="text-xs text-gray-500 mt-1">
-                    AI will use this to write personalized emails for you
-                  </p>
-                </div>
-              </>
-            )}
-
-            {/* Step 2: Ideal Customer */}
-            {step === 2 && (
-              <>
-                <div>
-                  <Label htmlFor="targetIndustry">Who are your ideal customers? *</Label>
-                  <Input
-                    id="targetIndustry"
-                    placeholder="e.g., E-commerce businesses, Software companies, Marketing agencies"
-                    value={formData.targetIndustry}
-                    onChange={(e) => setFormData({ ...formData, targetIndustry: e.target.value })}
-                  />
-                  <p className="text-xs text-gray-500 mt-1">
-                    AI will search for businesses matching this description
-                  </p>
-                </div>
-                <div>
-                  <Label htmlFor="targetLocation">Where are they located? *</Label>
-                  <Input
-                    id="targetLocation"
-                    placeholder="e.g., Mumbai, Bangalore, Delhi NCR, Pan India"
-                    value={formData.targetLocation}
-                    onChange={(e) => setFormData({ ...formData, targetLocation: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="companySize">Company Size (Optional)</Label>
-                  <select
-                    id="companySize"
-                    className="w-full border rounded-md p-2"
-                    value={formData.companySize}
-                    onChange={(e) => setFormData({ ...formData, companySize: e.target.value })}
-                  >
-                    <option value="">Any size</option>
-                    <option value="1-10">1-10 employees</option>
-                    <option value="10-50">10-50 employees</option>
-                    <option value="50-200">50-200 employees</option>
-                    <option value="200+">200+ employees</option>
-                  </select>
-                </div>
-                <div>
-                  <Label htmlFor="painPoint">Their biggest challenge? (Optional)</Label>
-                  <Textarea
-                    id="painPoint"
-                    placeholder="e.g., Struggling to generate consistent leads, spending too much on ads"
-                    value={formData.painPoint}
-                    onChange={(e) => setFormData({ ...formData, painPoint: e.target.value })}
-                    rows={2}
-                  />
-                  <p className="text-xs text-gray-500 mt-1">
-                    AI will use this to personalize outreach
-                  </p>
-                </div>
-              </>
-            )}
-
-            {/* Step 3: AI Ready */}
-            {step === 3 && (
-              <>
-                <div className="text-center py-6">
-                  <div className="w-20 h-20 bg-gradient-to-br from-purple-100 to-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Bot className="h-12 w-12 text-purple-600" />
-                  </div>
-                  <h3 className="text-2xl font-bold mb-2">AI is Ready to Work!</h3>
-                  <p className="text-gray-600 mb-6">
-                    Your AI marketing team will start finding prospects immediately
-                  </p>
-                </div>
-
-                <div className="bg-gradient-to-r from-purple-50 to-blue-50 border-2 border-purple-200 rounded-lg p-6">
-                  <h4 className="font-semibold text-purple-900 mb-4 flex items-center gap-2">
-                    <Sparkles className="h-5 w-5" />
-                    What Happens Next (100% Automated):
-                  </h4>
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-purple-600 text-white rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">
-                        1
-                      </div>
-                      <div>
-                        <div className="font-medium">AI Finds Your Prospects (Today)</div>
-                        <div className="text-sm text-gray-600">AI will search for "{formData.targetIndustry}" in {formData.targetLocation} and deliver 50 qualified prospects by tomorrow morning</div>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-purple-600 text-white rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">
-                        2
-                      </div>
-                      <div>
-                        <div className="font-medium">AI Writes Personalized Emails (Automatic)</div>
-                        <div className="text-sm text-gray-600">For each prospect, AI writes a unique email about "{formData.whatYouSell}"</div>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-purple-600 text-white rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">
-                        3
-                      </div>
-                      <div>
-                        <div className="font-medium">You Review & Approve (5 minutes)</div>
-                        <div className="text-sm text-gray-600">See AI-written emails, approve the best ones, send with one click</div>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-purple-600 text-white rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">
-                        4
-                      </div>
-                      <div>
-                        <div className="font-medium">AI Handles Follow-Ups (Automatic)</div>
-                        <div className="text-sm text-gray-600">If no response, AI sends 2-3 follow-ups automatically</div>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-green-600 text-white rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">
-                        5
-                      </div>
-                      <div>
-                        <div className="font-medium">Get Meetings Booked</div>
-                        <div className="text-sm text-gray-600">When prospects respond, AI helps you close the conversation</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-green-50 border border-green-200 rounded-lg p-4 mt-4">
-                  <p className="text-sm text-green-900 text-center">
-                    ✨ <strong>Your 14-day free trial includes:</strong> 50 AI-found prospects + 50 AI-written emails + AI conversation assistant
-                  </p>
-                </div>
-
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-4">
-                  <p className="text-xs text-blue-900 text-center">
-                    No credit card required • AI starts working immediately • Cancel anytime
-                  </p>
-                </div>
-              </>
-            )}
-
-            {/* Buttons */}
-            <div className="flex gap-3 pt-4">
-              {step > 1 && (
-                <Button
-                  variant="outline"
-                  onClick={() => setStep(step - 1)}
-                  className="flex-1"
-                >
-                  Back
-                </Button>
-              )}
-              <Button
-                onClick={handleNext}
-                className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
-                size="lg"
-              >
-                {step === 3 ? (
-                  <>🚀 Start AI Prospecting</>
-                ) : (
-                  <>Next <ArrowRight className="h-4 w-4 ml-2" /></>
-                )}
-              </Button>
+    <div className="min-h-screen bg-white">
+      {/* Header */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-4xl mx-auto px-4 py-6">
+          <div className="flex items-center justify-between">
+            <Logo size="md" />
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-600">Step {currentStep} of {totalSteps}</span>
+              <div className="w-32 bg-gray-200 rounded-full h-2">
+                <div 
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 h-2 rounded-full transition-all duration-300"
+                  style={{ width: `${(currentStep / totalSteps) * 100}%` }}
+                ></div>
+              </div>
             </div>
-          </CardContent>
-        </Card>
-
-        {/* What to Expect */}
-        {step < 3 && (
-          <div className="mt-6 text-center text-sm text-gray-500">
-            <p>⚡ Setup takes 3 minutes • AI delivers results in 24 hours</p>
           </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-4xl mx-auto px-4 py-12">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            Welcome to Transition Marketing AI! 🎉
+          </h1>
+          <p className="text-xl text-gray-600">
+            Let's set up your AI-powered lead generation system in just 5 minutes
+          </p>
+        </div>
+
+        {/* Step 1: Business Information */}
+        {currentStep === 1 && (
+          <Card className="max-w-2xl mx-auto border border-gray-200">
+            <CardHeader className="text-center">
+              <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center mx-auto mb-4">
+                <Building className="h-8 w-8 text-gray-600" />
+              </div>
+              <CardTitle className="text-2xl">Tell us about your business</CardTitle>
+              <p className="text-gray-600">This helps us customize your AI lead generation</p>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div>
+                <Label htmlFor="businessName">Business Name *</Label>
+                <Input
+                  id="businessName"
+                  placeholder="Enter your business name"
+                  value={data.businessName}
+                  onChange={(e) => updateData('businessName', e.target.value)}
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="industry">Industry *</Label>
+                <Select value={data.industry} onValueChange={(value) => updateData('industry', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select your industry" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {industries.map((industry) => (
+                      <SelectItem key={industry} value={industry}>{industry}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="location">Primary Location *</Label>
+                <Input
+                  id="location"
+                  placeholder="e.g., Mumbai, Delhi, Bangalore"
+                  value={data.location}
+                  onChange={(e) => updateData('location', e.target.value)}
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="businessSize">Business Size *</Label>
+                <Select value={data.businessSize} onValueChange={(value) => updateData('businessSize', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select business size" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {businessSizes.map((size) => (
+                      <SelectItem key={size} value={size}>{size}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="targetAudience">Target Audience</Label>
+                <Textarea
+                  id="targetAudience"
+                  placeholder="Describe your ideal customers (e.g., Small business owners, IT professionals, etc.)"
+                  value={data.targetAudience}
+                  onChange={(e) => updateData('targetAudience', e.target.value)}
+                />
+              </div>
+            </CardContent>
+          </Card>
         )}
+
+        {/* Step 2: Goals & Budget */}
+        {currentStep === 2 && (
+          <Card className="max-w-2xl mx-auto border border-gray-200">
+            <CardHeader className="text-center">
+              <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center mx-auto mb-4">
+                <Target className="h-8 w-8 text-gray-600" />
+              </div>
+              <CardTitle className="text-2xl">What are your goals?</CardTitle>
+              <p className="text-gray-600">Help us prioritize features for your success</p>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div>
+                <Label className="text-base font-medium mb-4 block">Select your primary goals:</Label>
+                <div className="grid grid-cols-1 gap-3">
+                  {goals.map((goal) => (
+                    <div key={goal} className="flex items-center space-x-3">
+                      <Checkbox
+                        id={goal}
+                        checked={data.goals.includes(goal)}
+                        onCheckedChange={(checked) => {
+                          if (checked) {
+                            updateData('goals', [...data.goals, goal]);
+                          } else {
+                            updateData('goals', data.goals.filter(g => g !== goal));
+                          }
+                        }}
+                      />
+                      <Label htmlFor={goal} className="text-sm font-normal cursor-pointer">
+                        {goal}
+                      </Label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <Label htmlFor="monthlyBudget">Monthly Marketing Budget</Label>
+                <Select value={data.monthlyBudget} onValueChange={(value) => updateData('monthlyBudget', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select your budget range" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {budgetRanges.map((budget) => (
+                      <SelectItem key={budget} value={budget}>{budget}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Step 3: Contact Preferences */}
+        {currentStep === 3 && (
+          <Card className="max-w-2xl mx-auto border border-gray-200">
+            <CardHeader className="text-center">
+              <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center mx-auto mb-4">
+                <MessageSquare className="h-8 w-8 text-gray-600" />
+              </div>
+              <CardTitle className="text-2xl">How do you want to reach prospects?</CardTitle>
+              <p className="text-gray-600">Choose your preferred communication channels</p>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div>
+                <Label className="text-base font-medium mb-4 block">Select contact methods:</Label>
+                <div className="grid grid-cols-1 gap-3">
+                  {contactMethods.map((method) => (
+                    <div key={method} className="flex items-center space-x-3">
+                      <Checkbox
+                        id={method}
+                        checked={data.contactMethods.includes(method)}
+                        onCheckedChange={(checked) => {
+                          if (checked) {
+                            updateData('contactMethods', [...data.contactMethods, method]);
+                          } else {
+                            updateData('contactMethods', data.contactMethods.filter(m => m !== method));
+                          }
+                        }}
+                      />
+                      <Label htmlFor={method} className="text-sm font-normal cursor-pointer">
+                        {method}
+                      </Label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="bg-gray-50 rounded-lg p-4">
+                <h4 className="font-medium text-gray-900 mb-2">💡 Pro Tip</h4>
+                <p className="text-sm text-gray-700">
+                  WhatsApp and Email typically have the highest response rates. 
+                  We recommend starting with these channels for best results.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Step 4: Ad Account Setup */}
+        {currentStep === 4 && (
+          <Card className="max-w-2xl mx-auto border border-gray-200">
+            <CardHeader className="text-center">
+              <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center mx-auto mb-4">
+                <Globe className="h-8 w-8 text-gray-600" />
+              </div>
+              <CardTitle className="text-2xl">Connect your ad accounts</CardTitle>
+              <p className="text-gray-600">Link your existing ad accounts for seamless lead generation</p>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3 p-4 border rounded-lg">
+                  <Checkbox
+                    id="facebook"
+                    checked={data.adAccounts.facebook}
+                    onCheckedChange={(checked) => updateData('adAccounts', { ...data.adAccounts, facebook: !!checked })}
+                  />
+                  <div className="flex-1">
+                    <Label htmlFor="facebook" className="text-sm font-medium cursor-pointer">
+                      Facebook & Instagram Ads
+                    </Label>
+                    <p className="text-xs text-gray-600">Connect your Meta Business account</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-3 p-4 border rounded-lg">
+                  <Checkbox
+                    id="google"
+                    checked={data.adAccounts.google}
+                    onCheckedChange={(checked) => updateData('adAccounts', { ...data.adAccounts, google: !!checked })}
+                  />
+                  <div className="flex-1">
+                    <Label htmlFor="google" className="text-sm font-medium cursor-pointer">
+                      Google Ads
+                    </Label>
+                    <p className="text-xs text-gray-600">Connect your Google Ads account</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-gray-50 rounded-lg p-4">
+                <h4 className="font-medium text-gray-900 mb-2">✅ Optional Setup</h4>
+                <p className="text-sm text-gray-700">
+                  Don't worry if you don't have ad accounts yet! You can always connect them later 
+                  from your dashboard settings. We'll start with AI web scraping and outreach campaigns.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Step 5: Review & Complete */}
+        {currentStep === 5 && (
+          <Card className="max-w-2xl mx-auto border border-gray-200">
+            <CardHeader className="text-center">
+              <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center mx-auto mb-4">
+                <CheckCircle className="h-8 w-8 text-gray-600" />
+              </div>
+              <CardTitle className="text-2xl">Review your setup</CardTitle>
+              <p className="text-gray-600">Everything looks good? Let's get started!</p>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-4">
+                <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                  <span className="font-medium">Business:</span>
+                  <span className="text-gray-600">{data.businessName}</span>
+                </div>
+                <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                  <span className="font-medium">Industry:</span>
+                  <span className="text-gray-600">{data.industry}</span>
+                </div>
+                <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                  <span className="font-medium">Location:</span>
+                  <span className="text-gray-600">{data.location}</span>
+                </div>
+                <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                  <span className="font-medium">Goals:</span>
+                  <span className="text-gray-600">{data.goals.length} selected</span>
+                </div>
+                <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                  <span className="font-medium">Contact Methods:</span>
+                  <span className="text-gray-600">{data.contactMethods.join(', ')}</span>
+                </div>
+              </div>
+
+              <div className="bg-gray-50 rounded-lg p-6">
+                <h4 className="font-bold text-gray-900 mb-3">🚀 What happens next?</h4>
+                <div className="space-y-2 text-sm text-gray-700">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-gray-400" />
+                    <span>AI will start scraping prospects in your industry and location</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-gray-400" />
+                    <span>Automated outreach campaigns will begin</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-gray-400" />
+                    <span>You'll receive qualified leads in your dashboard</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-gray-400" />
+                    <span>Track performance and optimize campaigns</span>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Navigation */}
+        <div className="flex justify-between items-center mt-12 max-w-2xl mx-auto">
+          <Button
+            variant="outline"
+            onClick={prevStep}
+            disabled={currentStep === 1}
+            className="flex items-center gap-2"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Previous
+          </Button>
+
+          {currentStep < totalSteps ? (
+            <Button
+              onClick={nextStep}
+              className="flex items-center gap-2 bg-gray-900 hover:bg-gray-800"
+            >
+              Next
+              <ArrowRight className="h-4 w-4" />
+            </Button>
+          ) : (
+            <Button
+              onClick={completeOnboarding}
+              className="flex items-center gap-2 bg-gray-900 hover:bg-gray-800"
+            >
+              Complete Setup
+              <CheckCircle className="h-4 w-4" />
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   );
 }
-

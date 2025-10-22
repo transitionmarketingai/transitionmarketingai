@@ -32,11 +32,11 @@ export default function FeaturesPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <Link href="/" className="flex items-center gap-2">
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold text-xl px-3 py-1 rounded-lg">
+              <div className="bg-gray-900 text-white font-bold text-xl px-3 py-1 rounded-lg">
                 LeadGen Pro
               </div>
             </Link>
-            <Button className="bg-gradient-to-r from-blue-600 to-purple-600" asChild>
+            <Button className="bg-gray-900 hover:bg-gray-800" asChild>
               <Link href="/onboarding">Start Free Trial</Link>
             </Button>
           </div>
@@ -44,12 +44,12 @@ export default function FeaturesPage() {
       </nav>
 
       {/* Hero */}
-      <section className="pt-32 pb-16 px-4 bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      <section className="pt-32 pb-16 px-4 bg-gray-50">
         <div className="max-w-5xl mx-auto text-center">
-          <Badge className="mb-4">All Features</Badge>
+          <Badge className="mb-4 bg-gray-100 text-gray-700">All Features</Badge>
           <h1 className="text-5xl font-bold text-gray-900 mb-6">
             Everything You Need to
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+            <span className="block text-gray-600">
               Generate More Leads
             </span>
           </h1>

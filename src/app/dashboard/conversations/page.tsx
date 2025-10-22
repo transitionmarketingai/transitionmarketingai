@@ -1,327 +1,310 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { 
-  MessageCircle, 
-  Send, 
-  Search,
+  MessageCircle,
+  Send,
+  Bot,
   Phone,
-  Mail,
-  Star,
+  Building2,
   Clock,
-  Facebook,
-  Chrome,
-  Zap,
+  CheckCheck,
+  Sparkles,
+  Calendar,
 } from 'lucide-react';
 import { toast } from 'sonner';
 
-interface Conversation {
-  id: string;
-  lead_id: string;
-  channel: string;
-  status: string;
-  unread_count: number;
-  last_message_at?: string;
-  last_message_preview?: string;
-  leads: {
-    name: string;
-    phone: string;
-    email?: string;
-    source: string;
-    quality_score: number;
-    intent: string;
-  };
-}
+const CONVERSATIONS = [
+  {
+    id: 1,
+    prospect_name: 'Rajesh Kumar',
+    company: 'Tech Solutions Pvt Ltd',
+    phone: '+91 98765 43210',
+    last_message: "Yes, I'd be interested to learn more",
+    last_message_time: '2 min ago',
+    unread: 1,
+    status: 'active',
+    intent: 'hot',
+  },
+  {
+    id: 2,
+    prospect_name: 'Priya Sharma',
+    company: 'Digital Ace Marketing',
+    phone: '+91 98765 43211',
+    last_message: 'Can we schedule a call?',
+    last_message_time: '1 hour ago',
+    unread: 0,
+    status: 'active',
+    intent: 'hot',
+  },
+  {
+    id: 3,
+    prospect_name: 'Amit Patel',
+    company: 'ShopEasy E-commerce',
+    phone: '+91 98765 43212',
+    last_message: 'Thanks for reaching out',
+    last_message_time: '3 hours ago',
+    unread: 0,
+    status: 'active',
+    intent: 'warm',
+  },
+];
 
-interface Message {
-  id: string;
-  sender: string;
-  message_text: string;
-  sent_at: string;
-  status: string;
-}
+const DEMO_MESSAGES = [
+  {
+    id: 1,
+    sender: 'user',
+    message: "Hi Rajesh! 👋\n\nI found Tech Solutions online and noticed you're in the Software space in Mumbai.\n\nWe help businesses like yours get 50-100 qualified leads monthly through AI automation—completely on autopilot.\n\nWould you be interested in a quick chat about how it works?",
+    sent_at: '10:30 AM',
+    read: true,
+  },
+  {
+    id: 2,
+    sender: 'prospect',
+    message: "Hi! Yes, I'd be interested to learn more. What does your platform do exactly?",
+    sent_at: '10:45 AM',
+    read: false,
+  },
+];
 
-export default function ConversationsPage() {
-  const searchParams = useSearchParams();
-  const preselectedLeadId = searchParams?.get('leadId');
-
-  const [conversations, setConversations] = useState<Conversation[]>([]);
-  const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
-  const [messages, setMessages] = useState<Message[]>([]);
+export default function PlatformChatPage() {
+  const [selectedConversation, setSelectedConversation] = useState(CONVERSATIONS[0]);
+  const [messages, setMessages] = useState(DEMO_MESSAGES);
   const [messageInput, setMessageInput] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [sendingMessage, setSendingMessage] = useState(false);
+  const [selectedSuggestion, setSelectedSuggestion] = useState<number | null>(null);
 
-  useEffect(() => {
-    loadConversations();
-  }, []);
+  const aiSuggestions = [
+    {
+      type: 'short',
+      text: "Great! Our AI finds 500 qualified prospects monthly and writes all your outreach. Can we do a quick 15-min demo Tuesday?",
+    },
+    {
+      type: 'detailed',
+      text: "Happy to explain! Our platform uses AI to: 1) Find your ideal customers automatically from Google Maps/LinkedIn, 2) Write personalized outreach messages for each, 3) Handle all follow-ups, and 4) Deliver qualified meetings to you. Typical clients get 2-5 booked meetings per week. Would you like to see it in action?",
+    },
+    {
+      type: 'question',
+      text: "Thanks for your interest! Quick question: What's your biggest challenge right now with lead generation? That'll help me show you the most relevant features.",
+    },
+  ];
 
-  useEffect(() => {
-    if (preselectedLeadId && conversations.length > 0) {
-      const conv = conversations.find(c => c.lead_id === preselectedLeadId);
-      if (conv) {
-        selectConversation(conv);
-      }
-    }
-  }, [preselectedLeadId, conversations]);
+  const handleSend = () => {
+    if (!messageInput.trim()) return;
 
-  const loadConversations = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch('/api/conversations');
-      const data = await response.json();
+    const newMessage = {
+      id: messages.length + 1,
+      sender: 'user' as const,
+      message: messageInput,
+      sent_at: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
+      read: false,
+    };
 
-      if (response.ok) {
-        setConversations(data.conversations || []);
-        
-        // Auto-select first conversation
-        if (data.conversations?.length > 0 && !selectedConversation) {
-          selectConversation(data.conversations[0]);
-        }
-      } else {
-        toast.error('Failed to load conversations');
-      }
-    } catch (error) {
-      console.error('Load conversations error:', error);
-      toast.error('Failed to load conversations');
-    } finally {
-      setLoading(false);
-    }
+    setMessages([...messages, newMessage]);
+    setMessageInput('');
+    toast.success('Message sent via WhatsApp!');
+    setSelectedSuggestion(null);
   };
 
-  const selectConversation = async (conversation: Conversation) => {
-    setSelectedConversation(conversation);
-    
-    try {
-      const response = await fetch(`/api/conversations/${conversation.id}/messages`);
-      const data = await response.json();
-
-      if (response.ok) {
-        setMessages(data.messages || []);
-      }
-    } catch (error) {
-      console.error('Load messages error:', error);
-    }
-  };
-
-  const sendMessage = async () => {
-    if (!messageInput.trim() || !selectedConversation) return;
-
-    setSendingMessage(true);
-    try {
-      const response = await fetch(`/api/conversations/${selectedConversation.id}/messages`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message_text: messageInput }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setMessages([...messages, data.message]);
-        setMessageInput('');
-        toast.success('Message sent');
-      } else {
-        toast.error('Failed to send message');
-      }
-    } catch (error) {
-      toast.error('Failed to send message');
-    } finally {
-      setSendingMessage(false);
-    }
-  };
-
-  const getSourceIcon = (source: string) => {
-    if (source === 'meta_ads') return <Facebook className="h-4 w-4 text-blue-600" />;
-    if (source === 'google_ads') return <Chrome className="h-4 w-4 text-red-600" />;
-    if (source === 'outreach_response') return <Zap className="h-4 w-4 text-green-600" />;
-    return null;
+  const useSuggestion = (index: number) => {
+    setMessageInput(aiSuggestions[index].text);
+    setSelectedSuggestion(index);
   };
 
   return (
     <div className="p-6">
-      <Card className="h-[calc(100vh-12rem)]">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <MessageCircle className="h-5 w-5" />
-            Conversations
-            {conversations.filter(c => c.unread_count > 0).length > 0 && (
-              <Badge className="bg-red-600">
-                {conversations.reduce((sum, c) => sum + c.unread_count, 0)} unread
-              </Badge>
-            )}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="p-0">
-          <div className="grid grid-cols-3 h-full">
-            {/* Conversations List */}
-            <div className="border-r overflow-y-auto">
-              <div className="p-4 border-b">
-                <div className="relative">
-                  <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                  <Input placeholder="Search conversations..." className="pl-10" />
+      <Card className="h-[calc(100vh-8rem)]">
+        <div className="grid grid-cols-12 h-full">
+          {/* Left: Conversations List */}
+          <div className="col-span-3 border-r flex flex-col">
+            <CardHeader className="border-b">
+              <CardTitle className="text-lg flex items-center gap-2">
+                <MessageCircle className="h-5 w-5" />
+                Conversations
+                <Badge className="ml-auto">{CONVERSATIONS.length}</Badge>
+              </CardTitle>
+            </CardHeader>
+            <div className="flex-1 overflow-y-auto">
+              {CONVERSATIONS.map((conv) => (
+                <div
+                  key={conv.id}
+                  onClick={() => setSelectedConversation(conv)}
+                  className={`p-4 border-b cursor-pointer hover:bg-gray-50 ${
+                    selectedConversation?.id === conv.id ? 'bg-blue-50 border-l-4 border-l-blue-600' : ''
+                  }`}
+                >
+                  <div className="flex justify-between items-start mb-1">
+                    <div className="font-semibold flex items-center gap-2">
+                      {conv.prospect_name}
+                      {conv.intent === 'hot' && <span className="text-red-600">🔥</span>}
+                      {conv.unread > 0 && (
+                        <Badge className="bg-green-600 text-white">{conv.unread}</Badge>
+                      )}
+                    </div>
+                    <span className="text-xs text-gray-500">{conv.last_message_time}</span>
+                  </div>
+                  <div className="text-xs text-gray-600 mb-1 flex items-center gap-1">
+                    <Building2 className="h-3 w-3" />
+                    {conv.company}
+                  </div>
+                  <div className="text-sm text-gray-700 truncate">{conv.last_message}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Middle: Chat Interface */}
+          <div className="col-span-6 flex flex-col">
+            {/* Chat Header */}
+            <div className="p-4 border-b bg-white">
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="font-semibold text-lg">{selectedConversation.prospect_name}</div>
+                  <div className="text-sm text-gray-600 flex items-center gap-2">
+                    <Phone className="h-3 w-3" />
+                    {selectedConversation.phone}
+                    <span className="text-gray-400">•</span>
+                    <Building2 className="h-3 w-3" />
+                    {selectedConversation.company}
+                  </div>
+                </div>
+                <Badge className={selectedConversation.intent === 'hot' ? 'bg-red-600' : 'bg-yellow-600'}>
+                  {selectedConversation.intent === 'hot' ? '🔥 Hot Lead' : 'Warm Lead'}
+                </Badge>
+              </div>
+            </div>
+
+            {/* Messages */}
+            <div className="flex-1 overflow-y-auto p-4 bg-gray-50 space-y-4">
+              {messages.map((msg) => (
+                <div
+                  key={msg.id}
+                  className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div className={`max-w-[70%] ${msg.sender === 'user' ? 'bg-blue-600 text-white' : 'bg-white border'} rounded-lg p-3 shadow-sm`}>
+                    <div className="text-sm whitespace-pre-line">{msg.message}</div>
+                    <div className={`text-xs mt-1 flex items-center gap-1 ${msg.sender === 'user' ? 'text-blue-100' : 'text-gray-500'}`}>
+                      <Clock className="h-3 w-3" />
+                      {msg.sent_at}
+                      {msg.sender === 'user' && msg.read && <CheckCheck className="h-3 w-3" />}
+                    </div>
+                    {msg.sender === 'prospect' && (
+                      <div className="mt-2 text-xs bg-green-50 text-green-700 px-2 py-1 rounded inline-block">
+                        📱 via WhatsApp
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Input */}
+            <div className="p-4 border-t bg-white">
+              {selectedSuggestion !== null && (
+                <div className="mb-2 p-2 bg-purple-50 border border-purple-200 rounded text-xs text-purple-900">
+                  <Bot className="h-3 w-3 inline mr-1" />
+                  Using AI suggestion (you can edit before sending)
+                </div>
+              )}
+              <div className="flex gap-2">
+                <Input
+                  placeholder="Type your message... (or use AI suggestions →)"
+                  value={messageInput}
+                  onChange={(e) => setMessageInput(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+                  className="flex-1"
+                />
+                <Button 
+                  onClick={handleSend}
+                  disabled={!messageInput.trim()}
+                  className="bg-green-600 hover:bg-green-700"
+                >
+                  <Send className="h-4 w-4 mr-2" />
+                  Send via WhatsApp
+                </Button>
+              </div>
+              <p className="text-xs text-gray-500 mt-2">
+                💬 Message will be sent via WhatsApp API to {selectedConversation.phone}
+              </p>
+            </div>
+          </div>
+
+          {/* Right: AI Assistant Panel */}
+          <div className="col-span-3 border-l bg-gradient-to-b from-purple-50 to-blue-50 flex flex-col">
+            <div className="p-4 border-b bg-white">
+              <div className="font-semibold flex items-center gap-2">
+                <Bot className="h-5 w-5 text-purple-600" />
+                AI Assistant
+              </div>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              {/* AI Analysis */}
+              <Card className="border-green-200 bg-green-50">
+                <CardContent className="pt-4">
+                  <div className="text-sm font-semibold text-green-900 mb-2">
+                    🎯 AI Analysis: HIGH INTEREST
+                  </div>
+                  <div className="text-xs text-green-700 space-y-1">
+                    <div><strong>Intent:</strong> Ready to learn more</div>
+                    <div><strong>Sentiment:</strong> Positive</div>
+                    <div><strong>Next Action:</strong> Schedule demo call</div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* AI Suggestions */}
+              <div>
+                <div className="text-sm font-semibold mb-3 flex items-center gap-1">
+                  <Sparkles className="h-4 w-4 text-purple-600" />
+                  AI Suggested Replies:
+                </div>
+                <div className="space-y-2">
+                  {aiSuggestions.map((suggestion, idx) => (
+                    <Card 
+                      key={idx}
+                      className={`cursor-pointer hover:shadow-md transition-all ${
+                        selectedSuggestion === idx ? 'border-2 border-purple-600 bg-purple-50' : ''
+                      }`}
+                      onClick={() => useSuggestion(idx)}
+                    >
+                      <CardContent className="p-3">
+                        <div className="text-xs font-semibold text-gray-600 mb-1">
+                          {suggestion.type === 'short' && '⚡ Quick Reply'}
+                          {suggestion.type === 'detailed' && '📝 Detailed'}
+                          {suggestion.type === 'question' && '❓ Ask Question'}
+                        </div>
+                        <div className="text-xs text-gray-700">{suggestion.text}</div>
+                      </CardContent>
+                    </Card>
+                  ))}
                 </div>
               </div>
 
-              {loading ? (
-                <div className="p-4 text-center text-gray-500">Loading...</div>
-              ) : conversations.length === 0 ? (
-                <div className="p-8 text-center text-gray-500">
-                  <MessageCircle className="h-12 w-12 mx-auto mb-4 text-gray-300" />
-                  <p>No conversations yet</p>
-                  <p className="text-sm">Conversations will appear when leads respond</p>
-                </div>
-              ) : (
-                conversations.map((conv) => (
-                  <div
-                    key={conv.id}
-                    onClick={() => selectConversation(conv)}
-                    className={`p-4 border-b cursor-pointer hover:bg-gray-50 ${
-                      selectedConversation?.id === conv.id ? 'bg-blue-50' : ''
-                    }`}
-                  >
-                    <div className="flex items-start gap-3">
-                      <Avatar>
-                        <AvatarFallback>{conv.leads.name.charAt(0)}</AvatarFallback>
-                      </Avatar>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between">
-                          <div className="font-medium truncate">{conv.leads.name}</div>
-                          {conv.unread_count > 0 && (
-                            <Badge className="bg-red-600 text-white">{conv.unread_count}</Badge>
-                          )}
-                        </div>
-                        <div className="flex items-center gap-2 text-sm text-gray-500">
-                          {getSourceIcon(conv.leads.source)}
-                          <span className="truncate">{conv.last_message_preview || 'No messages yet'}</span>
-                        </div>
-                        {conv.last_message_at && (
-                          <div className="text-xs text-gray-400 flex items-center gap-1 mt-1">
-                            <Clock className="h-3 w-3" />
-                            {new Date(conv.last_message_at).toLocaleTimeString([], { 
-                              hour: '2-digit', 
-                              minute: '2-digit' 
-                            })}
-                          </div>
-                        )}
-                      </div>
-                    </div>
+              {/* Quick Actions */}
+              <Card className="border-blue-200 bg-blue-50">
+                <CardContent className="pt-4">
+                  <div className="text-sm font-semibold mb-3">Quick Actions:</div>
+                  <div className="space-y-2">
+                    <Button size="sm" className="w-full bg-blue-600 hover:bg-blue-700">
+                      <Calendar className="h-4 w-4 mr-2" />
+                      Schedule Meeting
+                    </Button>
+                    <Button size="sm" variant="outline" className="w-full">
+                      Send Pricing
+                    </Button>
+                    <Button size="sm" variant="outline" className="w-full">
+                      Share Case Study
+                    </Button>
                   </div>
-                ))
-              )}
-            </div>
-
-            {/* Chat Area */}
-            <div className="col-span-2 flex flex-col">
-              {!selectedConversation ? (
-                <div className="flex-1 flex items-center justify-center text-gray-500">
-                  <div className="text-center">
-                    <MessageCircle className="h-16 w-16 mx-auto mb-4 text-gray-300" />
-                    <p>Select a conversation to start chatting</p>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  {/* Chat Header */}
-                  <div className="p-4 border-b">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <div className="font-bold text-lg">{selectedConversation.leads.name}</div>
-                        <div className="flex items-center gap-3 text-sm text-gray-500">
-                          <span className="flex items-center gap-1">
-                            <Phone className="h-3 w-3" />
-                            {selectedConversation.leads.phone}
-                          </span>
-                          {selectedConversation.leads.email && (
-                            <span className="flex items-center gap-1">
-                              <Mail className="h-3 w-3" />
-                              {selectedConversation.leads.email}
-                            </span>
-                          )}
-                          <Badge variant="outline" className="flex items-center gap-1">
-                            <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                            {selectedConversation.leads.quality_score}
-                          </Badge>
-                        </div>
-                      </div>
-                      <div className="flex gap-2">
-                        <Button size="sm" variant="outline">
-                          <Phone className="h-4 w-4 mr-1" />
-                          Call
-                        </Button>
-                        <Button size="sm" variant="outline">
-                          View Profile
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Messages */}
-                  <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                    {messages.length === 0 ? (
-                      <div className="text-center text-gray-500 py-12">
-                        <p>No messages yet</p>
-                        <p className="text-sm">Start the conversation!</p>
-                      </div>
-                    ) : (
-                      messages.map((message) => (
-                        <div
-                          key={message.id}
-                          className={`flex ${message.sender === 'customer' ? 'justify-end' : 'justify-start'}`}
-                        >
-                          <div
-                            className={`max-w-[70%] rounded-lg p-3 ${
-                              message.sender === 'customer'
-                                ? 'bg-blue-600 text-white'
-                                : message.sender === 'system'
-                                ? 'bg-gray-100 text-gray-600 text-sm'
-                                : 'bg-gray-200 text-gray-900'
-                            }`}
-                          >
-                            <p className="whitespace-pre-wrap">{message.message_text}</p>
-                            <div className={`text-xs mt-1 ${
-                              message.sender === 'customer' ? 'text-blue-100' : 'text-gray-500'
-                            }`}>
-                              {new Date(message.sent_at).toLocaleTimeString([], { 
-                                hour: '2-digit', 
-                                minute: '2-digit' 
-                              })}
-                            </div>
-                          </div>
-                        </div>
-                      ))
-                    )}
-                  </div>
-
-                  {/* Message Input */}
-                  <div className="p-4 border-t">
-                    <div className="flex gap-2">
-                      <Input
-                        placeholder="Type your message..."
-                        value={messageInput}
-                        onChange={(e) => setMessageInput(e.target.value)}
-                        onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && sendMessage()}
-                      />
-                      <Button
-                        onClick={sendMessage}
-                        disabled={!messageInput.trim() || sendingMessage}
-                        className="bg-blue-600 hover:bg-blue-700"
-                      >
-                        <Send className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
-                </>
-              )}
+                </CardContent>
+              </Card>
             </div>
           </div>
-        </CardContent>
+        </div>
       </Card>
     </div>
   );

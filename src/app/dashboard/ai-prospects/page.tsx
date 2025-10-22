@@ -232,11 +232,11 @@ Transition Marketing AI`,
                   <TableCell className="text-right">
                     <Button
                       size="sm"
-                      className="bg-purple-600 hover:bg-purple-700"
+                      className="bg-green-600 hover:bg-green-700"
                       onClick={() => setSelectedProspect(prospect)}
                     >
-                      <Eye className="h-4 w-4 mr-1" />
-                      View AI Email
+                      <MessageCircle className="h-4 w-4 mr-1" />
+                      Start Conversation
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -246,13 +246,13 @@ Transition Marketing AI`,
         </CardContent>
       </Card>
 
-      {/* AI Email Preview Dialog */}
+      {/* Start Conversation Dialog */}
       <Dialog open={!!selectedProspect} onOpenChange={() => setSelectedProspect(null)}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <Bot className="h-6 w-6 text-purple-600" />
-              AI-Generated Email for {selectedProspect?.name}
+              <MessageCircle className="h-6 w-6 text-green-600" />
+              Start Conversation with {selectedProspect?.name}
             </DialogTitle>
           </DialogHeader>
 
@@ -289,47 +289,58 @@ Transition Marketing AI`,
                 </CardContent>
               </Card>
 
-              {/* AI-Generated Email */}
+              {/* AI-Generated First Message */}
               {(() => {
-                const email = generateAIEmail(selectedProspect);
+                const firstMessage = `Hi ${selectedProspect.name.split(' ')[0]}! 👋
+
+I found ${selectedProspect.company} online and noticed you're in the ${selectedProspect.industry} space in ${selectedProspect.location}.
+
+We help businesses like yours get 50-100 qualified leads monthly through AI automation—completely on autopilot.
+
+Would you be interested in a quick chat about how it works?`;
+
                 return (
                   <div className="space-y-4">
                     <div>
-                      <label className="text-sm font-semibold text-gray-700">Subject Line</label>
-                      <div className="mt-1 p-3 bg-gray-50 rounded border">
-                        {email.subject}
+                      <div className="flex items-center gap-2 mb-2">
+                        <Phone className="h-4 w-4 text-green-600" />
+                        <label className="text-sm font-semibold text-gray-700">
+                          Will be sent via WhatsApp to: {selectedProspect.phone}
+                        </label>
                       </div>
-                    </div>
-                    <div>
-                      <label className="text-sm font-semibold text-gray-700">Email Body</label>
-                      <div className="mt-1 p-4 bg-gray-50 rounded border whitespace-pre-line font-mono text-sm">
-                        {email.body}
+                      <div className="mt-1 p-4 bg-gradient-to-br from-green-50 to-blue-50 rounded-lg border-2 border-green-200">
+                        <div className="bg-white rounded-lg p-4 shadow-sm">
+                          <div className="text-sm whitespace-pre-line">
+                            {firstMessage}
+                          </div>
+                        </div>
                       </div>
                     </div>
 
                     <div className="bg-blue-50 border border-blue-200 rounded p-3 text-sm">
                       <p className="text-blue-900">
-                        ✨ <strong>AI-Personalized:</strong> This email was written by AI specifically for {selectedProspect.name} based on their company, industry, and location. You can edit it or send as-is.
+                        💬 <strong>Platform Chat:</strong> This message will be sent via WhatsApp. When {selectedProspect.name.split(' ')[0]} replies, the conversation will appear in your Conversations tab. All communication happens through our platform—AI will assist you with every reply!
                       </p>
                     </div>
 
                     <div className="flex gap-3">
                       <Button 
-                        className="flex-1 bg-purple-600 hover:bg-purple-700"
+                        className="flex-1 bg-green-600 hover:bg-green-700"
                         size="lg"
                         onClick={() => {
-                          toast.success(`Email sent to ${selectedProspect.name}! AI will handle follow-ups.`);
+                          toast.success(`Conversation started! Message sent to ${selectedProspect.name} via WhatsApp.`);
                           setSelectedProspect(null);
+                          // In production: Create conversation + send via Twilio
                         }}
                       >
-                        <Send className="h-5 w-5 mr-2" />
-                        Approve & Send Email
+                        <MessageCircle className="h-5 w-5 mr-2" />
+                        Send via WhatsApp & Start Chat
                       </Button>
                       <Button 
                         variant="outline"
-                        onClick={() => toast.info('Edit feature coming soon')}
+                        onClick={() => toast.info('Edit message feature coming soon')}
                       >
-                        Edit Email
+                        Edit Message
                       </Button>
                     </div>
                   </div>
@@ -341,34 +352,39 @@ Transition Marketing AI`,
       </Dialog>
 
       {/* Info Card */}
-      <Card className="bg-gradient-to-r from-purple-50 to-blue-50 border-purple-200">
+      <Card className="bg-gradient-to-r from-green-50 to-blue-50 border-green-200">
         <CardContent className="pt-6">
           <h3 className="font-semibold mb-3 flex items-center gap-2">
-            <Bot className="h-5 w-5 text-purple-600" />
-            How AI Prospecting Works
+            <Bot className="h-5 w-5 text-green-600" />
+            How Platform-Controlled Chat Works
           </h3>
           <ul className="space-y-2 text-sm text-gray-700">
             <li className="flex items-start gap-2">
-              <span className="text-purple-600 font-bold">1.</span>
-              <span><strong>Every day at 9 AM,</strong> AI searches Google Maps, LinkedIn, and business directories for your ideal customers</span>
+              <span className="text-green-600 font-bold">1.</span>
+              <span><strong>AI finds prospects daily</strong> with phone numbers from Google Maps, LinkedIn, and directories</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-purple-600 font-bold">2.</span>
-              <span><strong>AI extracts</strong> company name, contact person, email, phone, and business details</span>
+              <span className="text-green-600 font-bold">2.</span>
+              <span><strong>You click "Start Conversation"</strong> → AI generates personalized first message</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-purple-600 font-bold">3.</span>
-              <span><strong>AI scores quality</strong> (0-100) based on company size, growth signals, and match to your criteria</span>
+              <span className="text-green-600 font-bold">3.</span>
+              <span><strong>Platform sends via WhatsApp</strong> (uses our Twilio integration) to prospect's phone</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-purple-600 font-bold">4.</span>
-              <span><strong>AI writes personalized emails</strong> for each prospect using their company info</span>
+              <span className="text-green-600 font-bold">4.</span>
+              <span><strong>Prospect replies on WhatsApp</strong> → Conversation appears in your platform chat (real-time!)</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-purple-600 font-bold">5.</span>
-              <span><strong>You review & approve</strong> → AI sends and handles all follow-ups automatically</span>
+              <span className="text-green-600 font-bold">5.</span>
+              <span><strong>All communication through platform</strong> → AI assists every reply, you never leave our site</span>
             </li>
           </ul>
+          <div className="mt-4 p-3 bg-white rounded border border-green-300">
+            <p className="text-xs text-green-900">
+              <strong>🔒 Platform Lock-In:</strong> All conversations happen in your dashboard. Leads can't be taken off-platform. AI helps you with every message!
+            </p>
+          </div>
         </CardContent>
       </Card>
     </div>

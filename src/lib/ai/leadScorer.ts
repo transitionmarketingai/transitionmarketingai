@@ -1,8 +1,4 @@
-import OpenAI from 'openai';
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+import { getOpenAI } from './openai';
 
 export interface LeadScoringCriteria {
   industry: string;
@@ -310,7 +306,13 @@ Format as JSON:
 }
 `;
 
-      const response = await openai.chat.completions.create({
+      const openaiClient = getOpenAI();
+      if (!openaiClient) {
+        console.warn('OpenAI API key not available, using fallback scoring');
+        return this.getFallbackScore(leadData, criteria);
+      }
+
+      const response = await openaiClient.chat.completions.create({
         model: 'gpt-3.5-turbo',
         messages: [{ role: 'user', content: prompt }],
         temperature: 0.7,

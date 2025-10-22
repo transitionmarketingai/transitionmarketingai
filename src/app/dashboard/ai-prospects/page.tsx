@@ -16,10 +16,16 @@ import {
   Sparkles,
   Eye,
   Send,
+  MessageCircle,
+  Zap,
+  CheckCircle2,
+  ExternalLink,
+  Loader2,
 } from 'lucide-react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { toast } from 'sonner';
+import type { EnrichmentData } from '@/lib/lead-enrichment/enricher';
 
 const DEMO_PROSPECTS = [
   {
@@ -67,6 +73,8 @@ export default function AIProspectsPage() {
   const [prospects] = useState(DEMO_PROSPECTS);
   const [selectedProspect, setSelectedProspect] = useState<any>(null);
   const [filter, setFilter] = useState('all');
+  const [enrichmentData, setEnrichmentData] = useState<EnrichmentData | null>(null);
+  const [enriching, setEnriching] = useState(false);
 
   const filteredProspects = filter === 'all' 
     ? prospects 
@@ -93,6 +101,39 @@ Best regards,
 Demo User
 Transition Marketing AI`,
     };
+  };
+
+  const enrichProspect = async (prospect: any) => {
+    setEnriching(true);
+    toast.info('🔍 AI is enriching lead data...');
+    
+    try {
+      const response = await fetch('/api/leads/enrich', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: prospect.name,
+          email: prospect.email,
+          phone: prospect.phone,
+          company: prospect.company,
+          location: prospect.location,
+        }),
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        setEnrichmentData(data.enrichment);
+        toast.success(`✨ Found ${data.enrichment.enrichmentScore}% complete data!`);
+      } else {
+        toast.error('Failed to enrich lead data');
+      }
+    } catch (error) {
+      console.error('Enrichment error:', error);
+      toast.error('Failed to enrich lead data');
+    } finally {
+      setEnriching(false);
+    }
   };
 
   return (
@@ -247,7 +288,10 @@ Transition Marketing AI`,
       </Card>
 
       {/* Start Conversation Dialog */}
-      <Dialog open={!!selectedProspect} onOpenChange={() => setSelectedProspect(null)}>
+      <Dialog open={!!selectedProspect} onOpenChange={() => {
+        setSelectedProspect(null);
+        setEnrichmentData(null);
+      }}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
@@ -261,6 +305,28 @@ Transition Marketing AI`,
               {/* Prospect Details */}
               <Card className="bg-purple-50 border-purple-200">
                 <CardContent className="pt-4">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="font-semibold">Prospect Details</h3>
+                    <Button 
+                      size="sm" 
+                      variant="outline"
+                      onClick={() => enrichProspect(selectedProspect)}
+                      disabled={enriching}
+                      className="bg-white"
+                    >
+                      {enriching ? (
+                        <>
+                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          Enriching...
+                        </>
+                      ) : (
+                        <>
+                          <Zap className="h-4 w-4 mr-2" />
+                          Enrich Data
+                        </>
+                      )}
+                    </Button>
+                  </div>
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
                       <div className="text-gray-600">Company</div>
@@ -288,6 +354,136 @@ Transition Marketing AI`,
                   </div>
                 </CardContent>
               </Card>
+
+              {/* Enriched Data */}
+              {enrichmentData && (
+                <Card className="bg-gradient-to-r from-blue-50 to-green-50 border-blue-200">
+                  <CardContent className="pt-4">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-2">
+                        <Sparkles className="h-5 w-5 text-blue-600" />
+                        <h3 className="font-semibold">AI-Enriched Data</h3>
+                      </div>
+                      <Badge className="bg-blue-600">
+                        {enrichmentData.enrichmentScore}% Complete
+                      </Badge>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      {enrichmentData.companySize && (
+                        <div className="p-3 bg-white rounded">
+                          <div className="text-gray-600">Company Size</div>
+                          <div className="font-semibold">{enrichmentData.companySize} employees</div>
+                        </div>
+                      )}
+                      {enrichmentData.companyRevenue && (
+                        <div className="p-3 bg-white rounded">
+                          <div className="text-gray-600">Revenue</div>
+                          <div className="font-semibold">{enrichmentData.companyRevenue}</div>
+                        </div>
+                      )}
+                      {enrichmentData.jobTitle && (
+                        <div className="p-3 bg-white rounded">
+                          <div className="text-gray-600">Job Title</div>
+                          <div className="font-semibold">{enrichmentData.jobTitle}</div>
+                        </div>
+                      )}
+                      {enrichmentData.seniorityLevel && (
+                        <div className="p-3 bg-white rounded">
+                          <div className="text-gray-600">Seniority</div>
+                          <div className="font-semibold">{enrichmentData.seniorityLevel}</div>
+                        </div>
+                      )}
+                      {enrichmentData.emailVerified !== undefined && (
+                        <div className="p-3 bg-white rounded">
+                          <div className="text-gray-600">Email Status</div>
+                          <div className="font-semibold flex items-center gap-1">
+                            {enrichmentData.emailVerified ? (
+                              <>
+                                <CheckCircle2 className="h-4 w-4 text-green-600" />
+                                Verified
+                              </>
+                            ) : (
+                              'Unverified'
+                            )}
+                          </div>
+                        </div>
+                      )}
+                      {enrichmentData.fundingRound && (
+                        <div className="p-3 bg-white rounded">
+                          <div className="text-gray-600">Funding</div>
+                          <div className="font-semibold">{enrichmentData.fundingRound}</div>
+                        </div>
+                      )}
+                    </div>
+
+                    {enrichmentData.linkedinUrl && (
+                      <div className="mt-4 p-3 bg-white rounded">
+                        <div className="text-gray-600 mb-2">Social Profiles</div>
+                        <div className="flex gap-2">
+                          {enrichmentData.linkedinUrl && (
+                            <a 
+                              href={enrichmentData.linkedinUrl} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="text-xs px-3 py-1 bg-blue-600 text-white rounded flex items-center gap-1 hover:bg-blue-700"
+                            >
+                              LinkedIn <ExternalLink className="h-3 w-3" />
+                            </a>
+                          )}
+                          {enrichmentData.facebookUrl && (
+                            <a 
+                              href={enrichmentData.facebookUrl} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="text-xs px-3 py-1 bg-blue-500 text-white rounded flex items-center gap-1 hover:bg-blue-600"
+                            >
+                              Facebook <ExternalLink className="h-3 w-3" />
+                            </a>
+                          )}
+                          {enrichmentData.twitterUrl && (
+                            <a 
+                              href={enrichmentData.twitterUrl} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="text-xs px-3 py-1 bg-sky-500 text-white rounded flex items-center gap-1 hover:bg-sky-600"
+                            >
+                              Twitter <ExternalLink className="h-3 w-3" />
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {enrichmentData.recentNews && enrichmentData.recentNews.length > 0 && (
+                      <div className="mt-4 p-3 bg-white rounded">
+                        <div className="text-gray-600 mb-2">Recent News</div>
+                        <div className="space-y-2">
+                          {enrichmentData.recentNews.map((news, index) => (
+                            <div key={index} className="text-xs p-2 bg-gray-50 rounded">
+                              <div className="font-semibold">{news.title}</div>
+                              <div className="text-gray-500 mt-1">{news.source} • {new Date(news.date).toLocaleDateString()}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {enrichmentData.techStack && enrichmentData.techStack.length > 0 && (
+                      <div className="mt-4 p-3 bg-white rounded">
+                        <div className="text-gray-600 mb-2">Tech Stack</div>
+                        <div className="flex flex-wrap gap-2">
+                          {enrichmentData.techStack.map((tech, index) => (
+                            <span key={index} className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded">
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              )}
 
               {/* AI-Generated First Message */}
               {(() => {

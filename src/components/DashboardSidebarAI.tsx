@@ -11,6 +11,7 @@ import {
   BarChart3,
   Settings,
   Sparkles,
+  Zap,
 } from 'lucide-react';
 import Logo from '@/components/Logo';
 
@@ -91,6 +92,27 @@ export default function DashboardSidebarAI() {
               <span>AI Outreach</span>
               <span className="text-xs bg-blue-600 text-white rounded-full px-2 py-0.5">
                 5 Pending
+              </span>
+            </div>
+          </div>
+        </Link>
+
+        {/* AI Ad Generator */}
+        <Link
+          href="/dashboard/ai-ad-generator"
+          className={cn(
+            'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
+            pathname?.startsWith('/dashboard/ai-ad-generator')
+              ? 'bg-gradient-to-r from-purple-50 to-pink-50 text-purple-700 border border-purple-200'
+              : 'text-gray-700 hover:bg-gray-50'
+          )}
+        >
+          <Zap className="h-5 w-5" />
+          <div className="flex-1">
+            <div className="flex items-center justify-between">
+              <span>AI Ad Generator</span>
+              <span className="text-xs bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full px-2 py-0.5">
+                NEW
               </span>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import DashboardSidebarFinal from '@/components/DashboardSidebarFinal';
+import DashboardSidebarAI from '@/components/DashboardSidebarAI';
 
 export default function DashboardLayout({
   children,
@@ -7,7 +7,7 @@ export default function DashboardLayout({
 }) {
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <DashboardSidebarFinal />
+      <DashboardSidebarAI />
       <main className="flex-1">
         {children}
       </main>

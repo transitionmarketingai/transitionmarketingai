@@ -1,8 +1,10 @@
 import OpenAI from 'openai';
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+function getOpenAIClient() {
+  return new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY || '',
+  });
+}
 
 interface LeadQualificationInput {
   name?: string;
@@ -34,6 +36,7 @@ export async function qualifyLeadWithAI(
   try {
     const prompt = buildQualificationPrompt(input);
 
+    const openai = getOpenAIClient();
     const response = await openai.chat.completions.create({
       model: 'gpt-4-turbo-preview',
       messages: [

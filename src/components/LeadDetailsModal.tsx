@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -83,7 +83,7 @@ export function LeadDetailsModal({ lead, isOpen, onClose, onUpdate }: LeadDetail
   const [editedLead, setEditedLead] = useState<Lead | null>(null);
   const [isEditing, setIsEditing] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (lead) {
       setEditedLead({ ...lead });
     }

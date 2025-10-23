@@ -74,12 +74,10 @@ export async function middleware(request: NextRequest) {
   const isDemoMode = request.nextUrl.searchParams.get('demo') === 'true';
 
   // Redirect logic
-  // Temporarily disabled for development - allow access to dashboard pages
-  // TODO: Re-enable after proper authentication is set up
-  // if (isProtectedRoute && !user && !isDemoMode) {
-  //   // Redirect to login if not authenticated
-  //   return NextResponse.redirect(new URL('/login', request.url));
-  // }
+  if (isProtectedRoute && !user && !isDemoMode) {
+    // Redirect to login if not authenticated
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
 
   if (isAdminRoute && !user) {
     // Admin routes require authentication

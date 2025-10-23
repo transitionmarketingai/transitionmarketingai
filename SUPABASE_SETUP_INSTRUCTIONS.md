@@ -1,301 +1,208 @@
-# 🚀 SUPABASE DATABASE SETUP - Complete Instructions
+# 🗄️ Supabase Setup Instructions
 
-## Phase 1: Database Setup (DO THIS FIRST!)
+## ✅ Step 1: Set Up Local Environment (2 minutes)
 
-**Time:** 30-40 minutes  
-**Difficulty:** Easy (just follow steps)
+Create a file called `.env.local` in your project root with these contents:
 
----
+```bash
+# Supabase Configuration
+NEXT_PUBLIC_SUPABASE_URL=https://veeylzzmymqqfecnlnqr.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZlZXlsenpteW1xcWZlY25sbnFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkyMzg3ODEsImV4cCI6MjA3NDgxNDc4MX0.w3N3YvKYJYtmcxgSpRnz-JGTbfyJNZHbeEMvkw0gFOI
 
-## 📋 STEP-BY-STEP GUIDE:
+# OpenAI (Optional - for AI features)
+# OPENAI_API_KEY=your_openai_key_here
+```
 
-### **STEP 1: Create Supabase Account** ⏱️ 5 min
-
-1. Go to: **https://supabase.com**
-2. Click "Start your project"
-3. Sign up with:
-   - GitHub (recommended)
-   - OR Google
-   - OR Email + Password
-4. Verify your email if required
-5. Create organization name: `Transition Marketing AI`
-
-**✅ Done when:** You see the Supabase dashboard
+**How to create it**:
+```bash
+# In your project root directory:
+touch .env.local
+# Then paste the content above
+```
 
 ---
 
-### **STEP 2: Create New Project** ⏱️ 5 min
+## ✅ Step 2: Run SQL Migrations in Supabase (15 minutes)
 
-**In Supabase Dashboard:**
+### **Go to Supabase Dashboard**:
+1. Visit: https://supabase.com/dashboard
+2. Select your project: `veeylzzmymqqfecnlnqr`
+3. Click **"SQL Editor"** in the left sidebar
+4. Click **"New Query"**
 
-1. Click **"New Project"** button
+### **Run These 3 SQL Files in Order**:
 
-2. Fill in project details:
-   ```
-   Name: leadgen-platform
-   Database Password: [CREATE STRONG PASSWORD - SAVE IT!]
-   Region: Mumbai (ap-south-1)  ← Closest to India!
-   Pricing Plan: Free
-   ```
+#### **Migration 1: COMPLETE_DATABASE_SCHEMA.sql**
+- Click "New Query"
+- Copy the contents of `COMPLETE_DATABASE_SCHEMA.sql` file (in your project root)
+- Paste into SQL Editor
+- Click **"Run"** (or press Ctrl+Enter)
+- Wait for success message
 
-3. Click **"Create new project"**
+#### **Migration 2: additional-tables-migration.sql**
+- Click "New Query" again
+- Copy the contents of `additional-tables-migration.sql` file
+- Paste into SQL Editor
+- Click **"Run"**
+- Wait for success message
 
-4. **WAIT 2-3 MINUTES** while Supabase provisions your database
-   - You'll see a loading screen
-   - Don't close the browser!
+#### **Migration 3: advanced-ai-tables-migration.sql**
+- Click "New Query" again
+- Copy the contents of `advanced-ai-tables-migration.sql` file
+- Paste into SQL Editor
+- Click **"Run"**
+- Wait for success message
 
-**✅ Done when:** You see "Project is ready" message
-
----
-
-### **STEP 3: Get API Credentials** ⏱️ 2 min
-
-**In Supabase Dashboard (left sidebar):**
-
-1. Click ⚙️ **Settings** → **API**
-
-2. **COPY THESE VALUES:**
-   ```
-   Project URL: https://xxxxx.supabase.co
-   anon public key: eyJhbGci...  (starts with eyJ)
-   service_role key: eyJhbGci... (starts with eyJ - KEEP SECRET!)
-   ```
-
-3. **SAVE THEM SOMEWHERE SAFE!** (You'll add them to .env.local next)
-
-**✅ Done when:** You have all 3 values saved
-
----
-
-### **STEP 4: Create .env.local File** ⏱️ 3 min
-
-**On your computer:**
-
-1. Navigate to your project folder:
-   ```bash
-   /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI
-   ```
-
-2. Create a new file named: `.env.local`
-
-3. Paste this content and **fill in your actual values from Step 3:**
-   ```bash
-   # Supabase
-   NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGci...
-   SUPABASE_SERVICE_ROLE_KEY=eyJhbGci...
-   
-   # App
-   NEXT_PUBLIC_APP_URL=http://localhost:3000
-   ```
-
-4. Save the file
-
-**✅ Done when:** .env.local file exists with your Supabase credentials
-
----
-
-### **STEP 5: Run Database Schema** ⏱️ 10 min
-
-**Back in Supabase Dashboard:**
-
-1. Click **SQL Editor** in left sidebar
-
-2. Click **"New query"** button
-
-3. **Copy the ENTIRE contents** of this file:
-   ```
-   COMPLETE_DATABASE_SCHEMA.sql
-   ```
-   (It's in your project root folder)
-
-4. **Paste** into the SQL Editor
-
-5. Click **"Run"** button (or press Cmd/Ctrl + Enter)
-
-6. **WAIT** for execution (~10-30 seconds)
-
-7. **Check for success:**
-   - Should say "Success. No rows returned"
-   - No red error messages
-
-**✅ Done when:** SQL runs successfully without errors
-
----
-
-### **STEP 6: Seed Subscription Plans** ⏱️ 3 min
-
-**In SQL Editor (same place):**
-
-1. Click **"New query"** again
-
-2. **Copy the ENTIRE contents** of:
-   ```
-   SEED_DATA.sql
-   ```
-
-3. **Paste** into SQL Editor
-
-4. Click **"Run"**
-
-5. **Verify results:**
-   - Should show 3 rows at the bottom
-   - Starter Plan: ₹4,999
-   - Professional Plan: ₹9,999
-   - Enterprise Plan: ₹24,999
-
-**✅ Done when:** You see 3 subscription plans listed
-
----
-
-### **STEP 7: Verify Tables Created** ⏱️ 5 min
-
-**In Supabase Dashboard:**
-
-1. Click **"Table Editor"** in left sidebar
-
-2. **You should see these tables:**
-   - ✅ audit_logs
-   - ✅ campaigns
+### **Verify Tables Were Created**:
+1. In Supabase, click **"Table Editor"** in left sidebar
+2. You should see these tables:
    - ✅ customers
    - ✅ leads
-   - ✅ messages
-   - ✅ notifications
-   - ✅ subscription_plans
    - ✅ subscriptions
-
-3. Click on **"subscription_plans"** table
-
-4. **Verify you see 3 rows:**
-   - Starter (₹4,999, 25 leads)
-   - Professional (₹9,999, 50 leads)
-   - Enterprise (₹24,999, 150 leads)
-
-**✅ Done when:** All 8 tables exist and subscription_plans has 3 rows
-
----
-
-### **STEP 8: Test Database Connection** ⏱️ 5 min
-
-**On your computer (Terminal):**
-
-1. Navigate to project:
-   ```bash
-   cd /Users/abhishekjohn/Documents/Business/TransitionMarketingAI/Website/TransitionMarketingAI
-   ```
-
-2. Create test file: `test-database.js`
-   ```javascript
-   require('dotenv').config({ path: '.env.local' });
-   const { createClient } = require('@supabase/supabase-js');
-
-   const supabase = createClient(
-     process.env.NEXT_PUBLIC_SUPABASE_URL,
-     process.env.SUPABASE_SERVICE_ROLE_KEY
-   );
-
-   async function testConnection() {
-     console.log('Testing Supabase connection...\n');
-     
-     // Test 1: Fetch subscription plans
-     const { data: plans, error } = await supabase
-       .from('subscription_plans')
-       .select('*')
-       .order('display_order');
-
-     if (error) {
-       console.error('❌ Error:', error.message);
-       return;
-     }
-
-     console.log('✅ Database connection successful!\n');
-     console.log('📊 Subscription Plans:');
-     plans.forEach(plan => {
-       console.log(`  - ${plan.plan_name}: ₹${plan.price_inr.toLocaleString()}/month (${plan.leads_quota} leads)`);
-     });
-     
-     console.log('\n🎉 Phase 1 Complete! Database is ready!');
-   }
-
-   testConnection();
-   ```
-
-3. Run the test:
-   ```bash
-   node test-database.js
-   ```
-
-4. **Expected output:**
-   ```
-   Testing Supabase connection...
-
-   ✅ Database connection successful!
-
-   📊 Subscription Plans:
-     - Starter Plan: ₹4,999/month (25 leads)
-     - Professional Plan: ₹9,999/month (50 leads)
-     - Enterprise Plan: ₹24,999/month (150 leads)
-
-   🎉 Phase 1 Complete! Database is ready!
-   ```
-
-**✅ Done when:** Test script runs successfully
+   - ✅ subscription_plans
+   - ✅ notifications
+   - ✅ scraping_campaigns
+   - ✅ ad_campaigns
+   - ✅ contacts
+   - ✅ outreach_campaigns
+   - ✅ conversations
+   - ✅ messages
+   - And more...
 
 ---
 
-## 🎉 PHASE 1 COMPLETE CHECKLIST:
+## ✅ Step 3: Configure Supabase Auth (5 minutes)
 
-- [ ] Supabase account created
-- [ ] Project provisioned
-- [ ] API credentials copied
-- [ ] .env.local file created with credentials
-- [ ] Database schema executed successfully
-- [ ] Seed data inserted (3 subscription plans)
-- [ ] All 8 tables visible in Table Editor
-- [ ] Test connection successful
+1. In Supabase Dashboard, go to **Authentication** → **URL Configuration**
+2. Set **Site URL**: `https://transitionmarketingai.com`
+3. Add **Redirect URLs**:
+   - `https://transitionmarketingai.com/*`
+   - `http://localhost:3000/*` (for local testing)
 
----
-
-## ⏭️ WHAT'S NEXT:
-
-Once all checkboxes above are ✅:
-
-**Phase 2: Authentication**
-- User signup/login
-- Session management
-- Protected routes
-
-**Tell me when Phase 1 is complete and I'll start building Phase 2!**
+4. Go to **Authentication** → **Email Templates**
+5. Verify these templates exist (they should by default):
+   - Confirm signup
+   - Magic Link
+   - Change Email Address
+   - Reset Password
 
 ---
 
-## 🆘 TROUBLESHOOTING:
+## ✅ Step 4: Update Vercel Environment Variables (5 minutes)
 
-### **Error: "relation does not exist"**
-- SQL wasn't run completely
-- Re-run COMPLETE_DATABASE_SCHEMA.sql
+1. Go to: https://vercel.com/dashboard
+2. Select your project
+3. Go to **Settings** → **Environment Variables**
+4. Add/Update these variables:
 
-### **Error: "duplicate key value"**
-- Seed data was run twice
-- It's okay, plans already exist!
+```
+NEXT_PUBLIC_SUPABASE_URL = https://veeylzzmymqqfecnlnqr.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZlZXlsenpteW1xcWZlY25sbnFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkyMzg3ODEsImV4cCI6MjA3NDgxNDc4MX0.w3N3YvKYJYtmcxgSpRnz-JGTbfyJNZHbeEMvkw0gFOI
+```
 
-### **Error: "permission denied"**
-- Wrong API key
-- Make sure you're using SERVICE_ROLE_KEY for server operations
-
-### **Connection timeout**
-- Check SUPABASE_URL is correct
-- Verify API keys have no extra spaces
+5. Click **"Save"**
+6. Go to **Deployments** tab
+7. Click **"Redeploy"** on the latest deployment
 
 ---
 
-## 📞 NEED HELP?
+## ✅ Step 5: Test Everything (10 minutes)
 
-If you get stuck on any step, let me know:
-- Which step number?
-- What error message?
-- Screenshot if helpful
+### **Test Local Development**:
+```bash
+# Restart your local server
+# Press Ctrl+C to stop current server
+npm run dev
+```
 
-**I'm here to help!** 🚀
+Then test:
+1. ✅ Demo mode: http://localhost:3000/login?demo=true (should work)
+2. ✅ Signup: http://localhost:3000/signup (create test account)
+3. ✅ Check email for verification
+4. ✅ Login with your credentials
+5. ✅ Complete onboarding
+6. ✅ See dashboard
 
+### **Test Production**:
+1. Wait for Vercel deployment to complete (~2 minutes)
+2. Visit: https://transitionmarketingai.com
+3. Try signing up with a real email
+4. Complete flow end-to-end
 
+---
+
+## 🔍 Troubleshooting
+
+### **Issue: "getaddrinfo ENOTFOUND" error**
+**Solution**: 
+- Make sure `.env.local` file is created in project root
+- Restart your development server
+- Check that Supabase URL is correct
+
+### **Issue: Tables not created**
+**Solution**:
+- Check SQL Editor for error messages
+- Run migrations one by one
+- Verify you're in the correct Supabase project
+
+### **Issue: Auth not working**
+**Solution**:
+- Check Supabase → Authentication → URL Configuration
+- Make sure Site URL is set
+- Check email templates are configured
+
+### **Issue: Can't create `.env.local`**
+**Solution**:
+```bash
+# In project root:
+cat > .env.local << 'EOF'
+NEXT_PUBLIC_SUPABASE_URL=https://veeylzzmymqqfecnlnqr.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZlZXlsenpteW1xcWZlY25sbnFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkyMzg3ODEsImV4cCI6MjA3NDgxNDc4MX0.w3N3YvKYJYtmcxgSpRnz-JGTbfyJNZHbeEMvkw0gFOI
+EOF
+```
+
+---
+
+## ✅ Success Checklist
+
+- [ ] Created `.env.local` file
+- [ ] Ran all 3 SQL migrations in Supabase
+- [ ] Verified tables exist in Table Editor
+- [ ] Configured Auth URLs in Supabase
+- [ ] Updated Vercel environment variables
+- [ ] Redeployed on Vercel
+- [ ] Restarted local dev server
+- [ ] Tested demo mode (works)
+- [ ] Tested real signup (works)
+- [ ] Tested login (works)
+- [ ] Tested dashboard (works)
+
+---
+
+## 🎉 Once Complete
+
+You'll be able to:
+- ✅ Accept real user signups
+- ✅ Users can complete onboarding
+- ✅ Users can access their dashboard
+- ✅ Data is stored in Supabase
+- ✅ Authentication works
+- ✅ Demo mode still works
+
+**Estimated Total Time**: 30-40 minutes
+
+---
+
+## 📝 Quick Reference
+
+**Supabase Dashboard**: https://supabase.com/dashboard/project/veeylzzmymqqfecnlnqr  
+**Vercel Dashboard**: https://vercel.com/dashboard  
+**Production Site**: https://transitionmarketingai.com  
+**Demo Mode**: https://transitionmarketingai.com/login?demo=true  
+
+**SQL Files to Run** (in order):
+1. `COMPLETE_DATABASE_SCHEMA.sql`
+2. `additional-tables-migration.sql`
+3. `advanced-ai-tables-migration.sql`
+
+All files are in your project root directory!

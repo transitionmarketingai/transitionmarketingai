@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -20,12 +21,16 @@ import {
   TrendingUp,
   Folder,
   FileText,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 import Logo from '@/components/Logo';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 
 export default function DashboardSidebarAI() {
   const pathname = usePathname();
+  const [collapsed, setCollapsed] = useState(false);
 
   const isActive = (href: string) => {
     if (href === '/dashboard') return pathname === '/dashboard';
@@ -33,20 +38,45 @@ export default function DashboardSidebarAI() {
   };
 
   return (
-    <div className="w-64 bg-white border-r border-slate-200 min-h-screen flex flex-col">
+    <div className={cn(
+      "bg-white border-r border-slate-200 min-h-screen flex flex-col transition-all duration-300 relative",
+      collapsed ? "w-20" : "w-64"
+    )}>
+      {/* Collapse Toggle Button */}
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={() => setCollapsed(!collapsed)}
+        className="absolute -right-3 top-6 z-50 h-6 w-6 rounded-full border border-slate-200 bg-white p-0 hover:bg-slate-50 shadow-sm"
+      >
+        {collapsed ? (
+          <ChevronRight className="h-4 w-4" />
+        ) : (
+          <ChevronLeft className="h-4 w-4" />
+        )}
+      </Button>
+
       {/* Logo */}
       <Link href="/dashboard" className="p-4 border-b border-slate-200">
-        <Logo size="sm" />
+        {collapsed ? (
+          <div className="flex justify-center">
+            <Sparkles className="h-6 w-6 text-blue-600" />
+          </div>
+        ) : (
+          <Logo size="sm" />
+        )}
       </Link>
 
       {/* AI Badge */}
-      <div className="px-4 py-3 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-slate-200">
-        <div className="flex items-center gap-2 text-sm">
-          <Sparkles className="h-4 w-4 text-blue-600" />
-          <span className="font-semibold text-blue-900">AI Autopilot Active</span>
+      {!collapsed && (
+        <div className="px-4 py-3 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-slate-200">
+          <div className="flex items-center gap-2 text-sm">
+            <Sparkles className="h-4 w-4 text-blue-600" />
+            <span className="font-semibold text-blue-900">AI Autopilot Active</span>
+          </div>
+          <p className="text-xs text-slate-600 mt-1">Finding prospects 24/7</p>
         </div>
-        <p className="text-xs text-slate-600 mt-1">Finding prospects 24/7</p>
-      </div>
+      )}
 
       {/* Navigation */}
       <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
@@ -63,19 +93,23 @@ export default function DashboardSidebarAI() {
               'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
               pathname === '/dashboard'
                 ? 'bg-blue-50 text-blue-700'
-                : 'text-slate-700 hover:bg-slate-50'
+                : 'text-slate-700 hover:bg-slate-50',
+              collapsed && 'justify-center'
             )}
+            title="Dashboard"
           >
-            <LayoutDashboard className="h-5 w-5" />
-            <span>Dashboard</span>
+            <LayoutDashboard className="h-5 w-5 flex-shrink-0" />
+            {!collapsed && <span>Dashboard</span>}
           </Link>
         </div>
 
         {/* Lead Pipeline Section */}
         <div className="mb-4">
-          <div className="px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-            Lead Pipeline
-          </div>
+          {!collapsed && (
+            <div className="px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+              Lead Pipeline
+            </div>
+          )}
 
           {/* AI Prospects (Locked - Need to Unlock) */}
           <Link

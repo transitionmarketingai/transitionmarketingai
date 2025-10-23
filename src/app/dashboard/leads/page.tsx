@@ -340,23 +340,38 @@ export default function LeadsPage() {
                           </div>
                         </TableCell>
                         <TableCell className="text-right">
-                          <div className="flex gap-2 justify-end">
+                          <div className="flex gap-2 justify-end flex-wrap">
+                            <Button
+                              size="sm"
+                              className="bg-green-600 hover:bg-green-700 gap-1"
+                              onClick={() => {
+                                window.location.href = `tel:${lead.phone}`;
+                                toast.success(`Calling ${lead.name}...`);
+                              }}
+                            >
+                              <Phone className="h-4 w-4" />
+                              Call
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => {
+                                setSelectedLead(lead);
+                                toast.info('Lead details opened');
+                              }}
+                              className="gap-1"
+                            >
+                              <Mail className="h-4 w-4" />
+                              View Contact
+                            </Button>
                             <Button
                               size="sm"
                               variant="outline"
                               onClick={() => handleOpenAI(lead)}
-                              className="bg-purple-600 hover:bg-purple-700 text-white border-purple-600"
+                              className="bg-purple-50 hover:bg-purple-100 text-purple-700 border-purple-200 gap-1"
                             >
-                              <Brain className="h-4 w-4 mr-1" />
+                              <Brain className="h-4 w-4" />
                               AI
-                            </Button>
-                            <Button
-                              size="sm"
-                              className="bg-blue-600 hover:bg-blue-700"
-                              onClick={() => router.push(`/dashboard/conversations?leadId=${lead.id}`)}
-                            >
-                              <MessageCircle className="h-4 w-4 mr-1" />
-                              Chat
                             </Button>
                           </div>
                         </TableCell>

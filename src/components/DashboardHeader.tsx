@@ -53,6 +53,9 @@ export default function DashboardHeader({ showLogo = false }: DashboardHeaderPro
     // Clear all local storage
     localStorage.clear();
     
+    // Clear demo mode cookie
+    document.cookie = 'demo_mode=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    
     // Redirect to login
     router.push('/login');
   };

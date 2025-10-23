@@ -36,7 +36,10 @@ export default function LoginPage() {
     try {
       // For demo mode, bypass auth
       if (email === 'demo@leadgenpro.in' || isDemoMode) {
+        // Set demo mode in both localStorage and cookie
         localStorage.setItem('demo_mode', 'true');
+        document.cookie = 'demo_mode=true; path=/; max-age=86400; SameSite=Lax'; // 24 hours
+        
         localStorage.setItem('demo_customer', JSON.stringify({
           id: 'demo-customer-123',
           business_name: 'ABC Real Estate',
@@ -92,7 +95,10 @@ export default function LoginPage() {
   }
 
   function handleDemoClick() {
+    // Set demo mode in both localStorage and cookie
     localStorage.setItem('demo_mode', 'true');
+    document.cookie = 'demo_mode=true; path=/; max-age=86400; SameSite=Lax'; // 24 hours
+    
     localStorage.setItem('demo_customer', JSON.stringify({
       id: 'demo-customer-123',
       business_name: 'ABC Real Estate',

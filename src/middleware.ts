@@ -70,8 +70,20 @@ export async function middleware(request: NextRequest) {
   // Admin routes
   const isAdminRoute = request.nextUrl.pathname.startsWith('/admin');
 
-  // Allow demo mode for dashboard
-  const isDemoMode = request.nextUrl.searchParams.get('demo') === 'true';
+  // Allow demo mode for dashboard - check query param or cookie
+  const isDemoModeParam = request.nextUrl.searchParams.get('demo') === 'true';
+  const isDemoModeCookie = request.cookies.get('demo_mode')?.value === 'true';
+  const isDemoMode = isDemoModeParam || isDemoModeCookie;
+
+  // If demo mode param is present, set the cookie
+  if (isDemoModeParam && !isDemoModeCookie) {
+    response.cookies.set('demo_mode', 'true', {
+      path: '/',
+      maxAge: 60 * 60 * 24, // 24 hours
+      sameSite: 'lax',
+      httpOnly: false, // Allow JavaScript access
+    });
+  }
 
   // Redirect logic
   if (isProtectedRoute && !user && !isDemoMode) {

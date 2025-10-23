@@ -34,11 +34,14 @@ import {
   Eye,
   Edit,
   Trash2,
-  ExternalLink
+  ExternalLink,
+  Loader2,
+  AlertCircle
 } from 'lucide-react';
 import Logo from '@/components/Logo';
 import { LeadDetailsModal } from '@/components/LeadDetailsModal';
 import { CampaignCreationModal } from '@/components/CampaignCreationModal';
+import { toast } from 'sonner';
 
 interface Lead {
   id: string;
@@ -75,11 +78,24 @@ export default function Dashboard() {
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
   const [isCampaignModalOpen, setIsCampaignModalOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [isDemoMode, setIsDemoMode] = useState(false);
+  const [stats, setStats] = useState({
+    totalLeads: 0,
+    activeCampaigns: 0,
+    conversionRate: 0,
+    monthlySpend: 0,
+    newLeads: 0,
+    qualifiedLeads: 0,
+  });
 
   useEffect(() => {
     // Check if onboarding is complete (skip for demo mode)
-    const isDemoMode = localStorage.getItem('demo_mode') === 'true';
-    if (!isDemoMode) {
+    const demoMode = localStorage.getItem('demo_mode') === 'true';
+    setIsDemoMode(demoMode);
+    
+    if (!demoMode) {
       const onboardingCompleted = localStorage.getItem('onboarding_completed');
       if (!onboardingCompleted) {
         window.location.href = '/onboarding';
@@ -88,8 +104,12 @@ export default function Dashboard() {
     }
     setIsOnboardingComplete(true);
 
-    // Load demo data
-    loadDemoData();
+    // Load real data or demo data
+    if (demoMode) {
+      loadDemoData();
+    } else {
+      loadRealData();
+    }
   }, []);
 
   const loadDemoData = () => {
@@ -178,6 +198,107 @@ export default function Dashboard() {
 
     setLeads(demoLeads);
     setCampaigns(demoCampaigns);
+    setStats({
+      totalLeads: demoLeads.length,
+      activeCampaigns: demoCampaigns.filter(c => c.status === 'active').length,
+      conversionRate: 18.5,
+      monthlySpend: 11900,
+      newLeads: demoLeads.filter(l => l.status === 'new').length,
+      qualifiedLeads: demoLeads.filter(l => l.status === 'qualified').length,
+    });
+    setLoading(false);
+  };
+
+  const loadRealData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      // Fetch leads
+      const leadsResponse = await fetch('/api/leads?limit=10');
+      if (!leadsResponse.ok) {
+        throw new Error('Failed to fetch leads');
+      }
+      const leadsData = await leadsResponse.json();
+
+      // Transform leads data to match component interface
+      const transformedLeads: Lead[] = (leadsData.leads || []).map((lead: any) => ({
+        id: lead.id,
+        name: lead.name || 'Unknown',
+        company: lead.lead_data?.company || 'N/A',
+        email: lead.email || '',
+        phone: lead.phone || '',
+        location: `${lead.city || ''}, ${lead.state || ''}`.trim() || 'N/A',
+        source: lead.source || 'web_scraping',
+        status: lead.status || 'new',
+        score: lead.quality_score || 0,
+        createdAt: lead.received_at || lead.created_at || new Date().toISOString(),
+        lastContact: lead.last_activity_at || lead.received_at || new Date().toISOString(),
+        notes: lead.notes || '',
+      }));
+
+      // Fetch analytics/dashboard stats
+      const statsResponse = await fetch('/api/analytics/dashboard');
+      if (!statsResponse.ok) {
+        throw new Error('Failed to fetch analytics');
+      }
+      const statsData = await statsResponse.json();
+
+      // Fetch scraping campaigns
+      const scrapingResponse = await fetch('/api/scraping/campaigns');
+      const scrapingData = scrapingResponse.ok ? await scrapingResponse.json() : { campaigns: [] };
+
+      // Fetch ad campaigns
+      const adCampaignsResponse = await fetch('/api/campaigns/ad-campaigns');
+      const adCampaignsData = adCampaignsResponse.ok ? await adCampaignsResponse.json() : { campaigns: [] };
+
+      // Combine and transform campaigns
+      const allCampaigns: Campaign[] = [
+        ...(scrapingData.campaigns || []).map((c: any) => ({
+          id: c.id,
+          name: c.name,
+          type: 'web_scraping' as const,
+          status: c.status,
+          leadsGenerated: c.contacts_found || 0,
+          conversionRate: 0,
+          budget: 0,
+          spent: 0,
+          createdAt: c.created_at,
+        })),
+        ...(adCampaignsData.campaigns || []).map((c: any) => ({
+          id: c.id,
+          name: c.name,
+          type: c.platform === 'meta' ? 'facebook_ads' as const : 'google_ads' as const,
+          status: c.status,
+          leadsGenerated: c.leads_generated || 0,
+          conversionRate: c.conversion_rate || 0,
+          budget: c.budget_amount || 0,
+          spent: c.spent_amount || 0,
+          createdAt: c.created_at,
+        })),
+      ];
+
+      // Calculate stats
+      const totalSpent = allCampaigns.reduce((sum, c) => sum + c.spent, 0);
+      const activeCampaigns = allCampaigns.filter(c => c.status === 'active');
+
+      setLeads(transformedLeads);
+      setCampaigns(allCampaigns);
+      setStats({
+        totalLeads: statsData.stats?.total || transformedLeads.length,
+        activeCampaigns: activeCampaigns.length,
+        conversionRate: statsData.stats?.avgQualityScore || 0,
+        monthlySpend: totalSpent,
+        newLeads: statsData.stats?.new || 0,
+        qualifiedLeads: statsData.stats?.qualified || 0,
+      });
+      setLoading(false);
+    } catch (err: any) {
+      console.error('Error loading dashboard data:', err);
+      setError(err.message || 'Failed to load dashboard data');
+      setLoading(false);
+      toast.error('Failed to load dashboard data. Please refresh the page.');
+    }
   };
 
   const handleLeadClick = (lead: Lead) => {
@@ -236,13 +357,31 @@ export default function Dashboard() {
     }
   };
 
-  if (!isOnboardingComplete) {
+  if (!isOnboardingComplete || loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading your dashboard...</p>
+          <Loader2 className="h-12 w-12 text-blue-600 mx-auto mb-4 animate-spin" />
+          <p className="text-slate-600">Loading your dashboard...</p>
         </div>
+      </div>
+    );
+  }
+
+  if (error && !isDemoMode) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <Card className="max-w-md">
+          <CardContent className="py-12 text-center">
+            <AlertCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-slate-900 mb-2">Failed to Load Dashboard</h3>
+            <p className="text-slate-600 mb-4">{error}</p>
+            <Button onClick={() => window.location.reload()}>
+              <RefreshCw className="h-4 w-4 mr-2" />
+              Retry
+            </Button>
+          </CardContent>
+        </Card>
       </div>
     );
   }
@@ -263,74 +402,74 @@ export default function Dashboard() {
 
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card className="border border-gray-200">
+          <Card className="border border-slate-200">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Total Leads</p>
-                  <p className="text-2xl font-bold text-gray-900">{leads.length}</p>
+                  <p className="text-sm font-medium text-slate-600">Total Leads</p>
+                  <p className="text-2xl font-bold text-slate-900">{stats.totalLeads}</p>
                 </div>
-                <div className="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center">
-                  <Users className="h-6 w-6 text-gray-600" />
+                <div className="w-12 h-12 rounded-lg bg-slate-100 flex items-center justify-center">
+                  <Users className="h-6 w-6 text-slate-600" />
                 </div>
               </div>
-              <div className="mt-4 flex items-center text-sm text-gray-500">
+              <div className="mt-4 flex items-center text-sm text-slate-500">
                 <TrendingUp className="h-4 w-4 mr-1" />
-                +12% from last week
+                {stats.newLeads} new this week
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border border-gray-200">
+          <Card className="border border-slate-200">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Active Campaigns</p>
-                  <p className="text-2xl font-bold text-gray-900">{campaigns.filter(c => c.status === 'active').length}</p>
+                  <p className="text-sm font-medium text-slate-600">Active Campaigns</p>
+                  <p className="text-2xl font-bold text-slate-900">{stats.activeCampaigns}</p>
                 </div>
-                <div className="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center">
-                  <Zap className="h-6 w-6 text-gray-600" />
+                <div className="w-12 h-12 rounded-lg bg-slate-100 flex items-center justify-center">
+                  <Zap className="h-6 w-6 text-slate-600" />
                 </div>
               </div>
-              <div className="mt-4 flex items-center text-sm text-gray-500">
+              <div className="mt-4 flex items-center text-sm text-slate-500">
                 <Play className="h-4 w-4 mr-1" />
                 All running
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border border-gray-200">
+          <Card className="border border-slate-200">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Conversion Rate</p>
-                  <p className="text-2xl font-bold text-gray-900">18.5%</p>
+                  <p className="text-sm font-medium text-slate-600">Quality Score</p>
+                  <p className="text-2xl font-bold text-slate-900">{stats.conversionRate}%</p>
                 </div>
-                <div className="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center">
-                  <Target className="h-6 w-6 text-gray-600" />
+                <div className="w-12 h-12 rounded-lg bg-slate-100 flex items-center justify-center">
+                  <Target className="h-6 w-6 text-slate-600" />
                 </div>
               </div>
-              <div className="mt-4 flex items-center text-sm text-gray-500">
-                <TrendingUp className="h-4 w-4 mr-1" />
-                +3.2% from last week
+              <div className="mt-4 flex items-center text-sm text-slate-500">
+                <CheckCircle className="h-4 w-4 mr-1" />
+                {stats.qualifiedLeads} qualified
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border border-gray-200">
+          <Card className="border border-slate-200">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Monthly Spend</p>
-                  <p className="text-2xl font-bold text-gray-900">₹11,900</p>
+                  <p className="text-sm font-medium text-slate-600">Monthly Spend</p>
+                  <p className="text-2xl font-bold text-slate-900">₹{stats.monthlySpend.toLocaleString('en-IN')}</p>
                 </div>
-                <div className="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center">
-                  <DollarSign className="h-6 w-6 text-gray-600" />
+                <div className="w-12 h-12 rounded-lg bg-slate-100 flex items-center justify-center">
+                  <DollarSign className="h-6 w-6 text-slate-600" />
                 </div>
               </div>
-              <div className="mt-4 flex items-center text-sm text-gray-500">
-                <Clock className="h-4 w-4 mr-1" />
-                This month
+              <div className="mt-4 flex items-center text-sm text-slate-500">
+                <CheckCircle className="h-4 w-4 mr-1" />
+                Within budget
               </div>
             </CardContent>
           </Card>

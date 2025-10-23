@@ -126,11 +126,11 @@ export default function LeadsPage() {
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-8 max-w-7xl mx-auto space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold">Leads Pipeline</h1>
-          <p className="text-gray-600">Track your leads through each stage</p>
+          <h1 className="text-3xl font-bold text-slate-900">Leads Pipeline</h1>
+          <p className="text-slate-600">Track your leads through each stage</p>
         </div>
         <div className="flex gap-3">
           <Input

@@ -53,7 +53,7 @@ export default function DashboardSidebarAI() {
         {/* Main Section */}
         <div className="mb-4">
           <div className="px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-            Main
+            Overview
           </div>
           
           {/* Dashboard */}
@@ -69,8 +69,34 @@ export default function DashboardSidebarAI() {
             <LayoutDashboard className="h-5 w-5" />
             <span>Dashboard</span>
           </Link>
+        </div>
 
-          {/* All Leads */}
+        {/* Lead Pipeline Section */}
+        <div className="mb-4">
+          <div className="px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+            Lead Pipeline
+          </div>
+
+          {/* AI Prospects (Locked - Need to Unlock) */}
+          <Link
+            href="/dashboard/prospects"
+            className={cn(
+              'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
+              pathname?.startsWith('/dashboard/prospects')
+                ? 'bg-purple-50 text-purple-700'
+                : 'text-slate-700 hover:bg-slate-50'
+            )}
+          >
+            <Bot className="h-5 w-5" />
+            <div className="flex-1 flex items-center justify-between">
+              <span>New Prospects</span>
+              <Badge className="bg-purple-600 text-white text-xs">
+                10 🔒
+              </Badge>
+            </div>
+          </Link>
+
+          {/* My Leads (Unlocked Contacts) */}
           <Link
             href="/dashboard/leads"
             className={cn(
@@ -82,7 +108,7 @@ export default function DashboardSidebarAI() {
           >
             <Users className="h-5 w-5" />
             <div className="flex-1 flex items-center justify-between">
-              <span>All Leads</span>
+              <span>My Leads</span>
               <Badge variant="secondary" className="bg-slate-100 text-slate-700 text-xs">
                 24
               </Badge>
@@ -109,74 +135,10 @@ export default function DashboardSidebarAI() {
           </Link>
         </div>
 
-        {/* AI Tools Section */}
+        {/* Outreach Section */}
         <div className="mb-4">
           <div className="px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-            AI Tools
-          </div>
-
-          {/* AI Prospects */}
-          <Link
-            href="/dashboard/ai-prospects"
-            className={cn(
-              'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
-              pathname?.startsWith('/dashboard/ai-prospects')
-                ? 'bg-purple-50 text-purple-700'
-                : 'text-slate-700 hover:bg-slate-50'
-            )}
-          >
-            <Bot className="h-5 w-5" />
-            <div className="flex-1 flex items-center justify-between">
-              <span>AI Prospects</span>
-              <Badge className="bg-purple-600 text-white text-xs">
-                10 New
-              </Badge>
-            </div>
-          </Link>
-
-          {/* AI Outreach */}
-          <Link
-            href="/dashboard/ai-outreach"
-            className={cn(
-              'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
-              pathname?.startsWith('/dashboard/ai-outreach')
-                ? 'bg-blue-50 text-blue-700'
-                : 'text-slate-700 hover:bg-slate-50'
-            )}
-          >
-            <Send className="h-5 w-5" />
-            <div className="flex-1 flex items-center justify-between">
-              <span>AI Outreach</span>
-              <Badge className="bg-blue-600 text-white text-xs">
-                5
-              </Badge>
-            </div>
-          </Link>
-
-          {/* AI Ad Generator */}
-          <Link
-            href="/dashboard/ai-ad-generator"
-            className={cn(
-              'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
-              pathname?.startsWith('/dashboard/ai-ad-generator')
-                ? 'bg-gradient-to-r from-purple-50 to-pink-50 text-purple-700 border border-purple-200'
-                : 'text-slate-700 hover:bg-slate-50'
-            )}
-          >
-            <Zap className="h-5 w-5" />
-            <div className="flex-1 flex items-center justify-between">
-              <span>AI Ad Generator</span>
-              <Badge className="bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xs">
-                NEW
-              </Badge>
-            </div>
-          </Link>
-        </div>
-
-        {/* Communication Section */}
-        <div className="mb-4">
-          <div className="px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-            Communication
+            Outreach
           </div>
 
           {/* Conversations */}
@@ -196,6 +158,20 @@ export default function DashboardSidebarAI() {
                 3
               </Badge>
             </div>
+          </Link>
+
+          {/* Phone Calls */}
+          <Link
+            href="/dashboard/calls"
+            className={cn(
+              'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
+              pathname?.startsWith('/dashboard/calls')
+                ? 'bg-blue-50 text-blue-700'
+                : 'text-slate-700 hover:bg-slate-50'
+            )}
+          >
+            <Phone className="h-5 w-5" />
+            <span>Phone Calls</span>
           </Link>
 
           {/* Email Campaigns */}
@@ -222,15 +198,50 @@ export default function DashboardSidebarAI() {
                 : 'text-slate-700 hover:bg-slate-50'
             )}
           >
-            <Phone className="h-5 w-5" />
+            <MessageCircle className="h-5 w-5" />
             <span>WhatsApp</span>
           </Link>
         </div>
 
-        {/* Data & Insights Section */}
+        {/* AI Tools Section */}
         <div className="mb-4">
           <div className="px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-            Data & Insights
+            AI Tools
+          </div>
+
+          {/* AI Ad Generator */}
+          <Link
+            href="/dashboard/ai-ad-generator"
+            className={cn(
+              'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
+              pathname?.startsWith('/dashboard/ai-ad-generator')
+                ? 'bg-gradient-to-r from-purple-50 to-pink-50 text-purple-700 border border-purple-200'
+                : 'text-slate-700 hover:bg-slate-50'
+            )}
+          >
+            <Zap className="h-5 w-5" />
+            <span>AI Ad Generator</span>
+          </Link>
+
+          {/* AI Outreach Assistant */}
+          <Link
+            href="/dashboard/ai-outreach"
+            className={cn(
+              'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
+              pathname?.startsWith('/dashboard/ai-outreach')
+                ? 'bg-blue-50 text-blue-700'
+                : 'text-slate-700 hover:bg-slate-50'
+            )}
+          >
+            <Send className="h-5 w-5" />
+            <span>AI Outreach</span>
+          </Link>
+        </div>
+
+        {/* Analytics Section */}
+        <div className="mb-4">
+          <div className="px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+            Analytics
           </div>
 
           {/* Analytics */}
@@ -260,20 +271,6 @@ export default function DashboardSidebarAI() {
             <FileText className="h-5 w-5" />
             <span>Reports</span>
           </Link>
-
-          {/* Lead Sources */}
-          <Link
-            href="/dashboard/lead-sources"
-            className={cn(
-              'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
-              pathname?.startsWith('/dashboard/lead-sources')
-                ? 'bg-blue-50 text-blue-700'
-                : 'text-slate-700 hover:bg-slate-50'
-            )}
-          >
-            <Globe className="h-5 w-5" />
-            <span>Lead Sources</span>
-          </Link>
         </div>
 
         {/* Divider */}
@@ -296,29 +293,49 @@ export default function DashboardSidebarAI() {
         </Link>
       </nav>
 
-      {/* Bottom - AI Stats */}
-      <div className="p-4 border-t border-slate-200 bg-slate-50">
-        <div className="text-xs text-slate-500 mb-3 font-medium">AI Activity Today</div>
-        <div className="space-y-2 text-xs">
-          <div className="flex justify-between items-center">
-            <span className="text-slate-600">Prospects found:</span>
-            <div className="flex items-center gap-1">
-              <TrendingUp className="h-3 w-3 text-purple-600" />
-              <span className="font-semibold text-purple-600">10</span>
+      {/* Bottom - Credits & Activity */}
+      <div className="p-4 border-t border-slate-200 bg-gradient-to-br from-slate-50 to-slate-100">
+        <div className="text-xs text-slate-500 mb-3 font-medium flex items-center justify-between">
+          <span>Your Credits</span>
+          <Link href="/dashboard/settings" className="text-blue-600 hover:text-blue-700 font-semibold">
+            Buy More
+          </Link>
+        </div>
+        <div className="space-y-3">
+          {/* Credit Balance */}
+          <div className="bg-white rounded-lg p-3 border border-slate-200">
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-slate-600">Available Credits</span>
+              <span className="text-lg font-bold text-slate-900">1,250</span>
             </div>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-slate-600">Emails sent:</span>
-            <div className="flex items-center gap-1">
-              <Mail className="h-3 w-3 text-blue-600" />
-              <span className="font-semibold text-blue-600">23</span>
+            <div className="mt-2 bg-slate-100 h-1.5 rounded-full overflow-hidden">
+              <div className="bg-blue-600 h-full" style={{ width: '62%' }}></div>
             </div>
+            <p className="text-xs text-slate-500 mt-1">62% remaining</p>
           </div>
-          <div className="flex justify-between items-center">
-            <span className="text-slate-600">Responses:</span>
-            <div className="flex items-center gap-1">
-              <MessageCircle className="h-3 w-3 text-green-600" />
-              <span className="font-semibold text-green-600">3</span>
+
+          {/* Today's Activity */}
+          <div className="space-y-1.5 text-xs">
+            <div className="flex justify-between items-center">
+              <span className="text-slate-600">Prospects found:</span>
+              <div className="flex items-center gap-1">
+                <TrendingUp className="h-3 w-3 text-purple-600" />
+                <span className="font-semibold text-purple-600">10</span>
+              </div>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-slate-600">Leads unlocked:</span>
+              <div className="flex items-center gap-1">
+                <Users className="h-3 w-3 text-blue-600" />
+                <span className="font-semibold text-blue-600">5</span>
+              </div>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-slate-600">Calls made:</span>
+              <div className="flex items-center gap-1">
+                <Phone className="h-3 w-3 text-green-600" />
+                <span className="font-semibold text-green-600">3</span>
+              </div>
             </div>
           </div>
         </div>

@@ -289,8 +289,8 @@ export default function SignupPage() {
                     <CheckCircle className="h-5 w-5 text-white" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900">₹5,000 Ad Credits</h3>
-                    <p className="text-gray-600">Meta and Google Ads integration included</p>
+                    <h3 className="font-semibold text-gray-900">AI-Powered Lead Generation</h3>
+                    <p className="text-gray-600">Automated prospecting and outreach included</p>
                   </div>
                 </div>
               </div>

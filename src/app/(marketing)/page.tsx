@@ -75,17 +75,36 @@ export default function LandingPage() {
               </div>
               
               <h1 className="text-5xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight">
-                Stop Chasing Leads.
+                Get 50+ Verified Leads
                 <br />
-                <span className="text-slate-600">
-                  Let AI Bring Them to You.
+                <span className="text-blue-600">
+                  Every Month - Guaranteed
                 </span>
               </h1>
               
-              <p className="text-xl text-slate-600 mb-10 leading-relaxed max-w-2xl">
-                Our AI finds, qualifies, and converts prospects 24/7. 
-                Get 50+ qualified leads in your first week while you focus on closing deals.
+              <p className="text-xl text-slate-600 mb-8 leading-relaxed max-w-2xl">
+                We don't just give you software. We deliver <strong className="text-slate-900">qualified, verified leads</strong> directly to your inbox. No setup. No guesswork. Just results.
               </p>
+
+              {/* Value Props */}
+              <div className="grid grid-cols-2 gap-4 mb-10 max-w-2xl">
+                <div className="flex items-center gap-2 text-slate-700">
+                  <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
+                  <span className="font-medium">Verified Phone & Email</span>
+                </div>
+                <div className="flex items-center gap-2 text-slate-700">
+                  <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
+                  <span className="font-medium">Industry-Specific Targeting</span>
+                </div>
+                <div className="flex items-center gap-2 text-slate-700">
+                  <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
+                  <span className="font-medium">Money-Back Guarantee</span>
+                </div>
+                <div className="flex items-center gap-2 text-slate-700">
+                  <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
+                  <span className="font-medium">Delivered in 7 Days</span>
+                </div>
+              </div>
 
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 mb-10">
@@ -185,78 +204,147 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Clean Stats Section */}
+      {/* Problem-Solution Section */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-              Trusted by 500+ Indian Businesses
+              The Lead Generation Problem Most Businesses Face
             </h2>
-            <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-              Join the companies already generating qualified leads on autopilot
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+              Sound familiar? You're not alone.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="bg-slate-50 rounded-lg p-8 shadow-sm border border-slate-200">
-                <div className="text-4xl md:text-5xl font-bold text-slate-900 mb-2">
-                  2,500+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+            {/* Problems */}
+            <div className="space-y-6">
+              <h3 className="text-2xl font-bold text-slate-900 mb-8">❌ Traditional Problems</h3>
+              <div className="flex items-start gap-4 p-6 bg-red-50 rounded-lg border border-red-200">
+                <div className="text-red-600 text-2xl font-bold">1</div>
+                <div>
+                  <h4 className="font-semibold text-slate-900 mb-2">Wasting Money on Ads</h4>
+                  <p className="text-slate-600 text-sm">Spending ₹50,000/month on Google/Meta ads but getting unqualified leads who never convert.</p>
                 </div>
-                <div className="text-slate-700 font-medium">Leads Generated</div>
-                <div className="text-slate-500 text-sm mt-1">This Month</div>
+              </div>
+              <div className="flex items-start gap-4 p-6 bg-red-50 rounded-lg border border-red-200">
+                <div className="text-red-600 text-2xl font-bold">2</div>
+                <div>
+                  <h4 className="font-semibold text-slate-900 mb-2">Hours on Cold Calling</h4>
+                  <p className="text-slate-600 text-sm">Your team spends hours calling people who aren't interested, aren't the decision-maker, or have wrong numbers.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4 p-6 bg-red-50 rounded-lg border border-red-200">
+                <div className="text-red-600 text-2xl font-bold">3</div>
+                <div>
+                  <h4 className="font-semibold text-slate-900 mb-2">Buying Low-Quality Lead Lists</h4>
+                  <p className="text-slate-600 text-sm">Purchased databases with outdated contacts, fake emails, and people who never opted in.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4 p-6 bg-red-50 rounded-lg border border-red-200">
+                <div className="text-red-600 text-2xl font-bold">4</div>
+                <div>
+                  <h4 className="font-semibold text-slate-900 mb-2">Expensive Sales Teams with No ROI</h4>
+                  <p className="text-slate-600 text-sm">Hiring 5-10 people at ₹30,000/month each, but they're struggling to find quality prospects.</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Solutions */}
+            <div className="space-y-6">
+              <h3 className="text-2xl font-bold text-slate-900 mb-8">✅ Our Solution</h3>
+              <div className="flex items-start gap-4 p-6 bg-green-50 rounded-lg border border-green-200">
+                <div className="text-green-600 text-2xl font-bold">1</div>
+                <div>
+                  <h4 className="font-semibold text-slate-900 mb-2">Verified, Qualified Leads Only</h4>
+                  <p className="text-slate-600 text-sm">Every lead is verified by AI and human QA. Phone tested, email validated, intent confirmed. Bad lead? We replace it FREE.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4 p-6 bg-green-50 rounded-lg border border-green-200">
+                <div className="text-green-600 text-2xl font-bold">2</div>
+                <div>
+                  <h4 className="font-semibold text-slate-900 mb-2">AI Finds Them 24/7</h4>
+                  <p className="text-slate-600 text-sm">Our AI scrapes Google Maps, LinkedIn, directories, and social media to find people actively searching for your services RIGHT NOW.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4 p-6 bg-green-50 rounded-lg border border-green-200">
+                <div className="text-green-600 text-2xl font-bold">3</div>
+                <div>
+                  <h4 className="font-semibold text-slate-900 mb-2">Industry-Specific Targeting</h4>
+                  <p className="text-slate-600 text-sm">Tailored strategies for Real Estate, Healthcare, B2B Services, E-commerce. We understand your market.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4 p-6 bg-green-50 rounded-lg border border-green-200">
+                <div className="text-green-600 text-2xl font-bold">4</div>
+                <div>
+                  <h4 className="font-semibold text-slate-900 mb-2">Pay Only for Results</h4>
+                  <p className="text-slate-600 text-sm">No setup fees. No long contracts. Pay per lead delivered. Money-back guarantee if not satisfied.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16">
+            <div className="text-center">
+              <div className="bg-blue-50 rounded-lg p-8 shadow-sm border border-blue-200">
+                <div className="text-4xl md:text-5xl font-bold text-blue-600 mb-2">
+                  10,000+
+                </div>
+                <div className="text-slate-700 font-medium">Leads Delivered</div>
+                <div className="text-slate-500 text-sm mt-1">To Happy Clients</div>
               </div>
             </div>
             
             <div className="text-center">
-              <div className="bg-slate-50 rounded-lg p-8 shadow-sm border border-slate-200">
-                <div className="text-4xl md:text-5xl font-bold text-slate-900 mb-2">
+              <div className="bg-green-50 rounded-lg p-8 shadow-sm border border-green-200">
+                <div className="text-4xl md:text-5xl font-bold text-green-600 mb-2">
                   89%
                 </div>
-                <div className="text-slate-700 font-medium">Average Quality Score</div>
-                <div className="text-slate-500 text-sm mt-1">AI-Verified Leads</div>
+                <div className="text-slate-700 font-medium">Quality Score</div>
+                <div className="text-slate-500 text-sm mt-1">Verified Leads</div>
               </div>
             </div>
             
             <div className="text-center">
-              <div className="bg-slate-50 rounded-lg p-8 shadow-sm border border-slate-200">
-                <div className="text-4xl md:text-5xl font-bold text-slate-900 mb-2">
-                  24/7
+              <div className="bg-purple-50 rounded-lg p-8 shadow-sm border border-purple-200">
+                <div className="text-4xl md:text-5xl font-bold text-purple-600 mb-2">
+                  50+
                 </div>
-                <div className="text-slate-700 font-medium">AI Working</div>
-                <div className="text-slate-500 text-sm mt-1">Never Sleeps</div>
+                <div className="text-slate-700 font-medium">Happy Clients</div>
+                <div className="text-slate-500 text-sm mt-1">Across India</div>
               </div>
             </div>
             
             <div className="text-center">
-              <div className="bg-slate-50 rounded-lg p-8 shadow-sm border border-slate-200">
-                <div className="text-4xl md:text-5xl font-bold text-slate-900 mb-2">
-                  5min
+              <div className="bg-orange-50 rounded-lg p-8 shadow-sm border border-orange-200">
+                <div className="text-4xl md:text-5xl font-bold text-orange-600 mb-2">
+                  7 Days
                 </div>
-                <div className="text-slate-700 font-medium">Setup Time</div>
-                <div className="text-slate-500 text-sm mt-1">Start Today</div>
+                <div className="text-slate-700 font-medium">First Delivery</div>
+                <div className="text-slate-500 text-sm mt-1">Guaranteed</div>
               </div>
             </div>
           </div>
 
           {/* Industry Tags */}
           <div className="mt-16 text-center">
-            <p className="text-slate-600 mb-8">Trusted by businesses across India</p>
+            <p className="text-slate-600 mb-8 text-lg font-medium">Trusted by businesses in these industries:</p>
             <div className="flex flex-wrap justify-center items-center gap-4">
-              <div className="px-4 py-2 bg-blue-50 rounded-lg border border-blue-200">
-                <span className="text-sm text-blue-700">Real Estate</span>
+              <div className="px-6 py-3 bg-blue-50 rounded-lg border border-blue-200">
+                <span className="text-sm font-semibold text-blue-700">🏢 Real Estate</span>
               </div>
-              <div className="px-4 py-2 bg-blue-50 rounded-lg border border-blue-200">
-                <span className="text-sm text-blue-700">Healthcare</span>
+              <div className="px-6 py-3 bg-blue-50 rounded-lg border border-blue-200">
+                <span className="text-sm font-semibold text-blue-700">🏥 Healthcare</span>
               </div>
-              <div className="px-4 py-2 bg-blue-50 rounded-lg border border-blue-200">
-                <span className="text-sm text-blue-700">Consulting</span>
+              <div className="px-6 py-3 bg-blue-50 rounded-lg border border-blue-200">
+                <span className="text-sm font-semibold text-blue-700">💼 B2B Services</span>
               </div>
-              <div className="px-4 py-2 bg-blue-50 rounded-lg border border-blue-200">
-                <span className="text-sm text-blue-700">Manufacturing</span>
+              <div className="px-6 py-3 bg-blue-50 rounded-lg border border-blue-200">
+                <span className="text-sm font-semibold text-blue-700">🏭 Manufacturing</span>
               </div>
-              <div className="px-4 py-2 bg-blue-50 rounded-lg border border-blue-200">
-                <span className="text-sm text-blue-700">E-commerce</span>
+              <div className="px-6 py-3 bg-blue-50 rounded-lg border border-blue-200">
+                <span className="text-sm font-semibold text-blue-700">🛍️ E-commerce</span>
               </div>
             </div>
           </div>

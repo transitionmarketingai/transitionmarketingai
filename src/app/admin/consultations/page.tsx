@@ -458,11 +458,11 @@ export default function AdminConsultationsPage() {
                 <Button
                   className="flex-1 bg-green-600 hover:bg-green-700"
                   onClick={() => {
-                    // TODO: Open create client modal with pre-filled data
-                    toast.info('Create client feature coming soon');
+                    window.location.href = `/admin/consultations/${selectedConsultation.id}/onboard`;
                   }}
                 >
-                  Convert to Client
+                  <User className="h-4 w-4 mr-2" />
+                  Onboard Client
                 </Button>
                 <Button
                   variant="outline"

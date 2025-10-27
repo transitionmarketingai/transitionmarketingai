@@ -46,6 +46,7 @@ export default function LandingPage() {
               <Link href="#features" className="text-gray-700 hover:text-gray-900 font-medium">Features</Link>
               <Link href="#how-it-works" className="text-gray-700 hover:text-gray-900 font-medium">How It Works</Link>
               <Link href="#pricing" className="text-gray-700 hover:text-gray-900 font-medium">Pricing</Link>
+              <Link href="#faq" className="text-gray-700 hover:text-gray-900 font-medium">FAQ</Link>
             </div>
 
             <div className="flex items-center gap-3">
@@ -930,6 +931,229 @@ export default function LandingPage() {
                   <Link href="/login?demo=true">
                     <Zap className="mr-2 h-5 w-5" />
                     Watch Demo
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Risk-Free Guarantee Section */}
+      <section className="py-24 px-4 bg-gradient-to-br from-green-50 to-emerald-50">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-green-100 text-green-700 text-sm font-medium mb-4">
+              <CheckCircle className="h-4 w-4 mr-2" />
+              100% Risk-Free Promise
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
+              Our Money-Back Guarantee
+            </h2>
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+              We're so confident in our ability to deliver quality leads that we offer a complete money-back guarantee.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 mb-12">
+            <Card className="border-2 border-green-200 bg-white">
+              <CardContent className="p-8 text-center">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Target className="h-8 w-8 text-green-600" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">
+                  Quality Guaranteed
+                </h3>
+                <p className="text-slate-600">
+                  Every lead is verified with working phone number and email. If we can't deliver the promised quality, we refund you.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-2 border-green-200 bg-white">
+              <CardContent className="p-8 text-center">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Clock className="h-8 w-8 text-green-600" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">
+                  Timely Delivery
+                </h3>
+                <p className="text-slate-600">
+                  First leads delivered within 7 days. If we miss the deadline without good reason, get a full refund—no questions asked.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-2 border-green-200 bg-white">
+              <CardContent className="p-8 text-center">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <RefreshCw className="h-8 w-8 text-green-600" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">
+                  30-Day Satisfaction
+                </h3>
+                <p className="text-slate-600">
+                  Not satisfied with the lead quality in your first month? Cancel anytime and get a full refund. Zero risk to you.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="bg-white rounded-2xl p-10 shadow-lg border-2 border-green-200">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="flex-1">
+                <h3 className="text-2xl font-bold text-slate-900 mb-3">
+                  Still Have Questions?
+                </h3>
+                <p className="text-slate-600 text-lg">
+                  Book a free consultation call with our team. We'll answer all your questions and show you exactly how we can help your business grow.
+                </p>
+              </div>
+              <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white text-lg px-8 py-6 flex-shrink-0" asChild>
+                <Link href="/consultation">
+                  Book Free Consultation
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section id="faq" className="py-24 px-4 bg-white">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-4">
+              <MessageCircle className="h-4 w-4 mr-2" />
+              Frequently Asked Questions
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
+              Got Questions? We've Got Answers
+            </h2>
+            <p className="text-xl text-slate-600">
+              Everything you need to know about our lead generation service
+            </p>
+          </div>
+
+          <div className="space-y-6">
+            {/* FAQ Item 1 */}
+            <Card className="border-2 hover:border-blue-200 transition-colors">
+              <CardContent className="p-8">
+                <h3 className="text-xl font-bold text-slate-900 mb-3">
+                  How do you generate leads?
+                </h3>
+                <p className="text-slate-600 leading-relaxed">
+                  We use advanced AI-powered scraping and targeting across multiple platforms including Google, Facebook, LinkedIn, and industry-specific directories. Our AI analyzes millions of data points to identify prospects that match your ideal customer profile. Every lead is then manually verified by our team before delivery.
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* FAQ Item 2 */}
+            <Card className="border-2 hover:border-blue-200 transition-colors">
+              <CardContent className="p-8">
+                <h3 className="text-xl font-bold text-slate-900 mb-3">
+                  Are the leads verified and exclusive to me?
+                </h3>
+                <p className="text-slate-600 leading-relaxed">
+                  <strong className="text-slate-900">Yes, absolutely!</strong> Every lead comes with verified phone number and email address. We test contact information before delivery. While leads discovered through public channels (like Google Maps) may be contacted by others, our AI-targeted leads from paid campaigns and LinkedIn are often exclusive. You can also opt for exclusive lead packages.
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* FAQ Item 3 */}
+            <Card className="border-2 hover:border-blue-200 transition-colors">
+              <CardContent className="p-8">
+                <h3 className="text-xl font-bold text-slate-900 mb-3">
+                  What happens during the free consultation?
+                </h3>
+                <p className="text-slate-600 leading-relaxed">
+                  We'll discuss your business, target audience, current lead generation challenges, and goals. Then we'll create a custom plan with recommended budget, expected lead volume, cost per lead, and timelines. There's no obligation—think of it as a free strategy session for your business.
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* FAQ Item 4 */}
+            <Card className="border-2 hover:border-blue-200 transition-colors">
+              <CardContent className="p-8">
+                <h3 className="text-xl font-bold text-slate-900 mb-3">
+                  How much does it cost?
+                </h3>
+                <p className="text-slate-600 leading-relaxed">
+                  Pricing varies based on your industry, target audience, lead volume, and required verification level. Most clients invest between <strong className="text-slate-900">₹10,000 - ₹50,000 per month</strong>. During your free consultation, we'll provide an exact quote tailored to your needs and budget.
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* FAQ Item 5 */}
+            <Card className="border-2 hover:border-blue-200 transition-colors">
+              <CardContent className="p-8">
+                <h3 className="text-xl font-bold text-slate-900 mb-3">
+                  How long before I see results?
+                </h3>
+                <p className="text-slate-600 leading-relaxed">
+                  You'll receive your first batch of verified leads within <strong className="text-slate-900">7 business days</strong> of signing up. Most clients start seeing qualified conversations within the first week and closed deals within 2-4 weeks, depending on their sales cycle.
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* FAQ Item 6 */}
+            <Card className="border-2 hover:border-blue-200 transition-colors">
+              <CardContent className="p-8">
+                <h3 className="text-xl font-bold text-slate-900 mb-3">
+                  What industries do you work with?
+                </h3>
+                <p className="text-slate-600 leading-relaxed">
+                  We specialize in <strong className="text-slate-900">Real Estate, Healthcare, B2B Services, Manufacturing, E-commerce, Education, and Financial Services</strong>. Our AI models are trained on India-specific data for each industry. If your industry isn't listed, book a consultation—we can create custom targeting for almost any B2B or high-ticket B2C business.
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* FAQ Item 7 */}
+            <Card className="border-2 hover:border-blue-200 transition-colors">
+              <CardContent className="p-8">
+                <h3 className="text-xl font-bold text-slate-900 mb-3">
+                  Can I cancel anytime?
+                </h3>
+                <p className="text-slate-600 leading-relaxed">
+                  <strong className="text-slate-900">Yes!</strong> All our plans are month-to-month with no long-term contracts. You can cancel anytime with 7 days' notice. Plus, we offer a 30-day money-back guarantee if you're not satisfied with the lead quality in your first month.
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* FAQ Item 8 */}
+            <Card className="border-2 hover:border-blue-200 transition-colors">
+              <CardContent className="p-8">
+                <h3 className="text-xl font-bold text-slate-900 mb-3">
+                  Do you provide outreach services too?
+                </h3>
+                <p className="text-slate-600 leading-relaxed">
+                  Yes! While our base service delivers leads to your dashboard, we also offer add-on outreach services including email campaigns, WhatsApp messaging, LinkedIn outreach, and even appointment setting. Discuss your needs during the free consultation.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* CTA at bottom of FAQ */}
+          <div className="mt-16 text-center">
+            <div className="bg-slate-50 rounded-2xl p-10 border-2 border-slate-200">
+              <h3 className="text-2xl font-bold text-slate-900 mb-4">
+                Still have questions?
+              </h3>
+              <p className="text-slate-600 text-lg mb-6">
+                Our team is here to help. Book a free consultation or email us at <a href="mailto:support@transitionmarketingai.com" className="text-blue-600 hover:text-blue-700 font-medium">support@transitionmarketingai.com</a>
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white" asChild>
+                  <Link href="/consultation">
+                    Book Free Consultation
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Link>
+                </Button>
+                <Button size="lg" variant="outline" className="border-2" asChild>
+                  <Link href="/login?demo=true">
+                    <Zap className="mr-2 h-5 w-5" />
+                    View Demo
                   </Link>
                 </Button>
               </div>

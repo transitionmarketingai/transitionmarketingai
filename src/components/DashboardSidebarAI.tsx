@@ -183,125 +183,92 @@ export default function DashboardSidebarAI() {
           </Link>
         </div>
 
-        {/* Outreach Section */}
+        {/* Outreach Section - Coming Soon */}
         <div className="mb-4">
           {!collapsed && (
-            <div className="px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-              Outreach
+            <div className="px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider flex items-center justify-between">
+              <span>Outreach</span>
+              <Badge variant="secondary" className="text-[10px] px-1.5 py-0 bg-amber-100 text-amber-700">
+                Soon
+              </Badge>
             </div>
           )}
 
-          {/* Conversations */}
-          <Link
-            href="/dashboard/conversations"
-            className={cn(
-              'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
-              pathname?.startsWith('/dashboard/conversations')
-                ? 'bg-green-50 text-green-700'
-                : 'text-slate-700 hover:bg-slate-50',
-              collapsed && 'justify-center'
-            )}
-            title="Conversations"
-          >
-            <MessageCircle className="h-5 w-5 flex-shrink-0" />
-            {!collapsed && (
-              <div className="flex-1 flex items-center justify-between">
-                <span>Conversations</span>
-                <Badge className="bg-green-600 text-white text-xs">
-                  3
-                </Badge>
-              </div>
-            )}
-          </Link>
-
-          {/* Phone Calls */}
-          <Link
-            href="/dashboard/calls"
-            className={cn(
-              'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
-              pathname?.startsWith('/dashboard/calls')
-                ? 'bg-blue-50 text-blue-700'
-                : 'text-slate-700 hover:bg-slate-50',
-              collapsed && 'justify-center'
-            )}
-            title="Phone Calls"
-          >
-            <Phone className="h-5 w-5 flex-shrink-0" />
-            {!collapsed && <span>Phone Calls</span>}
-          </Link>
-
           {/* Email Campaigns */}
-          <Link
-            href="/dashboard/email-campaigns"
+          <div
             className={cn(
-              'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
-              pathname?.startsWith('/dashboard/email-campaigns')
-                ? 'bg-blue-50 text-blue-700'
-                : 'text-slate-700 hover:bg-slate-50',
+              'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors opacity-50 cursor-not-allowed',
               collapsed && 'justify-center'
             )}
-            title="Email Campaigns"
+            title="Email Campaigns (Coming Soon)"
           >
             <Mail className="h-5 w-5 flex-shrink-0" />
-            {!collapsed && <span>Email Campaigns</span>}
-          </Link>
+            {!collapsed && (
+              <div className="flex-1 flex items-center justify-between">
+                <span>Email Campaigns</span>
+              </div>
+            )}
+          </div>
 
           {/* WhatsApp */}
-          <Link
-            href="/dashboard/whatsapp"
+          <div
             className={cn(
-              'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
-              pathname?.startsWith('/dashboard/whatsapp')
-                ? 'bg-green-50 text-green-700'
-                : 'text-slate-700 hover:bg-slate-50',
+              'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors opacity-50 cursor-not-allowed',
               collapsed && 'justify-center'
             )}
-            title="WhatsApp"
+            title="WhatsApp (Coming Soon)"
           >
             <MessageCircle className="h-5 w-5 flex-shrink-0" />
             {!collapsed && <span>WhatsApp</span>}
-          </Link>
+          </div>
+
+          {/* Phone Calls */}
+          <div
+            className={cn(
+              'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors opacity-50 cursor-not-allowed',
+              collapsed && 'justify-center'
+            )}
+            title="Phone Calls (Coming Soon)"
+          >
+            <Phone className="h-5 w-5 flex-shrink-0" />
+            {!collapsed && <span>Phone Calls</span>}
+          </div>
         </div>
 
-        {/* AI Tools Section */}
+        {/* AI Tools Section - Coming Soon */}
         <div className="mb-4">
           {!collapsed && (
-            <div className="px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-              AI Tools
+            <div className="px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider flex items-center justify-between">
+              <span>AI Tools</span>
+              <Badge variant="secondary" className="text-[10px] px-1.5 py-0 bg-amber-100 text-amber-700">
+                Soon
+              </Badge>
             </div>
           )}
 
           {/* AI Ad Generator */}
-          <Link
-            href="/dashboard/ai-ad-generator"
+          <div
             className={cn(
-              'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
-              pathname?.startsWith('/dashboard/ai-ad-generator')
-                ? 'bg-gradient-to-r from-purple-50 to-pink-50 text-purple-700 border border-purple-200'
-                : 'text-slate-700 hover:bg-slate-50',
+              'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors opacity-50 cursor-not-allowed',
               collapsed && 'justify-center'
             )}
-            title="AI Ad Generator"
+            title="AI Ad Generator (Coming Soon)"
           >
             <Zap className="h-5 w-5 flex-shrink-0" />
             {!collapsed && <span>AI Ad Generator</span>}
-          </Link>
+          </div>
 
           {/* AI Outreach Assistant */}
-          <Link
-            href="/dashboard/ai-outreach"
+          <div
             className={cn(
-              'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
-              pathname?.startsWith('/dashboard/ai-outreach')
-                ? 'bg-blue-50 text-blue-700'
-                : 'text-slate-700 hover:bg-slate-50',
+              'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors opacity-50 cursor-not-allowed',
               collapsed && 'justify-center'
             )}
-            title="AI Outreach"
+            title="AI Outreach (Coming Soon)"
           >
             <Send className="h-5 w-5 flex-shrink-0" />
             {!collapsed && <span>AI Outreach</span>}
-          </Link>
+          </div>
         </div>
 
         {/* Analytics Section */}
@@ -326,22 +293,6 @@ export default function DashboardSidebarAI() {
           >
             <BarChart3 className="h-5 w-5 flex-shrink-0" />
             {!collapsed && <span>Analytics</span>}
-          </Link>
-
-          {/* Reports */}
-          <Link
-            href="/dashboard/reports"
-            className={cn(
-              'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
-              pathname?.startsWith('/dashboard/reports')
-                ? 'bg-blue-50 text-blue-700'
-                : 'text-slate-700 hover:bg-slate-50',
-              collapsed && 'justify-center'
-            )}
-            title="Reports"
-          >
-            <FileText className="h-5 w-5 flex-shrink-0" />
-            {!collapsed && <span>Reports</span>}
           </Link>
         </div>
 

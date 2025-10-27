@@ -1,0 +1,279 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - generic [ref=e9]: F
+        - generic [ref=e10]: FlowState
+      - generic [ref=e11]:
+        - button "Log in" [ref=e12] [cursor=pointer]
+        - button "Get Started Free" [ref=e13] [cursor=pointer]
+  - generic [ref=e15]:
+    - generic [ref=e16]:
+      - heading "Your Life, Perfectly Organized" [level=1] [ref=e17]
+      - paragraph [ref=e18]: The complete life operating system powered by AI. Manage tasks, projects, and goals across all areas of your life with intelligent automation and beautiful design.
+      - generic [ref=e19]:
+        - button "Start Free Trial" [ref=e20] [cursor=pointer]
+        - button "🎬 Try Live Demo" [ref=e21] [cursor=pointer]
+      - paragraph [ref=e22]: ✨ No credit card required • 14-day free trial • Cancel anytime
+    - generic [ref=e23]:
+      - generic [ref=e24]:
+        - heading "See FlowState in Action" [level=2] [ref=e25]
+        - paragraph [ref=e26]: Experience the power of AI-driven life organization
+      - generic [ref=e28]:
+        - button "📊 Dashboard" [ref=e29] [cursor=pointer]
+        - button "📅 Calendar" [ref=e30] [cursor=pointer]
+        - button "🤖 AI Assistant" [ref=e31] [cursor=pointer]
+      - generic [ref=e34]:
+        - generic [ref=e35]: 📊
+        - generic [ref=e36]: Visual Life Dashboard
+        - generic [ref=e37]: 11 categories • 216 tasks • Real-time sync
+        - generic [ref=e38]: Click "Try Live Demo" to explore
+  - generic [ref=e43]:
+    - generic [ref=e44]:
+      - generic [ref=e45]: 10,000+
+      - generic [ref=e46]: Tasks Organized
+    - generic [ref=e47]:
+      - generic [ref=e48]: 500+
+      - generic [ref=e49]: Happy Users
+    - generic [ref=e50]:
+      - generic [ref=e51]: 95%
+      - generic [ref=e52]: Satisfaction Rate
+    - generic [ref=e53]:
+      - generic [ref=e54]: 24/7
+      - generic [ref=e55]: AI Support
+  - generic [ref=e57]:
+    - generic [ref=e58]:
+      - heading "Everything You Need to Master Your Life" [level=2] [ref=e59]
+      - paragraph [ref=e60]: FlowState combines the power of AI with intuitive design to give you the ultimate life management system. From daily tasks to long-term goals, we've got you covered.
+    - generic [ref=e61]:
+      - generic [ref=e62]:
+        - generic [ref=e63]: 📊
+        - heading "Visual Life Dashboard" [level=3] [ref=e64]
+        - paragraph [ref=e65]: Organize your entire life across 11 categories with beautiful, intuitive cards. See progress at a glance and never lose track of what matters.
+        - button "Try it live →" [ref=e67] [cursor=pointer]
+      - generic [ref=e68]:
+        - generic [ref=e69]: 🤖
+        - heading "AI-Powered Assistant" [level=3] [ref=e70]
+        - paragraph [ref=e71]: Chat naturally with our AI to create tasks, schedule reminders, and get personalized insights. "Schedule dentist appointment for tomorrow" - done!
+        - button "Try it live →" [ref=e73] [cursor=pointer]
+      - generic [ref=e74]:
+        - generic [ref=e75]: 📅
+        - heading "Smart Calendar & Time Blocking" [level=3] [ref=e76]
+        - paragraph [ref=e77]: Drag-and-drop scheduling with intelligent time blocking. See your week at a glance and optimize your productivity.
+        - button "Try it live →" [ref=e79] [cursor=pointer]
+      - generic [ref=e80]:
+        - generic [ref=e81]: 📈
+        - heading "Advanced Analytics" [level=3] [ref=e82]
+        - paragraph [ref=e83]: Track your productivity patterns, completion rates, and progress over time. Get insights that help you optimize your workflow.
+        - button "Try it live →" [ref=e85] [cursor=pointer]
+      - generic [ref=e86]:
+        - generic [ref=e87]: 🎯
+        - heading "Priority Intelligence" [level=3] [ref=e88]
+        - paragraph [ref=e89]: Smart priority system that helps you focus on what matters most. Never miss important tasks with our intelligent flagging system.
+        - button "Try it live →" [ref=e91] [cursor=pointer]
+      - generic [ref=e92]:
+        - generic [ref=e93]: 🔄
+        - heading "Habit Automation" [level=3] [ref=e94]
+        - paragraph [ref=e95]: Set up recurring tasks and habits effortlessly. From daily workouts to weekly reviews - automate your routine.
+        - button "Try it live →" [ref=e97] [cursor=pointer]
+  - generic [ref=e99]:
+    - generic [ref=e100]:
+      - heading "Loved by Productivity Enthusiasts" [level=2] [ref=e101]
+      - paragraph [ref=e102]: See what our users are saying about FlowState
+    - generic [ref=e103]:
+      - generic [ref=e104]:
+        - generic [ref=e105]:
+          - generic [ref=e106]: 👩‍💼
+          - generic [ref=e107]:
+            - generic [ref=e108]: Sarah Chen
+            - generic [ref=e109]: Product Manager at Tech Startup
+        - paragraph [ref=e110]: "\"FlowState transformed how I manage my life. The AI assistant is incredible - I can just chat with it and it handles everything.\""
+        - generic [ref=e111]: ★★★★★
+      - generic [ref=e112]:
+        - generic [ref=e113]:
+          - generic [ref=e114]: 👨‍💻
+          - generic [ref=e115]:
+            - generic [ref=e116]: Marcus Johnson
+            - generic [ref=e117]: Entrepreneur at Multiple Ventures
+        - paragraph [ref=e118]: "\"Finally, a productivity app that actually understands my workflow. The visual dashboard makes it so easy to see what needs attention.\""
+        - generic [ref=e119]: ★★★★★
+      - generic [ref=e120]:
+        - generic [ref=e121]:
+          - generic [ref=e122]: 👩‍🎨
+          - generic [ref=e123]:
+            - generic [ref=e124]: Emily Rodriguez
+            - generic [ref=e125]: Freelance Designer at Creative Studio
+        - paragraph [ref=e126]: "\"The time blocking feature is a game-changer. I can see my entire week and optimize my schedule like never before.\""
+        - generic [ref=e127]: ★★★★★
+  - generic [ref=e129]:
+    - generic [ref=e130]:
+      - heading "Simple, Transparent Pricing" [level=2] [ref=e131]
+      - paragraph [ref=e132]: Start free and upgrade as you grow. All plans include our core features with no hidden fees.
+    - generic [ref=e133]:
+      - generic [ref=e134]:
+        - generic [ref=e135]:
+          - heading "Free" [level=3] [ref=e136]
+          - generic [ref=e137]:
+            - generic [ref=e138]: $0
+            - generic [ref=e139]: /forever
+        - list [ref=e140]:
+          - listitem [ref=e141]:
+            - generic [ref=e142]: ✓
+            - generic [ref=e143]: Up to 25 tasks
+          - listitem [ref=e144]:
+            - generic [ref=e145]: ✓
+            - generic [ref=e146]: 3 life categories
+          - listitem [ref=e147]:
+            - generic [ref=e148]: ✓
+            - generic [ref=e149]: Basic calendar view
+          - listitem [ref=e150]:
+            - generic [ref=e151]: ✓
+            - generic [ref=e152]: Mobile responsive
+          - listitem [ref=e153]:
+            - generic [ref=e154]: ✓
+            - generic [ref=e155]: Email support
+          - listitem [ref=e156]:
+            - generic [ref=e157]: ✓
+            - generic [ref=e158]: Basic analytics
+        - button "Start Free" [ref=e159] [cursor=pointer]
+        - paragraph [ref=e160]: No credit card required
+      - generic [ref=e161]:
+        - generic [ref=e162]: ⭐ Most Popular
+        - generic [ref=e163]:
+          - heading "Pro" [level=3] [ref=e164]
+          - generic [ref=e165]:
+            - generic [ref=e166]: $12
+            - generic [ref=e167]: /per month
+          - generic [ref=e168]: Save 20% with annual billing
+        - list [ref=e169]:
+          - listitem [ref=e170]:
+            - generic [ref=e171]: ✓
+            - generic [ref=e172]: Unlimited tasks
+          - listitem [ref=e173]:
+            - generic [ref=e174]: ✓
+            - generic [ref=e175]: All 11 life categories
+          - listitem [ref=e176]:
+            - generic [ref=e177]: ✓
+            - generic [ref=e178]: AI Assistant (50 messages/month)
+          - listitem [ref=e179]:
+            - generic [ref=e180]: ✓
+            - generic [ref=e181]: Advanced analytics & insights
+          - listitem [ref=e182]:
+            - generic [ref=e183]: ✓
+            - generic [ref=e184]: Calendar sync & time blocking
+          - listitem [ref=e185]:
+            - generic [ref=e186]: ✓
+            - generic [ref=e187]: Dark mode & themes
+          - listitem [ref=e188]:
+            - generic [ref=e189]: ✓
+            - generic [ref=e190]: Priority support
+          - listitem [ref=e191]:
+            - generic [ref=e192]: ✓
+            - generic [ref=e193]: Export/Import data
+        - button "Start Pro Trial" [ref=e194] [cursor=pointer]
+      - generic [ref=e195]:
+        - generic [ref=e196]:
+          - heading "Premium" [level=3] [ref=e197]
+          - generic [ref=e198]:
+            - generic [ref=e199]: $24
+            - generic [ref=e200]: /per month
+        - list [ref=e201]:
+          - listitem [ref=e202]:
+            - generic [ref=e203]: ✓
+            - generic [ref=e204]: Everything in Pro
+          - listitem [ref=e205]:
+            - generic [ref=e206]: ✓
+            - generic [ref=e207]: Unlimited AI conversations
+          - listitem [ref=e208]:
+            - generic [ref=e209]: ✓
+            - generic [ref=e210]: Team collaboration
+          - listitem [ref=e211]:
+            - generic [ref=e212]: ✓
+            - generic [ref=e213]: Custom categories
+          - listitem [ref=e214]:
+            - generic [ref=e215]: ✓
+            - generic [ref=e216]: API access
+          - listitem [ref=e217]:
+            - generic [ref=e218]: ✓
+            - generic [ref=e219]: White-label options
+          - listitem [ref=e220]:
+            - generic [ref=e221]: ✓
+            - generic [ref=e222]: Dedicated support
+          - listitem [ref=e223]:
+            - generic [ref=e224]: ✓
+            - generic [ref=e225]: Advanced integrations
+        - button "Go Premium" [ref=e226] [cursor=pointer]
+    - generic [ref=e227]:
+      - paragraph [ref=e228]: Need something custom? We've got you covered.
+      - button "Contact Sales" [ref=e229] [cursor=pointer]
+  - generic [ref=e231]:
+    - heading "Ready to Transform Your Productivity?" [level=2] [ref=e232]
+    - paragraph [ref=e233]: Join thousands of users who have revolutionized their life organization with FlowState. Start your free trial today and experience the power of AI-driven productivity.
+    - generic [ref=e234]:
+      - button "Start Your Free Trial" [ref=e235] [cursor=pointer]
+      - button "🎬 Try Live Demo" [ref=e236] [cursor=pointer]
+    - paragraph [ref=e237]: 14-day free trial • No credit card required • Cancel anytime
+  - contentinfo [ref=e238]:
+    - generic [ref=e239]:
+      - generic [ref=e240]:
+        - generic [ref=e241]:
+          - generic [ref=e242]:
+            - generic [ref=e244]: F
+            - generic [ref=e245]: FlowState
+          - paragraph [ref=e246]: The complete life operating system powered by AI. Organize your tasks, manage your time, and achieve your goals with intelligent automation.
+          - generic [ref=e247]:
+            - button [ref=e248] [cursor=pointer]:
+              - img [ref=e249] [cursor=pointer]
+            - button [ref=e251] [cursor=pointer]:
+              - img [ref=e252] [cursor=pointer]
+            - button [ref=e254] [cursor=pointer]:
+              - img [ref=e255] [cursor=pointer]
+        - generic [ref=e257]:
+          - heading "Product" [level=4] [ref=e258]
+          - list [ref=e259]:
+            - listitem [ref=e260]:
+              - link "Features" [ref=e261] [cursor=pointer]:
+                - /url: "#features"
+            - listitem [ref=e262]:
+              - link "Pricing" [ref=e263] [cursor=pointer]:
+                - /url: "#pricing"
+            - listitem [ref=e264]:
+              - link "Roadmap" [ref=e265] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=e266]:
+              - link "Changelog" [ref=e267] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=e268]:
+              - link "API" [ref=e269] [cursor=pointer]:
+                - /url: "#"
+        - generic [ref=e270]:
+          - heading "Company" [level=4] [ref=e271]
+          - list [ref=e272]:
+            - listitem [ref=e273]:
+              - link "About" [ref=e274] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=e275]:
+              - link "Blog" [ref=e276] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=e277]:
+              - link "Careers" [ref=e278] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=e279]:
+              - link "Contact" [ref=e280] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=e281]:
+              - link "Press" [ref=e282] [cursor=pointer]:
+                - /url: "#"
+      - generic [ref=e283]:
+        - generic [ref=e284]: © 2025 FlowState. All rights reserved.
+        - generic [ref=e285]:
+          - link "Privacy Policy" [ref=e286] [cursor=pointer]:
+            - /url: "#"
+          - link "Terms of Service" [ref=e287] [cursor=pointer]:
+            - /url: "#"
+          - link "Cookie Policy" [ref=e288] [cursor=pointer]:
+            - /url: "#"
+```

@@ -69,6 +69,7 @@ export async function middleware(request: NextRequest) {
 
   // Admin routes
   const isAdminRoute = request.nextUrl.pathname.startsWith('/admin');
+  const isAdminLogin = request.nextUrl.pathname === '/admin/login';
 
   // Allow demo mode for dashboard - check query param or cookie
   const isDemoModeParam = request.nextUrl.searchParams.get('demo') === 'true';
@@ -91,9 +92,14 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  if (isAdminRoute && !user) {
-    // Admin routes require authentication
-    return NextResponse.redirect(new URL('/login', request.url));
+  // Admin routes require authentication
+  if (isAdminRoute && !isAdminLogin && !user) {
+    return NextResponse.redirect(new URL('/admin/login', request.url));
+  }
+
+  // If admin is logged in and tries to access admin login, redirect to admin dashboard
+  if (user && isAdminLogin) {
+    return NextResponse.redirect(new URL('/admin/dashboard', request.url));
   }
 
   // If user is logged in and tries to access login/signup, redirect to dashboard

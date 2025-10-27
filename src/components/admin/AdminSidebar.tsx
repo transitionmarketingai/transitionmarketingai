@@ -17,11 +17,19 @@ import {
   Shield,
   ChevronLeft,
   ChevronRight,
+  BookOpen,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 
-const navigation = [
+interface NavigationItem {
+  name: string;
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
+  badge?: string;
+}
+
+const navigation: NavigationItem[] = [
   {
     name: 'Dashboard',
     href: '/admin/dashboard',
@@ -31,6 +39,22 @@ const navigation = [
     name: 'Clients',
     href: '/admin/clients',
     icon: Users,
+  },
+  {
+    name: 'Consultations',
+    href: '/admin/consultations',
+    icon: Phone,
+  },
+  {
+    name: 'Analytics',
+    href: '/admin/analytics',
+    icon: BarChart3,
+  },
+  {
+    name: 'Resources',
+    href: '/admin/resources',
+    icon: BookOpen,
+    badge: 'New',
   },
   {
     name: 'Leads',
@@ -46,16 +70,6 @@ const navigation = [
     name: 'Support',
     href: '/admin/support',
     icon: Ticket,
-  },
-  {
-    name: 'Consultations',
-    href: '/admin/consultations',
-    icon: Phone,
-  },
-  {
-    name: 'Analytics',
-    href: '/admin/analytics',
-    icon: BarChart3,
   },
   {
     name: 'Settings',
@@ -139,7 +153,14 @@ export default function AdminSidebar() {
               title={collapsed ? item.name : undefined}
             >
               <item.icon className="h-5 w-5 flex-shrink-0" />
-              {!collapsed && <span>{item.name}</span>}
+              {!collapsed && (
+                <span className="flex-1">{item.name}</span>
+              )}
+              {!collapsed && item.badge && (
+                <span className="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-amber-500 text-white">
+                  {item.badge}
+                </span>
+              )}
             </Link>
           );
         })}

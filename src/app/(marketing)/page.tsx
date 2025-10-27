@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import Logo from '@/components/Logo';
+import IndustryExamples from '@/components/IndustryExamples';
 
 export default function LandingPage() {
   return (
@@ -652,8 +653,11 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Industry Examples Section */}
+      <IndustryExamples />
+
       {/* Lead Sources */}
-      <section className="py-24 px-4">
+      <section className="py-24 px-4 bg-slate-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">

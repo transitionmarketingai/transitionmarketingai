@@ -52,7 +52,7 @@ export default function LandingPage() {
                 <Link href="/login">Login</Link>
               </Button>
               <Button className="bg-blue-600 hover:bg-blue-700" asChild>
-                <Link href="/signup">Start Free Trial</Link>
+                <Link href="/consultation">Request Free Consultation</Link>
               </Button>
             </div>
           </div>
@@ -90,8 +90,8 @@ export default function LandingPage() {
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 mb-10">
                 <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-4" asChild>
-                  <Link href="/signup">
-                    Start Free Trial
+                  <Link href="/consultation">
+                    Request Free Consultation
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
@@ -107,15 +107,15 @@ export default function LandingPage() {
               <div className="flex flex-wrap justify-center lg:justify-start items-center gap-8 text-sm text-slate-500">
                 <div className="flex items-center gap-2">
                   <CheckCircle className="h-4 w-4 text-blue-500" />
-                  <span>14-Day Free Trial</span>
+                  <span>100% Free Consultation</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle className="h-4 w-4 text-blue-500" />
-                  <span>Setup in 5 Minutes</span>
+                  <span>Custom Pricing</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle className="h-4 w-4 text-blue-500" />
-                  <span>Cancel Anytime</span>
+                  <span>No Commitment</span>
                 </div>
               </div>
             </div>
@@ -395,10 +395,10 @@ export default function LandingPage() {
           <div className="text-center mt-16">
             <div className="bg-blue-600 rounded-lg p-8 text-white">
               <h3 className="text-2xl font-bold mb-4">Ready to Get Started?</h3>
-              <p className="text-blue-100 mb-6">Join 500+ businesses already generating qualified leads on autopilot</p>
+              <p className="text-blue-100 mb-6">Get a custom lead generation plan tailored to your business</p>
               <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 text-lg px-8 py-4" asChild>
-                <Link href="/signup">
-                  Start Your Free Trial
+                <Link href="/consultation">
+                  Request Free Consultation
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
@@ -631,31 +631,30 @@ export default function LandingPage() {
           <div className="text-center mb-20">
             <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-6">
               <IndianRupee className="h-4 w-4 mr-2" />
-              Simple Pricing
+              Flexible Pricing
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-              Choose Your AI Marketing Team
+              Custom Plans Tailored
               <br />
               <span className="text-slate-600">
-                Size
+                to Your Business
               </span>
             </h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto mb-8">
-              Start with our free trial and scale as you grow. 
-              No setup fees, no hidden costs.
+              Every business is unique. We create a custom lead generation plan based on your specific needs and budget.
             </p>
             <div className="flex flex-wrap justify-center items-center gap-8 text-sm text-slate-500">
               <div className="flex items-center gap-2">
                 <CheckCircle className="h-4 w-4 text-blue-500" />
-                <span>14-Day Free Trial</span>
+                <span>Free Consultation</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle className="h-4 w-4 text-blue-500" />
-                <span>No Credit Card Required</span>
+                <span>Custom Pricing</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle className="h-4 w-4 text-blue-500" />
-                <span>Cancel Anytime</span>
+                <span>Flexible Terms</span>
               </div>
             </div>
           </div>
@@ -664,23 +663,24 @@ export default function LandingPage() {
             {/* Starter */}
             <Card className="border border-gray-200 bg-white">
               <CardHeader className="text-center pt-8 pb-6">
+                <Badge variant="outline" className="mb-4">Example Tier</Badge>
                 <div className="w-16 h-16 rounded-lg bg-blue-100 flex items-center justify-center mx-auto mb-4">
                   <Users className="h-8 w-8 text-blue-600" />
                 </div>
                 <h3 className="text-2xl font-bold mb-4 text-slate-900">Starter</h3>
                 <div className="mb-6">
-                  <span className="text-5xl font-bold text-gray-900">₹4,999</span>
+                  <span className="text-5xl font-bold text-gray-900">₹5,000</span>
                   <span className="text-gray-500 text-lg">/month</span>
                 </div>
                 <div className="bg-gray-50 rounded-lg py-4 px-6">
-                  <p className="text-sm font-medium text-gray-700">Perfect for Small Businesses</p>
-                  <p className="text-xs text-gray-500 mt-1">500 Contacts + 25 Leads Monthly</p>
+                  <p className="text-sm font-medium text-gray-700">For Small Businesses</p>
+                  <p className="text-xs text-gray-500 mt-1">~25 Verified Leads/Month</p>
                 </div>
               </CardHeader>
               <CardContent className="space-y-6">
                 <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white text-lg py-6" asChild>
-                  <Link href="/signup">
-                    Start Free Trial
+                  <Link href="/consultation">
+                    Get Custom Quote
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
@@ -718,23 +718,24 @@ export default function LandingPage() {
                 </div>
               </div>
               <CardHeader className="text-center pt-12 pb-6">
+                <Badge variant="outline" className="mb-4">Example Tier</Badge>
                 <div className="w-16 h-16 rounded-lg bg-blue-100 flex items-center justify-center mx-auto mb-4">
                   <Target className="h-8 w-8 text-blue-600" />
                 </div>
                 <h3 className="text-2xl font-bold mb-4 text-slate-900">Professional</h3>
                 <div className="mb-6">
-                  <span className="text-5xl font-bold text-gray-900">₹9,999</span>
+                  <span className="text-5xl font-bold text-gray-900">₹10,000</span>
                   <span className="text-gray-500 text-lg">/month</span>
                 </div>
                 <div className="bg-gray-50 rounded-lg py-4 px-6">
-                  <p className="text-sm font-medium text-gray-700">Perfect for Growing Businesses</p>
-                  <p className="text-xs text-gray-500 mt-1">2,000 Contacts + 50 Leads Monthly</p>
+                  <p className="text-sm font-medium text-gray-700">For Growing Businesses</p>
+                  <p className="text-xs text-gray-500 mt-1">~50 Verified Leads/Month</p>
                 </div>
               </CardHeader>
               <CardContent className="space-y-6">
                 <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white text-lg py-6" asChild>
-                  <Link href="/signup">
-                    Start Free Trial
+                  <Link href="/consultation">
+                    Get Custom Quote
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
@@ -770,23 +771,24 @@ export default function LandingPage() {
             {/* Enterprise */}
             <Card className="border border-gray-200 bg-white">
               <CardHeader className="text-center pt-8 pb-6">
+                <Badge variant="outline" className="mb-4">Example Tier</Badge>
                 <div className="w-16 h-16 rounded-lg bg-blue-100 flex items-center justify-center mx-auto mb-4">
                   <TrendingUp className="h-8 w-8 text-blue-600" />
                 </div>
                 <h3 className="text-2xl font-bold mb-4 text-slate-900">Enterprise</h3>
                 <div className="mb-6">
-                  <span className="text-5xl font-bold text-gray-900">₹24,999</span>
+                  <span className="text-5xl font-bold text-gray-900">₹25,000</span>
                   <span className="text-gray-500 text-lg">/month</span>
                 </div>
                 <div className="bg-gray-50 rounded-lg py-4 px-6">
-                  <p className="text-sm font-medium text-gray-700">Perfect for Large Businesses</p>
-                  <p className="text-xs text-gray-500 mt-1">Unlimited Contacts + 150 Leads Monthly</p>
+                  <p className="text-sm font-medium text-gray-700">For Large Businesses</p>
+                  <p className="text-xs text-gray-500 mt-1">~150 Verified Leads/Month</p>
                 </div>
               </CardHeader>
               <CardContent className="space-y-6">
                 <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white text-lg py-6" asChild>
-                  <Link href="/signup">
-                    Start Free Trial
+                  <Link href="/consultation">
+                    Get Custom Quote
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
@@ -823,14 +825,22 @@ export default function LandingPage() {
           {/* Bottom Note */}
           <div className="text-center mt-16">
             <div className="bg-blue-600 rounded-lg p-8 text-white">
-              <h3 className="text-2xl font-bold mb-4">Still Not Sure?</h3>
-              <p className="text-blue-100 mb-6">Start with our free trial and upgrade anytime. No questions asked.</p>
-              <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 text-lg px-8 py-4" asChild>
-                <Link href="/login?demo=true">
-                  <Zap className="mr-2 h-5 w-5" />
-                  Watch Live Demo First
-                </Link>
-              </Button>
+              <h3 className="text-2xl font-bold mb-4">Not Sure Which Plan is Right?</h3>
+              <p className="text-blue-100 mb-6">Book a free consultation and we'll recommend the perfect plan for your business needs and budget.</p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 text-lg px-8 py-4" asChild>
+                  <Link href="/consultation">
+                    Request Free Consultation
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Link>
+                </Button>
+                <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-blue-700 text-lg px-8 py-4" asChild>
+                  <Link href="/login?demo=true">
+                    <Zap className="mr-2 h-5 w-5" />
+                    Watch Demo
+                  </Link>
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -840,20 +850,21 @@ export default function LandingPage() {
       <section className="py-24 px-4 bg-blue-600 text-white">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Ready to Automate Your Lead Generation?
+            Ready to Get More Qualified Leads?
           </h2>
           <p className="text-xl mb-10 text-blue-100">
-            Start your 14-day free trial. No credit card required. Set up in 5 minutes.
+            Book a free consultation and discover how AI can transform your lead generation. No commitment required.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 text-lg px-10 py-6" asChild>
-              <Link href="/signup">
-                Start Free Trial
+              <Link href="/consultation">
+                Request Free Consultation
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
             <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-blue-700 text-lg px-10 py-6" asChild>
               <Link href="/login?demo=true">
+                <Zap className="mr-2 h-5 w-5" />
                 View Demo
               </Link>
             </Button>

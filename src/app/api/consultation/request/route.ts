@@ -31,31 +31,42 @@ export async function POST(req: NextRequest) {
       message,
       preferredTime,
       preferredDay,
+      preferredDate,
       whatsappUpdates,
     } = body;
 
-    // Validate required fields
-    if (!firstName || !email || !phone) {
+    // Validate required fields - only name is required now
+    if (!firstName) {
       return NextResponse.json(
-        { error: 'Name, email, and phone are required' },
+        { error: 'Name is required' },
         { status: 400 }
       );
     }
 
+
     // Create Supabase client
-    const supabase = createClient();
+    const supabase = await createClient();
+
+    // Format preferred time if both date and time are provided
+    const fullPreferredTime = preferredDate && preferredTime 
+      ? `${preferredDate} at ${preferredTime}`
+      : preferredDate 
+      ? preferredDate 
+      : preferredTime 
+      ? preferredTime 
+      : preferredDay || null;
 
     // Insert consultation request into database
     const { data: consultation, error: consultationError } = await supabase
       .from('consultations')
       .insert({
         name: `${firstName} ${lastName || ''}`.trim(),
-        email,
-        phone,
+        email: email || null,
+        phone: phone || null,
         company: company || null,
         industry: industry || null,
-        preferred_day: preferredDay || null,
-        preferred_time: preferredTime || null,
+        preferred_day: preferredDay || fullPreferredTime || null,
+        preferred_time: fullPreferredTime || null,
         message: message || null,
         whatsapp_updates: whatsappUpdates || false,
         status: 'pending',
@@ -82,18 +93,17 @@ export async function POST(req: NextRequest) {
           
           <div style="background: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <h3 style="margin-top: 0;">Contact Details</h3>
-            <p><strong>Name:</strong> ${fullName}</p>
-            <p><strong>Email:</strong> ${email}</p>
-            <p><strong>Phone:</strong> ${phone}</p>
+          <p><strong>Name:</strong> ${fullName}</p>
+          ${email ? `<p><strong>Email:</strong> ${email}</p>` : ''}
+          ${phone ? `<p><strong>Phone:</strong> ${phone}</p>` : ''}
             ${company ? `<p><strong>Company:</strong> ${company}</p>` : ''}
             ${industry ? `<p><strong>Industry:</strong> ${industry}</p>` : ''}
           </div>
 
-          ${preferredDay || preferredTime ? `
+            ${fullPreferredTime ? `
             <div style="background: #dbeafe; padding: 15px; border-radius: 8px; margin: 20px 0;">
               <h4 style="margin-top: 0;">Preferred Time</h4>
-              ${preferredDay ? `<p><strong>Day:</strong> ${preferredDay}</p>` : ''}
-              ${preferredTime ? `<p><strong>Time:</strong> ${preferredTime}</p>` : ''}
+              <p><strong>${fullPreferredTime}</strong></p>
             </div>
           ` : ''}
 
@@ -129,12 +139,12 @@ export async function POST(req: NextRequest) {
       const adminWhatsAppMessage = `🔔 New Consultation Request
 
 Name: ${fullName}
-Phone: ${phone}
-Email: ${email}
+${email ? `Email: ${email}` : ''}
+${phone ? `Phone: ${phone}` : ''}
 ${company ? `Company: ${company}` : ''}
 ${industry ? `Industry: ${industry}` : ''}
 
-${preferredDay || preferredTime ? `Preferred: ${preferredDay || ''} ${preferredTime || ''}` : ''}
+${fullPreferredTime ? `Preferred: ${fullPreferredTime}` : ''}
 
 View: ${process.env.NEXT_PUBLIC_APP_URL || 'https://transitionmarketingai.com'}/admin/consultations/${consultation.id}`;
 
@@ -144,56 +154,51 @@ View: ${process.env.NEXT_PUBLIC_APP_URL || 'https://transitionmarketingai.com'}/
       // Don't fail the request if WhatsApp fails
     }
 
-    // 3. Send confirmation email to customer
-    try {
-      const customerEmailContent = `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-          <h2 style="color: #2563eb;">Thank You for Your Interest!</h2>
-          
-          <p>Hi ${firstName},</p>
-          
-          <p>We've received your consultation request and our team will contact you within 24 hours at your preferred time.</p>
+    // 3. Send confirmation email to customer (if email provided)
+    if (email) {
+      try {
+        const customerEmailContent = `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+            <h2 style="color: #2563eb;">Thank You, ${firstName}! ✅</h2>
+            
+            <p>We've received your consultation request for a <strong>free strategy call</strong>.</p>
 
-          ${preferredDay || preferredTime ? `
-            <div style="background: #f0f9ff; padding: 15px; border-radius: 8px; margin: 20px 0;">
-              <p><strong>Your Preferred Time:</strong></p>
-              ${preferredDay ? `<p>Day: ${preferredDay}</p>` : ''}
-              ${preferredTime ? `<p>Time: ${preferredTime}</p>` : ''}
+            ${fullPreferredTime ? `
+              <div style="background: #f0f9ff; padding: 15px; border-radius: 8px; margin: 20px 0;">
+                <p><strong>Your Preferred Time:</strong></p>
+                <p style="font-size: 18px; color: #2563eb;">${fullPreferredTime}</p>
+              </div>
+            ` : ''}
+
+            <div style="background: #dcfce7; padding: 20px; border-radius: 8px; margin: 20px 0;">
+              <h3 style="color: #16a34a; margin-top: 0;">📞 What Happens Next?</h3>
+              <p>Our team will call you personally within <strong>24 hours</strong> to discuss your lead generation needs.</p>
             </div>
-          ` : ''}
 
-          <div style="background: #dcfce7; padding: 20px; border-radius: 8px; margin: 20px 0; text-align: center;">
-            <h3 style="color: #16a34a; margin-top: 0;">📅 Book Your Consultation Now</h3>
-            <p>Select your preferred date and time instantly:</p>
-            <a href="${process.env.CALENDLY_URL || 'https://calendly.com/transition-marketing-ai'}" 
-               style="background: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block; margin-top: 10px;">
-              Book Consultation
-            </a>
+            <p><strong>On the call, we'll discuss:</strong></p>
+            <ul style="line-height: 2;">
+              <li>Your business and target audience</li>
+              <li>Current lead generation challenges</li>
+              <li>Custom plan proposal with pricing</li>
+              <li>How we can help you get verified leads</li>
+            </ul>
+            
+            <p>Looking forward to speaking with you!</p>
+            
+            <p>Best regards,<br>
+            <strong>Transition Marketing AI Team</strong></p>
           </div>
+        `;
 
-          <p>What to expect on the call:</p>
-          <ul style="line-height: 2;">
-            <li>Discussion about your business and target audience</li>
-            <li>Analysis of your current lead generation challenges</li>
-            <li>Custom plan proposal with pricing</li>
-            <li>Answers to all your questions</li>
-          </ul>
-
-          <p>If you have any urgent questions, reply to this email or WhatsApp us.</p>
-          
-          <p>Best regards,<br>
-          <strong>Transition Marketing AI Team</strong></p>
-        </div>
-      `;
-
-      await transporter.sendMail({
-        from: process.env.SMTP_FROM || 'noreply@transitionmarketingai.com',
-        to: email,
-        subject: 'Thank You for Your Consultation Request',
-        html: customerEmailContent,
-      });
-    } catch (emailError) {
-      console.error('Customer email error:', emailError);
+        await transporter.sendMail({
+          from: process.env.SMTP_FROM || 'noreply@transitionmarketingai.com',
+          to: email,
+          subject: '✅ Consultation Request Confirmed - We\'ll Call You Soon!',
+          html: customerEmailContent,
+        });
+      } catch (emailError) {
+        console.error('Customer email error:', emailError);
+      }
     }
 
     // 4. Send WhatsApp confirmation to customer (if opted in)

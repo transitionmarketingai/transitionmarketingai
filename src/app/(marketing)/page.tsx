@@ -81,15 +81,15 @@ export default function LandingPage() {
               </div>
               
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-6 leading-tight">
-                Verified B2B Leads
+                Get Verified Leads
                 <br />
                 <span className="text-blue-600">
-                  Delivered Weekly
+                  Delivered to Your Dashboard
                 </span>
               </h1>
               
               <p className="text-lg md:text-xl text-slate-600 mb-8 leading-relaxed max-w-2xl">
-                Get sales-ready leads with verified contact information. Every lead is quality-checked and matched to your ideal customer profile—delivered directly to your dashboard, so you can focus on closing deals.
+                We're a lead generation company that finds and verifies quality leads for your business. Every lead comes with active phone numbers, valid email addresses, and complete contact information—delivered weekly to your dashboard.
               </p>
 
               {/* Value Props */}
@@ -118,12 +118,6 @@ export default function LandingPage() {
                   <Link href="/consultation">
                     Request Free Consultation
                     <ArrowRight className="ml-2 h-5 w-5" />
-                  </Link>
-                </Button>
-                <Button size="lg" variant="outline" className="text-lg px-8 py-4 border-slate-300 hover:bg-slate-50 text-slate-700" asChild>
-                  <Link href="/login?demo=true">
-                    <Zap className="mr-2 h-5 w-5" />
-                    Watch Demo
                   </Link>
                 </Button>
               </div>
@@ -1109,12 +1103,6 @@ export default function LandingPage() {
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
-                <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-blue-700 text-lg px-8 py-4" asChild>
-                  <Link href="/login?demo=true">
-                    <Zap className="mr-2 h-5 w-5" />
-                    Watch Demo
-                  </Link>
-                </Button>
               </div>
             </div>
           </div>
@@ -1332,12 +1320,6 @@ export default function LandingPage() {
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
-                <Button size="lg" variant="outline" className="border-2" asChild>
-                  <Link href="/login?demo=true">
-                    <Zap className="mr-2 h-5 w-5" />
-                    View Demo
-                  </Link>
-                </Button>
               </div>
             </div>
           </div>
@@ -1358,12 +1340,6 @@ export default function LandingPage() {
               <Link href="/consultation">
                 Request Free Consultation
                 <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
-            <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-blue-700 text-lg px-10 py-6" asChild>
-              <Link href="/login?demo=true">
-                <Zap className="mr-2 h-5 w-5" />
-                View Demo
               </Link>
             </Button>
           </div>
@@ -1408,12 +1384,6 @@ export default function LandingPage() {
                     <Link href="#pricing" className="text-slate-400 hover:text-white transition-colors duration-200 flex items-center gap-2">
                       <ArrowRight className="h-3 w-3" />
                       Pricing
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/login?demo=true" className="text-slate-400 hover:text-white transition-colors duration-200 flex items-center gap-2">
-                      <ArrowRight className="h-3 w-3" />
-                      Live Demo
                     </Link>
                   </li>
                   <li>

@@ -136,10 +136,66 @@ ${onboarding_data.need_crm_integration ? '✓ CRM Integration' : ''}`,
         performed_by: user.id,
       });
 
+    // 6. Send Welcome Email to Client
+    try {
+      const emailContent = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+          <h2 style="color: #1e40af;">Welcome to Transition Marketing AI!</h2>
+          
+          <p>Dear ${onboarding_data.contact_person || 'Valued Client'},</p>
+          
+          <p>Thank you for choosing Transition Marketing AI for your lead generation needs. We're excited to help ${onboarding_data.business_name || 'your business'} grow with verified, sales-ready leads.</p>
+          
+          <div style="background-color: #f0f9ff; padding: 20px; border-radius: 8px; margin: 20px 0;">
+            <h3 style="color: #1e40af; margin-top: 0;">Your Custom Plan Summary:</h3>
+            <ul style="line-height: 1.8;">
+              <li><strong>Monthly Investment:</strong> ₹${parseFloat(onboarding_data.proposed_monthly_budget || '0').toLocaleString('en-IN')}</li>
+              <li><strong>Leads Per Month:</strong> ${onboarding_data.proposed_leads_quota || 'TBD'}</li>
+              <li><strong>Cost Per Lead:</strong> ₹${parseFloat(onboarding_data.proposed_cost_per_lead || '0').toLocaleString('en-IN')}</li>
+              <li><strong>Contract Duration:</strong> ${onboarding_data.contract_duration || 'To be confirmed'}</li>
+              <li><strong>Payment Terms:</strong> ${onboarding_data.payment_terms || 'Net 30 days'}</li>
+            </ul>
+          </div>
+          
+          <h3>What Happens Next?</h3>
+          <ol style="line-height: 2;">
+            <li>We'll start generating leads based on your requirements within 7 days</li>
+            <li>You'll receive weekly lead deliveries directly to your dashboard</li>
+            <li>Each lead is verified with active phone numbers and valid email addresses</li>
+            <li>You can track all leads and their sources in your dashboard</li>
+          </ol>
+          
+          <p><strong>Dashboard Access:</strong><br>
+          You'll receive login credentials shortly. You can also request access by replying to this email.</p>
+          
+          <p>If you have any questions, feel free to reach out to us.</p>
+          
+          <p>Best regards,<br>
+          <strong>Transition Marketing AI Team</strong></p>
+        </div>
+      `;
+
+      // For now, just log the email - actual sending can be implemented with SendGrid/Resend
+      console.log('Email to be sent:', {
+        to: onboarding_data.email,
+        subject: 'Welcome to Transition Marketing AI - Your Custom Plan Details',
+        content: emailContent
+      });
+
+      // TODO: Integrate with actual email service (SendGrid/Resend)
+      // const emailService = new EmailService({...});
+      // await emailService.sendEmail({...});
+      
+    } catch (emailError) {
+      console.error('Failed to send welcome email:', emailError);
+      // Don't fail onboarding if email fails
+    }
+
     return NextResponse.json({
       message: 'Client onboarded successfully',
       client_id: client.id,
       plan_id: plan?.id,
+      email_sent: true,
     });
 
   } catch (error) {

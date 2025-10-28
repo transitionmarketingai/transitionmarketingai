@@ -86,22 +86,92 @@ export async function POST(req: NextRequest) {
       // If table doesn't exist, we'll just log it for now
     }
 
-    // TODO: Send OTP via SMS service (Twilio/Gupshup/Fast2SMS)
-    // For now, return OTP in development mode
-    // In production, remove this and send via SMS
-    
+    // Send OTP via SMS service
+    const cleanPhone = phone.replace(/\D/g, '');
     const isDev = process.env.NODE_ENV === 'development';
-    const otpToReturn = isDev ? otp : null;
+    
+    try {
+      // Try Fast2SMS first (recommended for India)
+      if (process.env.FAST2SMS_API_KEY) {
+        const fast2smsResponse = await fetch('https://www.fast2sms.com/dev/bulkV2', {
+          method: 'POST',
+          headers: {
+            'authorization': process.env.FAST2SMS_API_KEY,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            route: 'otp',
+            variables_values: otp,
+            numbers: cleanPhone.length === 12 ? cleanPhone : `91${cleanPhone}`
+          })
+        });
 
-    // In production, integrate with SMS service:
-    // await sendSMS(phone, `Your OTP for Transition Marketing AI is ${otp}. Valid for 10 minutes.`);
+        const fast2smsData = await fast2smsResponse.json();
+        
+        if (fast2smsData.return === true) {
+          return NextResponse.json({
+            success: true,
+            message: 'OTP sent successfully',
+            ...(isDev && { otp: otp }), // Dev mode: also return OTP
+          });
+        }
+      }
+      
+      // Fallback: Use Twilio SMS if Fast2SMS not configured
+      if (process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN) {
+        const twilio = require('twilio');
+        const client = twilio(
+          process.env.TWILIO_ACCOUNT_SID,
+          process.env.TWILIO_AUTH_TOKEN
+        );
 
-    return NextResponse.json({
-      success: true,
-      message: 'OTP sent successfully',
-      // Only return OTP in development
-      ...(isDev && { otp: otpToReturn }),
-    });
+        await client.messages.create({
+          body: `Your OTP for Transition Marketing AI is ${otp}. Valid for 10 minutes.`,
+          to: `+${cleanPhone.length === 12 ? cleanPhone : `91${cleanPhone}`}`,
+          from: process.env.TWILIO_PHONE_NUMBER || 'TransitionMarketingAI'
+        });
+
+        return NextResponse.json({
+          success: true,
+          message: 'OTP sent successfully',
+          ...(isDev && { otp: otp }), // Dev mode: also return OTP
+        });
+      }
+      
+      // If no SMS service configured, return OTP in dev mode
+      if (isDev) {
+        console.warn('⚠️ No SMS service configured. OTP:', otp);
+        return NextResponse.json({
+          success: true,
+          message: 'OTP sent successfully (dev mode - no SMS service)',
+          otp: otp, // Return OTP in dev mode
+        });
+      }
+      
+      // Production mode without SMS service
+      return NextResponse.json(
+        { error: 'SMS service not configured. Please contact support.' },
+        { status: 500 }
+      );
+      
+    } catch (smsError: any) {
+      console.error('SMS sending error:', smsError);
+      
+      // In dev mode, still return success with OTP
+      if (isDev) {
+        return NextResponse.json({
+          success: true,
+          message: 'OTP generated (SMS failed, dev mode)',
+          otp: otp,
+          warning: 'SMS service error: ' + smsError.message
+        });
+      }
+      
+      return NextResponse.json(
+        { error: 'Failed to send OTP. Please try again later.' },
+        { status: 500 }
+      );
+    }
 
   } catch (error: any) {
     console.error('OTP send error:', error);

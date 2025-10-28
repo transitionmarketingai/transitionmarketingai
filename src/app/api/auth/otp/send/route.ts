@@ -6,6 +6,39 @@ function generateOTP(): string {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
+// Rate limiting: max 3 OTP requests per hour per phone
+async function checkRateLimit(phone: string, supabase: any): Promise<{ allowed: boolean; retryAfter?: number }> {
+  const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
+  
+  const { data, error } = await supabase
+    .from('otp_verifications')
+    .select('created_at')
+    .eq('phone', phone.replace(/\D/g, ''))
+    .gte('created_at', oneHourAgo)
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Rate limit check error:', error);
+    // If table doesn't exist, allow for now
+    return { allowed: true };
+  }
+
+  const recentRequests = data?.length || 0;
+  
+  if (recentRequests >= 3) {
+    // Calculate retry after time
+    const oldestRequest = data?.[data.length - 1]?.created_at;
+    if (oldestRequest) {
+      const retryTime = new Date(oldestRequest).getTime() + 60 * 60 * 1000;
+      const retryAfter = Math.ceil((retryTime - Date.now()) / 1000 / 60); // minutes
+      return { allowed: false, retryAfter };
+    }
+    return { allowed: false, retryAfter: 60 };
+  }
+
+  return { allowed: true };
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { phone } = await req.json();
@@ -17,14 +50,25 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const supabase = createClient();
+    
+    // Check rate limit
+    const rateLimit = await checkRateLimit(phone, supabase);
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { 
+          error: `Too many OTP requests. Please try again after ${rateLimit.retryAfter} minutes.`,
+          retryAfter: rateLimit.retryAfter 
+        },
+        { status: 429 }
+      );
+    }
+
     // Generate OTP
     const otp = generateOTP();
     const expiry = Date.now() + 10 * 60 * 1000; // 10 minutes
 
-    // Store OTP in database (or Redis in production)
-    const supabase = createClient();
-    
-    // For now, we'll use a simple table. In production, use Redis or Supabase Edge Functions
+    // Store OTP in database
     const { error } = await supabase
       .from('otp_verifications')
       .upsert({
@@ -33,6 +77,8 @@ export async function POST(req: NextRequest) {
         expires_at: new Date(expiry).toISOString(),
         verified: false,
         created_at: new Date().toISOString(),
+      }, {
+        onConflict: 'phone'
       });
 
     if (error) {

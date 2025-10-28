@@ -24,6 +24,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import Link from 'next/link';
 import Logo from '@/components/Logo';
 import { toast } from 'sonner';
+import { formatIndianPhone, getCleanPhone, isValidIndianPhone } from '@/lib/utils/phone';
+import { OTPInput } from '@/components/ui/otp-input';
 
 export default function ConsultationPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -44,31 +46,72 @@ export default function ConsultationPage() {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  const handlePhoneChange = (value: string) => {
+    // Allow only digits and allow user to type freely
+    const digits = value.replace(/\D/g, '');
+    
+    // Limit to 10 digits (without country code)
+    if (digits.length <= 10) {
+      // Auto-format as user types
+      let formatted = '';
+      if (digits.length > 0) {
+        if (digits.length <= 5) {
+          formatted = digits;
+        } else {
+          formatted = `${digits.slice(0, 5)} ${digits.slice(5, 10)}`;
+        }
+        // Add +91 prefix if there's a number
+        formatted = `+91 ${formatted}`;
+      }
+      handleInputChange('phone', formatted);
+    }
+    
+    // Reset OTP state if phone changes after verification
+    if (otpVerified) {
+      setOtpVerified(false);
+      setOtpSent(false);
+      setOtp('');
+    }
+  };
+
   const handleSendOTP = async () => {
     if (!formData.phone) {
       toast.error('Please enter your phone number first');
       return;
     }
 
+    // Validate phone number
+    if (!isValidIndianPhone(formData.phone)) {
+      toast.error('Please enter a valid 10-digit Indian phone number');
+      return;
+    }
+
     setSendingOtp(true);
     try {
+      const cleanPhone = getCleanPhone(formData.phone);
       const response = await fetch('/api/auth/otp/send', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone: formData.phone }),
+        body: JSON.stringify({ phone: cleanPhone }),
       });
 
       const result = await response.json();
 
       if (response.ok) {
         setOtpSent(true);
-        toast.success(`OTP sent to ${formData.phone}`);
+        toast.success(`OTP sent to ${formatIndianPhone(formData.phone)}`);
         if (result.otp) {
           // Development mode - show OTP
           console.log('OTP (dev only):', result.otp);
+          toast.info(`Dev OTP: ${result.otp}`, { duration: 10000 });
         }
       } else {
-        toast.error(result.error || 'Failed to send OTP');
+        // Handle specific error cases
+        if (response.status === 429) {
+          toast.error(result.error || 'Too many OTP requests. Please wait before requesting again.');
+        } else {
+          toast.error(result.error || 'Failed to send OTP. Please check your phone number and try again.');
+        }
       }
     } catch (error: any) {
       console.error('OTP send error:', error);
@@ -79,30 +122,40 @@ export default function ConsultationPage() {
   };
 
   const handleVerifyOTP = async () => {
-    if (!otp) {
-      toast.error('Please enter OTP');
+    if (!otp || otp.length !== 6) {
+      toast.error('Please enter a valid 6-digit OTP');
       return;
     }
 
     setVerifyingOtp(true);
     try {
+      const cleanPhone = getCleanPhone(formData.phone);
       const response = await fetch('/api/auth/otp/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone: formData.phone, otp }),
+        body: JSON.stringify({ phone: cleanPhone, otp }),
       });
 
       const result = await response.json();
 
       if (response.ok && result.verified) {
         setOtpVerified(true);
-        toast.success('Phone number verified!');
+        toast.success('Phone number verified! ✓');
       } else {
-        toast.error(result.error || 'Invalid OTP');
+        // Handle expired OTP specifically
+        if (result.expired) {
+          toast.error(result.error || 'OTP expired. Request a new one.');
+          setOtpSent(false);
+          setOtp('');
+        } else {
+          toast.error(result.error || 'Invalid OTP. Please check and try again.');
+          setOtp(''); // Clear OTP on error
+        }
       }
     } catch (error: any) {
       console.error('OTP verify error:', error);
-      toast.error('Failed to verify OTP');
+      toast.error('Failed to verify OTP. Please try again.');
+      setOtp(''); // Clear OTP on error
     } finally {
       setVerifyingOtp(false);
     }
@@ -111,8 +164,24 @@ export default function ConsultationPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Validation
+    if (!formData.firstName || formData.firstName.length < 2) {
+      toast.error('Please enter your full name (minimum 2 characters)');
+      return;
+    }
+    
+    if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      toast.error('Please enter a valid email address');
+      return;
+    }
+    
     if (!otpVerified) {
-      toast.error('Please verify your phone number first');
+      toast.error('Please verify your phone number with OTP first');
+      return;
+    }
+
+    if (!isValidIndianPhone(formData.phone)) {
+      toast.error('Please enter a valid 10-digit Indian phone number');
       return;
     }
 
@@ -170,9 +239,26 @@ export default function ConsultationPage() {
             <h1 className="text-4xl font-bold text-slate-900 mb-4">
               Thank You for Your Request! ✅
             </h1>
-            <p className="text-xl text-slate-600 mb-8">
-              We've received your consultation request. Our team will contact you within 24 hours.
+            <p className="text-xl text-slate-600 mb-4">
+              We've received your consultation request!
             </p>
+            <div className="bg-blue-50 rounded-lg p-6 mb-8 border border-blue-200 text-left max-w-md mx-auto">
+              <h3 className="font-semibold text-slate-900 mb-3">📞 What Happens Next?</h3>
+              <ul className="space-y-2 text-slate-700 text-sm">
+                <li className="flex items-start gap-2">
+                  <span className="text-blue-600 font-bold">1.</span>
+                  <span>Our team will call you within <strong>24 hours</strong> at your verified number</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-blue-600 font-bold">2.</span>
+                  <span>We'll discuss your business and lead generation goals</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-blue-600 font-bold">3.</span>
+                  <span>You'll receive a custom plan proposal with pricing</span>
+                </li>
+              </ul>
+            </div>
 
             {/* Calendar Booking Section */}
             <div className="bg-blue-50 rounded-lg p-8 mb-8 border border-blue-200">
@@ -355,10 +441,11 @@ export default function ConsultationPage() {
                             type="tel"
                             required
                             value={formData.phone}
-                            onChange={(e) => handleInputChange('phone', e.target.value)}
-                            className="pl-10"
+                            onChange={(e) => handlePhoneChange(e.target.value)}
+                            className="pl-10 pr-24"
                             placeholder="+91 98765 43210"
-                            disabled={otpVerified}
+                            disabled={otpVerified || sendingOtp}
+                            inputMode="numeric"
                           />
                           {!otpVerified && formData.phone && (
                             <Button
@@ -380,23 +467,43 @@ export default function ConsultationPage() {
                         </div>
                         
                         {otpSent && !otpVerified && (
-                          <div className="flex gap-2">
-                            <Input
-                              type="text"
-                              placeholder="Enter 6-digit OTP"
-                              value={otp}
-                              onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                              maxLength={6}
-                              className="flex-1"
-                            />
-                            <Button
-                              type="button"
-                              onClick={handleVerifyOTP}
-                              disabled={verifyingOtp || otp.length !== 6}
-                              className="bg-blue-600 hover:bg-blue-700"
-                            >
-                              {verifyingOtp ? 'Verifying...' : 'Verify'}
-                            </Button>
+                          <div className="space-y-4">
+                            <div>
+                              <label className="text-sm text-slate-600 mb-2 block text-center">
+                                Enter 6-digit OTP sent to {formatIndianPhone(formData.phone)}
+                              </label>
+                              <OTPInput
+                                length={6}
+                                value={otp}
+                                onChange={(value) => setOtp(value)}
+                                onComplete={(value) => {
+                                  setOtp(value);
+                                  // Auto-verify when complete
+                                  setTimeout(() => handleVerifyOTP(), 300);
+                                }}
+                                disabled={verifyingOtp}
+                                error={false}
+                              />
+                            </div>
+                            <div className="flex items-center justify-center gap-4">
+                              <Button
+                                type="button"
+                                onClick={handleVerifyOTP}
+                                disabled={verifyingOtp || otp.length !== 6}
+                                className="bg-blue-600 hover:bg-blue-700"
+                              >
+                                {verifyingOtp ? 'Verifying...' : 'Verify OTP'}
+                              </Button>
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                onClick={handleSendOTP}
+                                disabled={sendingOtp}
+                                className="text-sm text-slate-600"
+                              >
+                                {sendingOtp ? 'Sending...' : 'Resend OTP'}
+                              </Button>
+                            </div>
                           </div>
                         )}
                         

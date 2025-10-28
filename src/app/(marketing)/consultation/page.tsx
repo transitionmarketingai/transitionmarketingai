@@ -320,13 +320,15 @@ export default function ConsultationPage() {
                       <span className="text-slate-300">→</span>
                       <span className={`text-sm font-medium ${currentStep === 2 ? 'text-blue-600' : 'text-slate-400'}`}>
                         Step 2
+                      </span>
                     </div>
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    {/* Name */}
-                    <div>
+                  {currentStep === 1 && (
+                    <form className="space-y-6">
+                      {/* Name */}
+                      <div>
                       <Label htmlFor="firstName" className="text-slate-700">
                         Full Name <span className="text-red-500">*</span>
                       </Label>
@@ -413,8 +415,7 @@ export default function ConsultationPage() {
                       </div>
                     </div>
 
-                    {/* Step 1: Next Button */}
-                    {currentStep === 1 && (
+                      {/* Step 1: Next Button */}
                       <Button
                         type="button"
                         onClick={handleNextStep}
@@ -424,72 +425,22 @@ export default function ConsultationPage() {
                         <Calendar className="mr-2 h-5 w-5" />
                         Choose Consultation Time
                       </Button>
-                    )}
 
-                    {/* Step 2: Calendar Booking */}
-                    {currentStep === 2 && (
-                      <>
-                        <div className="bg-blue-50 rounded-lg p-6 border border-blue-200 mb-6">
-                          <h3 className="font-semibold text-slate-900 mb-2">📅 Book Your Consultation</h3>
-                          <p className="text-sm text-slate-600 mb-4">
-                            Select your preferred date and time. You'll receive a calendar invite and reminder.
-                          </p>
-                          {calendlyUrl ? (
-                            <div className="h-[600px] w-full">
-                              <iframe
-                                src={calendlyUrl}
-                                width="100%"
-                                height="100%"
-                                frameBorder="0"
-                                title="Schedule a consultation"
-                                className="rounded-lg"
-                              />
-                            </div>
-                          ) : (
-                            <Button
-                              variant="outline"
-                              className="w-full"
-                              onClick={() => {
-                                const url = prompt('Enter Calendly URL:');
-                                if (url) setCalendlyUrl(url);
-                              }}
-                            >
-                              Configure Calendly URL
-                            </Button>
-                          )}
-                        </div>
+                      <p className="text-xs text-center text-slate-500">
+                        By continuing, you agree to our{' '}
+                        <Link href="/privacy" className="text-blue-600 hover:underline">
+                          Privacy Policy
+                        </Link>{' '}
+                        and{' '}
+                        <Link href="/terms" className="text-blue-600 hover:underline">
+                          Terms of Service
+                        </Link>
+                      </p>
+                    </form>
+                  )}
 
-                        <div className="flex gap-3">
-                          <Button
-                            type="button"
-                            variant="outline"
-                            onClick={handleBackToDetails}
-                            className="flex-1"
-                          >
-                            <ArrowLeft className="mr-2 h-4 w-4" />
-                            Back
-                          </Button>
-                          <Button
-                            type="submit"
-                            size="lg"
-                            className="flex-1 bg-blue-600 hover:bg-blue-700 text-lg py-6"
-                            disabled={isSubmitting}
-                          >
-                            {isSubmitting ? (
-                              <>
-                                <Sparkles className="mr-2 h-5 w-5 animate-spin" />
-                                Submitting...
-                              </>
-                            ) : (
-                              <>
-                                <CheckCircle className="mr-2 h-5 w-5" />
-                                Confirm Request
-                              </>
-                            )}
-                          </Button>
-                        </div>
-                      </>
-                    )}
+                  {currentStep === 2 && (
+                    <div className="space-y-6">
 
                     <p className="text-xs text-center text-slate-500">
                       By submitting this form, you agree to our{' '}
@@ -501,7 +452,86 @@ export default function ConsultationPage() {
                         Terms of Service
                       </Link>
                     </p>
-                  </form>
+                    </form>
+                  )}
+
+                  {currentStep === 2 && (
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                      <div className="bg-blue-50 rounded-lg p-6 border border-blue-200 mb-6">
+                        <h3 className="font-semibold text-slate-900 mb-2">📅 Book Your Consultation</h3>
+                        <p className="text-sm text-slate-600 mb-4">
+                          Select your preferred date and time. You'll receive a calendar invite and reminder.
+                        </p>
+                        {calendlyUrl ? (
+                          <div className="h-[600px] w-full">
+                            <iframe
+                              src={calendlyUrl}
+                              width="100%"
+                              height="100%"
+                              frameBorder="0"
+                              title="Schedule a consultation"
+                              className="rounded-lg"
+                            />
+                          </div>
+                        ) : (
+                          <div className="text-center py-8">
+                            <Calendar className="h-12 w-12 text-slate-400 mx-auto mb-4" />
+                            <p className="text-slate-600 mb-4">Calendly URL not configured</p>
+                            <Button
+                              variant="outline"
+                              onClick={() => {
+                                const url = prompt('Enter Calendly URL (e.g., https://calendly.com/username/event):');
+                                if (url) setCalendlyUrl(url);
+                              }}
+                            >
+                              Configure Calendly URL
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="flex gap-3">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={handleBackToDetails}
+                          className="flex-1"
+                        >
+                          <ArrowLeft className="mr-2 h-4 w-4" />
+                          Back
+                        </Button>
+                        <Button
+                          type="submit"
+                          size="lg"
+                          className="flex-1 bg-blue-600 hover:bg-blue-700 text-lg py-6"
+                          disabled={isSubmitting}
+                        >
+                          {isSubmitting ? (
+                            <>
+                              <Sparkles className="mr-2 h-5 w-5 animate-spin" />
+                              Submitting...
+                            </>
+                          ) : (
+                            <>
+                              <CheckCircle className="mr-2 h-5 w-5" />
+                              Confirm Request
+                            </>
+                          )}
+                        </Button>
+                      </div>
+
+                      <p className="text-xs text-center text-slate-500">
+                        By submitting this form, you agree to our{' '}
+                        <Link href="/privacy" className="text-blue-600 hover:underline">
+                          Privacy Policy
+                        </Link>{' '}
+                        and{' '}
+                        <Link href="/terms" className="text-blue-600 hover:underline">
+                          Terms of Service
+                        </Link>
+                      </p>
+                    </form>
+                  )}
                 </CardContent>
               </Card>
             </div>

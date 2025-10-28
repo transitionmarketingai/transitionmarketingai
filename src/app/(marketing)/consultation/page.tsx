@@ -24,7 +24,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import Link from 'next/link';
 import Logo from '@/components/Logo';
 import { toast } from 'sonner';
-import { OTPInput } from '@/components/ui/otp-input';
 
 export default function ConsultationPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -35,11 +34,8 @@ export default function ConsultationPage() {
     phone: '',
     whatsappUpdates: false,
   });
-  const [otpSent, setOtpSent] = useState(false);
-  const [otp, setOtp] = useState('');
-  const [otpVerified, setOtpVerified] = useState(false);
-  const [sendingOtp, setSendingOtp] = useState(false);
-  const [verifyingOtp, setVerifyingOtp] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1); // 1: Details, 2: Calendar
+  const [calendlyUrl, setCalendlyUrl] = useState(process.env.NEXT_PUBLIC_CALENDLY_URL || '');
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -60,121 +56,12 @@ export default function ConsultationPage() {
       }
       handleInputChange('phone', formatted);
     }
-    
-    // Reset OTP state if phone changes after verification
-    if (otpVerified) {
-      setOtpVerified(false);
-      setOtpSent(false);
-      setOtp('');
-    }
   };
 
-  const handleSendOTP = async () => {
-    if (!formData.phone) {
-      toast.error('Please enter your phone number first');
-      return;
-    }
-
-    // Validate phone number (10 digits)
-    const phoneDigits = formData.phone.replace(/\D/g, '');
-    if (phoneDigits.length !== 10) {
-      toast.error('Please enter a valid 10-digit mobile number');
-      return;
-    }
-    
-    // Validate Indian mobile number format (starts with 6-9)
-    if (!/^[6-9]\d{9}$/.test(phoneDigits)) {
-      toast.error('Please enter a valid Indian mobile number (starts with 6-9)');
-      return;
-    }
-
-    setSendingOtp(true);
-    try {
-      // Get clean phone (add 91 if not present)
-      const digits = formData.phone.replace(/\D/g, '');
-      const cleanPhone = digits.length === 10 ? `91${digits}` : digits;
-      
-      const response = await fetch('/api/auth/otp/send', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone: cleanPhone }),
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        setOtpSent(true);
-        toast.success(`OTP sent to +91 ${formData.phone}`);
-        if (result.otp) {
-          // Development mode - show OTP
-          console.log('OTP (dev only):', result.otp);
-          toast.info(`Dev OTP: ${result.otp}`, { duration: 10000 });
-        }
-      } else {
-        // Handle specific error cases
-        if (response.status === 429) {
-          toast.error(result.error || 'Too many OTP requests. Please wait before requesting again.');
-        } else {
-          toast.error(result.error || 'Failed to send OTP. Please check your phone number and try again.');
-        }
-      }
-    } catch (error: any) {
-      console.error('OTP send error:', error);
-      toast.error('Failed to send OTP. Please try again.');
-    } finally {
-      setSendingOtp(false);
-    }
-  };
-
-  const handleVerifyOTP = async () => {
-    if (!otp || otp.length !== 6) {
-      toast.error('Please enter a valid 6-digit OTP');
-      return;
-    }
-
-    setVerifyingOtp(true);
-    try {
-      // Get clean phone with country code
-      const digits = formData.phone.replace(/\D/g, '');
-      const cleanPhone = `91${digits}`; // Always add 91 for India
-      
-      const response = await fetch('/api/auth/otp/verify', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone: cleanPhone, otp }),
-      });
-
-      const result = await response.json();
-
-      if (response.ok && result.verified) {
-        setOtpVerified(true);
-        toast.success('Phone number verified! ✓');
-      } else {
-        // Handle expired OTP specifically
-        if (result.expired) {
-          toast.error(result.error || 'OTP expired. Request a new one.');
-          setOtpSent(false);
-          setOtp('');
-        } else {
-          toast.error(result.error || 'Invalid OTP. Please check and try again.');
-          setOtp(''); // Clear OTP on error
-        }
-      }
-    } catch (error: any) {
-      console.error('OTP verify error:', error);
-      toast.error('Failed to verify OTP. Please try again.');
-      setOtp(''); // Clear OTP on error
-    } finally {
-      setVerifyingOtp(false);
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Validation
+  const handleNextStep = () => {
+    // Validate step 1 fields
     if (!formData.firstName || formData.firstName.length < 2) {
-      toast.error('Please enter your full name (minimum 2 characters)');
+      toast.error('Please enter your full name');
       return;
     }
     
@@ -182,9 +69,32 @@ export default function ConsultationPage() {
       toast.error('Please enter a valid email address');
       return;
     }
+
+    const phoneDigits = formData.phone.replace(/\D/g, '');
+    if (phoneDigits.length !== 10 || !/^[6-9]\d{9}$/.test(phoneDigits)) {
+      toast.error('Please enter a valid 10-digit Indian mobile number');
+      return;
+    }
+
+    // Move to calendar step
+    setCurrentStep(2);
+  };
+
+  const handleBackToDetails = () => {
+    setCurrentStep(1);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     
-    if (!otpVerified) {
-      toast.error('Please verify your phone number with OTP first');
+    // Validation (should already be done in step 1)
+    if (!formData.firstName || formData.firstName.length < 2) {
+      toast.error('Please enter your full name');
+      return;
+    }
+    
+    if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      toast.error('Please enter a valid email address');
       return;
     }
 
@@ -394,8 +304,24 @@ export default function ConsultationPage() {
             <div className="lg:col-span-2">
               <Card className="border border-slate-200">
                 <CardHeader>
-                  <CardTitle className="text-2xl">Request Free Consultation</CardTitle>
-                  <p className="text-slate-600">Fill out the form below and we'll call you within 24 hours</p>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <CardTitle className="text-2xl">Request Free Consultation</CardTitle>
+                      <p className="text-slate-600">
+                        {currentStep === 1 
+                          ? 'Fill out your details to book a consultation'
+                          : 'Select your preferred consultation time'}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className={`text-sm font-medium ${currentStep === 1 ? 'text-blue-600' : 'text-slate-400'}`}>
+                        Step 1
+                      </span>
+                      <span className="text-slate-300">→</span>
+                      <span className={`text-sm font-medium ${currentStep === 2 ? 'text-blue-600' : 'text-slate-400'}`}>
+                        Step 2
+                    </div>
+                  </div>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSubmit} className="space-y-6">
@@ -437,99 +363,31 @@ export default function ConsultationPage() {
                       </div>
                     </div>
 
-                    {/* Phone with OTP Verification */}
+                    {/* Phone */}
                     <div>
                       <Label htmlFor="phone" className="text-slate-700">
                         Phone Number <span className="text-red-500">*</span>
                       </Label>
-                      <div className="space-y-3 mt-2">
-                        <div className="flex items-center gap-2">
-                          {/* Fixed +91 */}
-                          <div className="flex items-center px-4 h-11 border border-slate-300 rounded-md bg-slate-50 text-slate-700 font-medium">
-                            +91
-                          </div>
-                          {/* Phone input */}
-                          <div className="relative flex-1">
-                            <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
-                            <Input
-                              id="phone"
-                              type="tel"
-                              required
-                              value={formData.phone}
-                              onChange={(e) => handlePhoneChange(e.target.value)}
-                              className="pl-10 pr-24"
-                              placeholder="98765 43210"
-                              disabled={otpVerified || sendingOtp}
-                              inputMode="numeric"
-                              maxLength={11}
-                            />
-                            {!otpVerified && formData.phone && formData.phone.replace(/\D/g, '').length === 10 && (
-                              <Button
-                                type="button"
-                                variant="outline"
-                                size="sm"
-                                onClick={handleSendOTP}
-                                disabled={sendingOtp}
-                                className="absolute right-2 top-1/2 transform -translate-y-1/2"
-                              >
-                                {sendingOtp ? 'Sending...' : otpSent ? 'Resend OTP' : 'Send OTP'}
-                              </Button>
-                            )}
-                            {otpVerified && (
-                              <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-green-600">
-                                <CheckCircle className="h-5 w-5" />
-                              </div>
-                            )}
-                          </div>
+                      <div className="flex items-center gap-2 mt-2">
+                        {/* Fixed +91 */}
+                        <div className="flex items-center px-4 h-11 border border-slate-300 rounded-md bg-slate-50 text-slate-700 font-medium">
+                          +91
                         </div>
-                        
-                        {otpSent && !otpVerified && (
-                          <div className="space-y-4">
-                            <div>
-                              <label className="text-sm text-slate-600 mb-2 block text-center">
-                                Enter 6-digit OTP sent to +91 {formData.phone}
-                              </label>
-                              <OTPInput
-                                length={6}
-                                value={otp}
-                                onChange={(value) => setOtp(value)}
-                                onComplete={(value) => {
-                                  setOtp(value);
-                                  // Auto-verify when complete
-                                  setTimeout(() => handleVerifyOTP(), 300);
-                                }}
-                                disabled={verifyingOtp}
-                                error={false}
-                              />
-                            </div>
-                            <div className="flex items-center justify-center gap-4">
-                              <Button
-                                type="button"
-                                onClick={handleVerifyOTP}
-                                disabled={verifyingOtp || otp.length !== 6}
-                                className="bg-blue-600 hover:bg-blue-700"
-                              >
-                                {verifyingOtp ? 'Verifying...' : 'Verify OTP'}
-                              </Button>
-                              <Button
-                                type="button"
-                                variant="ghost"
-                                onClick={handleSendOTP}
-                                disabled={sendingOtp}
-                                className="text-sm text-slate-600"
-                              >
-                                {sendingOtp ? 'Sending...' : 'Resend OTP'}
-                              </Button>
-                            </div>
-                          </div>
-                        )}
-                        
-                        {otpVerified && (
-                          <p className="text-sm text-green-600 flex items-center gap-1">
-                            <CheckCircle className="h-4 w-4" />
-                            Phone number verified
-                          </p>
-                        )}
+                        {/* Phone input */}
+                        <div className="relative flex-1">
+                          <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
+                          <Input
+                            id="phone"
+                            type="tel"
+                            required
+                            value={formData.phone}
+                            onChange={(e) => handlePhoneChange(e.target.value)}
+                            className="pl-10"
+                            placeholder="98765 43210"
+                            inputMode="numeric"
+                            maxLength={11}
+                          />
+                        </div>
                       </div>
                     </div>
 
@@ -555,25 +413,83 @@ export default function ConsultationPage() {
                       </div>
                     </div>
 
-                    {/* Submit Button */}
-                    <Button
-                      type="submit"
-                      size="lg"
-                      className="w-full bg-blue-600 hover:bg-blue-700 text-lg py-6"
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <Sparkles className="mr-2 h-5 w-5 animate-spin" />
-                          Submitting...
-                        </>
-                      ) : (
-                        <>
-                          <Calendar className="mr-2 h-5 w-5" />
-                          Request Free Consultation
-                        </>
-                      )}
-                    </Button>
+                    {/* Step 1: Next Button */}
+                    {currentStep === 1 && (
+                      <Button
+                        type="button"
+                        onClick={handleNextStep}
+                        size="lg"
+                        className="w-full bg-blue-600 hover:bg-blue-700 text-lg py-6"
+                      >
+                        <Calendar className="mr-2 h-5 w-5" />
+                        Choose Consultation Time
+                      </Button>
+                    )}
+
+                    {/* Step 2: Calendar Booking */}
+                    {currentStep === 2 && (
+                      <>
+                        <div className="bg-blue-50 rounded-lg p-6 border border-blue-200 mb-6">
+                          <h3 className="font-semibold text-slate-900 mb-2">📅 Book Your Consultation</h3>
+                          <p className="text-sm text-slate-600 mb-4">
+                            Select your preferred date and time. You'll receive a calendar invite and reminder.
+                          </p>
+                          {calendlyUrl ? (
+                            <div className="h-[600px] w-full">
+                              <iframe
+                                src={calendlyUrl}
+                                width="100%"
+                                height="100%"
+                                frameBorder="0"
+                                title="Schedule a consultation"
+                                className="rounded-lg"
+                              />
+                            </div>
+                          ) : (
+                            <Button
+                              variant="outline"
+                              className="w-full"
+                              onClick={() => {
+                                const url = prompt('Enter Calendly URL:');
+                                if (url) setCalendlyUrl(url);
+                              }}
+                            >
+                              Configure Calendly URL
+                            </Button>
+                          )}
+                        </div>
+
+                        <div className="flex gap-3">
+                          <Button
+                            type="button"
+                            variant="outline"
+                            onClick={handleBackToDetails}
+                            className="flex-1"
+                          >
+                            <ArrowLeft className="mr-2 h-4 w-4" />
+                            Back
+                          </Button>
+                          <Button
+                            type="submit"
+                            size="lg"
+                            className="flex-1 bg-blue-600 hover:bg-blue-700 text-lg py-6"
+                            disabled={isSubmitting}
+                          >
+                            {isSubmitting ? (
+                              <>
+                                <Sparkles className="mr-2 h-5 w-5 animate-spin" />
+                                Submitting...
+                              </>
+                            ) : (
+                              <>
+                                <CheckCircle className="mr-2 h-5 w-5" />
+                                Confirm Request
+                              </>
+                            )}
+                          </Button>
+                        </div>
+                      </>
+                    )}
 
                     <p className="text-xs text-center text-slate-500">
                       By submitting this form, you agree to our{' '}

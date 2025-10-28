@@ -3,10 +3,8 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import {
   CheckCircle,
   User,
@@ -15,8 +13,6 @@ import {
   Sparkles,
   Phone,
 } from 'lucide-react';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import Link from 'next/link';
 import Logo from '@/components/Logo';
 import { toast } from 'sonner';
@@ -24,12 +20,6 @@ import { toast } from 'sonner';
 export default function ConsultationPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [formData, setFormData] = useState({
-    firstName: '',
-    email: '',
-    phone: '',
-    whatsappUpdates: false,
-  });
   const [formData, setFormData] = useState({
     firstName: '',
     preferredDate: '',

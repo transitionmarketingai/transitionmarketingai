@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const supabase = createClient();
+    const supabase = await createClient();
     
     // Verify OTP
     const { data: otpData, error } = await supabase

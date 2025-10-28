@@ -28,7 +28,6 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import Logo from '@/components/Logo';
-import IndustryExamples from '@/components/IndustryExamples';
 
 export default function LandingPage() {
   return (
@@ -64,12 +63,12 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero Section - Clean Minimal Design */}
-      <section className="relative pt-20 pb-24 px-4 bg-slate-50">
+      <section className="relative pt-16 md:pt-20 pb-16 md:pb-24 px-4 bg-slate-50">
         {/* Modern Background */}
         <div className="absolute inset-0 bg-gradient-to-br from-slate-50 to-blue-50/30"></div>
         
         <div className="relative max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
             
             {/* Left Column - Content */}
             <div className="text-center lg:text-left">
@@ -78,35 +77,35 @@ export default function LandingPage() {
                 AI-Powered Multi-Channel Lead Generation
               </div>
               
-              <h1 className="text-5xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight">
-                Stop Wasting Time on
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-6 leading-tight">
+                Verified B2B Leads
                 <br />
                 <span className="text-blue-600">
-                  Unqualified Leads
+                  Delivered Weekly
                 </span>
               </h1>
               
-              <p className="text-xl text-slate-600 mb-8 leading-relaxed max-w-2xl">
-                Get <strong className="text-slate-900">verified, sales-ready leads</strong> delivered directly to your dashboard. Every lead is manually verified with active phone numbers and valid email addresses—so you can focus on closing deals, not chasing dead ends.
+              <p className="text-lg md:text-xl text-slate-600 mb-8 leading-relaxed max-w-2xl">
+                Get sales-ready leads with verified contact information. Every lead is quality-checked and matched to your ideal customer profile—delivered directly to your dashboard, so you can focus on closing deals.
               </p>
 
               {/* Value Props */}
-              <div className="grid grid-cols-2 gap-4 mb-10 max-w-2xl">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mb-8 md:mb-10 max-w-2xl">
                 <div className="flex items-center gap-2 text-slate-700">
-                  <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
-                  <span className="font-medium">90%+ Verified Contacts</span>
+                  <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-green-600 flex-shrink-0" />
+                  <span className="text-sm md:text-base font-medium">90%+ Verified Contacts</span>
                 </div>
                 <div className="flex items-center gap-2 text-slate-700">
-                  <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
-                  <span className="font-medium">Industry-Specific Matching</span>
+                  <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-green-600 flex-shrink-0" />
+                  <span className="text-sm md:text-base font-medium">ICP-Aligned Matching</span>
                 </div>
                 <div className="flex items-center gap-2 text-slate-700">
-                  <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
-                  <span className="font-medium">Money-Back Quality Guarantee</span>
+                  <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-green-600 flex-shrink-0" />
+                  <span className="text-sm md:text-base font-medium">Money-Back Guarantee</span>
                 </div>
                 <div className="flex items-center gap-2 text-slate-700">
-                  <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
-                  <span className="font-medium">First Leads in 7 Days</span>
+                  <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-green-600 flex-shrink-0" />
+                  <span className="text-sm md:text-base font-medium">Weekly Delivery</span>
                 </div>
               </div>
 
@@ -145,59 +144,65 @@ export default function LandingPage() {
 
             {/* Right Column - Clean Dashboard Mockup */}
             <div className="relative">
-              <div className="bg-white rounded-lg shadow-lg p-8 border border-slate-200">
+              <div className="bg-white rounded-xl shadow-xl p-6 md:p-8 border border-slate-200">
                 {/* Dashboard Header */}
-                <div className="flex items-center justify-between mb-8">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-                      <Bot className="h-6 w-6 text-white" />
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-2 md:gap-3">
+                    <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Bot className="h-4 w-4 md:h-6 md:w-6 text-white" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-slate-900">AI Dashboard</h3>
-                      <p className="text-sm text-slate-500">Live Lead Generation</p>
+                      <h3 className="text-sm md:text-base font-semibold text-slate-900">Lead Dashboard</h3>
+                      <p className="text-xs text-slate-500">Real-time Updates</p>
                     </div>
                   </div>
-                  <div className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-medium">
-                    Live
+                  <div className="px-2 py-1 md:px-3 md:py-1 bg-emerald-100 text-emerald-700 rounded-full text-[10px] md:text-xs font-medium">
+                    Active
                   </div>
                 </div>
 
                 {/* Stats Grid */}
-                <div className="grid grid-cols-2 gap-6 mb-8">
-                  <div className="bg-slate-50 rounded-lg p-6">
-                    <div className="flex items-center gap-2 mb-3">
-                      <CheckCircle className="h-5 w-5 text-green-600" />
-                      <span className="text-sm font-medium text-slate-700">Verified Rate</span>
+                <div className="grid grid-cols-2 gap-3 md:gap-4 mb-6">
+                  <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-4 md:p-5 border border-green-200">
+                    <div className="flex items-center gap-2 mb-2">
+                      <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-green-600 flex-shrink-0" />
+                      <span className="text-xs md:text-sm font-medium text-slate-700">Verified</span>
                     </div>
-                    <p className="text-3xl font-bold text-slate-900">94%</p>
-                    <p className="text-sm text-slate-500">Active contacts</p>
+                    <p className="text-2xl md:text-3xl font-bold text-slate-900">94%</p>
+                    <p className="text-[10px] md:text-xs text-slate-500 mt-1">Contact rate</p>
                   </div>
-                  <div className="bg-slate-50 rounded-lg p-6">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Target className="h-5 w-5 text-blue-600" />
-                      <span className="text-sm font-medium text-slate-700">Quality Score</span>
+                  <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-4 md:p-5 border border-blue-200">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Target className="h-4 w-4 md:h-5 md:w-5 text-blue-600 flex-shrink-0" />
+                      <span className="text-xs md:text-sm font-medium text-slate-700">Quality</span>
                     </div>
-                    <p className="text-3xl font-bold text-slate-900">87%</p>
-                    <p className="text-sm text-slate-500">Average match</p>
+                    <p className="text-2xl md:text-3xl font-bold text-slate-900">87%</p>
+                    <p className="text-[10px] md:text-xs text-slate-500 mt-1">Avg score</p>
                   </div>
                 </div>
 
                 {/* Recent Leads */}
-                <div className="space-y-4">
-                  <h4 className="font-semibold text-slate-900 text-sm">Verified Leads</h4>
+                <div className="space-y-2 md:space-y-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-xs md:text-sm font-semibold text-slate-900">Recent Verified Leads</h4>
+                    <Badge variant="outline" className="text-[10px] px-1.5 py-0 border-green-300 text-green-700 bg-green-50">New</Badge>
+                  </div>
                   {[
-                    { name: "Rajesh Mehta", company: "Mumbai Realty", source: "Google Maps", score: 92, status: "Verified" },
-                    { name: "Priya Sharma", company: "Tech Solutions", source: "LinkedIn", score: 88, status: "Verified" },
-                    { name: "Anita Desai", company: "MediCare Plus", source: "Facebook Ads", score: 95, status: "Verified" }
+                    { name: "Rajesh Mehta", company: "Mumbai Realty", source: "Google Maps", score: 92 },
+                    { name: "Priya Sharma", company: "Tech Solutions", source: "LinkedIn", score: 88 },
+                    { name: "Anita Desai", company: "MediCare Plus", source: "Facebook Ads", score: 95 }
                   ].map((lead, idx) => (
-                    <div key={idx} className="flex items-center justify-between p-4 bg-slate-50 rounded-lg border border-green-200">
-                      <div className="flex-1">
-                        <p className="font-medium text-sm text-slate-900">{lead.name}</p>
-                        <p className="text-xs text-slate-500">{lead.company} • {lead.source}</p>
+                    <div key={idx} className="flex items-center justify-between p-3 md:p-4 bg-slate-50 rounded-lg border border-green-200 hover:border-green-300 transition-colors">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <p className="font-semibold text-xs md:text-sm text-slate-900 truncate">{lead.name}</p>
+                          <div className="w-1.5 h-1.5 rounded-full bg-green-500 flex-shrink-0" title="Verified"></div>
+                        </div>
+                        <p className="text-[10px] md:text-xs text-slate-500 truncate">{lead.company}</p>
+                        <p className="text-[10px] md:text-xs text-blue-600 font-medium mt-0.5">{lead.source}</p>
                       </div>
-                      <div className="flex items-center gap-3">
-                        <Badge variant="secondary" className="text-xs bg-green-100 text-green-700 px-2 py-0.5">{lead.score}%</Badge>
-                        <div className="w-2 h-2 rounded-full bg-green-500" title="Verified"></div>
+                      <div className="ml-3 flex-shrink-0">
+                        <Badge className="text-[10px] md:text-xs bg-blue-100 text-blue-700 px-2 py-0.5 font-semibold">{lead.score}</Badge>
                       </div>
                     </div>
                   ))}
@@ -208,148 +213,157 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Problem-Solution Section */}
+      {/* How We Generate Leads - Infographic Table */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
+            <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-6">
+              <Bot className="h-4 w-4 mr-2" />
+              Our Process
+            </div>
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-              The Lead Generation Problem Most Businesses Face
+              How We Source & Verify Your Leads
             </h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              Sound familiar? You're not alone.
+              A transparent look at our multi-channel lead generation and verification process
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
-            {/* Problems */}
-            <div className="space-y-6">
-              <h3 className="text-2xl font-bold text-slate-900 mb-8">❌ Traditional Problems</h3>
-              <div className="flex items-start gap-4 p-6 bg-red-50 rounded-lg border border-red-200">
-                <div className="text-red-600 text-2xl font-bold">1</div>
-                <div>
-                  <h4 className="font-semibold text-slate-900 mb-2">Wasting Money on Ads</h4>
-                  <p className="text-slate-600 text-sm">Spending ₹50,000/month on Google/Meta ads but getting unqualified leads who never convert.</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-4 p-6 bg-red-50 rounded-lg border border-red-200">
-                <div className="text-red-600 text-2xl font-bold">2</div>
-                <div>
-                  <h4 className="font-semibold text-slate-900 mb-2">Hours on Cold Calling</h4>
-                  <p className="text-slate-600 text-sm">Your team spends hours calling people who aren't interested, aren't the decision-maker, or have wrong numbers.</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-4 p-6 bg-red-50 rounded-lg border border-red-200">
-                <div className="text-red-600 text-2xl font-bold">3</div>
-                <div>
-                  <h4 className="font-semibold text-slate-900 mb-2">Buying Low-Quality Lead Lists</h4>
-                  <p className="text-slate-600 text-sm">Purchased databases with outdated contacts, fake emails, and people who never opted in.</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-4 p-6 bg-red-50 rounded-lg border border-red-200">
-                <div className="text-red-600 text-2xl font-bold">4</div>
-                <div>
-                  <h4 className="font-semibold text-slate-900 mb-2">Expensive Sales Teams with No ROI</h4>
-                  <p className="text-slate-600 text-sm">Hiring 5-10 people at ₹30,000/month each, but they're struggling to find quality prospects.</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Solutions */}
-            <div className="space-y-6">
-              <h3 className="text-2xl font-bold text-slate-900 mb-8">✅ Our Solution</h3>
-              <div className="flex items-start gap-4 p-6 bg-green-50 rounded-lg border border-green-200">
-                <div className="text-green-600 text-2xl font-bold">1</div>
-                <div>
-                  <h4 className="font-semibold text-slate-900 mb-2">Verified, Qualified Leads Only</h4>
-                  <p className="text-slate-600 text-sm">Every lead is verified by AI and human QA. Phone tested, email validated, intent confirmed. Bad lead? We replace it FREE.</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-4 p-6 bg-green-50 rounded-lg border border-green-200">
-                <div className="text-green-600 text-2xl font-bold">2</div>
-                <div>
-                  <h4 className="font-semibold text-slate-900 mb-2">AI Finds Them 24/7</h4>
-                  <p className="text-slate-600 text-sm">Our AI scrapes Google Maps, LinkedIn, directories, and social media to find people actively searching for your services RIGHT NOW.</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-4 p-6 bg-green-50 rounded-lg border border-green-200">
-                <div className="text-green-600 text-2xl font-bold">3</div>
-                <div>
-                  <h4 className="font-semibold text-slate-900 mb-2">Industry-Specific Targeting</h4>
-                  <p className="text-slate-600 text-sm">Tailored strategies for Real Estate, Healthcare, B2B Services, E-commerce. We understand your market.</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-4 p-6 bg-green-50 rounded-lg border border-green-200">
-                <div className="text-green-600 text-2xl font-bold">4</div>
-                <div>
-                  <h4 className="font-semibold text-slate-900 mb-2">Pay Only for Results</h4>
-                  <p className="text-slate-600 text-sm">No setup fees. No long contracts. Pay per lead delivered. Money-back guarantee if not satisfied.</p>
-                </div>
-              </div>
+          {/* Process Table - Clean Infographic Style */}
+          <div className="bg-white rounded-2xl border-2 border-slate-200 shadow-lg overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="bg-slate-50 border-b-2 border-slate-200">
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900">Source Channel</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900">Discovery Method</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900">Verification Process</th>
+                    <th className="px-6 py-4 text-center text-sm font-semibold text-slate-900">Quality Standard</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  <tr className="hover:bg-blue-50/50 transition-colors">
+                    <td className="px-6 py-5">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
+                          <Search className="h-5 w-5 text-blue-600" />
+                        </div>
+                        <div>
+                          <div className="font-semibold text-slate-900">Google Maps</div>
+                          <div className="text-xs text-slate-500">Local directories, Justdial</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-5 text-slate-700 text-sm">
+                      AI-powered scraping by location, industry keywords, and business type
+                    </td>
+                    <td className="px-6 py-5 text-slate-700 text-sm">
+                      Phone format validation → Active status check → Manual spot-call verification
+                    </td>
+                    <td className="px-6 py-5 text-center">
+                      <Badge className="bg-green-100 text-green-700">90%+ Active</Badge>
+                    </td>
+                  </tr>
+                  <tr className="hover:bg-purple-50/50 transition-colors bg-slate-50/30">
+                    <td className="px-6 py-5">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center flex-shrink-0">
+                          <Users className="h-5 w-5 text-purple-600" />
+                        </div>
+                        <div>
+                          <div className="font-semibold text-slate-900">LinkedIn</div>
+                          <div className="text-xs text-slate-500">Company pages, profiles</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-5 text-slate-700 text-sm">
+                      Automated search by job title, company, industry filters, and location
+                    </td>
+                    <td className="px-6 py-5 text-slate-700 text-sm">
+                      Email pattern matching → Domain verification → Deliverability testing
+                    </td>
+                    <td className="px-6 py-5 text-center">
+                      <Badge className="bg-green-100 text-green-700">95%+ Valid</Badge>
+                    </td>
+                  </tr>
+                  <tr className="hover:bg-blue-50/50 transition-colors">
+                    <td className="px-6 py-5">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
+                          <Facebook className="h-5 w-5 text-blue-600" />
+                        </div>
+                        <div>
+                          <div className="font-semibold text-slate-900">Facebook Ads</div>
+                          <div className="text-xs text-slate-500">Lead forms, inquiries</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-5 text-slate-700 text-sm">
+                      Targeted campaigns with lead capture forms for high-intent prospects
+                    </td>
+                    <td className="px-6 py-5 text-slate-700 text-sm">
+                      Auto-verified via form submission → Cross-reference validation → Duplicate check
+                    </td>
+                    <td className="px-6 py-5 text-center">
+                      <Badge className="bg-green-100 text-green-700">100% Verified</Badge>
+                    </td>
+                  </tr>
+                  <tr className="hover:bg-red-50/50 transition-colors bg-slate-50/30">
+                    <td className="px-6 py-5">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-red-100 flex items-center justify-center flex-shrink-0">
+                          <Chrome className="h-5 w-5 text-red-600" />
+                        </div>
+                        <div>
+                          <div className="font-semibold text-slate-900">Google Search Ads</div>
+                          <div className="text-xs text-slate-500">Search intent, landing pages</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-5 text-slate-700 text-sm">
+                      Paid search campaigns targeting active searchers with landing page forms
+                    </td>
+                    <td className="px-6 py-5 text-slate-700 text-sm">
+                      Form submission → Email validation → Phone format check → Intent scoring
+                    </td>
+                    <td className="px-6 py-5 text-center">
+                      <Badge className="bg-green-100 text-green-700">100% Verified</Badge>
+                    </td>
+                  </tr>
+                  <tr className="hover:bg-amber-50/50 transition-colors">
+                    <td className="px-6 py-5">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center flex-shrink-0">
+                          <TrendingUp className="h-5 w-5 text-amber-600" />
+                        </div>
+                        <div>
+                          <div className="font-semibold text-slate-900">Industry Directories</div>
+                          <div className="text-xs text-slate-500">TradeIndia, IndiaMART, etc.</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-5 text-slate-700 text-sm">
+                      Sector-specific platforms scraped for B2B contacts matching your ICP
+                    </td>
+                    <td className="px-6 py-5 text-slate-700 text-sm">
+                      Data extraction → Contact deduplication → Phone + email verification → Quality scoring
+                    </td>
+                    <td className="px-6 py-5 text-center">
+                      <Badge className="bg-blue-100 text-blue-700">85%+ Match</Badge>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16">
-            <div className="text-center">
-              <div className="bg-blue-50 rounded-lg p-8 shadow-sm border border-blue-200">
-                <div className="text-4xl md:text-5xl font-bold text-blue-600 mb-2">
-                  10,000+
-                </div>
-                <div className="text-slate-700 font-medium">Leads Delivered</div>
-                <div className="text-slate-500 text-sm mt-1">To Happy Clients</div>
-              </div>
-            </div>
-            
-            <div className="text-center">
-              <div className="bg-green-50 rounded-lg p-8 shadow-sm border border-green-200">
-                <div className="text-4xl md:text-5xl font-bold text-green-600 mb-2">
-                  89%
-                </div>
-                <div className="text-slate-700 font-medium">Quality Score</div>
-                <div className="text-slate-500 text-sm mt-1">Verified Leads</div>
-              </div>
-            </div>
-            
-            <div className="text-center">
-              <div className="bg-purple-50 rounded-lg p-8 shadow-sm border border-purple-200">
-                <div className="text-4xl md:text-5xl font-bold text-purple-600 mb-2">
-                  50+
-                </div>
-                <div className="text-slate-700 font-medium">Happy Clients</div>
-                <div className="text-slate-500 text-sm mt-1">Across India</div>
-              </div>
-            </div>
-            
-            <div className="text-center">
-              <div className="bg-orange-50 rounded-lg p-8 shadow-sm border border-orange-200">
-                <div className="text-4xl md:text-5xl font-bold text-orange-600 mb-2">
-                  7 Days
-                </div>
-                <div className="text-slate-700 font-medium">First Delivery</div>
-                <div className="text-slate-500 text-sm mt-1">Guaranteed</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Industry Tags */}
-          <div className="mt-16 text-center">
-            <p className="text-slate-600 mb-8 text-lg font-medium">Trusted by businesses in these industries:</p>
-            <div className="flex flex-wrap justify-center items-center gap-4">
-              <div className="px-6 py-3 bg-blue-50 rounded-lg border border-blue-200">
-                <span className="text-sm font-semibold text-blue-700">🏢 Real Estate</span>
-              </div>
-              <div className="px-6 py-3 bg-blue-50 rounded-lg border border-blue-200">
-                <span className="text-sm font-semibold text-blue-700">🏥 Healthcare</span>
-              </div>
-              <div className="px-6 py-3 bg-blue-50 rounded-lg border border-blue-200">
-                <span className="text-sm font-semibold text-blue-700">💼 B2B Services</span>
-              </div>
-              <div className="px-6 py-3 bg-blue-50 rounded-lg border border-blue-200">
-                <span className="text-sm font-semibold text-blue-700">🏭 Manufacturing</span>
-              </div>
-              <div className="px-6 py-3 bg-blue-50 rounded-lg border border-blue-200">
-                <span className="text-sm font-semibold text-blue-700">🛍️ E-commerce</span>
-              </div>
+          {/* Bottom Note */}
+          <div className="mt-12 text-center">
+            <div className="inline-flex items-center gap-2 px-6 py-3 bg-blue-50 rounded-lg border border-blue-200">
+              <CheckCircle className="h-5 w-5 text-blue-600" />
+              <p className="text-sm text-slate-700">
+                <strong className="text-slate-900">All leads:</strong> Quality scored (0-100), matched to your ICP, verified before delivery
+              </p>
             </div>
           </div>
         </div>
@@ -664,8 +678,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Industry Examples Section */}
-      <IndustryExamples />
 
       {/* Lead Sources */}
       <section className="py-24 px-4 bg-slate-50">

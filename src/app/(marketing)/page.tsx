@@ -104,7 +104,7 @@ export default function LandingPage() {
                 </div>
                 <div className="flex items-center gap-2 text-slate-700">
                   <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-green-600 flex-shrink-0" />
-                  <span className="text-sm md:text-base font-medium">Money-Back Guarantee</span>
+                  <span className="text-sm md:text-base font-medium">Quality Assurance</span>
                 </div>
                 <div className="flex items-center gap-2 text-slate-700">
                   <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-green-600 flex-shrink-0" />
@@ -740,87 +740,67 @@ export default function LandingPage() {
       {/* Why Choose Us Section */}
       <section className="py-24 px-4 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-6">
-              <Target className="h-4 w-4 mr-2" />
-              Why We're Different
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-              Why Businesses Choose
-              <br />
-              <span className="text-blue-600">Transition Marketing AI</span>
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+              Why Choose Us
             </h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              We don't just send you lists. We deliver verified, sales-ready leads with complete transparency and unmatched reliability.
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              We deliver verified leads with complete transparency—not just lists.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <Card className="border-2 border-slate-200 hover:border-blue-300 transition-colors">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-4">
-                  <CheckCircle className="h-8 w-8 text-blue-600" />
-                </div>
-                <h3 className="text-lg font-bold text-slate-900 mb-3">Human Verification</h3>
-                <p className="text-sm text-slate-600">
-                  Every lead is manually spot-checked. We call numbers, test emails, and verify businesses before delivery—not just automated APIs.
-                </p>
-              </CardContent>
-            </Card>
+          {/* Infographic: Why Choose Us */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <div className="bg-slate-50 rounded-xl p-6 border border-slate-200 text-center">
+              <div className="w-14 h-14 rounded-full bg-blue-600 flex items-center justify-center mx-auto mb-4">
+                <CheckCircle className="h-7 w-7 text-white" />
+              </div>
+              <h3 className="font-bold text-slate-900 mb-2">Verified Contacts</h3>
+              <p className="text-sm text-slate-600">Active phones & valid emails</p>
+            </div>
 
-            <Card className="border-2 border-slate-200 hover:border-blue-300 transition-colors">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
-                  <Shield className="h-8 w-8 text-green-600" />
-                </div>
-                <h3 className="text-lg font-bold text-slate-900 mb-3">Quality Guarantee</h3>
-                <p className="text-sm text-slate-600">
-                  If we don't meet agreed lead volume or quality standards, you get a full refund. No questions asked. We put our money where our mouth is.
-                </p>
-              </CardContent>
-            </Card>
+            <div className="bg-slate-50 rounded-xl p-6 border border-slate-200 text-center">
+              <div className="w-14 h-14 rounded-full bg-blue-600 flex items-center justify-center mx-auto mb-4">
+                <Shield className="h-7 w-7 text-white" />
+              </div>
+              <h3 className="font-bold text-slate-900 mb-2">ICP Matching</h3>
+              <p className="text-sm text-slate-600">Leads that fit your needs</p>
+            </div>
 
-            <Card className="border-2 border-slate-200 hover:border-blue-300 transition-colors">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-4">
-                  <Users className="h-8 w-8 text-purple-600" />
-                </div>
-                <h3 className="text-lg font-bold text-slate-900 mb-3">Custom Matching</h3>
-                <p className="text-sm text-slate-600">
-                  Leads are matched to your ideal customer profile (ICP). Not random contacts—prospects that actually fit your target market.
-                </p>
-              </CardContent>
-            </Card>
+            <div className="bg-slate-50 rounded-xl p-6 border border-slate-200 text-center">
+              <div className="w-14 h-14 rounded-full bg-blue-600 flex items-center justify-center mx-auto mb-4">
+                <BarChart3 className="h-7 w-7 text-white" />
+              </div>
+              <h3 className="font-bold text-slate-900 mb-2">Full Transparency</h3>
+              <p className="text-sm text-slate-600">See source & quality scores</p>
+            </div>
 
-            <Card className="border-2 border-slate-200 hover:border-blue-300 transition-colors">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-4">
-                  <BarChart3 className="h-8 w-8 text-amber-600" />
-                </div>
-                <h3 className="text-lg font-bold text-slate-900 mb-3">Complete Transparency</h3>
-                <p className="text-sm text-slate-600">
-                  See exactly where each lead came from, quality scores, verification status, and contact attempts. Full visibility into every lead.
-                </p>
-              </CardContent>
-            </Card>
+            <div className="bg-slate-50 rounded-xl p-6 border border-slate-200 text-center">
+              <div className="w-14 h-14 rounded-full bg-blue-600 flex items-center justify-center mx-auto mb-4">
+                <Clock className="h-7 w-7 text-white" />
+              </div>
+              <h3 className="font-bold text-slate-900 mb-2">Weekly Delivery</h3>
+              <p className="text-sm text-slate-600">First leads in 7 days</p>
+            </div>
           </div>
 
-          <div className="mt-16 bg-blue-50 rounded-2xl p-10 border-2 border-blue-200">
+          {/* Stats Bar */}
+          <div className="bg-blue-600 rounded-xl p-8 text-white">
             <div className="grid md:grid-cols-3 gap-8 items-center">
               <div className="text-center md:text-left">
-                <div className="text-4xl font-bold text-blue-900 mb-2">90%+</div>
-                <p className="text-blue-700 font-medium">Verified Contact Rate</p>
-                <p className="text-sm text-blue-600 mt-1">Active phone numbers & valid emails</p>
+                <div className="text-4xl font-bold mb-2">90%+</div>
+                <p className="font-medium opacity-90">Verified Contact Rate</p>
+                <p className="text-sm opacity-75 mt-1">Active phones & valid emails</p>
               </div>
-              <div className="text-center md:text-left border-l border-blue-300 pl-8">
-                <div className="text-4xl font-bold text-blue-900 mb-2">85%+</div>
-                <p className="text-blue-700 font-medium">Average Quality Score</p>
-                <p className="text-sm text-blue-600 mt-1">ICP-matched, verified prospects</p>
+              <div className="text-center md:text-left border-l border-blue-400 pl-8">
+                <div className="text-4xl font-bold mb-2">85%+</div>
+                <p className="font-medium opacity-90">Quality Score</p>
+                <p className="text-sm opacity-75 mt-1">ICP-matched prospects</p>
               </div>
-              <div className="text-center md:text-left border-l border-blue-300 pl-8">
-                <div className="text-4xl font-bold text-blue-900 mb-2">7 Days</div>
-                <p className="text-blue-700 font-medium">First Leads Delivered</p>
-                <p className="text-sm text-blue-600 mt-1">From signup to your dashboard</p>
+              <div className="text-center md:text-left border-l border-blue-400 pl-8">
+                <div className="text-4xl font-bold mb-2">7 Days</div>
+                <p className="font-medium opacity-90">First Leads</p>
+                <p className="text-sm opacity-75 mt-1">Delivered to dashboard</p>
               </div>
             </div>
           </div>
@@ -831,14 +811,14 @@ export default function LandingPage() {
       <section className="py-24 px-4 bg-slate-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-medium mb-6">
+            <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-6">
               <CheckCircle className="h-4 w-4 mr-2" />
               Our Quality Standards
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
               What Makes Our Leads
               <br />
-              <span className="text-green-600">Sales-Ready</span>
+              <span className="text-blue-600">Sales-Ready</span>
             </h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto">
               We apply rigorous quality checks before any lead reaches your dashboard. Here's exactly what you can expect.
@@ -1109,82 +1089,37 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Risk-Free Guarantee Section */}
-      <section className="py-24 px-4 bg-gradient-to-br from-green-50 to-emerald-50">
+      {/* Quality Assurance Section - Infographic Style */}
+      <section className="py-24 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-green-100 text-green-700 text-sm font-medium mb-4">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-4">
               <CheckCircle className="h-4 w-4 mr-2" />
-              100% Risk-Free Promise
+              Quality First
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-              Our Money-Back Guarantee
+              How We Ensure Quality
             </h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              We're so confident in our ability to deliver quality leads that we offer a complete money-back guarantee.
-            </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            <Card className="border-2 border-green-200 bg-white">
-              <CardContent className="p-8 text-center">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Target className="h-8 w-8 text-green-600" />
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">
-                  Quality Guaranteed
-                </h3>
-                <p className="text-slate-600">
-                  Every lead is verified with working phone number and email. If we can't deliver the promised quality, we refund you.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-2 border-green-200 bg-white">
-              <CardContent className="p-8 text-center">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Clock className="h-8 w-8 text-green-600" />
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">
-                  Timely Delivery
-                </h3>
-                <p className="text-slate-600">
-                  First leads delivered within 7 days. If we miss the deadline without good reason, get a full refund—no questions asked.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-2 border-green-200 bg-white">
-              <CardContent className="p-8 text-center">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <RefreshCw className="h-8 w-8 text-green-600" />
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">
-                  30-Day Satisfaction
-                </h3>
-                <p className="text-slate-600">
-                  Not satisfied with the lead quality in your first month? Cancel anytime and get a full refund. Zero risk to you.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div className="bg-white rounded-2xl p-10 shadow-lg border-2 border-green-200">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="flex-1">
-                <h3 className="text-2xl font-bold text-slate-900 mb-3">
-                  Still Have Questions?
-                </h3>
-                <p className="text-slate-600 text-lg">
-                  Book a free consultation call with our team. We'll answer all your questions and show you exactly how we can help your business grow.
-                </p>
+          {/* Infographic: Verification Process */}
+          <div className="bg-slate-50 rounded-2xl p-8 md:p-12 border border-slate-200">
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="text-center">
+                <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-blue-600 text-white text-2xl font-bold mb-4">1</div>
+                <h3 className="font-bold text-slate-900 mb-2">Phone Verification</h3>
+                <p className="text-sm text-slate-600">Test every number to ensure it's active</p>
               </div>
-              <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white text-lg px-8 py-6 flex-shrink-0" asChild>
-                <Link href="/consultation">
-                  Book Free Consultation
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
+              <div className="text-center">
+                <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-blue-600 text-white text-2xl font-bold mb-4">2</div>
+                <h3 className="font-bold text-slate-900 mb-2">Email Validation</h3>
+                <p className="text-sm text-slate-600">Verify domain exists and email format</p>
+              </div>
+              <div className="text-center">
+                <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-blue-600 text-white text-2xl font-bold mb-4">3</div>
+                <h3 className="font-bold text-slate-900 mb-2">Business Matching</h3>
+                <p className="text-sm text-slate-600">Match leads to your ideal customer profile</p>
+              </div>
             </div>
           </div>
         </div>
@@ -1286,7 +1221,7 @@ export default function LandingPage() {
                   Can I cancel anytime?
                 </h3>
                 <p className="text-slate-600 leading-relaxed">
-                  <strong className="text-slate-900">Yes!</strong> All our plans are month-to-month with no long-term contracts. You can cancel anytime with 7 days' notice. Plus, we offer a 30-day money-back guarantee if you're not satisfied with the lead quality in your first month.
+                  <strong className="text-slate-900">Yes!</strong> All our plans are month-to-month with no long-term contracts. You can cancel anytime with 7 days' notice.
                 </p>
               </CardContent>
             </Card>

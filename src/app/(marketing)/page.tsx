@@ -166,38 +166,38 @@ export default function LandingPage() {
                 <div className="grid grid-cols-2 gap-6 mb-8">
                   <div className="bg-slate-50 rounded-lg p-6">
                     <div className="flex items-center gap-2 mb-3">
-                      <Users className="h-5 w-5 text-blue-600" />
-                      <span className="text-sm font-medium text-slate-700">New Leads</span>
+                      <CheckCircle className="h-5 w-5 text-green-600" />
+                      <span className="text-sm font-medium text-slate-700">Verified Rate</span>
                     </div>
-                    <p className="text-3xl font-bold text-slate-900">47</p>
-                    <p className="text-sm text-slate-500">This week</p>
+                    <p className="text-3xl font-bold text-slate-900">94%</p>
+                    <p className="text-sm text-slate-500">Active contacts</p>
                   </div>
                   <div className="bg-slate-50 rounded-lg p-6">
                     <div className="flex items-center gap-2 mb-3">
                       <Target className="h-5 w-5 text-blue-600" />
                       <span className="text-sm font-medium text-slate-700">Quality Score</span>
                     </div>
-                    <p className="text-3xl font-bold text-slate-900">89%</p>
-                    <p className="text-sm text-slate-500">Average</p>
+                    <p className="text-3xl font-bold text-slate-900">87%</p>
+                    <p className="text-sm text-slate-500">Average match</p>
                   </div>
                 </div>
 
                 {/* Recent Leads */}
                 <div className="space-y-4">
-                  <h4 className="font-semibold text-slate-900 text-sm">Recent Leads</h4>
+                  <h4 className="font-semibold text-slate-900 text-sm">Verified Leads</h4>
                   {[
-                    { name: "Priya Sharma", company: "TechCorp", score: 92, time: "2 min ago" },
-                    { name: "Rajesh Kumar", company: "StartupXYZ", score: 88, time: "5 min ago" },
-                    { name: "Anita Patel", company: "GrowthCo", score: 95, time: "8 min ago" }
+                    { name: "Rajesh Mehta", company: "Mumbai Realty", source: "Google Maps", score: 92, status: "Verified" },
+                    { name: "Priya Sharma", company: "Tech Solutions", source: "LinkedIn", score: 88, status: "Verified" },
+                    { name: "Anita Desai", company: "MediCare Plus", source: "Facebook Ads", score: 95, status: "Verified" }
                   ].map((lead, idx) => (
-                    <div key={idx} className="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
-                      <div>
+                    <div key={idx} className="flex items-center justify-between p-4 bg-slate-50 rounded-lg border border-green-200">
+                      <div className="flex-1">
                         <p className="font-medium text-sm text-slate-900">{lead.name}</p>
-                        <p className="text-xs text-slate-500">{lead.company} • {lead.time}</p>
+                        <p className="text-xs text-slate-500">{lead.company} • {lead.source}</p>
                       </div>
                       <div className="flex items-center gap-3">
-                        <div className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs font-medium">{lead.score}</div>
-                        <Button size="sm" variant="outline" className="text-xs px-3 py-1 border-slate-300 text-slate-700">Contact</Button>
+                        <Badge variant="secondary" className="text-xs bg-green-100 text-green-700 px-2 py-0.5">{lead.score}%</Badge>
+                        <div className="w-2 h-2 rounded-full bg-green-500" title="Verified"></div>
                       </div>
                     </div>
                   ))}

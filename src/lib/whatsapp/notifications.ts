@@ -119,6 +119,22 @@ Pay now: ${p.paymentUrl}
 To avoid service interruption, please update payment.
 
 Support: Reply for help`,
+
+      weekly_summary: (p) => `📊 Weekly Lead Summary
+
+Hi ${p.customerName},
+
+Your lead delivery for ${p.weekRange}:
+
+✅ Total Leads: ${p.totalLeads}
+⭐ Avg Quality: ${p.avgQuality}/100
+📧 CSV export sent via email
+🔗 Dashboard: ${p.dashboardUrl}
+
+All leads are verified and ready to contact.
+
+Best,
+Transition Marketing AI Team`,
     };
 
     const template = templates[templateName];

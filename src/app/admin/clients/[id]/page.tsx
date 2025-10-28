@@ -78,12 +78,45 @@ export default function ClientDetailPage() {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
   const [showLeadGuide, setShowLeadGuide] = useState(false);
+  const [sendingPayment, setSendingPayment] = useState(false);
 
   useEffect(() => {
     if (clientId) {
       fetchClientData();
     }
   }, [clientId]);
+
+  const handleSendPaymentLink = async () => {
+    if (!plan || !client) return;
+    
+    setSendingPayment(true);
+    try {
+      const response = await fetch(`/api/admin/clients/${clientId}/payment-link`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          amount: plan.monthly_cost,
+          description: `${plan.plan_name} - Monthly Subscription`,
+          plan_id: plan.id,
+        }),
+      });
+
+      const data = await response.json();
+      
+      if (response.ok && data.payment_url) {
+        alert(`Payment link sent! Link: ${data.payment_url}`);
+        // Could also copy to clipboard
+        navigator.clipboard.writeText(data.payment_url);
+      } else {
+        alert('Failed to create payment link: ' + (data.error || 'Unknown error'));
+      }
+    } catch (error) {
+      console.error('Payment link error:', error);
+      alert('Failed to create payment link');
+    } finally {
+      setSendingPayment(false);
+    }
+  };
 
   const fetchClientData = async () => {
     try {
@@ -202,6 +235,15 @@ export default function ClientDetailPage() {
                 Manage Plan
               </Link>
             </Button>
+            {plan && plan.monthly_cost > 0 && (
+              <Button 
+                className="bg-green-600 hover:bg-green-700 text-white" 
+                onClick={handleSendPaymentLink}
+                disabled={sendingPayment}
+              >
+                {sendingPayment ? 'Sending...' : 'Send Payment Link'}
+              </Button>
+            )}
           </div>
         </div>
       </div>

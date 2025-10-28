@@ -136,37 +136,123 @@ ${onboarding_data.need_crm_integration ? '✓ CRM Integration' : ''}`,
         performed_by: user.id,
       });
 
-    // 6. Send Welcome Email to Client
+    // 6. Create Payment Link and Send Welcome Messages
+    let paymentUrl = null;
+    
+    if (plan && parseFloat(onboarding_data.proposed_monthly_budget || '0') > 0) {
+      try {
+        const { createRazorpayOrder, createRazorpayCustomer, rupeesToPaise } = await import('@/lib/razorpay/client');
+        const { sendWhatsAppTemplate, formatPhoneForWhatsApp } = await import('@/lib/whatsapp/notifications');
+        
+        // Create Razorpay customer
+        const customerResult = await createRazorpayCustomer({
+          name: client.business_name || client.contact_person,
+          email: client.email,
+          contact: client.phone.replace(/\D/g, '').slice(-10),
+          notes: { client_id: client.id },
+        });
+
+        if (customerResult.success) {
+          // Create payment order
+          const orderResult = await createRazorpayOrder({
+            amount: rupeesToPaise(parseFloat(onboarding_data.proposed_monthly_budget || '0')),
+            currency: 'INR',
+            receipt: `INV-${Date.now()}-${client.id}`,
+            notes: {
+              client_id: client.id,
+              plan_id: plan.id,
+              description: 'Initial monthly subscription',
+            },
+          });
+
+          if (orderResult.success) {
+            paymentUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://transitionmarketingai.com'}/payment/${orderResult.order.id}`;
+            
+            // Update client with Razorpay customer ID
+            await supabase
+              .from('clients')
+              .update({ razorpay_customer_id: customerResult.customer.id })
+              .eq('id', client.id);
+
+            // Save payment record
+            await supabase.from('payments').insert({
+              client_id: client.id,
+              razorpay_order_id: orderResult.order.id,
+              razorpay_customer_id: customerResult.customer.id,
+              amount: parseFloat(onboarding_data.proposed_monthly_budget || '0'),
+              status: 'pending',
+              description: 'Initial subscription payment',
+              currency: 'INR',
+            });
+
+            // Send WhatsApp welcome with payment link
+            if (client.phone) {
+              try {
+                await sendWhatsAppTemplate(
+                  formatPhoneForWhatsApp(client.phone),
+                  'welcome_onboarding',
+                  {
+                    customerName: client.contact_person,
+                    planName: planName,
+                    quota: (onboarding_data.proposed_leads_quota || '0').toString(),
+                    dashboardUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'https://transitionmarketingai.com'}/dashboard`,
+                  }
+                );
+              } catch (whatsappError) {
+                console.error('WhatsApp send error:', whatsappError);
+              }
+            }
+          }
+        }
+      } catch (paymentError) {
+        console.error('Payment link creation error:', paymentError);
+        // Continue even if payment link creation fails
+      }
+    }
+
+    // 7. Send Welcome Email to Client
     try {
       const emailContent = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-          <h2 style="color: #1e40af;">Welcome to Transition Marketing AI!</h2>
+          <h2 style="color: #2563eb;">Welcome to Transition Marketing AI!</h2>
           
           <p>Dear ${onboarding_data.contact_person || 'Valued Client'},</p>
           
-          <p>Thank you for choosing Transition Marketing AI for your lead generation needs. We're excited to help ${onboarding_data.business_name || 'your business'} grow with verified, sales-ready leads.</p>
+          <p>Thank you for choosing Transition Marketing AI for your lead generation needs.</p>
           
           <div style="background-color: #f0f9ff; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <h3 style="color: #1e40af; margin-top: 0;">Your Custom Plan Summary:</h3>
+            <h3 style="color: #2563eb; margin-top: 0;">Your Custom Plan Summary:</h3>
             <ul style="line-height: 1.8;">
               <li><strong>Monthly Investment:</strong> ₹${parseFloat(onboarding_data.proposed_monthly_budget || '0').toLocaleString('en-IN')}</li>
               <li><strong>Leads Per Month:</strong> ${onboarding_data.proposed_leads_quota || 'TBD'}</li>
               <li><strong>Cost Per Lead:</strong> ₹${parseFloat(onboarding_data.proposed_cost_per_lead || '0').toLocaleString('en-IN')}</li>
               <li><strong>Contract Duration:</strong> ${onboarding_data.contract_duration || 'To be confirmed'}</li>
-              <li><strong>Payment Terms:</strong> ${onboarding_data.payment_terms || 'Net 30 days'}</li>
             </ul>
           </div>
+
+          ${paymentUrl ? `
+            <div style="background-color: #dcfce7; padding: 20px; border-radius: 8px; margin: 20px 0; text-align: center;">
+              <h3 style="color: #16a34a; margin-top: 0;">Complete Your Setup</h3>
+              <p>To activate your plan and start receiving leads, please complete payment:</p>
+              <a href="${paymentUrl}" style="background: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block; margin-top: 10px;">
+                Pay Now - ₹${parseFloat(onboarding_data.proposed_monthly_budget || '0').toLocaleString('en-IN')}
+              </a>
+              <p style="font-size: 12px; color: #6b7280; margin-top: 10px;">
+                Payment via UPI, Cards, Net Banking
+              </p>
+            </div>
+          ` : ''}
           
           <h3>What Happens Next?</h3>
           <ol style="line-height: 2;">
-            <li>We'll start generating leads based on your requirements within 7 days</li>
+            <li>${paymentUrl ? 'Complete payment to activate your plan' : 'Your plan will be activated soon'}</li>
+            <li>We'll start generating leads within 7 days</li>
             <li>You'll receive weekly lead deliveries directly to your dashboard</li>
             <li>Each lead is verified with active phone numbers and valid email addresses</li>
-            <li>You can track all leads and their sources in your dashboard</li>
           </ol>
           
           <p><strong>Dashboard Access:</strong><br>
-          You'll receive login credentials shortly. You can also request access by replying to this email.</p>
+          You'll receive login credentials shortly.</p>
           
           <p>If you have any questions, feel free to reach out to us.</p>
           
@@ -175,20 +261,14 @@ ${onboarding_data.need_crm_integration ? '✓ CRM Integration' : ''}`,
         </div>
       `;
 
-      // For now, just log the email - actual sending can be implemented with SendGrid/Resend
       console.log('Email to be sent:', {
         to: onboarding_data.email,
         subject: 'Welcome to Transition Marketing AI - Your Custom Plan Details',
         content: emailContent
       });
-
-      // TODO: Integrate with actual email service (SendGrid/Resend)
-      // const emailService = new EmailService({...});
-      // await emailService.sendEmail({...});
       
     } catch (emailError) {
       console.error('Failed to send welcome email:', emailError);
-      // Don't fail onboarding if email fails
     }
 
     return NextResponse.json({

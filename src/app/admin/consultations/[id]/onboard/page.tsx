@@ -34,6 +34,7 @@ import {
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
+import OnboardingGuide from '@/components/admin/OnboardingGuide';
 
 interface Consultation {
   id: string;
@@ -278,7 +279,8 @@ export default function ClientOnboardingPage() {
   }
 
   return (
-    <div className="p-8 max-w-5xl mx-auto">
+    <div className="p-4 md:p-8">
+      <div className="max-w-7xl mx-auto">
       {/* Header */}
       <div className="mb-8">
         <Button variant="ghost" className="mb-4" asChild>
@@ -339,9 +341,13 @@ export default function ClientOnboardingPage() {
         </CardContent>
       </Card>
 
-      {/* Step 1: Basic Information */}
-      {currentStep === 1 && (
-        <Card>
+      {/* Two-Column Layout: Form + Guide */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Main Form - 2/3 width */}
+        <div className="lg:col-span-2">
+          {/* Step 1: Basic Information */}
+          {currentStep === 1 && (
+            <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Building2 className="h-5 w-5" />
@@ -1024,6 +1030,14 @@ export default function ClientOnboardingPage() {
           </div>
         </CardContent>
       </Card>
+        </div>
+        
+        {/* Guide Sidebar - 1/3 width */}
+        <div className="lg:col-span-1">
+          <OnboardingGuide currentStep={currentStep} />
+        </div>
+      </div>
+      </div>
     </div>
   );
 }

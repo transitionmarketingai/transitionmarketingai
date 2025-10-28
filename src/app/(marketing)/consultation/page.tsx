@@ -95,41 +95,54 @@ export default function ConsultationPage() {
               <CheckCircle className="h-10 w-10 text-green-600" />
             </div>
             <h1 className="text-4xl font-bold text-slate-900 mb-4">
-              Thank You for Your Request! ✅
+              Thank You, {formData.firstName}! ✅
             </h1>
-            <p className="text-xl text-slate-600 mb-4">
-              We've received your consultation request!
+            <p className="text-xl text-slate-600 mb-6">
+              Your consultation request has been confirmed!
             </p>
+            
             <div className="bg-blue-50 rounded-lg p-6 mb-8 border border-blue-200 text-left max-w-md mx-auto">
               <h3 className="font-semibold text-slate-900 mb-3">📞 What Happens Next?</h3>
-              <ul className="space-y-2 text-slate-700 text-sm">
+              <ul className="space-y-3 text-slate-700 text-sm">
                 <li className="flex items-start gap-2">
-                  <span className="text-blue-600 font-bold">1.</span>
-                  <span>Our team will call you within <strong>24 hours</strong> at your verified number</span>
+                  <span className="text-blue-600 font-bold text-lg">1.</span>
+                  <span>We'll call you personally within <strong>24 hours</strong></span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-blue-600 font-bold">2.</span>
-                  <span>We'll discuss your business and lead generation goals</span>
+                  <span className="text-blue-600 font-bold text-lg">2.</span>
+                  <span>Discuss your business and lead generation needs</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-blue-600 font-bold">3.</span>
-                  <span>You'll receive a custom plan proposal with pricing</span>
+                  <span className="text-blue-600 font-bold text-lg">3.</span>
+                  <span>Receive a custom plan proposal with pricing</span>
                 </li>
               </ul>
+              
+              {(formData.preferredDate || formData.preferredTime) && (
+                <div className="mt-4 pt-4 border-t border-blue-200">
+                  <p className="text-sm font-semibold text-slate-900 mb-1">Your Preferred Time:</p>
+                  <p className="text-base text-blue-600">
+                    {formData.preferredDate && new Date(formData.preferredDate + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                    {formData.preferredDate && formData.preferredTime ? ' at ' : ''}
+                    {formData.preferredTime && (() => {
+                      const [hours, minutes] = formData.preferredTime.split(':');
+                      const date = new Date();
+                      date.setHours(parseInt(hours), parseInt(minutes));
+                      return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+                    })()}
+                  </p>
+                </div>
+              )}
             </div>
 
-            {/* Calendar Booking Section */}
-            <div className="bg-blue-50 rounded-lg p-8 mb-8 border border-blue-200">
-              <h3 className="text-lg font-semibold text-slate-900 mb-4">📅 Book Your Consultation Now</h3>
-              <p className="text-slate-600 mb-6">
-                Select your preferred date and time instantly. We'll send you a calendar invite and reminder.
-              </p>
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white" asChild>
-                <Link href={process.env.NEXT_PUBLIC_CALENDLY_URL || 'https://calendly.com/transition-marketing-ai'} target="_blank">
-                  Book Consultation Now
-                  <Calendar className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
+            <div className="bg-green-50 rounded-lg p-6 mb-8 border border-green-200 max-w-md mx-auto">
+              <div className="flex items-start gap-3">
+                <Mail className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+                <div className="text-left">
+                  <p className="font-semibold text-slate-900 mb-1">Booking Confirmed</p>
+                  <p className="text-sm text-slate-600">Your consultation request has been saved. We'll contact you within 24 hours.</p>
+                </div>
+              </div>
             </div>
             <div className="bg-blue-50 rounded-lg p-8 mb-8 border border-blue-200">
               <h3 className="text-lg font-semibold text-slate-900 mb-4">What Happens Next?</h3>

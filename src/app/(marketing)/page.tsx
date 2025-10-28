@@ -52,7 +52,10 @@ export default function LandingPage() {
 
             <div className="flex items-center gap-3">
               <Button variant="outline" asChild>
-                <Link href="/login">Login</Link>
+                <Link href="/login">Client Login</Link>
+              </Button>
+              <Button variant="ghost" className="text-sm text-slate-600" asChild>
+                <Link href="/admin/login">Admin</Link>
               </Button>
               <Button className="bg-blue-600 hover:bg-blue-700" asChild>
                 <Link href="/consultation">Request Free Consultation</Link>

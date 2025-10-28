@@ -90,12 +90,16 @@ export async function POST(req: NextRequest) {
     const cleanPhone = phone.replace(/\D/g, '');
     const isDev = process.env.NODE_ENV === 'development';
     
-    console.log('Fast2SMS API Key exists:', !!process.env.FAST2SMS_API_KEY);
+    // Log for debugging (without exposing full key)
+    const hasFast2SMS = !!process.env.FAST2SMS_API_KEY;
+    console.log('Fast2SMS API Key exists:', hasFast2SMS);
+    console.log('Fast2SMS API Key length:', process.env.FAST2SMS_API_KEY?.length || 0);
     console.log('Phone number:', cleanPhone);
     
     try {
       // Try Fast2SMS first (recommended for India)
-      if (process.env.FAST2SMS_API_KEY) {
+      const fast2smsKey = process.env.FAST2SMS_API_KEY;
+      if (fast2smsKey && fast2smsKey.trim()) {
         try {
           const phoneToUse = cleanPhone.length === 12 ? cleanPhone : `91${cleanPhone}`;
           console.log('Sending OTP to Fast2SMS for phone:', phoneToUse);
@@ -113,11 +117,22 @@ export async function POST(req: NextRequest) {
             })
           });
 
-          const fast2smsData = await fast2smsResponse.json();
-          console.log('Fast2SMS response:', fast2smsData);
+          let fast2smsData;
+          try {
+            fast2smsData = await fast2smsResponse.json();
+          } catch (parseError) {
+            const textResponse = await fast2smsResponse.text();
+            console.error('Fast2SMS response parse error:', textResponse);
+            throw new Error('Invalid response from Fast2SMS: ' + textResponse);
+          }
           
-          // Fast2SMS success check
-          if (fast2smsData.return === true || fast2smsData.status === 'success') {
+          console.log('Fast2SMS response:', JSON.stringify(fast2smsData, null, 2));
+          
+          // Fast2SMS success check - check multiple possible response formats
+          if (fast2smsData.return === true || 
+              fast2smsData.status === 'success' || 
+              fast2smsData.success === true ||
+              (fast2smsData.message && fast2smsData.message.includes('SMS sent'))) {
             return NextResponse.json({
               success: true,
               message: 'OTP sent successfully via SMS',

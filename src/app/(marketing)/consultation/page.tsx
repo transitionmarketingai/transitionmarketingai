@@ -7,17 +7,13 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { 
+import {
   CheckCircle,
-  Phone,
-  Mail,
-  Building2,
   User,
-  MessageCircle,
-  Clock,
   Calendar,
+  Clock,
   Sparkles,
-  Bot,
+  Phone,
 } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -34,73 +30,23 @@ export default function ConsultationPage() {
     phone: '',
     whatsappUpdates: false,
   });
-  const [currentStep, setCurrentStep] = useState(1); // 1: Details, 2: Calendar
-  const [calendlyUrl] = useState(process.env.NEXT_PUBLIC_CALENDLY_URL || 'https://calendly.com/transitionmarketingai/free-consultation');
+  const [formData, setFormData] = useState({
+    firstName: '',
+    preferredDate: '',
+    preferredTime: '',
+  });
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handlePhoneChange = (value: string) => {
-    // Allow only digits
-    const digits = value.replace(/\D/g, '');
-    
-    // Limit to 10 digits (India mobile number)
-    if (digits.length <= 10) {
-      // Format with space after 5 digits: XXXXX XXXXX
-      let formatted = '';
-      if (digits.length > 5) {
-        formatted = `${digits.slice(0, 5)} ${digits.slice(5, 10)}`;
-      } else {
-        formatted = digits;
-      }
-      handleInputChange('phone', formatted);
-    }
-  };
-
-  const handleNextStep = () => {
-    // Validate step 1 fields
-    if (!formData.firstName || formData.firstName.length < 2) {
-      toast.error('Please enter your full name');
-      return;
-    }
-    
-    if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      toast.error('Please enter a valid email address');
-      return;
-    }
-
-    const phoneDigits = formData.phone.replace(/\D/g, '');
-    if (phoneDigits.length !== 10 || !/^[6-9]\d{9}$/.test(phoneDigits)) {
-      toast.error('Please enter a valid 10-digit Indian mobile number');
-      return;
-    }
-
-    // Move to calendar step
-    setCurrentStep(2);
-  };
-
-  const handleBackToDetails = () => {
-    setCurrentStep(1);
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validation (should already be done in step 1)
+    // Validation
     if (!formData.firstName || formData.firstName.length < 2) {
-      toast.error('Please enter your full name');
-      return;
-    }
-    
-    if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      toast.error('Please enter a valid email address');
-      return;
-    }
-
-    const phoneDigits = formData.phone.replace(/\D/g, '');
-    if (phoneDigits.length !== 10 || !/^[6-9]\d{9}$/.test(phoneDigits)) {
-      toast.error('Please enter a valid 10-digit Indian mobile number');
+      toast.error('Please enter your name');
       return;
     }
 
@@ -112,10 +58,12 @@ export default function ConsultationPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           firstName: formData.firstName,
-          lastName: '', // Optional
-          email: formData.email,
-          phone: `+91 ${formData.phone}`, // Add country code for storage
-          whatsappUpdates: formData.whatsappUpdates,
+          lastName: '',
+          email: '', // Not required
+          phone: '', // Not required
+          preferredDate: formData.preferredDate,
+          preferredTime: formData.preferredTime,
+          whatsappUpdates: false,
         }),
       });
 

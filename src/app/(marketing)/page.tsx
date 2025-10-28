@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { 
   Search,
   Send,
@@ -551,150 +552,102 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Clean Pricing */}
-      <section id="pricing" className="py-24 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-6">
-              <IndianRupee className="h-4 w-4 mr-2" />
-              Flexible Pricing
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-              Custom Pricing Tailored
-              <br />
-              <span className="text-slate-600">
-                to Your Business Needs
-              </span>
+      {/* Pricing - Compact Table */}
+      <section id="pricing" className="py-20 px-4 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              Pricing
             </h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto mb-8">
-              Every business is unique. We create a custom lead generation plan based on your industry, target audience, and budget. Get an exact quote during your free consultation.
-            </p>
-            <div className="flex flex-wrap justify-center items-center gap-8 text-sm text-slate-500">
+          </div>
+
+          {/* Pricing Table */}
+          <div className="bg-white rounded-xl border-2 border-slate-200 overflow-hidden mb-8">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="bg-slate-50 border-b-2 border-slate-200">
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900">Plan</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900">Price/Month</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900">Leads/Month</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  <tr className="hover:bg-blue-50/50">
+                    <td className="px-6 py-5">
+                      <div className="font-semibold text-slate-900">Small Business</div>
+                      <div className="text-xs text-slate-500 mt-1">Ideal for startups</div>
+                    </td>
+                    <td className="px-6 py-5">
+                      <div className="text-lg font-bold text-blue-600">₹15K-25K</div>
+                    </td>
+                    <td className="px-6 py-5 text-slate-700">20-40 leads</td>
+                  </tr>
+                  <tr className="hover:bg-blue-50/50 bg-blue-50/30">
+                    <td className="px-6 py-5">
+                      <div className="font-semibold text-slate-900">Growing Business</div>
+                      <div className="text-xs text-slate-500 mt-1">Most popular</div>
+                    </td>
+                    <td className="px-6 py-5">
+                      <div className="text-lg font-bold text-blue-600">₹30K-50K</div>
+                    </td>
+                    <td className="px-6 py-5 text-slate-700">50-100 leads</td>
+                  </tr>
+                  <tr className="hover:bg-blue-50/50">
+                    <td className="px-6 py-5">
+                      <div className="font-semibold text-slate-900">Enterprise</div>
+                      <div className="text-xs text-slate-500 mt-1">For large scale</div>
+                    </td>
+                    <td className="px-6 py-5">
+                      <div className="text-lg font-bold text-blue-600">₹60K-1L+</div>
+                    </td>
+                    <td className="px-6 py-5 text-slate-700">150-300+ leads</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Included Features */}
+          <div className="bg-slate-50 rounded-xl p-6 mb-8">
+            <h3 className="font-semibold text-slate-900 mb-4">All Plans Include:</h3>
+            <div className="grid md:grid-cols-2 gap-2 text-sm">
               <div className="flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-blue-500" />
-                <span>Free Consultation</span>
+                <CheckCircle className="h-4 w-4 text-blue-600 flex-shrink-0" />
+                <span className="text-slate-700">Verified leads (90%+ active)</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-blue-500" />
-                <span>Custom Pricing</span>
+                <CheckCircle className="h-4 w-4 text-blue-600 flex-shrink-0" />
+                <span className="text-slate-700">Multi-channel generation</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-blue-500" />
-                <span>Flexible Terms</span>
+                <CheckCircle className="h-4 w-4 text-blue-600 flex-shrink-0" />
+                <span className="text-slate-700">Dashboard access</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-4 w-4 text-blue-600 flex-shrink-0" />
+                <span className="text-slate-700">Weekly delivery</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-4 w-4 text-blue-600 flex-shrink-0" />
+                <span className="text-slate-700">Quality guarantee</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-4 w-4 text-blue-600 flex-shrink-0" />
+                <span className="text-slate-700">No long-term contracts</span>
               </div>
             </div>
           </div>
 
-          {/* Estimated Pricing Ranges */}
-          <div className="max-w-4xl mx-auto mb-16">
-            <div className="bg-slate-50 rounded-2xl p-10 border-2 border-slate-200">
-              <h3 className="text-2xl font-bold text-slate-900 mb-6 text-center">Estimated Investment Ranges</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="text-center p-6 bg-white rounded-lg border border-slate-200">
-                  <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-4">
-                    <Users className="h-6 w-6 text-blue-600" />
-                  </div>
-                  <h4 className="font-semibold text-slate-900 mb-2">Small Business</h4>
-                  <p className="text-3xl font-bold text-blue-600 mb-1">₹15K-25K</p>
-                  <p className="text-sm text-slate-600">~20-40 leads/month</p>
-                </div>
-                <div className="text-center p-6 bg-white rounded-lg border-2 border-blue-600">
-                  <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-4">
-                    <Target className="h-6 w-6 text-blue-600" />
-                  </div>
-                  <h4 className="font-semibold text-slate-900 mb-2">Growing Business</h4>
-                  <p className="text-3xl font-bold text-blue-600 mb-1">₹30K-50K</p>
-                  <p className="text-sm text-slate-600">~50-100 leads/month</p>
-                </div>
-                <div className="text-center p-6 bg-white rounded-lg border border-slate-200">
-                  <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-4">
-                    <TrendingUp className="h-6 w-6 text-blue-600" />
-                  </div>
-                  <h4 className="font-semibold text-slate-900 mb-2">Enterprise</h4>
-                  <p className="text-3xl font-bold text-blue-600 mb-1">₹60K-1L+</p>
-                  <p className="text-sm text-slate-600">~150-300+ leads/month</p>
-                </div>
-              </div>
-              <p className="text-center text-sm text-slate-600 mt-6">
-                <strong className="text-slate-900">Note:</strong> Pricing varies based on industry, geographic targeting, lead quality requirements, and volume. We'll provide an exact quote during your free consultation.
-              </p>
-            </div>
-          </div>
-
-          {/* What's Included */}
-          <div className="max-w-4xl mx-auto mb-12">
-            <h3 className="text-2xl font-bold text-slate-900 mb-6 text-center">What's Included in Every Plan</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
-                <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                <div>
-                  <span className="text-sm font-medium text-slate-900">Verified leads</span>
-                  <span className="text-xs text-slate-500 block">Phone + email verified (90%+ active)</span>
-                </div>
-              </div>
-              <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
-                <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                <div>
-                  <span className="text-sm font-medium text-slate-900">AI-powered multi-channel generation</span>
-                  <span className="text-xs text-slate-500 block">Google Maps, LinkedIn, Facebook, industry directories</span>
-                </div>
-              </div>
-              <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
-                <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                <div>
-                  <span className="text-sm font-medium text-slate-900">Dashboard access</span>
-                  <span className="text-xs text-slate-500 block">View all leads, track delivery, monitor quality</span>
-                </div>
-              </div>
-              <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
-                <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                <div>
-                  <span className="text-sm font-medium text-slate-900">Weekly delivery</span>
-                  <span className="text-xs text-slate-500 block">Consistent lead flow throughout the month</span>
-                </div>
-              </div>
-              <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
-                <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                <div>
-                  <span className="text-sm font-medium text-slate-900">Quality guarantee</span>
-                  <span className="text-xs text-slate-500 block">Refund if we don't meet agreed lead volume</span>
-                </div>
-              </div>
-              <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
-                <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                <div>
-                  <span className="text-sm font-medium text-slate-900">No long-term contracts</span>
-                  <span className="text-xs text-slate-500 block">Cancel anytime with 7 days notice</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* CTA */}
+          {/* Single CTA */}
           <div className="text-center">
-            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-12 py-6" asChild>
+            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-6" asChild>
               <Link href="/consultation">
-                Get Your Custom Quote - Free Consultation
+                Request Free Consultation
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
-            <p className="text-sm text-slate-500 mt-4">No obligation • 15-minute call • Exact pricing based on your needs</p>
-          </div>
-
-          {/* Bottom Note */}
-          <div className="text-center mt-16">
-            <div className="bg-blue-600 rounded-lg p-8 text-white">
-              <h3 className="text-2xl font-bold mb-4">Not Sure Which Plan is Right?</h3>
-              <p className="text-blue-100 mb-6">Book a free consultation and we'll recommend the perfect plan for your business needs and budget.</p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 text-lg px-8 py-4" asChild>
-                  <Link href="/consultation">
-                    Request Free Consultation
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Link>
-                </Button>
-              </div>
-            </div>
+            <p className="text-sm text-slate-500 mt-4">Get exact pricing based on your needs</p>
           </div>
         </div>
       </section>
@@ -735,159 +688,106 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section id="faq" className="py-24 px-4 bg-white">
+      {/* FAQ Section - Collapsible */}
+      <section id="faq" className="py-20 px-4 bg-slate-50">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-4">
-              <MessageCircle className="h-4 w-4 mr-2" />
-              Frequently Asked Questions
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-              Got Questions? We've Got Answers
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              FAQ
             </h2>
-            <p className="text-xl text-slate-600">
-              Everything you need to know about our lead generation service
-            </p>
           </div>
 
-          <div className="space-y-6">
-            {/* FAQ Item 1 */}
-            <Card className="border-2 hover:border-blue-200 transition-colors">
-              <CardContent className="p-8">
-                <h3 className="text-xl font-bold text-slate-900 mb-3">
-                  How do you generate leads?
-                </h3>
-                <p className="text-slate-600 leading-relaxed">
-                  We use advanced AI-powered scraping and targeting across multiple platforms including Google, Facebook, LinkedIn, and industry-specific directories. Our AI analyzes millions of data points to identify prospects that match your ideal customer profile. Every lead is then manually verified by our team before delivery.
-                </p>
-              </CardContent>
-            </Card>
+          <Accordion type="single" collapsible className="w-full space-y-4">
+            <AccordionItem value="item-1" className="bg-white rounded-lg border border-slate-200 px-6">
+              <AccordionTrigger className="text-left font-semibold text-slate-900">
+                How do you generate leads?
+              </AccordionTrigger>
+              <AccordionContent className="text-slate-600">
+                We use advanced AI-powered scraping and targeting across multiple platforms including Google, Facebook, LinkedIn, and industry-specific directories. Our AI analyzes millions of data points to identify prospects that match your ideal customer profile. Every lead is then manually verified by our team before delivery.
+              </AccordionContent>
+            </AccordionItem>
 
-            {/* FAQ Item 2 */}
-            <Card className="border-2 hover:border-blue-200 transition-colors">
-              <CardContent className="p-8">
-                <h3 className="text-xl font-bold text-slate-900 mb-3">
-                  Are the leads verified and exclusive to me?
-                </h3>
-                <p className="text-slate-600 leading-relaxed">
-                  <strong className="text-slate-900">Yes, absolutely!</strong> Every lead comes with verified phone number and email address. We test contact information before delivery. While leads discovered through public channels (like Google Maps) may be contacted by others, our AI-targeted leads from paid campaigns and LinkedIn are often exclusive. You can also opt for exclusive lead packages.
-                </p>
-              </CardContent>
-            </Card>
+            <AccordionItem value="item-2" className="bg-white rounded-lg border border-slate-200 px-6">
+              <AccordionTrigger className="text-left font-semibold text-slate-900">
+                Are the leads verified and exclusive to me?
+              </AccordionTrigger>
+              <AccordionContent className="text-slate-600">
+                <strong className="text-slate-900">Yes, absolutely!</strong> Every lead comes with verified phone number and email address. We test contact information before delivery. While leads discovered through public channels (like Google Maps) may be contacted by others, our AI-targeted leads from paid campaigns and LinkedIn are often exclusive. You can also opt for exclusive lead packages.
+              </AccordionContent>
+            </AccordionItem>
 
-            {/* FAQ Item 3 */}
-            <Card className="border-2 hover:border-blue-200 transition-colors">
-              <CardContent className="p-8">
-                <h3 className="text-xl font-bold text-slate-900 mb-3">
-                  What happens during the free consultation?
-                </h3>
-                <p className="text-slate-600 leading-relaxed">
-                  We'll discuss your business, target audience, current lead generation challenges, and goals. Then we'll create a custom plan with recommended budget, expected lead volume, cost per lead, and timelines. There's no obligation—think of it as a free strategy session for your business.
-                </p>
-              </CardContent>
-            </Card>
+            <AccordionItem value="item-3" className="bg-white rounded-lg border border-slate-200 px-6">
+              <AccordionTrigger className="text-left font-semibold text-slate-900">
+                What happens during the free consultation?
+              </AccordionTrigger>
+              <AccordionContent className="text-slate-600">
+                We'll discuss your business, target audience, current lead generation challenges, and goals. Then we'll create a custom plan with recommended budget, expected lead volume, cost per lead, and timelines. There's no obligation—think of it as a free strategy session for your business.
+              </AccordionContent>
+            </AccordionItem>
 
-            {/* FAQ Item 4 */}
-            <Card className="border-2 hover:border-blue-200 transition-colors">
-              <CardContent className="p-8">
-                <h3 className="text-xl font-bold text-slate-900 mb-3">
-                  How much does it cost?
-                </h3>
-                <p className="text-slate-600 leading-relaxed">
-                  Pricing is custom-tailored to your business needs. Most clients invest <strong className="text-slate-900">₹15,000-₹50,000 per month</strong> for 20-100 verified leads. Enterprise solutions start at ₹60,000/month for 150+ leads. The exact cost depends on your industry, target audience, geographic focus, lead volume, and quality requirements. We provide a detailed quote during your free consultation based on your specific needs.
-                </p>
-              </CardContent>
-            </Card>
+            <AccordionItem value="item-4" className="bg-white rounded-lg border border-slate-200 px-6">
+              <AccordionTrigger className="text-left font-semibold text-slate-900">
+                How much does it cost?
+              </AccordionTrigger>
+              <AccordionContent className="text-slate-600">
+                Pricing is custom-tailored to your business needs. Most clients invest <strong className="text-slate-900">₹15,000-₹50,000 per month</strong> for 20-100 verified leads. Enterprise solutions start at ₹60,000/month for 150+ leads. The exact cost depends on your industry, target audience, geographic focus, lead volume, and quality requirements. We provide a detailed quote during your free consultation based on your specific needs.
+              </AccordionContent>
+            </AccordionItem>
 
-            {/* FAQ Item 5 */}
-            <Card className="border-2 hover:border-blue-200 transition-colors">
-              <CardContent className="p-8">
-                <h3 className="text-xl font-bold text-slate-900 mb-3">
-                  How long before I see results?
-                </h3>
-                <p className="text-slate-600 leading-relaxed">
-                  You'll receive your first batch of verified leads within <strong className="text-slate-900">7 business days</strong> of signing up. Most clients start seeing qualified conversations within the first week and closed deals within 2-4 weeks, depending on their sales cycle.
-                </p>
-              </CardContent>
-            </Card>
+            <AccordionItem value="item-5" className="bg-white rounded-lg border border-slate-200 px-6">
+              <AccordionTrigger className="text-left font-semibold text-slate-900">
+                How long before I see results?
+              </AccordionTrigger>
+              <AccordionContent className="text-slate-600">
+                You'll receive your first batch of verified leads within <strong className="text-slate-900">7 business days</strong> of signing up. Most clients start seeing qualified conversations within the first week and closed deals within 2-4 weeks, depending on their sales cycle.
+              </AccordionContent>
+            </AccordionItem>
 
-            {/* FAQ Item 6 */}
-            <Card className="border-2 hover:border-blue-200 transition-colors">
-              <CardContent className="p-8">
-                <h3 className="text-xl font-bold text-slate-900 mb-3">
-                  What industries do you work with?
-                </h3>
-                <p className="text-slate-600 leading-relaxed">
-                  We specialize in <strong className="text-slate-900">Real Estate, Healthcare, B2B Services, Manufacturing, E-commerce, Education, and Financial Services</strong>. Our AI models are trained on India-specific data for each industry. If your industry isn't listed, book a consultation—we can create custom targeting for almost any B2B or high-ticket B2C business.
-                </p>
-              </CardContent>
-            </Card>
+            <AccordionItem value="item-6" className="bg-white rounded-lg border border-slate-200 px-6">
+              <AccordionTrigger className="text-left font-semibold text-slate-900">
+                What industries do you work with?
+              </AccordionTrigger>
+              <AccordionContent className="text-slate-600">
+                We specialize in <strong className="text-slate-900">Real Estate, Healthcare, B2B Services, Manufacturing, E-commerce, Education, and Financial Services</strong>. Our AI models are trained on India-specific data for each industry. If your industry isn't listed, book a consultation—we can create custom targeting for almost any B2B or high-ticket B2C business.
+              </AccordionContent>
+            </AccordionItem>
 
-            {/* FAQ Item 7 */}
-            <Card className="border-2 hover:border-blue-200 transition-colors">
-              <CardContent className="p-8">
-                <h3 className="text-xl font-bold text-slate-900 mb-3">
-                  Can I cancel anytime?
-                </h3>
-                <p className="text-slate-600 leading-relaxed">
-                  <strong className="text-slate-900">Yes!</strong> All our plans are month-to-month with no long-term contracts. You can cancel anytime with 7 days' notice.
-                </p>
-              </CardContent>
-            </Card>
+            <AccordionItem value="item-7" className="bg-white rounded-lg border border-slate-200 px-6">
+              <AccordionTrigger className="text-left font-semibold text-slate-900">
+                Can I cancel anytime?
+              </AccordionTrigger>
+              <AccordionContent className="text-slate-600">
+                <strong className="text-slate-900">Yes!</strong> All our plans are month-to-month with no long-term contracts. You can cancel anytime with 7 days' notice.
+              </AccordionContent>
+            </AccordionItem>
 
-            {/* FAQ Item 8 */}
-            <Card className="border-2 hover:border-blue-200 transition-colors">
-              <CardContent className="p-8">
-                <h3 className="text-xl font-bold text-slate-900 mb-3">
-                  Do you provide outreach services too?
-                </h3>
-                <p className="text-slate-600 leading-relaxed">
-                  Yes! While our base service delivers leads to your dashboard, we also offer add-on outreach services including email campaigns, WhatsApp messaging, LinkedIn outreach, and even appointment setting. Discuss your needs during the free consultation.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* CTA at bottom of FAQ */}
-          <div className="mt-16 text-center">
-            <div className="bg-slate-50 rounded-2xl p-10 border-2 border-slate-200">
-              <h3 className="text-2xl font-bold text-slate-900 mb-4">
-                Still have questions?
-              </h3>
-              <p className="text-slate-600 text-lg mb-6">
-                Our team is here to help. Book a free consultation or email us at <a href="mailto:support@transitionmarketingai.com" className="text-blue-600 hover:text-blue-700 font-medium">support@transitionmarketingai.com</a>
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white" asChild>
-                  <Link href="/consultation">
-                    Book Free Consultation
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Link>
-                </Button>
-              </div>
-            </div>
-          </div>
+            <AccordionItem value="item-8" className="bg-white rounded-lg border border-slate-200 px-6">
+              <AccordionTrigger className="text-left font-semibold text-slate-900">
+                Do you provide outreach services too?
+              </AccordionTrigger>
+              <AccordionContent className="text-slate-600">
+                Yes! While our base service delivers leads to your dashboard, we also offer add-on outreach services including email campaigns, WhatsApp messaging, LinkedIn outreach, and even appointment setting. Discuss your needs during the free consultation.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-24 px-4 bg-blue-600 text-white">
+      {/* Final CTA Section */}
+      <section className="py-20 px-4 bg-blue-600 text-white">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Ready to Get More Qualified Leads?
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            Ready to Get Started?
           </h2>
-          <p className="text-xl mb-10 text-blue-100">
-            Book a free consultation and discover how AI can transform your lead generation. No commitment required.
+          <p className="text-lg mb-8 text-blue-100">
+            Request a free consultation to see how we can help your business grow
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 text-lg px-10 py-6" asChild>
-              <Link href="/consultation">
-                Request Free Consultation
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
-          </div>
+          <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 text-lg px-8 py-6" asChild>
+            <Link href="/consultation">
+              Request Free Consultation
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
+          </Button>
         </div>
       </section>
 

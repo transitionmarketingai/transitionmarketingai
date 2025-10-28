@@ -35,7 +35,7 @@ export default function ConsultationPage() {
     whatsappUpdates: false,
   });
   const [currentStep, setCurrentStep] = useState(1); // 1: Details, 2: Calendar
-  const [calendlyUrl, setCalendlyUrl] = useState(process.env.NEXT_PUBLIC_CALENDLY_URL || '');
+  const [calendlyUrl] = useState(process.env.NEXT_PUBLIC_CALENDLY_URL || 'https://calendly.com/transitionmarketingai/free-consultation');
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));

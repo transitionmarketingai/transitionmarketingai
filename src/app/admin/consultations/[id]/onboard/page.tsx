@@ -734,6 +734,54 @@ export default function ClientOnboardingPage() {
             <CardDescription>Build their custom plan and capture consultation insights</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
+            {/* Pricing Guidelines Reference */}
+            <div className="bg-amber-50 border-2 border-amber-200 rounded-lg p-6 mb-6">
+              <div className="flex items-start gap-3 mb-4">
+                <AlertCircle className="h-5 w-5 text-amber-600 mt-0.5 flex-shrink-0" />
+                <div className="flex-1">
+                  <h3 className="font-semibold text-amber-900 mb-2">💡 Pricing Guidelines</h3>
+                  <p className="text-sm text-amber-800 mb-4">
+                    Use these estimated ranges as reference when building the proposal. Final pricing should be based on client's specific requirements from steps 1-5.
+                  </p>
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                <div className="bg-white rounded-lg p-4 border border-amber-200">
+                  <div className="font-semibold text-slate-900 mb-1">Small Business</div>
+                  <div className="text-amber-700 font-bold text-lg">₹15K-25K/month</div>
+                  <div className="text-slate-600 text-xs mt-1">~20-40 leads/month</div>
+                  <div className="text-slate-500 text-xs mt-2">₹500-750 per lead</div>
+                </div>
+                <div className="bg-white rounded-lg p-4 border-2 border-amber-400">
+                  <div className="font-semibold text-slate-900 mb-1">Growing Business ⭐</div>
+                  <div className="text-amber-700 font-bold text-lg">₹30K-50K/month</div>
+                  <div className="text-slate-600 text-xs mt-1">~50-100 leads/month</div>
+                  <div className="text-slate-500 text-xs mt-2">₹400-600 per lead</div>
+                </div>
+                <div className="bg-white rounded-lg p-4 border border-amber-200">
+                  <div className="font-semibold text-slate-900 mb-1">Enterprise</div>
+                  <div className="text-amber-700 font-bold text-lg">₹60K-1L+/month</div>
+                  <div className="text-slate-600 text-xs mt-1">~150-300+ leads/month</div>
+                  <div className="text-slate-500 text-xs mt-2">₹350-500 per lead</div>
+                </div>
+              </div>
+
+              <div className="mt-4 pt-4 border-t border-amber-300">
+                <div className="text-xs text-amber-800 space-y-1">
+                  <p><strong>💡 Pricing Factors to Consider:</strong></p>
+                  <ul className="list-disc list-inside ml-2 space-y-0.5">
+                    <li>Industry complexity (Real Estate ₹400/lead, Healthcare ₹500/lead, IT ₹350/lead)</li>
+                    <li>Lead source mix (100% scraping vs 70/30 mix vs 60/40 mix)</li>
+                    <li>Quality level required (basic vs verified vs premium)</li>
+                    <li>Geographic targeting (local vs pan-India)</li>
+                    <li>Volume discounts (26-50: 10%, 51-100: 15%, 101-200: 20%, 200+: 25%)</li>
+                    <li>Additional services (outreach, appointment setting, etc.)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
             {/* Proposal Section */}
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 space-y-4">
               <h3 className="font-semibold text-blue-900 flex items-center gap-2">

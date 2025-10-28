@@ -24,7 +24,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import Link from 'next/link';
 import Logo from '@/components/Logo';
 import { toast } from 'sonner';
-import { formatIndianPhone, getCleanPhone, isValidIndianPhone } from '@/lib/utils/phone';
 import { OTPInput } from '@/components/ui/otp-input';
 
 export default function ConsultationPage() {
@@ -47,21 +46,17 @@ export default function ConsultationPage() {
   };
 
   const handlePhoneChange = (value: string) => {
-    // Allow only digits and allow user to type freely
+    // Allow only digits
     const digits = value.replace(/\D/g, '');
     
-    // Limit to 10 digits (without country code)
+    // Limit to 10 digits (India mobile number)
     if (digits.length <= 10) {
-      // Auto-format as user types
+      // Format with space after 5 digits: XXXXX XXXXX
       let formatted = '';
-      if (digits.length > 0) {
-        if (digits.length <= 5) {
-          formatted = digits;
-        } else {
-          formatted = `${digits.slice(0, 5)} ${digits.slice(5, 10)}`;
-        }
-        // Add +91 prefix if there's a number
-        formatted = `+91 ${formatted}`;
+      if (digits.length > 5) {
+        formatted = `${digits.slice(0, 5)} ${digits.slice(5, 10)}`;
+      } else {
+        formatted = digits;
       }
       handleInputChange('phone', formatted);
     }
@@ -80,15 +75,25 @@ export default function ConsultationPage() {
       return;
     }
 
-    // Validate phone number
-    if (!isValidIndianPhone(formData.phone)) {
-      toast.error('Please enter a valid 10-digit Indian phone number');
+    // Validate phone number (10 digits)
+    const phoneDigits = formData.phone.replace(/\D/g, '');
+    if (phoneDigits.length !== 10) {
+      toast.error('Please enter a valid 10-digit mobile number');
+      return;
+    }
+    
+    // Validate Indian mobile number format (starts with 6-9)
+    if (!/^[6-9]\d{9}$/.test(phoneDigits)) {
+      toast.error('Please enter a valid Indian mobile number (starts with 6-9)');
       return;
     }
 
     setSendingOtp(true);
     try {
-      const cleanPhone = getCleanPhone(formData.phone);
+      // Get clean phone (add 91 if not present)
+      const digits = formData.phone.replace(/\D/g, '');
+      const cleanPhone = digits.length === 10 ? `91${digits}` : digits;
+      
       const response = await fetch('/api/auth/otp/send', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -99,7 +104,7 @@ export default function ConsultationPage() {
 
       if (response.ok) {
         setOtpSent(true);
-        toast.success(`OTP sent to ${formatIndianPhone(formData.phone)}`);
+        toast.success(`OTP sent to +91 ${formData.phone}`);
         if (result.otp) {
           // Development mode - show OTP
           console.log('OTP (dev only):', result.otp);
@@ -129,7 +134,10 @@ export default function ConsultationPage() {
 
     setVerifyingOtp(true);
     try {
-      const cleanPhone = getCleanPhone(formData.phone);
+      // Get clean phone with country code
+      const digits = formData.phone.replace(/\D/g, '');
+      const cleanPhone = `91${digits}`; // Always add 91 for India
+      
       const response = await fetch('/api/auth/otp/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -180,8 +188,9 @@ export default function ConsultationPage() {
       return;
     }
 
-    if (!isValidIndianPhone(formData.phone)) {
-      toast.error('Please enter a valid 10-digit Indian phone number');
+    const phoneDigits = formData.phone.replace(/\D/g, '');
+    if (phoneDigits.length !== 10 || !/^[6-9]\d{9}$/.test(phoneDigits)) {
+      toast.error('Please enter a valid 10-digit Indian mobile number');
       return;
     }
 
@@ -195,7 +204,7 @@ export default function ConsultationPage() {
           firstName: formData.firstName,
           lastName: '', // Optional
           email: formData.email,
-          phone: formData.phone,
+          phone: `+91 ${formData.phone}`, // Add country code for storage
           whatsappUpdates: formData.whatsappUpdates,
         }),
       });
@@ -434,43 +443,51 @@ export default function ConsultationPage() {
                         Phone Number <span className="text-red-500">*</span>
                       </Label>
                       <div className="space-y-3 mt-2">
-                        <div className="relative">
-                          <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
-                          <Input
-                            id="phone"
-                            type="tel"
-                            required
-                            value={formData.phone}
-                            onChange={(e) => handlePhoneChange(e.target.value)}
-                            className="pl-10 pr-24"
-                            placeholder="+91 98765 43210"
-                            disabled={otpVerified || sendingOtp}
-                            inputMode="numeric"
-                          />
-                          {!otpVerified && formData.phone && (
-                            <Button
-                              type="button"
-                              variant="outline"
-                              size="sm"
-                              onClick={handleSendOTP}
-                              disabled={sendingOtp}
-                              className="absolute right-2 top-1/2 transform -translate-y-1/2"
-                            >
-                              {sendingOtp ? 'Sending...' : otpSent ? 'Resend OTP' : 'Send OTP'}
-                            </Button>
-                          )}
-                          {otpVerified && (
-                            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-green-600">
-                              <CheckCircle className="h-5 w-5" />
-                            </div>
-                          )}
+                        <div className="flex items-center gap-2">
+                          {/* Fixed +91 */}
+                          <div className="flex items-center px-4 h-11 border border-slate-300 rounded-md bg-slate-50 text-slate-700 font-medium">
+                            +91
+                          </div>
+                          {/* Phone input */}
+                          <div className="relative flex-1">
+                            <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
+                            <Input
+                              id="phone"
+                              type="tel"
+                              required
+                              value={formData.phone}
+                              onChange={(e) => handlePhoneChange(e.target.value)}
+                              className="pl-10 pr-24"
+                              placeholder="98765 43210"
+                              disabled={otpVerified || sendingOtp}
+                              inputMode="numeric"
+                              maxLength={11}
+                            />
+                            {!otpVerified && formData.phone && formData.phone.replace(/\D/g, '').length === 10 && (
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                onClick={handleSendOTP}
+                                disabled={sendingOtp}
+                                className="absolute right-2 top-1/2 transform -translate-y-1/2"
+                              >
+                                {sendingOtp ? 'Sending...' : otpSent ? 'Resend OTP' : 'Send OTP'}
+                              </Button>
+                            )}
+                            {otpVerified && (
+                              <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-green-600">
+                                <CheckCircle className="h-5 w-5" />
+                              </div>
+                            )}
+                          </div>
                         </div>
                         
                         {otpSent && !otpVerified && (
                           <div className="space-y-4">
                             <div>
                               <label className="text-sm text-slate-600 mb-2 block text-center">
-                                Enter 6-digit OTP sent to {formatIndianPhone(formData.phone)}
+                                Enter 6-digit OTP sent to +91 {formData.phone}
                               </label>
                               <OTPInput
                                 length={6}

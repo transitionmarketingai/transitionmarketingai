@@ -38,7 +38,7 @@ export default function LandingPage() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-3">
               <Logo size="md" />
-              <Badge variant="outline" className="border-green-600 text-green-700 bg-green-50">
+              <Badge variant="outline" className="border-blue-600 text-blue-700 bg-blue-50">
                 🇮🇳 India
               </Badge>
             </div>
@@ -95,19 +95,19 @@ export default function LandingPage() {
               {/* Value Props */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mb-8 md:mb-10 max-w-2xl">
                 <div className="flex items-center gap-2 text-slate-700">
-                  <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-green-600 flex-shrink-0" />
+                  <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-blue-600 flex-shrink-0" />
                   <span className="text-sm md:text-base font-medium">90%+ Verified Contacts</span>
                 </div>
                 <div className="flex items-center gap-2 text-slate-700">
-                  <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-green-600 flex-shrink-0" />
+                  <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-blue-600 flex-shrink-0" />
                   <span className="text-sm md:text-base font-medium">ICP-Aligned Matching</span>
                 </div>
                 <div className="flex items-center gap-2 text-slate-700">
-                  <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-green-600 flex-shrink-0" />
+                  <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-blue-600 flex-shrink-0" />
                   <span className="text-sm md:text-base font-medium">Quality Assurance</span>
                 </div>
                 <div className="flex items-center gap-2 text-slate-700">
-                  <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-green-600 flex-shrink-0" />
+                  <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-blue-600 flex-shrink-0" />
                   <span className="text-sm md:text-base font-medium">Weekly Delivery</span>
                 </div>
               </div>
@@ -162,7 +162,7 @@ export default function LandingPage() {
                 <div className="grid grid-cols-2 gap-3 md:gap-4 mb-6">
                   <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-4 md:p-5 border border-green-200">
                     <div className="flex items-center gap-2 mb-2">
-                      <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-green-600 flex-shrink-0" />
+                      <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-blue-600 flex-shrink-0" />
                       <span className="text-xs md:text-sm font-medium text-slate-700">Verified</span>
                     </div>
                     <p className="text-2xl md:text-3xl font-bold text-slate-900">94%</p>

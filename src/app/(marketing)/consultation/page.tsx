@@ -440,18 +440,80 @@ export default function ConsultationPage() {
                   )}
 
                   {currentStep === 2 && (
-                    <div className="space-y-6">
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                      <div className="bg-blue-50 rounded-lg p-6 border border-blue-200 mb-6">
+                        <h3 className="font-semibold text-slate-900 mb-2">📅 Book Your Consultation</h3>
+                        <p className="text-sm text-slate-600 mb-4">
+                          Select your preferred date and time. You'll receive a calendar invite and reminder.
+                        </p>
+                        {calendlyUrl ? (
+                          <div className="h-[600px] w-full">
+                            <iframe
+                              src={calendlyUrl}
+                              width="100%"
+                              height="100%"
+                              frameBorder="0"
+                              title="Schedule a consultation"
+                              className="rounded-lg"
+                            />
+                          </div>
+                        ) : (
+                          <div className="text-center py-8">
+                            <Calendar className="h-12 w-12 text-slate-400 mx-auto mb-4" />
+                            <p className="text-slate-600 mb-4">Calendly URL not configured</p>
+                            <Button
+                              variant="outline"
+                              onClick={() => {
+                                const url = prompt('Enter Calendly URL (e.g., https://calendly.com/username/event):');
+                                if (url) setCalendlyUrl(url);
+                              }}
+                            >
+                              Configure Calendly URL
+                            </Button>
+                          </div>
+                        )}
+                      </div>
 
-                    <p className="text-xs text-center text-slate-500">
-                      By submitting this form, you agree to our{' '}
-                      <Link href="/privacy" className="text-blue-600 hover:underline">
-                        Privacy Policy
-                      </Link>{' '}
-                      and{' '}
-                      <Link href="/terms" className="text-blue-600 hover:underline">
-                        Terms of Service
-                      </Link>
-                    </p>
+                      <div className="flex gap-3">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={handleBackToDetails}
+                          className="flex-1"
+                        >
+                          <ArrowLeft className="mr-2 h-4 w-4" />
+                          Back
+                        </Button>
+                        <Button
+                          type="submit"
+                          size="lg"
+                          className="flex-1 bg-blue-600 hover:bg-blue-700 text-lg py-6"
+                          disabled={isSubmitting}
+                        >
+                          {isSubmitting ? (
+                            <>
+                              <Sparkles className="mr-2 h-5 w-5 animate-spin" />
+                              Submitting...
+                            </>
+                          ) : (
+                            <>
+                              <CheckCircle className="mr-2 h-5 w-5" />
+                              Confirm Request
+                            </>
+                          )}
+                        </Button>
+                      </div>
+
+                      <p className="text-xs text-center text-slate-500">
+                        By submitting this form, you agree to our{' '}
+                        <Link href="/privacy" className="text-blue-600 hover:underline">
+                          Privacy Policy
+                        </Link>{' '}
+                        and{' '}
+                        <Link href="/terms" className="text-blue-600 hover:underline">
+                          Terms of Service
+                        </Link>
+                      </p>
                     </form>
                   )}
 

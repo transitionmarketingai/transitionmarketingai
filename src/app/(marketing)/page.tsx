@@ -25,6 +25,8 @@ import {
   Clock,
   Shield,
   Phone,
+  LayoutDashboard,
+  MapPin,
 } from 'lucide-react';
 import Link from 'next/link';
 import Logo from '@/components/Logo';
@@ -89,7 +91,7 @@ export default function LandingPage() {
               </h1>
               
               <p className="text-lg md:text-xl text-slate-600 mb-8 leading-relaxed max-w-2xl">
-                We're a lead generation company that finds and verifies quality leads for your business. Every lead comes with active phone numbers, valid email addresses, and complete contact information—delivered weekly to your dashboard.
+                We find and verify leads for your business. Every lead includes active phone numbers, valid emails, and complete contact information—delivered weekly to your dashboard.
               </p>
 
               {/* Value Props */}
@@ -139,67 +141,52 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* Right Column - Clean Dashboard Mockup */}
+            {/* Right Column - Simplified Dashboard Mockup */}
             <div className="relative">
-              <div className="bg-white rounded-xl shadow-xl p-6 md:p-8 border border-slate-200">
+              <div className="bg-white rounded-xl shadow-lg p-6 border border-slate-200">
                 {/* Dashboard Header */}
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center gap-2 md:gap-3">
-                    <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <Bot className="h-4 w-4 md:h-6 md:w-6 text-white" />
+                <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-200">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                      <Bot className="h-5 w-5 text-white" />
                     </div>
                     <div>
-                      <h3 className="text-sm md:text-base font-semibold text-slate-900">Lead Dashboard</h3>
-                      <p className="text-xs text-slate-500">Real-time Updates</p>
+                      <h3 className="text-sm font-semibold text-slate-900">Dashboard</h3>
+                      <p className="text-xs text-slate-500">Live</p>
                     </div>
                   </div>
-                  <div className="px-2 py-1 md:px-3 md:py-1 bg-emerald-100 text-emerald-700 rounded-full text-[10px] md:text-xs font-medium">
+                  <div className="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">
                     Active
                   </div>
                 </div>
 
-                {/* Stats Grid */}
-                <div className="grid grid-cols-2 gap-3 md:gap-4 mb-6">
-                  <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-4 md:p-5 border border-green-200">
-                    <div className="flex items-center gap-2 mb-2">
-                      <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-blue-600 flex-shrink-0" />
-                      <span className="text-xs md:text-sm font-medium text-slate-700">Verified</span>
-                    </div>
-                    <p className="text-2xl md:text-3xl font-bold text-slate-900">94%</p>
-                    <p className="text-[10px] md:text-xs text-slate-500 mt-1">Contact rate</p>
+                {/* Stats */}
+                <div className="grid grid-cols-2 gap-4 mb-6">
+                  <div className="bg-slate-50 rounded-lg p-4">
+                    <p className="text-xs text-slate-600 mb-1">Verified</p>
+                    <p className="text-2xl font-bold text-slate-900">94%</p>
                   </div>
-                  <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-4 md:p-5 border border-blue-200">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Target className="h-4 w-4 md:h-5 md:w-5 text-blue-600 flex-shrink-0" />
-                      <span className="text-xs md:text-sm font-medium text-slate-700">Quality</span>
-                    </div>
-                    <p className="text-2xl md:text-3xl font-bold text-slate-900">87%</p>
-                    <p className="text-[10px] md:text-xs text-slate-500 mt-1">Avg score</p>
+                  <div className="bg-slate-50 rounded-lg p-4">
+                    <p className="text-xs text-slate-600 mb-1">Quality</p>
+                    <p className="text-2xl font-bold text-slate-900">87%</p>
                   </div>
                 </div>
 
                 {/* Recent Leads */}
-                <div className="space-y-2 md:space-y-3">
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="text-xs md:text-sm font-semibold text-slate-900">Recent Verified Leads</h4>
-                    <Badge variant="outline" className="text-[10px] px-1.5 py-0 border-green-300 text-green-700 bg-green-50">New</Badge>
-                  </div>
+                <div className="space-y-2">
+                  <h4 className="text-xs font-semibold text-slate-900 mb-3">Recent Leads</h4>
                   {[
-                    { name: "Rajesh Mehta", company: "Mumbai Realty", source: "Google Maps", score: 92 },
-                    { name: "Priya Sharma", company: "Tech Solutions", source: "LinkedIn", score: 88 },
-                    { name: "Anita Desai", company: "MediCare Plus", source: "Facebook Ads", score: 95 }
+                    { name: "Rajesh Mehta", company: "Mumbai Realty", verified: true },
+                    { name: "Priya Sharma", company: "Tech Solutions", verified: true },
+                    { name: "Anita Desai", company: "MediCare Plus", verified: true }
                   ].map((lead, idx) => (
-                    <div key={idx} className="flex items-center justify-between p-3 md:p-4 bg-slate-50 rounded-lg border border-green-200 hover:border-green-300 transition-colors">
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1">
-                          <p className="font-semibold text-xs md:text-sm text-slate-900 truncate">{lead.name}</p>
-                          <div className="w-1.5 h-1.5 rounded-full bg-green-500 flex-shrink-0" title="Verified"></div>
+                    <div key={idx} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2">
+                          <p className="font-medium text-sm text-slate-900">{lead.name}</p>
+                          {lead.verified && <CheckCircle className="h-3 w-3 text-blue-600" />}
                         </div>
-                        <p className="text-[10px] md:text-xs text-slate-500 truncate">{lead.company}</p>
-                        <p className="text-[10px] md:text-xs text-blue-600 font-medium mt-0.5">{lead.source}</p>
-                      </div>
-                      <div className="ml-3 flex-shrink-0">
-                        <Badge className="text-[10px] md:text-xs bg-blue-100 text-blue-700 px-2 py-0.5 font-semibold">{lead.score}</Badge>
+                        <p className="text-xs text-slate-500">{lead.company}</p>
                       </div>
                     </div>
                   ))}
@@ -210,529 +197,152 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* How We Generate Leads - Infographic Table */}
+      {/* Lead Sources - Simple Icons */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-6">
-              <Bot className="h-4 w-4 mr-2" />
-              Our Process
-            </div>
+          <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-              How We Source & Verify Your Leads
+              Where We Find Your Leads
             </h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              A transparent look at our multi-channel lead generation and verification process
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              We use multiple channels to find and verify leads for your business
             </p>
           </div>
 
-          {/* Process Table - Clean Infographic Style */}
-          <div className="bg-white rounded-2xl border-2 border-slate-200 shadow-lg overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="bg-slate-50 border-b-2 border-slate-200">
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900">Source Channel</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900">Discovery Method</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900">Verification Process</th>
-                    <th className="px-6 py-4 text-center text-sm font-semibold text-slate-900">Quality Standard</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100">
-                  <tr className="hover:bg-blue-50/50 transition-colors">
-                    <td className="px-6 py-5">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
-                          <Search className="h-5 w-5 text-blue-600" />
-                        </div>
-                        <div>
-                          <div className="font-semibold text-slate-900">Google Maps</div>
-                          <div className="text-xs text-slate-500">Local directories, Justdial</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-5 text-slate-700 text-sm">
-                      AI-powered scraping by location, industry keywords, and business type
-                    </td>
-                    <td className="px-6 py-5 text-slate-700 text-sm">
-                      Phone format validation → Active status check → Manual spot-call verification
-                    </td>
-                    <td className="px-6 py-5 text-center">
-                      <Badge className="bg-green-100 text-green-700">90%+ Active</Badge>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-purple-50/50 transition-colors bg-slate-50/30">
-                    <td className="px-6 py-5">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center flex-shrink-0">
-                          <Users className="h-5 w-5 text-purple-600" />
-                        </div>
-                        <div>
-                          <div className="font-semibold text-slate-900">LinkedIn</div>
-                          <div className="text-xs text-slate-500">Company pages, profiles</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-5 text-slate-700 text-sm">
-                      Automated search by job title, company, industry filters, and location
-                    </td>
-                    <td className="px-6 py-5 text-slate-700 text-sm">
-                      Email pattern matching → Domain verification → Deliverability testing
-                    </td>
-                    <td className="px-6 py-5 text-center">
-                      <Badge className="bg-green-100 text-green-700">95%+ Valid</Badge>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-blue-50/50 transition-colors">
-                    <td className="px-6 py-5">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
-                          <Facebook className="h-5 w-5 text-blue-600" />
-                        </div>
-                        <div>
-                          <div className="font-semibold text-slate-900">Facebook Ads</div>
-                          <div className="text-xs text-slate-500">Lead forms, inquiries</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-5 text-slate-700 text-sm">
-                      Targeted campaigns with lead capture forms for high-intent prospects
-                    </td>
-                    <td className="px-6 py-5 text-slate-700 text-sm">
-                      Auto-verified via form submission → Cross-reference validation → Duplicate check
-                    </td>
-                    <td className="px-6 py-5 text-center">
-                      <Badge className="bg-green-100 text-green-700">100% Verified</Badge>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-red-50/50 transition-colors bg-slate-50/30">
-                    <td className="px-6 py-5">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-red-100 flex items-center justify-center flex-shrink-0">
-                          <Chrome className="h-5 w-5 text-red-600" />
-                        </div>
-                        <div>
-                          <div className="font-semibold text-slate-900">Google Search Ads</div>
-                          <div className="text-xs text-slate-500">Search intent, landing pages</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-5 text-slate-700 text-sm">
-                      Paid search campaigns targeting active searchers with landing page forms
-                    </td>
-                    <td className="px-6 py-5 text-slate-700 text-sm">
-                      Form submission → Email validation → Phone format check → Intent scoring
-                    </td>
-                    <td className="px-6 py-5 text-center">
-                      <Badge className="bg-green-100 text-green-700">100% Verified</Badge>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-amber-50/50 transition-colors">
-                    <td className="px-6 py-5">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center flex-shrink-0">
-                          <TrendingUp className="h-5 w-5 text-amber-600" />
-                        </div>
-                        <div>
-                          <div className="font-semibold text-slate-900">Industry Directories</div>
-                          <div className="text-xs text-slate-500">TradeIndia, IndiaMART, etc.</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-5 text-slate-700 text-sm">
-                      Sector-specific platforms scraped for B2B contacts matching your ICP
-                    </td>
-                    <td className="px-6 py-5 text-slate-700 text-sm">
-                      Data extraction → Contact deduplication → Phone + email verification → Quality scoring
-                    </td>
-                    <td className="px-6 py-5 text-center">
-                      <Badge className="bg-blue-100 text-blue-700">85%+ Match</Badge>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+          {/* Platform Icons Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-6 mb-10">
+            {[
+              { name: 'Google Maps', icon: MapPin },
+              { name: 'LinkedIn', icon: Users },
+              { name: 'Facebook', icon: Facebook },
+              { name: 'Google Ads', icon: Chrome },
+              { name: 'Directories', icon: TrendingUp },
+            ].map((platform) => {
+              const Icon = platform.icon;
+              return (
+                <div key={platform.name} className="flex flex-col items-center justify-center p-6 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-300 transition-colors">
+                  <div className="w-14 h-14 rounded-lg bg-blue-100 flex items-center justify-center mb-3">
+                    <Icon className="h-7 w-7 text-blue-600" />
+                  </div>
+                  <p className="text-sm font-medium text-slate-900 text-center">{platform.name}</p>
+                </div>
+              );
+            })}
           </div>
 
-          {/* Bottom Note */}
-          <div className="mt-12 text-center">
-            <div className="inline-flex items-center gap-2 px-6 py-3 bg-blue-50 rounded-lg border border-blue-200">
-              <CheckCircle className="h-5 w-5 text-blue-600" />
-              <p className="text-sm text-slate-700">
-                <strong className="text-slate-900">All leads:</strong> Quality scored (0-100), matched to your ICP, verified before delivery
-              </p>
-            </div>
+          {/* Learn More Button */}
+          <div className="text-center">
+            <Button variant="outline" size="lg" className="border-blue-600 text-blue-600 hover:bg-blue-50" asChild>
+              <Link href="#how-it-works">
+                Learn More About Our Process
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
 
-      {/* Clean How It Works */}
-      <section id="how-it-works" className="py-24 px-4 bg-slate-50">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-6">
-              <Zap className="h-4 w-4 mr-2" />
-              Simple 3-Step Process
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-              How We Find & Verify
-              <br />
-              <span className="text-slate-600">
-                Your Perfect Leads
-              </span>
+      {/* How We Find & Verify - Simple Infographic */}
+      <section id="how-it-works" className="py-20 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              How We Find & Verify Leads
             </h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              Our multi-channel approach combines AI-powered data discovery with human verification to ensure every lead is sales-ready before it reaches your dashboard.
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              Simple 3-step process to get you quality leads
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {/* Step 1 */}
-            <div className="text-center">
-              <div className="w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl font-bold mx-auto mb-6">
-                1
+          {/* 3-Step Infographic */}
+          <div className="bg-white rounded-2xl p-8 md:p-12 border border-slate-200">
+            <div className="grid md:grid-cols-3 gap-8">
+              {/* Step 1 */}
+              <div className="text-center">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-600 text-white text-2xl font-bold mb-4">1</div>
+                <div className="w-16 h-16 rounded-lg bg-blue-100 flex items-center justify-center mx-auto mb-4">
+                  <Search className="h-8 w-8 text-blue-600" />
+                </div>
+                <h3 className="font-bold text-slate-900 mb-2">Find</h3>
+                <p className="text-sm text-slate-600">AI searches multiple platforms for prospects matching your criteria</p>
               </div>
-              <Card className="border-0 shadow-sm bg-white">
-                <CardHeader className="text-center">
-                  <div className="w-16 h-16 rounded-lg bg-blue-100 flex items-center justify-center mx-auto mb-4">
-                    <Search className="h-8 w-8 text-blue-600" />
-                  </div>
-                  <CardTitle className="text-2xl text-slate-900">Multi-Channel Discovery</CardTitle>
-                </CardHeader>
-                <CardContent className="text-center">
-                  <p className="text-slate-600 mb-6 leading-relaxed">
-                    We use AI technology to search Google Maps, LinkedIn, Facebook, and industry-specific directories to identify prospects that match your ideal customer profile.
-                  </p>
-                  <div className="space-y-3 text-left">
-                    <div className="flex items-start gap-3">
-                      <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-slate-700">Google Maps & local directories</span>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-slate-700">LinkedIn company & contact data</span>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-slate-700">Industry-specific platforms</span>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-slate-700">Targeted Facebook/Google Ads</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
 
-            {/* Step 2 */}
-            <div className="text-center">
-              <div className="w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl font-bold mx-auto mb-6">
-                2
+              {/* Step 2 */}
+              <div className="text-center">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-600 text-white text-2xl font-bold mb-4">2</div>
+                <div className="w-16 h-16 rounded-lg bg-blue-100 flex items-center justify-center mx-auto mb-4">
+                  <CheckCircle className="h-8 w-8 text-blue-600" />
+                </div>
+                <h3 className="font-bold text-slate-900 mb-2">Verify</h3>
+                <p className="text-sm text-slate-600">Test phone numbers, validate emails, check business details</p>
               </div>
-              <Card className="border-0 shadow-sm bg-white">
-                <CardHeader className="text-center">
-                  <div className="w-16 h-16 rounded-lg bg-blue-100 flex items-center justify-center mx-auto mb-4">
-                    <Send className="h-8 w-8 text-blue-600" />
-                  </div>
-                  <CardTitle className="text-2xl text-slate-900">Quality Verification</CardTitle>
-                </CardHeader>
-                <CardContent className="text-center">
-                  <p className="text-slate-600 mb-6 leading-relaxed">
-                    Every lead goes through rigorous verification. We confirm phone numbers are active, emails are valid, and the business matches your target criteria before delivery.
-                  </p>
-                  <div className="space-y-3 text-left">
-                    <div className="flex items-start gap-3">
-                      <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-slate-700">Phone number verification (90%+ active)</span>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-slate-700">Email deliverability testing (95%+ valid)</span>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-slate-700">Manual spot-checking for quality</span>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-slate-700">Quality scoring (0-100) based on ICP match</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
 
-            {/* Step 3 */}
-            <div className="text-center">
-              <div className="w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl font-bold mx-auto mb-6">
-                3
+              {/* Step 3 */}
+              <div className="text-center">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-600 text-white text-2xl font-bold mb-4">3</div>
+                <div className="w-16 h-16 rounded-lg bg-blue-100 flex items-center justify-center mx-auto mb-4">
+                  <Send className="h-8 w-8 text-blue-600" />
+                </div>
+                <h3 className="font-bold text-slate-900 mb-2">Deliver</h3>
+                <p className="text-sm text-slate-600">Quality-checked leads delivered weekly to your dashboard</p>
               </div>
-              <Card className="border-0 shadow-sm bg-white">
-                <CardHeader className="text-center">
-                  <div className="w-16 h-16 rounded-lg bg-blue-100 flex items-center justify-center mx-auto mb-4">
-                    <MessageCircle className="h-8 w-8 text-blue-600" />
-                  </div>
-                  <CardTitle className="text-2xl text-slate-900">Direct Delivery</CardTitle>
-                </CardHeader>
-                <CardContent className="text-center">
-                  <p className="text-slate-600 mb-6 leading-relaxed">
-                    Verified leads are delivered directly to your dashboard weekly. Each lead includes verified contact information, source details, quality score, and all the context you need to convert.
-                  </p>
-                  <div className="space-y-3 text-left">
-                    <div className="flex items-start gap-3">
-                      <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-slate-700">Weekly delivery to your dashboard</span>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-slate-700">Complete contact details & source</span>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-slate-700">Email & WhatsApp notifications</span>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-slate-700">CSV export for CRM integration</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
             </div>
           </div>
 
-          {/* Bottom CTA */}
-          <div className="text-center mt-16">
-            <div className="bg-blue-600 rounded-lg p-8 text-white">
-              <h3 className="text-2xl font-bold mb-4">Ready to Get Started?</h3>
-              <p className="text-blue-100 mb-6">Get a custom lead generation plan tailored to your business</p>
-              <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 text-lg px-8 py-4" asChild>
-                <Link href="/consultation">
-                  Request Free Consultation
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
-            </div>
+          {/* Learn More Button */}
+          <div className="text-center mt-10">
+            <Button variant="outline" size="lg" className="border-blue-600 text-blue-600 hover:bg-blue-50" asChild>
+              <Link href="/how-it-works">
+                See Detailed Process
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
 
-      {/* Interactive Feature Showcase */}
-      <section id="features" className="py-24 px-4 bg-gradient-to-br from-white to-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <Badge className="mb-6 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-2">
-              <Bot className="h-4 w-4 mr-2" />
-              AI-Powered Features
-            </Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              See Your AI Marketing Team
-              <br />
-              <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                in Action
-              </span>
+      {/* Dashboard Features - Simple Infographic */}
+      <section id="features" className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              Your Dashboard Features
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Watch how our AI finds, qualifies, and converts prospects while you sleep. 
-              <strong className="text-gray-900"> Real results, real time.</strong>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              Everything you need to manage your leads in one place
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Contacts */}
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="w-14 h-14 rounded-xl bg-purple-50 flex items-center justify-center mb-4">
-                  <Users className="h-7 w-7 text-purple-600" />
+          {/* Feature Icons Grid */}
+          <div className="grid grid-cols-3 md:grid-cols-6 gap-6">
+            {[
+              { name: 'Verified Leads', icon: CheckCircle },
+              { name: 'Lead Quality', icon: Target },
+              { name: 'Source Tracking', icon: Search },
+              { name: 'Contact Details', icon: Users },
+              { name: 'Dashboard Access', icon: LayoutDashboard },
+              { name: 'Weekly Delivery', icon: Send },
+            ].map((feature) => {
+              const Icon = feature.icon;
+              return (
+                <div key={feature.name} className="flex flex-col items-center text-center">
+                  <div className="w-16 h-16 rounded-xl bg-blue-100 flex items-center justify-center mb-3">
+                    <Icon className="h-8 w-8 text-blue-600" />
+                  </div>
+                  <p className="text-sm font-medium text-slate-900">{feature.name}</p>
                 </div>
-                <CardTitle className="text-xl">Contacts Database</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 mb-4">
-                  AI-scraped contacts from web, ready for outreach. Track quality scores and outreach status.
-                </p>
-                <div className="text-sm text-gray-500">
-                  ✓ AI web scraping
-                  <br />
-                  ✓ Quality scoring (0-100)
-                  <br />
-                  ✓ Bulk operations
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Verified Leads */}
-            <Card className="hover:shadow-lg transition-shadow border-2 border-blue-200">
-              <CardHeader>
-                <div className="w-14 h-14 rounded-xl bg-green-50 flex items-center justify-center mb-4">
-                  <CheckCircle className="h-7 w-7 text-green-600" />
-                </div>
-                <CardTitle className="text-xl">Verified Leads</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 mb-4">
-                  High-quality leads from outreach responses and ad inquiries, segregated by source.
-                </p>
-                <div className="text-sm text-gray-500">
-                  ✓ Outreach responses
-                  <br />
-                  ✓ Meta Ads leads
-                  <br />
-                  ✓ Google Ads leads
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* AI Scraping */}
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="w-14 h-14 rounded-xl bg-blue-50 flex items-center justify-center mb-4">
-                  <Search className="h-7 w-7 text-blue-600" />
-                </div>
-                <CardTitle className="text-xl">AI Web Scraping</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 mb-4">
-                  Automated daily scraping of Google Maps, directories, and LinkedIn for potential customers.
-                </p>
-                <div className="text-sm text-gray-500">
-                  ✓ Scheduled campaigns
-                  <br />
-                  ✓ Custom search criteria
-                  <br />
-                  ✓ Auto quality filtering
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Outreach Campaigns */}
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="w-14 h-14 rounded-xl bg-green-50 flex items-center justify-center mb-4">
-                  <Send className="h-7 w-7 text-green-600" />
-                </div>
-                <CardTitle className="text-xl">Outreach Campaigns</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 mb-4">
-                  Bulk WhatsApp & Email campaigns to contacts. Automated sending, response tracking, auto-conversion.
-                </p>
-                <div className="text-sm text-gray-500">
-                  ✓ WhatsApp bulk messaging
-                  <br />
-                  ✓ Email campaigns
-                  <br />
-                  ✓ Response auto-conversion
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Ad Campaigns */}
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="w-14 h-14 rounded-xl bg-blue-50 flex items-center justify-center mb-4">
-                  <Target className="h-7 w-7 text-blue-600" />
-                </div>
-                <CardTitle className="text-xl">Meta & Google Ads</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 mb-4">
-                  Facebook, Instagram, and Google Ads campaigns running 24/7. Leads captured automatically.
-                </p>
-                <div className="text-sm text-gray-500">
-                  ✓ Facebook/Instagram Ads
-                  <br />
-                  ✓ Google Lead Forms
-                  <br />
-                  ✓ Auto-import to dashboard
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Conversations */}
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="w-14 h-14 rounded-xl bg-orange-50 flex items-center justify-center mb-4">
-                  <MessageCircle className="h-7 w-7 text-orange-600" />
-                </div>
-                <CardTitle className="text-xl">Unified Conversations</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 mb-4">
-                  Chat with all verified leads in one place. Multi-channel messaging with complete history.
-                </p>
-                <div className="text-sm text-gray-500">
-                  ✓ Real-time chat
-                  <br />
-                  ✓ WhatsApp/Email integration
-                  <br />
-                  ✓ Conversation history
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-
-      {/* Lead Sources */}
-      <section className="py-24 px-4 bg-slate-50">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Multiple Lead Sources, One Dashboard
-            </h2>
-            <p className="text-xl text-gray-600">
-              We combine AI scraping, outreach, and paid ads for maximum lead generation
-            </p>
+              );
+            })}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="w-20 h-20 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-6">
-                <Search className="h-10 w-10 text-purple-600" />
-              </div>
-              <h3 className="text-2xl font-bold mb-3">AI Web Scraping</h3>
-              <p className="text-gray-600 mb-4">
-                AI scrapes 100-500 contacts per day from Google Maps, directories, and LinkedIn
-              </p>
-              <div className="inline-flex items-center gap-2 text-purple-600 font-medium">
-                <TrendingUp className="h-4 w-4" />
-                Unverified → Contacts
-              </div>
-            </div>
-
-            <div className="text-center">
-              <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-6">
-                <Send className="h-10 w-10 text-green-600" />
-              </div>
-              <h3 className="text-2xl font-bold mb-3">Outreach Campaigns</h3>
-              <p className="text-gray-600 mb-4">
-                Bulk WhatsApp/Email sent to contacts. Responses automatically become verified leads
-              </p>
-              <div className="inline-flex items-center gap-2 text-green-600 font-medium">
-                <TrendingUp className="h-4 w-4" />
-                Contact → Lead on Response
-              </div>
-            </div>
-
-            <div className="text-center">
-              <div className="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-6">
-                <div className="flex gap-1">
-                  <Facebook className="h-5 w-5 text-blue-600" />
-                  <Chrome className="h-5 w-5 text-red-600" />
-                </div>
-              </div>
-              <h3 className="text-2xl font-bold mb-3">Meta & Google Ads</h3>
-              <p className="text-gray-600 mb-4">
-                Direct inquiries from Facebook, Instagram, and Google searches flow in 24/7
-              </p>
-              <div className="inline-flex items-center gap-2 text-blue-600 font-medium">
-                <TrendingUp className="h-4 w-4" />
-                Direct → Verified Leads
-              </div>
-            </div>
+          {/* Learn More Button */}
+          <div className="text-center mt-10">
+            <Button variant="outline" size="lg" className="border-blue-600 text-blue-600 hover:bg-blue-50" asChild>
+              <Link href="/how-it-works">
+                View All Features
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
           </div>
         </div>
       </section>

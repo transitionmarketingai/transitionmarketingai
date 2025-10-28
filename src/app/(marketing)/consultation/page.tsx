@@ -211,11 +211,6 @@ export default function ConsultationPage() {
       </div>
     );
   }
-              <div className="flex items-center justify-center gap-2 text-sm text-slate-500 mb-8">
-                <MessageCircle className="h-4 w-4 text-green-600" />
-                <span>You'll receive updates via WhatsApp at {formData.phone}</span>
-              </div>
-            )}
             <Button size="lg" className="bg-blue-600 hover:bg-blue-700" asChild>
               <Link href="/">
                 Back to Homepage

@@ -213,17 +213,17 @@ export default function LandingPage() {
           {/* Platform Icons Grid */}
           <div className="grid grid-cols-2 md:grid-cols-5 gap-6 mb-10">
             {[
-              { name: 'Google Maps', icon: MapPin },
-              { name: 'LinkedIn', icon: Users },
-              { name: 'Facebook', icon: Facebook },
-              { name: 'Google Ads', icon: Chrome },
-              { name: 'Directories', icon: TrendingUp },
+              { name: 'Google Maps', icon: MapPin, color: 'bg-emerald-100', iconColor: 'text-emerald-600' },
+              { name: 'LinkedIn', icon: Users, color: 'bg-blue-100', iconColor: 'text-blue-600' },
+              { name: 'Facebook', icon: Facebook, color: 'bg-indigo-100', iconColor: 'text-indigo-600' },
+              { name: 'Google Ads', icon: Chrome, color: 'bg-amber-100', iconColor: 'text-amber-600' },
+              { name: 'Directories', icon: TrendingUp, color: 'bg-purple-100', iconColor: 'text-purple-600' },
             ].map((platform) => {
               const Icon = platform.icon;
               return (
                 <div key={platform.name} className="flex flex-col items-center justify-center p-6 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-300 transition-colors">
-                  <div className="w-14 h-14 rounded-lg bg-blue-100 flex items-center justify-center mb-3">
-                    <Icon className="h-7 w-7 text-blue-600" />
+                  <div className={`w-14 h-14 rounded-lg ${platform.color} flex items-center justify-center mb-3`}>
+                    <Icon className={`h-7 w-7 ${platform.iconColor}`} />
                   </div>
                   <p className="text-sm font-medium text-slate-900 text-center">{platform.name}</p>
                 </div>
@@ -243,7 +243,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* How We Find & Verify - Simple Infographic */}
+      {/* How We Find & Verify - Matching Style */}
       <section id="how-it-works" className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
@@ -255,43 +255,27 @@ export default function LandingPage() {
             </p>
           </div>
 
-          {/* 3-Step Infographic */}
-          <div className="bg-white rounded-2xl p-8 md:p-12 border border-slate-200">
-            <div className="grid md:grid-cols-3 gap-8">
-              {/* Step 1 */}
-              <div className="text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-600 text-white text-2xl font-bold mb-4">1</div>
-                <div className="w-16 h-16 rounded-lg bg-blue-100 flex items-center justify-center mx-auto mb-4">
-                  <Search className="h-8 w-8 text-blue-600" />
+          {/* 3-Step Grid - Matching "Where We Find" Style */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            {[
+              { number: 1, title: 'Find', description: 'AI searches multiple platforms for prospects matching your criteria', bgColor: 'bg-emerald-100', numberColor: 'bg-emerald-600' },
+              { number: 2, title: 'Verify', description: 'Test phone numbers, validate emails, check business details', bgColor: 'bg-blue-100', numberColor: 'bg-blue-600' },
+              { number: 3, title: 'Deliver', description: 'Quality-checked leads delivered weekly to your dashboard', bgColor: 'bg-indigo-100', numberColor: 'bg-indigo-600' },
+            ].map((step) => (
+              <div key={step.number} className="flex flex-col items-center justify-center p-6 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-300 transition-colors">
+                <div className={`w-14 h-14 rounded-lg ${step.bgColor} flex items-center justify-center mb-3`}>
+                  <div className={`w-10 h-10 rounded-lg ${step.numberColor} text-white flex items-center justify-center text-xl font-bold`}>
+                    {step.number}
+                  </div>
                 </div>
-                <h3 className="font-bold text-slate-900 mb-2">Find</h3>
-                <p className="text-sm text-slate-600">AI searches multiple platforms for prospects matching your criteria</p>
+                <p className="text-sm font-medium text-slate-900 text-center mb-2">{step.title}</p>
+                <p className="text-xs text-slate-600 text-center">{step.description}</p>
               </div>
-
-              {/* Step 2 */}
-              <div className="text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-600 text-white text-2xl font-bold mb-4">2</div>
-                <div className="w-16 h-16 rounded-lg bg-blue-100 flex items-center justify-center mx-auto mb-4">
-                  <CheckCircle className="h-8 w-8 text-blue-600" />
-                </div>
-                <h3 className="font-bold text-slate-900 mb-2">Verify</h3>
-                <p className="text-sm text-slate-600">Test phone numbers, validate emails, check business details</p>
-              </div>
-
-              {/* Step 3 */}
-              <div className="text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-600 text-white text-2xl font-bold mb-4">3</div>
-                <div className="w-16 h-16 rounded-lg bg-blue-100 flex items-center justify-center mx-auto mb-4">
-                  <Send className="h-8 w-8 text-blue-600" />
-                </div>
-                <h3 className="font-bold text-slate-900 mb-2">Deliver</h3>
-                <p className="text-sm text-slate-600">Quality-checked leads delivered weekly to your dashboard</p>
-              </div>
-            </div>
+            ))}
           </div>
 
           {/* Learn More Button */}
-          <div className="text-center mt-10">
+          <div className="text-center">
             <Button variant="outline" size="lg" className="border-blue-600 text-blue-600 hover:bg-blue-50" asChild>
               <Link href="/how-it-works">
                 See Detailed Process
@@ -317,18 +301,18 @@ export default function LandingPage() {
           {/* Feature Icons Grid */}
           <div className="grid grid-cols-3 md:grid-cols-6 gap-6">
             {[
-              { name: 'Verified Leads', icon: CheckCircle },
-              { name: 'Lead Quality', icon: Target },
-              { name: 'Source Tracking', icon: Search },
-              { name: 'Contact Details', icon: Users },
-              { name: 'Dashboard Access', icon: LayoutDashboard },
-              { name: 'Weekly Delivery', icon: Send },
+              { name: 'Verified Leads', icon: CheckCircle, color: 'bg-emerald-100', iconColor: 'text-emerald-600' },
+              { name: 'Lead Quality', icon: Target, color: 'bg-blue-100', iconColor: 'text-blue-600' },
+              { name: 'Source Tracking', icon: Search, color: 'bg-indigo-100', iconColor: 'text-indigo-600' },
+              { name: 'Contact Details', icon: Users, color: 'bg-purple-100', iconColor: 'text-purple-600' },
+              { name: 'Dashboard Access', icon: LayoutDashboard, color: 'bg-amber-100', iconColor: 'text-amber-600' },
+              { name: 'Weekly Delivery', icon: Send, color: 'bg-cyan-100', iconColor: 'text-cyan-600' },
             ].map((feature) => {
               const Icon = feature.icon;
               return (
                 <div key={feature.name} className="flex flex-col items-center text-center">
-                  <div className="w-16 h-16 rounded-xl bg-blue-100 flex items-center justify-center mb-3">
-                    <Icon className="h-8 w-8 text-blue-600" />
+                  <div className={`w-16 h-16 rounded-xl ${feature.color} flex items-center justify-center mb-3`}>
+                    <Icon className={`h-8 w-8 ${feature.iconColor}`} />
                   </div>
                   <p className="text-sm font-medium text-slate-900">{feature.name}</p>
                 </div>

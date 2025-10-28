@@ -23,6 +23,8 @@ import {
   Sparkles,
   RefreshCw,
   Clock,
+  Shield,
+  Phone,
 } from 'lucide-react';
 import Link from 'next/link';
 import Logo from '@/components/Logo';
@@ -722,6 +724,230 @@ export default function LandingPage() {
                 Direct → Verified Leads
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Us Section */}
+      <section className="py-24 px-4 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-6">
+              <Target className="h-4 w-4 mr-2" />
+              Why We're Different
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
+              Why Businesses Choose
+              <br />
+              <span className="text-blue-600">Transition Marketing AI</span>
+            </h2>
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+              We don't just send you lists. We deliver verified, sales-ready leads with complete transparency and unmatched reliability.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <Card className="border-2 border-slate-200 hover:border-blue-300 transition-colors">
+              <CardContent className="p-6 text-center">
+                <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-4">
+                  <CheckCircle className="h-8 w-8 text-blue-600" />
+                </div>
+                <h3 className="text-lg font-bold text-slate-900 mb-3">Human Verification</h3>
+                <p className="text-sm text-slate-600">
+                  Every lead is manually spot-checked. We call numbers, test emails, and verify businesses before delivery—not just automated APIs.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-2 border-slate-200 hover:border-blue-300 transition-colors">
+              <CardContent className="p-6 text-center">
+                <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
+                  <Shield className="h-8 w-8 text-green-600" />
+                </div>
+                <h3 className="text-lg font-bold text-slate-900 mb-3">Quality Guarantee</h3>
+                <p className="text-sm text-slate-600">
+                  If we don't meet agreed lead volume or quality standards, you get a full refund. No questions asked. We put our money where our mouth is.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-2 border-slate-200 hover:border-blue-300 transition-colors">
+              <CardContent className="p-6 text-center">
+                <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-4">
+                  <Users className="h-8 w-8 text-purple-600" />
+                </div>
+                <h3 className="text-lg font-bold text-slate-900 mb-3">Custom Matching</h3>
+                <p className="text-sm text-slate-600">
+                  Leads are matched to your ideal customer profile (ICP). Not random contacts—prospects that actually fit your target market.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-2 border-slate-200 hover:border-blue-300 transition-colors">
+              <CardContent className="p-6 text-center">
+                <div className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-4">
+                  <BarChart3 className="h-8 w-8 text-amber-600" />
+                </div>
+                <h3 className="text-lg font-bold text-slate-900 mb-3">Complete Transparency</h3>
+                <p className="text-sm text-slate-600">
+                  See exactly where each lead came from, quality scores, verification status, and contact attempts. Full visibility into every lead.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="mt-16 bg-blue-50 rounded-2xl p-10 border-2 border-blue-200">
+            <div className="grid md:grid-cols-3 gap-8 items-center">
+              <div className="text-center md:text-left">
+                <div className="text-4xl font-bold text-blue-900 mb-2">90%+</div>
+                <p className="text-blue-700 font-medium">Verified Contact Rate</p>
+                <p className="text-sm text-blue-600 mt-1">Active phone numbers & valid emails</p>
+              </div>
+              <div className="text-center md:text-left border-l border-blue-300 pl-8">
+                <div className="text-4xl font-bold text-blue-900 mb-2">85%+</div>
+                <p className="text-blue-700 font-medium">Average Quality Score</p>
+                <p className="text-sm text-blue-600 mt-1">ICP-matched, verified prospects</p>
+              </div>
+              <div className="text-center md:text-left border-l border-blue-300 pl-8">
+                <div className="text-4xl font-bold text-blue-900 mb-2">7 Days</div>
+                <p className="text-blue-700 font-medium">First Leads Delivered</p>
+                <p className="text-sm text-blue-600 mt-1">From signup to your dashboard</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Lead Quality Standards Section */}
+      <section className="py-24 px-4 bg-slate-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-medium mb-6">
+              <CheckCircle className="h-4 w-4 mr-2" />
+              Our Quality Standards
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
+              What Makes Our Leads
+              <br />
+              <span className="text-green-600">Sales-Ready</span>
+            </h2>
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+              We apply rigorous quality checks before any lead reaches your dashboard. Here's exactly what you can expect.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <Card className="border-2 border-green-200 bg-white">
+              <CardHeader>
+                <div className="flex items-center gap-3 mb-2">
+                  <Phone className="h-6 w-6 text-green-600" />
+                  <CardTitle className="text-xl">Phone Verification</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-slate-700">Number format validation (10-digit mobile, STD codes verified)</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-slate-700">Active status check using industry APIs</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-slate-700">Manual spot-calling (3-5 random checks per batch)</span>
+                  </div>
+                  <div className="bg-green-50 rounded-lg p-3 mt-4">
+                    <p className="text-sm font-semibold text-green-900">Standard: 90%+ active numbers</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="border-2 border-green-200 bg-white">
+              <CardHeader>
+                <div className="flex items-center gap-3 mb-2">
+                  <Mail className="h-6 w-6 text-green-600" />
+                  <CardTitle className="text-xl">Email Verification</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-slate-700">Format validation (proper email structure)</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-slate-700">Domain existence & mailbox verification</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-slate-700">Deliverability testing (can it accept mail?)</span>
+                  </div>
+                  <div className="bg-green-50 rounded-lg p-3 mt-4">
+                    <p className="text-sm font-semibold text-green-900">Standard: 95%+ valid emails</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="border-2 border-blue-200 bg-white">
+              <CardHeader>
+                <div className="flex items-center gap-3 mb-2">
+                  <Target className="h-6 w-6 text-blue-600" />
+                  <CardTitle className="text-xl">ICP Matching</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-slate-700">Industry alignment (matches your target sector)</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-slate-700">Geographic targeting (location matches criteria)</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-slate-700">Business size/type matching (B2B, B2C, SMB, Enterprise)</span>
+                  </div>
+                  <div className="bg-blue-50 rounded-lg p-3 mt-4">
+                    <p className="text-sm font-semibold text-blue-900">Quality Score: 0-100 (80%+ average)</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="border-2 border-purple-200 bg-white">
+              <CardHeader>
+                <div className="flex items-center gap-3 mb-2">
+                  <BarChart3 className="h-6 w-6 text-purple-600" />
+                  <CardTitle className="text-xl">Data Completeness</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-purple-600 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-slate-700">Name, company, phone, email (all present)</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-purple-600 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-slate-700">Business address & location details</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-purple-600 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-slate-700">Lead source & quality score included</span>
+                  </div>
+                  <div className="bg-purple-50 rounded-lg p-3 mt-4">
+                    <p className="text-sm font-semibold text-purple-900">Complete contact profile provided</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>

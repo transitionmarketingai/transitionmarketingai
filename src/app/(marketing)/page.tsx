@@ -77,34 +77,34 @@ export default function LandingPage() {
               </div>
               
               <h1 className="text-5xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight">
-                Get 25-200 Verified Leads
+                Stop Wasting Time on
                 <br />
                 <span className="text-blue-600">
-                  Every Month - Guaranteed
+                  Unqualified Leads
                 </span>
               </h1>
               
               <p className="text-xl text-slate-600 mb-8 leading-relaxed max-w-2xl">
-                We use advanced AI technology combined with proven marketing channels to deliver <strong className="text-slate-900">qualified, verified leads</strong> directly to your inbox. No setup. No guesswork. Just results.
+                Get <strong className="text-slate-900">verified, sales-ready leads</strong> delivered directly to your dashboard. Every lead is manually verified with active phone numbers and valid email addresses—so you can focus on closing deals, not chasing dead ends.
               </p>
 
               {/* Value Props */}
               <div className="grid grid-cols-2 gap-4 mb-10 max-w-2xl">
                 <div className="flex items-center gap-2 text-slate-700">
                   <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
-                  <span className="font-medium">Verified Phone & Email</span>
+                  <span className="font-medium">90%+ Verified Contacts</span>
                 </div>
                 <div className="flex items-center gap-2 text-slate-700">
                   <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
-                  <span className="font-medium">Industry-Specific Targeting</span>
+                  <span className="font-medium">Industry-Specific Matching</span>
                 </div>
                 <div className="flex items-center gap-2 text-slate-700">
                   <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
-                  <span className="font-medium">Money-Back Guarantee</span>
+                  <span className="font-medium">Money-Back Quality Guarantee</span>
                 </div>
                 <div className="flex items-center gap-2 text-slate-700">
                   <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
-                  <span className="font-medium">Delivered in 7 Days</span>
+                  <span className="font-medium">First Leads in 7 Days</span>
                 </div>
               </div>
 
@@ -362,15 +362,14 @@ export default function LandingPage() {
               Simple 3-Step Process
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-              From Zero to Qualified Leads
+              How We Find & Verify
               <br />
               <span className="text-slate-600">
-                in Just 3 Steps
+                Your Perfect Leads
               </span>
             </h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              Our AI handles everything while you focus on closing deals. 
-              No technical skills required.
+              Our multi-channel approach combines AI-powered data discovery with human verification to ensure every lead is sales-ready before it reaches your dashboard.
             </p>
           </div>
 
@@ -385,25 +384,28 @@ export default function LandingPage() {
                   <div className="w-16 h-16 rounded-lg bg-blue-100 flex items-center justify-center mx-auto mb-4">
                     <Search className="h-8 w-8 text-blue-600" />
                   </div>
-                  <CardTitle className="text-2xl text-slate-900">AI Finds Your Prospects</CardTitle>
+                  <CardTitle className="text-2xl text-slate-900">Multi-Channel Discovery</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
                   <p className="text-slate-600 mb-6 leading-relaxed">
-                    Our AI searches Google Maps, LinkedIn, and business directories to find 
-                    100-500 potential customers daily in your target area and industry.
+                    We use AI technology to search Google Maps, LinkedIn, Facebook, and industry-specific directories to identify prospects that match your ideal customer profile.
                   </p>
                   <div className="space-y-3 text-left">
                     <div className="flex items-start gap-3">
                       <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-slate-700">AI quality scoring (0-100)</span>
+                      <span className="text-sm text-slate-700">Google Maps & local directories</span>
                     </div>
                     <div className="flex items-start gap-3">
                       <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-slate-700">Contact details verified</span>
+                      <span className="text-sm text-slate-700">LinkedIn company & contact data</span>
                     </div>
                     <div className="flex items-start gap-3">
                       <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-slate-700">Saved to your database</span>
+                      <span className="text-sm text-slate-700">Industry-specific platforms</span>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-sm text-slate-700">Targeted Facebook/Google Ads</span>
                     </div>
                   </div>
                 </CardContent>
@@ -420,25 +422,28 @@ export default function LandingPage() {
                   <div className="w-16 h-16 rounded-lg bg-blue-100 flex items-center justify-center mx-auto mb-4">
                     <Send className="h-8 w-8 text-blue-600" />
                   </div>
-                  <CardTitle className="text-2xl text-slate-900">Personalized Outreach</CardTitle>
+                  <CardTitle className="text-2xl text-slate-900">Quality Verification</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
                   <p className="text-slate-600 mb-6 leading-relaxed">
-                    AI sends personalized WhatsApp and Email messages to each prospect. 
-                    Responses automatically become qualified leads in your dashboard.
+                    Every lead goes through rigorous verification. We confirm phone numbers are active, emails are valid, and the business matches your target criteria before delivery.
                   </p>
                   <div className="space-y-3 text-left">
                     <div className="flex items-start gap-3">
-                      <CheckCircle className="h-5 w-5 text-gray-400 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-gray-700">WhatsApp + Email campaigns</span>
+                      <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-sm text-slate-700">Phone number verification (90%+ active)</span>
                     </div>
                     <div className="flex items-start gap-3">
-                      <CheckCircle className="h-5 w-5 text-gray-400 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-gray-700">AI-personalized messages</span>
+                      <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-sm text-slate-700">Email deliverability testing (95%+ valid)</span>
                     </div>
                     <div className="flex items-start gap-3">
-                      <CheckCircle className="h-5 w-5 text-gray-400 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-gray-700">Auto-conversion to leads</span>
+                      <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-sm text-slate-700">Manual spot-checking for quality</span>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-sm text-slate-700">Quality scoring (0-100) based on ICP match</span>
                     </div>
                   </div>
                 </CardContent>
@@ -455,25 +460,28 @@ export default function LandingPage() {
                   <div className="w-16 h-16 rounded-lg bg-blue-100 flex items-center justify-center mx-auto mb-4">
                     <MessageCircle className="h-8 w-8 text-blue-600" />
                   </div>
-                  <CardTitle className="text-2xl text-slate-900">Close More Deals</CardTitle>
+                  <CardTitle className="text-2xl text-slate-900">Direct Delivery</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
                   <p className="text-slate-600 mb-6 leading-relaxed">
-                    Qualified leads appear in your dashboard with conversation history. 
-                    Plus, Facebook & Google Ads bring in leads 24/7 from people actively searching for your services.
+                    Verified leads are delivered directly to your dashboard weekly. Each lead includes verified contact information, source details, quality score, and all the context you need to convert.
                   </p>
                   <div className="space-y-3 text-left">
                     <div className="flex items-start gap-3">
-                      <CheckCircle className="h-5 w-5 text-gray-400 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-gray-700">Real-time chat interface</span>
+                      <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-sm text-slate-700">Weekly delivery to your dashboard</span>
                     </div>
                     <div className="flex items-start gap-3">
-                      <CheckCircle className="h-5 w-5 text-gray-400 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-gray-700">Meta & Google Ads integration</span>
+                      <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-sm text-slate-700">Complete contact details & source</span>
                     </div>
                     <div className="flex items-start gap-3">
-                      <CheckCircle className="h-5 w-5 text-gray-400 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-gray-700">Complete conversation history</span>
+                      <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-sm text-slate-700">Email & WhatsApp notifications</span>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-sm text-slate-700">CSV export for CRM integration</span>
                     </div>
                   </div>
                 </CardContent>
@@ -1289,4 +1297,5 @@ export default function LandingPage() {
     </div>
   );
 }
+
 

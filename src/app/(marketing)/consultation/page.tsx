@@ -181,7 +181,6 @@ export default function ConsultationPage() {
                 </div>
               </div>
             </div>
-            */}
             
             {/* Next Steps */}
             <div className="bg-slate-50 rounded-lg p-6 mb-8 border border-slate-200 text-left max-w-lg mx-auto">
@@ -201,48 +200,17 @@ export default function ConsultationPage() {
                 </li>
               </ul>
             </div>
-            <div className="bg-blue-50 rounded-lg p-8 mb-8 border border-blue-200">
-              <h3 className="text-lg font-semibold text-slate-900 mb-4">What Happens Next?</h3>
-              <div className="space-y-4 text-left">
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center flex-shrink-0 mt-0.5">
-                    1
-                  </div>
-                  <div>
-                    <p className="font-semibold text-slate-900">Free Consultation Call</p>
-                    <p className="text-sm text-slate-600">We'll discuss your business, target audience, and lead generation goals</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center flex-shrink-0 mt-0.5">
-                    2
-                  </div>
-                  <div>
-                    <p className="font-semibold text-slate-900">Custom Proposal</p>
-                    <p className="text-sm text-slate-600">We'll create a tailored plan with pricing based on your requirements</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center flex-shrink-0 mt-0.5">
-                    3
-                  </div>
-                  <div>
-                    <p className="font-semibold text-slate-900">Onboarding & Setup</p>
-                    <p className="text-sm text-slate-600">Once approved, we'll send you a secure payment link and set up your account</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center flex-shrink-0 mt-0.5">
-                    4
-                  </div>
-                  <div>
-                    <p className="font-semibold text-slate-900">Start Receiving Leads</p>
-                    <p className="text-sm text-slate-600">Access your dashboard and start getting verified, qualified leads</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {formData.whatsappUpdates && (
+
+            <Button size="lg" className="bg-blue-600 hover:bg-blue-700" asChild>
+              <Link href="/">
+                Back to Homepage
+              </Link>
+            </Button>
+          </div>
+        </section>
+      </div>
+    );
+  }
               <div className="flex items-center justify-center gap-2 text-sm text-slate-500 mb-8">
                 <MessageCircle className="h-4 w-4 text-green-600" />
                 <span>You'll receive updates via WhatsApp at {formData.phone}</span>

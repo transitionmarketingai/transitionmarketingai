@@ -54,7 +54,7 @@ export default function HowItWorksPage() {
       </section>
 
       {/* Lead Sources Detail */}
-      <section className="py-16">
+      <section id="sources" className="py-16 scroll-mt-24">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-slate-900 mb-4">
@@ -215,7 +215,7 @@ export default function HowItWorksPage() {
       </section>
 
       {/* Verification Process */}
-      <section className="py-16 bg-slate-50">
+      <section id="verification" className="py-16 bg-slate-50 scroll-mt-24">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-slate-900 mb-4">

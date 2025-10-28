@@ -234,7 +234,7 @@ export default function LandingPage() {
           {/* Learn More Button */}
           <div className="text-center">
             <Button variant="outline" size="lg" className="border-blue-600 text-blue-600 hover:bg-blue-50" asChild>
-              <Link href="#how-it-works">
+              <Link href="/how-it-works#sources">
                 Learn More About Our Process
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
@@ -323,7 +323,7 @@ export default function LandingPage() {
           {/* Learn More Button */}
           <div className="text-center mt-10">
             <Button variant="outline" size="lg" className="border-blue-600 text-blue-600 hover:bg-blue-50" asChild>
-              <Link href="/how-it-works">
+              <Link href="/how-it-works#sources">
                 View All Features
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
@@ -636,38 +636,45 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Quality Assurance Section - Infographic Style */}
-      <section className="py-24 px-4 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-4">
-              <CheckCircle className="h-4 w-4 mr-2" />
-              Quality First
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-              How We Ensure Quality
+      {/* Lead Sales Ready - Matching Style */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              Lead Sales Ready
             </h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              Every lead is verified and quality-checked before delivery
+            </p>
           </div>
 
-          {/* Infographic: Verification Process */}
-          <div className="bg-slate-50 rounded-2xl p-8 md:p-12 border border-slate-200">
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="text-center">
-                <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-blue-600 text-white text-2xl font-bold mb-4">1</div>
-                <h3 className="font-bold text-slate-900 mb-2">Phone Verification</h3>
-                <p className="text-sm text-slate-600">Test every number to ensure it's active</p>
+          {/* Quality Steps Grid - Matching Style */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            {[
+              { number: 1, title: 'Phone Verified', description: 'Test every number to ensure it\'s active', bgColor: 'bg-emerald-100', numberColor: 'bg-emerald-600' },
+              { number: 2, title: 'Email Validated', description: 'Verify domain exists and email format', bgColor: 'bg-blue-100', numberColor: 'bg-blue-600' },
+              { number: 3, title: 'ICP Matched', description: 'Match leads to your ideal customer profile', bgColor: 'bg-indigo-100', numberColor: 'bg-indigo-600' },
+            ].map((step) => (
+              <div key={step.number} className="flex flex-col items-center justify-center p-6 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-300 transition-colors">
+                <div className={`w-14 h-14 rounded-lg ${step.bgColor} flex items-center justify-center mb-3`}>
+                  <div className={`w-10 h-10 rounded-lg ${step.numberColor} text-white flex items-center justify-center text-xl font-bold`}>
+                    {step.number}
+                  </div>
+                </div>
+                <p className="text-sm font-medium text-slate-900 text-center mb-2">{step.title}</p>
+                <p className="text-xs text-slate-600 text-center">{step.description}</p>
               </div>
-              <div className="text-center">
-                <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-blue-600 text-white text-2xl font-bold mb-4">2</div>
-                <h3 className="font-bold text-slate-900 mb-2">Email Validation</h3>
-                <p className="text-sm text-slate-600">Verify domain exists and email format</p>
-              </div>
-              <div className="text-center">
-                <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-blue-600 text-white text-2xl font-bold mb-4">3</div>
-                <h3 className="font-bold text-slate-900 mb-2">Business Matching</h3>
-                <p className="text-sm text-slate-600">Match leads to your ideal customer profile</p>
-              </div>
-            </div>
+            ))}
+          </div>
+
+          {/* Learn More Button */}
+          <div className="text-center">
+            <Button variant="outline" size="lg" className="border-blue-600 text-blue-600 hover:bg-blue-50" asChild>
+              <Link href="/how-it-works#verification">
+                Learn More About Verification
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
           </div>
         </div>
       </section>

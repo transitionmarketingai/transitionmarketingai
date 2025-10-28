@@ -30,30 +30,105 @@ export default function ConsultationPage() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
-    lastName: '',
     email: '',
     phone: '',
-    company: '',
-    industry: '',
-    message: '',
-    preferredTime: '',
-    preferredDay: '',
     whatsappUpdates: false,
   });
+  const [otpSent, setOtpSent] = useState(false);
+  const [otp, setOtp] = useState('');
+  const [otpVerified, setOtpVerified] = useState(false);
+  const [sendingOtp, setSendingOtp] = useState(false);
+  const [verifyingOtp, setVerifyingOtp] = useState(false);
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  const handleSendOTP = async () => {
+    if (!formData.phone) {
+      toast.error('Please enter your phone number first');
+      return;
+    }
+
+    setSendingOtp(true);
+    try {
+      const response = await fetch('/api/auth/otp/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: formData.phone }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setOtpSent(true);
+        toast.success(`OTP sent to ${formData.phone}`);
+        if (result.otp) {
+          // Development mode - show OTP
+          console.log('OTP (dev only):', result.otp);
+        }
+      } else {
+        toast.error(result.error || 'Failed to send OTP');
+      }
+    } catch (error: any) {
+      console.error('OTP send error:', error);
+      toast.error('Failed to send OTP. Please try again.');
+    } finally {
+      setSendingOtp(false);
+    }
+  };
+
+  const handleVerifyOTP = async () => {
+    if (!otp) {
+      toast.error('Please enter OTP');
+      return;
+    }
+
+    setVerifyingOtp(true);
+    try {
+      const response = await fetch('/api/auth/otp/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: formData.phone, otp }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.verified) {
+        setOtpVerified(true);
+        toast.success('Phone number verified!');
+      } else {
+        toast.error(result.error || 'Invalid OTP');
+      }
+    } catch (error: any) {
+      console.error('OTP verify error:', error);
+      toast.error('Failed to verify OTP');
+    } finally {
+      setVerifyingOtp(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!otpVerified) {
+      toast.error('Please verify your phone number first');
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
       const response = await fetch('/api/consultation/request', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: '', // Optional
+          email: formData.email,
+          phone: formData.phone,
+          whatsappUpdates: formData.whatsappUpdates,
+        }),
       });
 
       const result = await response.json();
@@ -93,11 +168,25 @@ export default function ConsultationPage() {
               <CheckCircle className="h-10 w-10 text-green-600" />
             </div>
             <h1 className="text-4xl font-bold text-slate-900 mb-4">
-              Thank You for Your Request!
+              Thank You for Your Request! ✅
             </h1>
             <p className="text-xl text-slate-600 mb-8">
-              We'll call you within 24 hours to discuss your lead generation needs and create a custom plan.
+              We've received your consultation request. Our team will contact you within 24 hours.
             </p>
+
+            {/* Calendar Booking Section */}
+            <div className="bg-blue-50 rounded-lg p-8 mb-8 border border-blue-200">
+              <h3 className="text-lg font-semibold text-slate-900 mb-4">📅 Book Your Consultation Now</h3>
+              <p className="text-slate-600 mb-6">
+                Select your preferred date and time instantly. We'll send you a calendar invite and reminder.
+              </p>
+              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white" asChild>
+                <Link href={process.env.NEXT_PUBLIC_CALENDLY_URL || 'https://calendly.com/transition-marketing-ai'} target="_blank">
+                  Book Consultation Now
+                  <Calendar className="ml-2 h-5 w-5" />
+                </Link>
+              </Button>
+            </div>
             <div className="bg-blue-50 rounded-lg p-8 mb-8 border border-blue-200">
               <h3 className="text-lg font-semibold text-slate-900 mb-4">What Happens Next?</h3>
               <div className="space-y-4 text-left">
@@ -215,68 +304,51 @@ export default function ConsultationPage() {
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSubmit} className="space-y-6">
-                    {/* Name Fields */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="firstName" className="text-slate-700">
-                          First Name <span className="text-red-500">*</span>
-                        </Label>
-                        <div className="relative mt-2">
-                          <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
-                          <Input
-                            id="firstName"
-                            type="text"
-                            required
-                            value={formData.firstName}
-                            onChange={(e) => handleInputChange('firstName', e.target.value)}
-                            className="pl-10"
-                            placeholder="John"
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <Label htmlFor="lastName" className="text-slate-700">
-                          Last Name <span className="text-red-500">*</span>
-                        </Label>
-                        <div className="relative mt-2">
-                          <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
-                          <Input
-                            id="lastName"
-                            type="text"
-                            required
-                            value={formData.lastName}
-                            onChange={(e) => handleInputChange('lastName', e.target.value)}
-                            className="pl-10"
-                            placeholder="Doe"
-                          />
-                        </div>
+                    {/* Name */}
+                    <div>
+                      <Label htmlFor="firstName" className="text-slate-700">
+                        Full Name <span className="text-red-500">*</span>
+                      </Label>
+                      <div className="relative mt-2">
+                        <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
+                        <Input
+                          id="firstName"
+                          type="text"
+                          required
+                          value={formData.firstName}
+                          onChange={(e) => handleInputChange('firstName', e.target.value)}
+                          className="pl-10"
+                          placeholder="John Doe"
+                        />
                       </div>
                     </div>
 
-                    {/* Email & Phone */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="email" className="text-slate-700">
-                          Email <span className="text-red-500">*</span>
-                        </Label>
-                        <div className="relative mt-2">
-                          <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
-                          <Input
-                            id="email"
-                            type="email"
-                            required
-                            value={formData.email}
-                            onChange={(e) => handleInputChange('email', e.target.value)}
-                            className="pl-10"
-                            placeholder="john@company.com"
-                          />
-                        </div>
+                    {/* Email */}
+                    <div>
+                      <Label htmlFor="email" className="text-slate-700">
+                        Email <span className="text-red-500">*</span>
+                      </Label>
+                      <div className="relative mt-2">
+                        <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
+                        <Input
+                          id="email"
+                          type="email"
+                          required
+                          value={formData.email}
+                          onChange={(e) => handleInputChange('email', e.target.value)}
+                          className="pl-10"
+                          placeholder="john@company.com"
+                        />
                       </div>
-                      <div>
-                        <Label htmlFor="phone" className="text-slate-700">
-                          Phone Number <span className="text-red-500">*</span>
-                        </Label>
-                        <div className="relative mt-2">
+                    </div>
+
+                    {/* Phone with OTP Verification */}
+                    <div>
+                      <Label htmlFor="phone" className="text-slate-700">
+                        Phone Number <span className="text-red-500">*</span>
+                      </Label>
+                      <div className="space-y-3 mt-2">
+                        <div className="relative">
                           <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
                           <Input
                             id="phone"
@@ -286,112 +358,55 @@ export default function ConsultationPage() {
                             onChange={(e) => handleInputChange('phone', e.target.value)}
                             className="pl-10"
                             placeholder="+91 98765 43210"
+                            disabled={otpVerified}
                           />
+                          {!otpVerified && formData.phone && (
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="sm"
+                              onClick={handleSendOTP}
+                              disabled={sendingOtp}
+                              className="absolute right-2 top-1/2 transform -translate-y-1/2"
+                            >
+                              {sendingOtp ? 'Sending...' : otpSent ? 'Resend OTP' : 'Send OTP'}
+                            </Button>
+                          )}
+                          {otpVerified && (
+                            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-green-600">
+                              <CheckCircle className="h-5 w-5" />
+                            </div>
+                          )}
                         </div>
+                        
+                        {otpSent && !otpVerified && (
+                          <div className="flex gap-2">
+                            <Input
+                              type="text"
+                              placeholder="Enter 6-digit OTP"
+                              value={otp}
+                              onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                              maxLength={6}
+                              className="flex-1"
+                            />
+                            <Button
+                              type="button"
+                              onClick={handleVerifyOTP}
+                              disabled={verifyingOtp || otp.length !== 6}
+                              className="bg-blue-600 hover:bg-blue-700"
+                            >
+                              {verifyingOtp ? 'Verifying...' : 'Verify'}
+                            </Button>
+                          </div>
+                        )}
+                        
+                        {otpVerified && (
+                          <p className="text-sm text-green-600 flex items-center gap-1">
+                            <CheckCircle className="h-4 w-4" />
+                            Phone number verified
+                          </p>
+                        )}
                       </div>
-                    </div>
-
-                    {/* Company & Industry */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="company" className="text-slate-700">
-                          Company Name <span className="text-red-500">*</span>
-                        </Label>
-                        <div className="relative mt-2">
-                          <Building2 className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
-                          <Input
-                            id="company"
-                            type="text"
-                            required
-                            value={formData.company}
-                            onChange={(e) => handleInputChange('company', e.target.value)}
-                            className="pl-10"
-                            placeholder="Your Company"
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <Label htmlFor="industry" className="text-slate-700">
-                          Industry
-                        </Label>
-                        <Select
-                          value={formData.industry}
-                          onValueChange={(value) => handleInputChange('industry', value)}
-                        >
-                          <SelectTrigger className="mt-2">
-                            <SelectValue placeholder="Select your industry" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="real_estate">Real Estate</SelectItem>
-                            <SelectItem value="healthcare">Healthcare</SelectItem>
-                            <SelectItem value="consulting">Consulting</SelectItem>
-                            <SelectItem value="manufacturing">Manufacturing</SelectItem>
-                            <SelectItem value="ecommerce">E-commerce</SelectItem>
-                            <SelectItem value="education">Education</SelectItem>
-                            <SelectItem value="finance">Finance</SelectItem>
-                            <SelectItem value="technology">Technology</SelectItem>
-                            <SelectItem value="other">Other</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-
-                    {/* Preferred Time */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="preferredDay" className="text-slate-700">
-                          Preferred Day
-                        </Label>
-                        <Select
-                          value={formData.preferredDay}
-                          onValueChange={(value) => handleInputChange('preferredDay', value)}
-                        >
-                          <SelectTrigger className="mt-2">
-                            <SelectValue placeholder="Any day" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="any">Any day</SelectItem>
-                            <SelectItem value="today">Today</SelectItem>
-                            <SelectItem value="tomorrow">Tomorrow</SelectItem>
-                            <SelectItem value="weekday">Any weekday</SelectItem>
-                            <SelectItem value="weekend">Weekend</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div>
-                        <Label htmlFor="preferredTime" className="text-slate-700">
-                          Preferred Time
-                        </Label>
-                        <Select
-                          value={formData.preferredTime}
-                          onValueChange={(value) => handleInputChange('preferredTime', value)}
-                        >
-                          <SelectTrigger className="mt-2">
-                            <SelectValue placeholder="Any time" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="any">Any time</SelectItem>
-                            <SelectItem value="morning">Morning (9 AM - 12 PM)</SelectItem>
-                            <SelectItem value="afternoon">Afternoon (12 PM - 4 PM)</SelectItem>
-                            <SelectItem value="evening">Evening (4 PM - 8 PM)</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-
-                    {/* Message */}
-                    <div>
-                      <Label htmlFor="message" className="text-slate-700">
-                        Tell us about your lead generation needs (optional)
-                      </Label>
-                      <Textarea
-                        id="message"
-                        value={formData.message}
-                        onChange={(e) => handleInputChange('message', e.target.value)}
-                        className="mt-2"
-                        placeholder="E.g., Looking for 50+ qualified leads per month in Mumbai for residential real estate..."
-                        rows={4}
-                      />
                     </div>
 
                     {/* WhatsApp Opt-in */}

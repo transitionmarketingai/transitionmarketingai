@@ -73,11 +73,11 @@ export default function LandingPage() {
             <div className="text-center lg:text-left">
               <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-8">
                 <Bot className="h-4 w-4 mr-2" />
-                AI-Powered Lead Generation
+                AI-Powered Multi-Channel Lead Generation
               </div>
               
               <h1 className="text-5xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight">
-                Get 50+ Verified Leads
+                Get 25-200 Verified Leads
                 <br />
                 <span className="text-blue-600">
                   Every Month - Guaranteed
@@ -85,7 +85,7 @@ export default function LandingPage() {
               </h1>
               
               <p className="text-xl text-slate-600 mb-8 leading-relaxed max-w-2xl">
-                We don't just give you software. We deliver <strong className="text-slate-900">qualified, verified leads</strong> directly to your inbox. No setup. No guesswork. Just results.
+                We use advanced AI technology combined with proven marketing channels to deliver <strong className="text-slate-900">qualified, verified leads</strong> directly to your inbox. No setup. No guesswork. Just results.
               </p>
 
               {/* Value Props */}
@@ -727,14 +727,14 @@ export default function LandingPage() {
               Flexible Pricing
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-              Custom Plans Tailored
+              Simple, Transparent Pricing
               <br />
               <span className="text-slate-600">
-                to Your Business
+                Choose Your Plan
               </span>
             </h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto mb-8">
-              Every business is unique. We create a custom lead generation plan based on your specific needs and budget.
+              Flexible plans to match your business needs. All plans include verified leads, quality guarantee, and no long-term contracts.
             </p>
             <div className="flex flex-wrap justify-center items-center gap-8 text-sm text-slate-500">
               <div className="flex items-center gap-2">
@@ -756,53 +756,59 @@ export default function LandingPage() {
             {/* Starter */}
             <Card className="border border-gray-200 bg-white">
               <CardHeader className="text-center pt-8 pb-6">
-                <Badge variant="outline" className="mb-4">Example Tier</Badge>
                 <div className="w-16 h-16 rounded-lg bg-blue-100 flex items-center justify-center mx-auto mb-4">
                   <Users className="h-8 w-8 text-blue-600" />
                 </div>
                 <h3 className="text-2xl font-bold mb-4 text-slate-900">Starter</h3>
                 <div className="mb-6">
-                  <span className="text-5xl font-bold text-gray-900">₹5,000</span>
+                  <span className="text-5xl font-bold text-gray-900">₹15,000</span>
                   <span className="text-gray-500 text-lg">/month</span>
                 </div>
-                <div className="bg-gray-50 rounded-lg py-4 px-6">
-                  <p className="text-sm font-medium text-gray-700">For Small Businesses</p>
-                  <p className="text-xs text-gray-500 mt-1">~25 Verified Leads/Month</p>
+                <div className="bg-blue-50 rounded-lg py-4 px-6 border border-blue-100">
+                  <p className="text-lg font-bold text-blue-900">25 Verified Leads</p>
+                  <p className="text-sm text-blue-700 mt-1">₹600 per lead</p>
                 </div>
               </CardHeader>
               <CardContent className="space-y-6">
                 <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white text-lg py-6" asChild>
                   <Link href="/consultation">
-                    Get Custom Quote
+                    Request Free Consultation
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
                 <div className="space-y-4 pt-4">
                   <div className="flex items-start gap-3">
                     <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm text-slate-700">500 AI-scraped contacts/month</span>
+                    <div>
+                      <span className="text-sm font-medium text-slate-900">25 verified leads/month</span>
+                      <span className="text-xs text-slate-500 block">Phone + email verified (90%+ active)</span>
+                    </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm text-slate-700">1,000 personalized outreach messages</span>
+                    <span className="text-sm text-slate-700">AI-powered lead generation</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm text-slate-700">₹5,000 Meta & Google ad credits</span>
+                    <span className="text-sm text-slate-700">Dashboard access</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm text-slate-700">WhatsApp + Email campaigns</span>
+                    <span className="text-sm text-slate-700">Weekly delivery</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm text-slate-700">Basic AI lead scoring</span>
+                    <span className="text-sm text-slate-700">Quality guarantee or refund</span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-slate-700">No contract - cancel anytime</span>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Professional - Most Popular */}
+            {/* Growth - Most Popular */}
             <Card className="relative border-2 border-blue-600 bg-white">
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                 <div className="bg-blue-600 text-white px-6 py-2 text-sm font-medium rounded-lg">
@@ -811,92 +817,106 @@ export default function LandingPage() {
                 </div>
               </div>
               <CardHeader className="text-center pt-12 pb-6">
-                <Badge variant="outline" className="mb-4">Example Tier</Badge>
                 <div className="w-16 h-16 rounded-lg bg-blue-100 flex items-center justify-center mx-auto mb-4">
                   <Target className="h-8 w-8 text-blue-600" />
                 </div>
-                <h3 className="text-2xl font-bold mb-4 text-slate-900">Professional</h3>
+                <h3 className="text-2xl font-bold mb-4 text-slate-900">Growth</h3>
                 <div className="mb-6">
-                  <span className="text-5xl font-bold text-gray-900">₹10,000</span>
+                  <span className="text-5xl font-bold text-gray-900">₹35,000</span>
                   <span className="text-gray-500 text-lg">/month</span>
                 </div>
-                <div className="bg-gray-50 rounded-lg py-4 px-6">
-                  <p className="text-sm font-medium text-gray-700">For Growing Businesses</p>
-                  <p className="text-xs text-gray-500 mt-1">~50 Verified Leads/Month</p>
+                <div className="bg-blue-50 rounded-lg py-4 px-6 border border-blue-100">
+                  <p className="text-lg font-bold text-blue-900">75 Verified Leads</p>
+                  <p className="text-sm text-blue-700 mt-1">₹467 per lead (22% savings)</p>
                 </div>
               </CardHeader>
               <CardContent className="space-y-6">
                 <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white text-lg py-6" asChild>
                   <Link href="/consultation">
-                    Get Custom Quote
+                    Request Free Consultation
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
                 <div className="space-y-4 pt-4">
                   <div className="flex items-start gap-3">
                     <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm text-slate-700">2,000 AI-scraped contacts/month</span>
+                    <div>
+                      <span className="text-sm font-medium text-slate-900">75 verified leads/month</span>
+                      <span className="text-xs text-slate-500 block">Phone + email verified (90%+ active)</span>
+                    </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm text-slate-700">5,000 personalized outreach messages</span>
+                    <div>
+                      <span className="text-sm font-medium text-slate-900">Multi-channel lead generation</span>
+                      <span className="text-xs text-slate-500 block">AI scraping + targeted ads (70/30 mix)</span>
+                    </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm text-slate-700">₹15,000 Meta & Google ad credits</span>
+                    <span className="text-sm text-slate-700">Premium quality scoring (85%+ average)</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm text-slate-700">Priority support & onboarding</span>
+                    <span className="text-sm text-slate-700">Priority support</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm text-slate-700">Advanced AI lead scoring</span>
+                    <span className="text-sm text-slate-700">Weekly delivery + monthly review call</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm text-slate-700">Predictive analytics dashboard</span>
+                    <span className="text-sm text-slate-700">Quality guarantee or refund</span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-slate-700">3-month prepaid: 10% discount</span>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Enterprise */}
+            {/* Scale */}
             <Card className="border border-gray-200 bg-white">
               <CardHeader className="text-center pt-8 pb-6">
-                <Badge variant="outline" className="mb-4">Example Tier</Badge>
                 <div className="w-16 h-16 rounded-lg bg-blue-100 flex items-center justify-center mx-auto mb-4">
                   <TrendingUp className="h-8 w-8 text-blue-600" />
                 </div>
-                <h3 className="text-2xl font-bold mb-4 text-slate-900">Enterprise</h3>
+                <h3 className="text-2xl font-bold mb-4 text-slate-900">Scale</h3>
                 <div className="mb-6">
-                  <span className="text-5xl font-bold text-gray-900">₹25,000</span>
+                  <span className="text-5xl font-bold text-gray-900">₹70,000</span>
                   <span className="text-gray-500 text-lg">/month</span>
                 </div>
-                <div className="bg-gray-50 rounded-lg py-4 px-6">
-                  <p className="text-sm font-medium text-gray-700">For Large Businesses</p>
-                  <p className="text-xs text-gray-500 mt-1">~150 Verified Leads/Month</p>
+                <div className="bg-blue-50 rounded-lg py-4 px-6 border border-blue-100">
+                  <p className="text-lg font-bold text-blue-900">200 Verified Leads</p>
+                  <p className="text-sm text-blue-700 mt-1">₹350 per lead (42% savings)</p>
                 </div>
               </CardHeader>
               <CardContent className="space-y-6">
                 <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white text-lg py-6" asChild>
                   <Link href="/consultation">
-                    Get Custom Quote
+                    Request Free Consultation
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
                 <div className="space-y-4 pt-4">
                   <div className="flex items-start gap-3">
                     <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm text-slate-700">Unlimited AI-scraped contacts</span>
+                    <div>
+                      <span className="text-sm font-medium text-slate-900">200 verified leads/month</span>
+                      <span className="text-xs text-slate-500 block">Phone + email verified (90%+ active)</span>
+                    </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm text-slate-700">Unlimited personalized outreach</span>
+                    <div>
+                      <span className="text-sm font-medium text-slate-900">Premium multi-channel generation</span>
+                      <span className="text-xs text-slate-500 block">AI scraping + ads (60/40 mix, highest intent)</span>
+                    </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm text-slate-700">₹50,000 Meta & Google ad credits</span>
+                    <span className="text-sm text-slate-700">Highest quality (90%+ average score)</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
@@ -904,11 +924,19 @@ export default function LandingPage() {
                   </div>
                   <div className="flex items-start gap-3">
                     <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm text-slate-700">Custom AI models & training</span>
+                    <span className="text-sm text-slate-700">Custom reporting & analytics</span>
                   </div>
                   <div className="flex items-start gap-3">
                     <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm text-slate-700">White-label options</span>
+                    <span className="text-sm text-slate-700">Weekly delivery + bi-weekly review calls</span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-slate-700">Quality guarantee or refund</span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-slate-700">6-month prepaid: 15% discount</span>
                   </div>
                 </div>
               </CardContent>
@@ -1080,7 +1108,7 @@ export default function LandingPage() {
                   How much does it cost?
                 </h3>
                 <p className="text-slate-600 leading-relaxed">
-                  Pricing varies based on your industry, target audience, lead volume, and required verification level. Most clients invest between <strong className="text-slate-900">₹10,000 - ₹50,000 per month</strong>. During your free consultation, we'll provide an exact quote tailored to your needs and budget.
+                  We offer simple, transparent pricing: <strong className="text-slate-900">Starter plan at ₹15,000/month (25 leads, ₹600/lead)</strong>, <strong className="text-slate-900">Growth plan at ₹35,000/month (75 leads, ₹467/lead)</strong>, and <strong className="text-slate-900">Scale plan at ₹70,000/month (200 leads, ₹350/lead)</strong>. Save 10-15% with 3 or 6-month prepaid plans. All plans include verified leads, quality guarantee, and no long-term contracts.
                 </p>
               </CardContent>
             </Card>

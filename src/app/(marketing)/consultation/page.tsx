@@ -446,32 +446,17 @@ export default function ConsultationPage() {
                         <p className="text-sm text-slate-600 mb-4">
                           Select your preferred date and time. You'll receive a calendar invite and reminder.
                         </p>
-                        {calendlyUrl ? (
-                          <div className="h-[600px] w-full">
-                            <iframe
-                              src={calendlyUrl}
-                              width="100%"
-                              height="100%"
-                              frameBorder="0"
-                              title="Schedule a consultation"
-                              className="rounded-lg"
-                            />
-                          </div>
-                        ) : (
-                          <div className="text-center py-8">
-                            <Calendar className="h-12 w-12 text-slate-400 mx-auto mb-4" />
-                            <p className="text-slate-600 mb-4">Calendly URL not configured</p>
-                            <Button
-                              variant="outline"
-                              onClick={() => {
-                                const url = prompt('Enter Calendly URL (e.g., https://calendly.com/username/event):');
-                                if (url) setCalendlyUrl(url);
-                              }}
-                            >
-                              Configure Calendly URL
-                            </Button>
-                          </div>
-                        )}
+                        <div className="h-[700px] w-full border border-slate-200 rounded-lg overflow-hidden bg-white">
+                          <iframe
+                            src={`${calendlyUrl}?embed_domain=${typeof window !== 'undefined' ? window.location.hostname : 'transitionmarketingai.com'}&embed_type=Inline`}
+                            width="100%"
+                            height="100%"
+                            frameBorder="0"
+                            title="Schedule a consultation"
+                            className="w-full h-full"
+                            style={{ minHeight: '700px' }}
+                          />
+                        </div>
                       </div>
 
                       <div className="flex gap-3">
@@ -524,32 +509,17 @@ export default function ConsultationPage() {
                         <p className="text-sm text-slate-600 mb-4">
                           Select your preferred date and time. You'll receive a calendar invite and reminder.
                         </p>
-                        {calendlyUrl ? (
-                          <div className="h-[600px] w-full">
-                            <iframe
-                              src={calendlyUrl}
-                              width="100%"
-                              height="100%"
-                              frameBorder="0"
-                              title="Schedule a consultation"
-                              className="rounded-lg"
-                            />
-                          </div>
-                        ) : (
-                          <div className="text-center py-8">
-                            <Calendar className="h-12 w-12 text-slate-400 mx-auto mb-4" />
-                            <p className="text-slate-600 mb-4">Calendly URL not configured</p>
-                            <Button
-                              variant="outline"
-                              onClick={() => {
-                                const url = prompt('Enter Calendly URL (e.g., https://calendly.com/username/event):');
-                                if (url) setCalendlyUrl(url);
-                              }}
-                            >
-                              Configure Calendly URL
-                            </Button>
-                          </div>
-                        )}
+                        <div className="h-[700px] w-full border border-slate-200 rounded-lg overflow-hidden bg-white">
+                          <iframe
+                            src={`${calendlyUrl}?embed_domain=${typeof window !== 'undefined' ? window.location.hostname : 'transitionmarketingai.com'}&embed_type=Inline`}
+                            width="100%"
+                            height="100%"
+                            frameBorder="0"
+                            title="Schedule a consultation"
+                            className="w-full h-full"
+                            style={{ minHeight: '700px' }}
+                          />
+                        </div>
                       </div>
 
                       <div className="flex gap-3">

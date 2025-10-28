@@ -252,35 +252,17 @@ export default function ConsultationPage() {
             <div className="lg:col-span-2">
               <Card className="border border-slate-200">
                 <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <CardTitle className="text-2xl">Request Free Consultation</CardTitle>
-                      <p className="text-slate-600">
-                        {currentStep === 1 
-                          ? 'Fill out your details to book a consultation'
-                          : 'Select your preferred consultation time'}
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className={`text-sm font-medium ${currentStep === 1 ? 'text-blue-600' : 'text-slate-400'}`}>
-                        Step 1
-                      </span>
-                      <span className="text-slate-300">→</span>
-                      <span className={`text-sm font-medium ${currentStep === 2 ? 'text-blue-600' : 'text-slate-400'}`}>
-                        Step 2
-                      </span>
-                    </div>
-                  </div>
+                  <CardTitle className="text-2xl">Schedule a Free Strategy Call</CardTitle>
+                  <p className="text-slate-600">We'll call you personally to discuss your lead generation needs</p>
                 </CardHeader>
                 <CardContent>
-                  {currentStep === 1 && (
-                    <form className="space-y-6">
-                      {/* Name */}
-                      <div>
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    {/* Name */}
+                    <div>
                       <Label htmlFor="firstName" className="text-slate-700">
-                        Full Name <span className="text-red-500">*</span>
+                        Your Name <span className="text-red-500">*</span>
                       </Label>
-                      <div className="relative mt-2">
+                      <div className="relative mt-1">
                         <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
                         <Input
                           id="firstName"
@@ -289,229 +271,73 @@ export default function ConsultationPage() {
                           value={formData.firstName}
                           onChange={(e) => handleInputChange('firstName', e.target.value)}
                           className="pl-10"
-                          placeholder="John Doe"
+                          placeholder="Enter your name"
                         />
                       </div>
                     </div>
 
-                    {/* Email */}
-                    <div>
-                      <Label htmlFor="email" className="text-slate-700">
-                        Email <span className="text-red-500">*</span>
-                      </Label>
-                      <div className="relative mt-2">
-                        <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
-                        <Input
-                          id="email"
-                          type="email"
-                          required
-                          value={formData.email}
-                          onChange={(e) => handleInputChange('email', e.target.value)}
-                          className="pl-10"
-                          placeholder="john@company.com"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Phone */}
-                    <div>
-                      <Label htmlFor="phone" className="text-slate-700">
-                        Phone Number <span className="text-red-500">*</span>
-                      </Label>
-                      <div className="flex items-center gap-2 mt-2">
-                        {/* Fixed +91 */}
-                        <div className="flex items-center px-4 h-11 border border-slate-300 rounded-md bg-slate-50 text-slate-700 font-medium">
-                          +91
-                        </div>
-                        {/* Phone input */}
-                        <div className="relative flex-1">
-                          <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
-                          <Input
-                            id="phone"
-                            type="tel"
-                            required
-                            value={formData.phone}
-                            onChange={(e) => handlePhoneChange(e.target.value)}
-                            className="pl-10"
-                            placeholder="98765 43210"
-                            inputMode="numeric"
-                            maxLength={11}
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* WhatsApp Opt-in */}
-                    <div className="flex items-start gap-3 p-4 bg-green-50 rounded-lg border border-green-200">
-                      <Checkbox
-                        id="whatsappUpdates"
-                        checked={formData.whatsappUpdates}
-                        onCheckedChange={(checked) => handleInputChange('whatsappUpdates', checked as boolean)}
-                        className="mt-1"
-                      />
-                      <div className="flex-1">
-                        <Label
-                          htmlFor="whatsappUpdates"
-                          className="text-sm font-medium text-slate-900 cursor-pointer flex items-center gap-2"
-                        >
-                          <MessageCircle className="h-4 w-4 text-green-600" />
-                          Send me updates via WhatsApp
+                    {/* Optional Date & Time */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="preferredDate" className="text-slate-700">
+                          Preferred Date (Optional)
                         </Label>
-                        <p className="text-xs text-slate-600 mt-1">
-                          Get instant updates about your consultation, proposal, and onboarding on WhatsApp
-                        </p>
+                        <div className="relative mt-1">
+                          <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
+                          <Input
+                            id="preferredDate"
+                            type="date"
+                            value={formData.preferredDate}
+                            onChange={(e) => handleInputChange('preferredDate', e.target.value)}
+                            className="pl-10"
+                            min={new Date().toISOString().split('T')[0]}
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <Label htmlFor="preferredTime" className="text-slate-700">
+                          Preferred Time (Optional)
+                        </Label>
+                        <div className="relative mt-1">
+                          <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
+                          <Input
+                            id="preferredTime"
+                            type="time"
+                            value={formData.preferredTime}
+                            onChange={(e) => handleInputChange('preferredTime', e.target.value)}
+                            className="pl-10"
+                          />
+                        </div>
                       </div>
                     </div>
 
-                      {/* Step 1: Next Button */}
-                      <Button
-                        type="button"
-                        onClick={handleNextStep}
-                        size="lg"
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-lg py-6"
-                      >
-                        <Calendar className="mr-2 h-5 w-5" />
-                        Choose Consultation Time
-                      </Button>
+                    {/* Submit Button */}
+                    <Button
+                      type="submit"
+                      size="lg"
+                      className="w-full bg-blue-600 hover:bg-blue-700 text-lg py-6 mt-2"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Sparkles className="mr-2 h-5 w-5 animate-spin" />
+                          Scheduling...
+                        </>
+                      ) : (
+                        <>
+                          <Phone className="mr-2 h-5 w-5" />
+                          Schedule a Call
+                        </>
+                      )}
+                    </Button>
 
-                      <p className="text-xs text-center text-slate-500">
-                        By continuing, you agree to our{' '}
-                        <Link href="/privacy" className="text-blue-600 hover:underline">
-                          Privacy Policy
-                        </Link>{' '}
-                        and{' '}
-                        <Link href="/terms" className="text-blue-600 hover:underline">
-                          Terms of Service
-                        </Link>
-                      </p>
-                    </form>
-                  )}
-
-                  {currentStep === 2 && (
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                      <div className="bg-blue-50 rounded-lg p-6 border border-blue-200 mb-6">
-                        <h3 className="font-semibold text-slate-900 mb-2">📅 Book Your Consultation</h3>
-                        <p className="text-sm text-slate-600 mb-4">
-                          Select your preferred date and time. You'll receive a calendar invite and reminder.
-                        </p>
-                        <div className="h-[700px] w-full border border-slate-200 rounded-lg overflow-hidden bg-white">
-                          <iframe
-                            src={`${calendlyUrl}?embed_domain=${typeof window !== 'undefined' ? window.location.hostname : 'transitionmarketingai.com'}&embed_type=Inline`}
-                            width="100%"
-                            height="100%"
-                            frameBorder="0"
-                            title="Schedule a consultation"
-                            className="w-full h-full"
-                            style={{ minHeight: '700px' }}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="flex gap-3">
-                        <Button
-                          type="button"
-                          variant="outline"
-                          onClick={handleBackToDetails}
-                          className="flex-1"
-                        >
-                          <ArrowLeft className="mr-2 h-4 w-4" />
-                          Back
-                        </Button>
-                        <Button
-                          type="submit"
-                          size="lg"
-                          className="flex-1 bg-blue-600 hover:bg-blue-700 text-lg py-6"
-                          disabled={isSubmitting}
-                        >
-                          {isSubmitting ? (
-                            <>
-                              <Sparkles className="mr-2 h-5 w-5 animate-spin" />
-                              Submitting...
-                            </>
-                          ) : (
-                            <>
-                              <CheckCircle className="mr-2 h-5 w-5" />
-                              Confirm Request
-                            </>
-                          )}
-                        </Button>
-                      </div>
-
-                      <p className="text-xs text-center text-slate-500">
-                        By submitting this form, you agree to our{' '}
-                        <Link href="/privacy" className="text-blue-600 hover:underline">
-                          Privacy Policy
-                        </Link>{' '}
-                        and{' '}
-                        <Link href="/terms" className="text-blue-600 hover:underline">
-                          Terms of Service
-                        </Link>
-                      </p>
-                    </form>
-                  )}
-
-                  {currentStep === 2 && (
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                      <div className="bg-blue-50 rounded-lg p-6 border border-blue-200 mb-6">
-                        <h3 className="font-semibold text-slate-900 mb-2">📅 Book Your Consultation</h3>
-                        <p className="text-sm text-slate-600 mb-4">
-                          Select your preferred date and time. You'll receive a calendar invite and reminder.
-                        </p>
-                        <div className="h-[700px] w-full border border-slate-200 rounded-lg overflow-hidden bg-white">
-                          <iframe
-                            src={`${calendlyUrl}?embed_domain=${typeof window !== 'undefined' ? window.location.hostname : 'transitionmarketingai.com'}&embed_type=Inline`}
-                            width="100%"
-                            height="100%"
-                            frameBorder="0"
-                            title="Schedule a consultation"
-                            className="w-full h-full"
-                            style={{ minHeight: '700px' }}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="flex gap-3">
-                        <Button
-                          type="button"
-                          variant="outline"
-                          onClick={handleBackToDetails}
-                          className="flex-1"
-                        >
-                          <ArrowLeft className="mr-2 h-4 w-4" />
-                          Back
-                        </Button>
-                        <Button
-                          type="submit"
-                          size="lg"
-                          className="flex-1 bg-blue-600 hover:bg-blue-700 text-lg py-6"
-                          disabled={isSubmitting}
-                        >
-                          {isSubmitting ? (
-                            <>
-                              <Sparkles className="mr-2 h-5 w-5 animate-spin" />
-                              Submitting...
-                            </>
-                          ) : (
-                            <>
-                              <CheckCircle className="mr-2 h-5 w-5" />
-                              Confirm Request
-                            </>
-                          )}
-                        </Button>
-                      </div>
-
-                      <p className="text-xs text-center text-slate-500">
-                        By submitting this form, you agree to our{' '}
-                        <Link href="/privacy" className="text-blue-600 hover:underline">
-                          Privacy Policy
-                        </Link>{' '}
-                        and{' '}
-                        <Link href="/terms" className="text-blue-600 hover:underline">
-                          Terms of Service
-                        </Link>
-                      </p>
-                    </form>
-                  )}
+                    <p className="text-xs text-center text-slate-500">
+                      By submitting, you agree to our{' '}
+                      <Link href="/privacy" className="text-blue-600 hover:underline">
+                        Privacy Policy
+                      </Link>
+                    </p>
+                  </form>
                 </CardContent>
               </Card>
             </div>

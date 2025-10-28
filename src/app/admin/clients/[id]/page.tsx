@@ -26,6 +26,7 @@ import {
   AlertCircle,
 } from 'lucide-react';
 import Link from 'next/link';
+import LeadGenerationGuide from '@/components/admin/LeadGenerationGuide';
 
 interface Client {
   id: string;
@@ -76,6 +77,7 @@ export default function ClientDetailPage() {
   const [leads, setLeads] = useState<LeadDelivery[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
+  const [showLeadGuide, setShowLeadGuide] = useState(false);
 
   useEffect(() => {
     if (clientId) {
@@ -484,12 +486,18 @@ export default function ClientDetailPage() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle>Lead Deliveries ({leads.length})</CardTitle>
-                <Button asChild>
-                  <Link href={`/admin/clients/${clientId}/leads/upload`}>
-                    <Upload className="mr-2 h-4 w-4" />
-                    Upload Leads
-                  </Link>
-                </Button>
+                <div className="flex gap-2">
+                  <Button variant="outline" onClick={() => setShowLeadGuide(true)}>
+                    <Target className="mr-2 h-4 w-4" />
+                    How to Generate Leads
+                  </Button>
+                  <Button asChild>
+                    <Link href={`/admin/clients/${clientId}/leads/upload`}>
+                      <Upload className="mr-2 h-4 w-4" />
+                      Upload Leads
+                    </Link>
+                  </Button>
+                </div>
               </div>
             </CardHeader>
             <CardContent>
@@ -566,6 +574,17 @@ export default function ClientDetailPage() {
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Lead Generation Guide Modal */}
+      {client && (
+        <LeadGenerationGuide
+          open={showLeadGuide}
+          onClose={() => setShowLeadGuide(false)}
+          clientId={clientId}
+          clientIndustry={client.industry}
+          clientLocation={client.location}
+        />
+      )}
     </div>
   );
 }

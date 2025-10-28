@@ -287,95 +287,66 @@ export default function AdminDashboard() {
   });
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      {/* Admin Sidebar */}
-      <aside className="w-64 bg-gray-900 text-white flex flex-col fixed h-full">
-        <div className="p-6 border-b border-gray-800">
-          <Logo size="sm" className="mb-2" />
-          <p className="text-sm text-gray-400">Admin Dashboard</p>
-        </div>
-
-        <nav className="flex-1 p-4">
-          <div className="space-y-1">
-            {[
-              { id: 'overview', icon: LayoutDashboard, label: 'Overview' },
-              { id: 'customers', icon: Users, label: 'Customers', badge: CUSTOMERS.length },
-              { id: 'campaigns', icon: Target, label: 'Campaigns', badge: ALL_CAMPAIGNS.length },
-              { id: 'leads', icon: Home, label: 'All Leads', badge: ALL_LEADS.length },
-              { id: 'support', icon: MessageSquare, label: 'Support', badge: 2 },
-              { id: 'billing', icon: CreditCard, label: 'Billing & Revenue' },
-              { id: 'analytics', icon: BarChart3, label: 'Analytics' },
-              { id: 'integrations', icon: LinkIcon, label: 'Integrations' },
-              { id: 'team', icon: UserCog, label: 'Team' },
-              { id: 'settings', icon: Settings, label: 'Settings' },
-            ].map((item) => (
-              <button
-                key={item.id}
-                onClick={() => setCurrentView(item.id)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                  currentView === item.id ? 'bg-blue-600' : 'text-gray-300 hover:bg-gray-800'
-                }`}
-              >
-                <item.icon className="h-5 w-5" />
-                <span className="font-medium flex-1 text-left">{item.label}</span>
-                {item.badge && (
-                  <Badge className="bg-red-500">{item.badge}</Badge>
-                )}
-              </button>
-            ))}
+    <div className="p-8 max-w-7xl mx-auto">
+      {/* Header */}
+      <div className="mb-8">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">
+              {currentView === 'overview' && 'Platform Overview'}
+              {currentView === 'customers' && 'Customer Management'}
+              {currentView === 'campaigns' && 'Campaign Management'}
+              {currentView === 'leads' && 'All Leads'}
+              {currentView === 'support' && 'Customer Support'}
+              {currentView === 'billing' && 'Billing & Revenue'}
+              {currentView === 'analytics' && 'Platform Analytics'}
+              {currentView === 'integrations' && 'Integrations'}
+              {currentView === 'team' && 'Team Management'}
+              {currentView === 'settings' && 'System Settings'}
+            </h1>
+            <p className="text-sm text-gray-600">Manage your lead generation platform</p>
           </div>
-        </nav>
-
-        <div className="p-4 border-t border-gray-800">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold">A</span>
-            </div>
-            <div className="flex-1">
-              <p className="text-sm font-medium">Admin User</p>
-              <p className="text-xs text-gray-400">Owner</p>
-            </div>
-            <ChevronDown className="h-4 w-4 text-gray-400" />
+            <button className="relative p-2 hover:bg-gray-100 rounded-lg">
+              <Bell className="h-5 w-5 text-gray-700" />
+              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+            </button>
+            <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
+              <Plus className="h-4 w-4 mr-2" />
+              Add Customer
+            </Button>
           </div>
         </div>
-      </aside>
 
-      {/* Main Content */}
-      <main className="flex-1 ml-64">
-        <header className="bg-white border-b px-8 py-4 sticky top-0 z-10">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">
-                {currentView === 'overview' && 'Platform Overview'}
-                {currentView === 'customers' && 'Customer Management'}
-                {currentView === 'campaigns' && 'Campaign Management'}
-                {currentView === 'leads' && 'All Leads'}
-                {currentView === 'support' && 'Customer Support'}
-                {currentView === 'billing' && 'Billing & Revenue'}
-                {currentView === 'analytics' && 'Platform Analytics'}
-                {currentView === 'integrations' && 'Integrations'}
-                {currentView === 'team' && 'Team Management'}
-                {currentView === 'settings' && 'System Settings'}
-              </h1>
-              <p className="text-sm text-gray-600">Manage your lead generation platform</p>
-            </div>
-            <div className="flex items-center gap-3">
-              <button className="relative p-2 hover:bg-gray-100 rounded-lg">
-                <Bell className="h-5 w-5 text-gray-700" />
-                <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-              </button>
-              <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
-                <Plus className="h-4 w-4 mr-2" />
-                Add Customer
-              </Button>
-            </div>
-          </div>
-        </header>
+        {/* View Selector Tabs */}
+        <div className="flex gap-2 border-b">
+          {[
+            { id: 'overview', label: 'Overview' },
+            { id: 'customers', label: 'Customers' },
+            { id: 'campaigns', label: 'Campaigns' },
+            { id: 'support', label: 'Support' },
+            { id: 'billing', label: 'Billing' },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setCurrentView(tab.id)}
+              className={`px-4 py-2 border-b-2 transition-colors ${
+                currentView === tab.id
+                  ? 'border-blue-600 text-blue-600 font-semibold'
+                  : 'border-transparent text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+      </div>
 
-        <div className="p-8">
-          {/* OVERVIEW */}
-          {currentView === 'overview' && (
-            <div className="space-y-6">
+      {/* Content */}
+      <div className="space-y-6">
+        {/* OVERVIEW */}
+        {currentView === 'overview' && (
+          <div className="space-y-6">
               {/* Key Metrics */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <Card>
@@ -511,12 +482,12 @@ export default function AdminDashboard() {
                     </div>
                   </CardContent>
                 </Card>
-              </div>
             </div>
-          )}
+          </div>
+        )}
 
-          {/* CUSTOMERS */}
-          {currentView === 'customers' && (
+        {/* CUSTOMERS */}
+        {currentView === 'customers' && (
             <div className="space-y-6">
               {/* Filters */}
               <Card>
@@ -645,12 +616,12 @@ export default function AdminDashboard() {
                     </CardContent>
                   </Card>
                 ))}
-              </div>
             </div>
-          )}
+          </div>
+        )}
 
-          {/* CAMPAIGNS */}
-          {currentView === 'campaigns' && (
+        {/* CAMPAIGNS */}
+        {currentView === 'campaigns' && (
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -745,12 +716,12 @@ export default function AdminDashboard() {
                     </CardContent>
                   </Card>
                 ))}
-              </div>
             </div>
-          )}
+          </div>
+        )}
 
-          {/* SUPPORT TICKETS */}
-          {currentView === 'support' && (
+        {/* SUPPORT TICKETS */}
+        {currentView === 'support' && (
             <div className="space-y-6">
               <Card>
                 <CardHeader>
@@ -810,10 +781,11 @@ export default function AdminDashboard() {
                 </CardContent>
               </Card>
             </div>
-          )}
+          </div>
+        )}
 
-          {/* BILLING */}
-          {currentView === 'billing' && (
+        {/* BILLING */}
+        {currentView === 'billing' && (
             <div className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <Card>
@@ -870,9 +842,9 @@ export default function AdminDashboard() {
                 </CardContent>
               </Card>
             </div>
-          )}
-        </div>
-      </main>
+          </div>
+        )}
+      </div>
 
       {/* Customer Detail Modal */}
       <Dialog open={showCustomerModal} onOpenChange={setShowCustomerModal}>
@@ -1086,6 +1058,18 @@ export default function AdminDashboard() {
               </div>
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Campaign Detail Modal */}
+      <Dialog open={showCampaignModal} onOpenChange={setShowCampaignModal}>
+        <DialogContent className="sm:max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Campaign Details</DialogTitle>
+          </DialogHeader>
+          <div className="text-center py-8 text-gray-600">
+            Campaign detail modal coming soon...
+          </div>
         </DialogContent>
       </Dialog>
     </div>

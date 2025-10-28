@@ -454,24 +454,47 @@ export default function AdminConsultationsPage() {
                 </Select>
               </div>
 
-              <div className="flex gap-2 pt-4">
+              <div>
+                <p className="text-sm font-medium text-slate-600 mb-2">Call Notes</p>
+                <Textarea
+                  placeholder="Add notes from your call here..."
+                  className="min-h-[100px]"
+                  defaultValue={selectedConsultation.notes || ''}
+                  onChange={(e) => {
+                    // Update notes in real-time
+                    const updatedConsultation = { ...selectedConsultation, notes: e.target.value };
+                    setSelectedConsultation(updatedConsultation);
+                  }}
+                />
                 <Button
-                  className="flex-1 bg-green-600 hover:bg-green-700"
-                  onClick={() => {
-                    window.location.href = `/admin/consultations/${selectedConsultation.id}/onboard`;
+                  size="sm"
+                  variant="outline"
+                  className="mt-2"
+                  onClick={async () => {
+                    if (selectedConsultation.notes) {
+                      await handleUpdateStatus(selectedConsultation.id, selectedConsultation.status, selectedConsultation.notes);
+                      toast.success('Notes saved');
+                    }
                   }}
                 >
-                  <User className="h-4 w-4 mr-2" />
-                  Onboard Client
+                  Save Notes
                 </Button>
+              </div>
+
+              <div className="flex gap-2 pt-4 border-t">
                 <Button
                   variant="outline"
+                  className="flex-1"
                   onClick={() => {
                     window.open(`tel:${selectedConsultation.phone}`);
+                    // Mark as scheduled when call is initiated
+                    if (selectedConsultation.status === 'pending') {
+                      handleUpdateStatus(selectedConsultation.id, 'scheduled');
+                    }
                   }}
                 >
                   <Phone className="h-4 w-4 mr-2" />
-                  Call
+                  Call Client Now
                 </Button>
                 <Button
                   variant="outline"
@@ -483,6 +506,34 @@ export default function AdminConsultationsPage() {
                   Email
                 </Button>
               </div>
+
+              {selectedConsultation.status === 'scheduled' && (
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <p className="text-sm font-semibold text-blue-900 mb-2">✅ Call Completed?</p>
+                  <p className="text-sm text-blue-700 mb-3">After your call, mark this consultation as completed and proceed to onboarding.</p>
+                  <Button
+                    size="sm"
+                    className="bg-blue-600 hover:bg-blue-700 mr-2"
+                    onClick={() => handleUpdateStatus(selectedConsultation.id, 'completed')}
+                  >
+                    Mark Call Completed
+                  </Button>
+                </div>
+              )}
+
+              {selectedConsultation.status === 'completed' && (
+                <div className="flex gap-2 pt-4 border-t">
+                  <Button
+                    className="flex-1 bg-green-600 hover:bg-green-700 text-lg py-6"
+                    onClick={() => {
+                      window.location.href = `/admin/consultations/${selectedConsultation.id}/onboard`;
+                    }}
+                  >
+                    <User className="h-5 w-5 mr-2" />
+                    Start Onboarding Process
+                  </Button>
+                </div>
+              )}
             </div>
           )}
           <DialogFooter>

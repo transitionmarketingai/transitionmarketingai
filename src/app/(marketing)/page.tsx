@@ -721,7 +721,7 @@ export default function LandingPage() {
                 How much does it cost?
               </AccordionTrigger>
               <AccordionContent className="text-slate-600">
-                Pricing is custom-tailored to your business needs. Most clients invest <strong className="text-slate-900">₹15,000-₹50,000 per month</strong> for 20-100 verified leads. Enterprise solutions start at ₹60,000/month for 150+ leads. The exact cost depends on your industry, target audience, geographic focus, lead volume, and quality requirements. We provide a detailed quote during your free consultation based on your specific needs.
+                We offer custom pricing based on your budget and needs—no fixed packages. During your free consultation, we'll discuss your budget, lead volume requirements, and quality needs. We'll then present 2-3 custom options tailored to you. Typical investments range from ₹10,000-₹50,000+ per month depending on lead volume, industry, geographic targeting, and quality requirements. Every lead is verified before delivery—only confirmed, verified leads make it to your dashboard.
               </AccordionContent>
             </AccordionItem>
 

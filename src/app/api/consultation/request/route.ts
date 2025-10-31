@@ -35,10 +35,38 @@ export async function POST(req: NextRequest) {
       whatsappUpdates,
     } = body;
 
-    // Validate required fields - only name is required now
-    if (!firstName) {
+    // Validate required fields
+    if (!firstName || firstName.length < 2) {
       return NextResponse.json(
         { error: 'Name is required' },
+        { status: 400 }
+      );
+    }
+    
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return NextResponse.json(
+        { error: 'Valid email address is required' },
+        { status: 400 }
+      );
+    }
+    
+    if (!company || company.length < 2) {
+      return NextResponse.json(
+        { error: 'Company name is required' },
+        { status: 400 }
+      );
+    }
+    
+    if (!preferredDate) {
+      return NextResponse.json(
+        { error: 'Preferred date is required' },
+        { status: 400 }
+      );
+    }
+    
+    if (!preferredTime) {
+      return NextResponse.json(
+        { error: 'Preferred time is required' },
         { status: 400 }
       );
     }
@@ -154,8 +182,8 @@ View: ${process.env.NEXT_PUBLIC_APP_URL || 'https://transitionmarketingai.com'}/
       // Don't fail the request if WhatsApp fails
     }
 
-    // 3. Send confirmation email to customer (if email provided)
-    if (email) {
+    // 3. Send confirmation email to customer
+    try {
       try {
         const customerEmailContent = `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
@@ -172,7 +200,7 @@ View: ${process.env.NEXT_PUBLIC_APP_URL || 'https://transitionmarketingai.com'}/
 
             <div style="background: #dcfce7; padding: 20px; border-radius: 8px; margin: 20px 0;">
               <h3 style="color: #16a34a; margin-top: 0;">📞 What Happens Next?</h3>
-              <p>Our team will call you personally within <strong>24 hours</strong> to discuss your lead generation needs.</p>
+              <p>We'll call you at the scheduled time for your <strong>30-minute strategy call</strong> to discuss your lead generation needs.</p>
             </div>
 
             <p><strong>On the call, we'll discuss:</strong></p>

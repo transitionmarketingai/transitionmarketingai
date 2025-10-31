@@ -184,8 +184,7 @@ View: ${process.env.NEXT_PUBLIC_APP_URL || 'https://transitionmarketingai.com'}/
 
     // 3. Send confirmation email to customer
     try {
-      try {
-        const customerEmailContent = `
+      const customerEmailContent = `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
             <h2 style="color: #2563eb;">Thank You, ${firstName}! ✅</h2>
             

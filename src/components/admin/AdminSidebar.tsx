@@ -18,6 +18,7 @@ import {
   ChevronLeft,
   ChevronRight,
   BookOpen,
+  Calculator,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
@@ -55,6 +56,11 @@ const navigation: NavigationItem[] = [
     href: '/admin/resources',
     icon: BookOpen,
     badge: 'New',
+  },
+  {
+    name: 'Pricing Calculator',
+    href: '/admin/pricing-calculator',
+    icon: Calculator,
   },
   {
     name: 'Leads',

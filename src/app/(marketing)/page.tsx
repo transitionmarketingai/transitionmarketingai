@@ -536,102 +536,137 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Pricing - Compact Table */}
+      {/* Pricing - Custom Model */}
       <section id="pricing" className="py-20 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-              Pricing
+              Custom Pricing for Your Business
             </h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              Every business is different. We create a custom plan based on your budget, needs, and goals—not fixed packages.
+            </p>
           </div>
 
-          {/* Pricing Table */}
-          <div className="bg-white rounded-xl border-2 border-slate-200 overflow-hidden mb-8">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="bg-slate-50 border-b-2 border-slate-200">
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900">Plan</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900">Price/Month</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900">Leads/Month</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100">
-                  <tr className="hover:bg-blue-50/50">
-                    <td className="px-6 py-5">
-                      <div className="font-semibold text-slate-900">Small Business</div>
-                      <div className="text-xs text-slate-500 mt-1">Ideal for startups</div>
-                    </td>
-                    <td className="px-6 py-5">
-                      <div className="text-lg font-bold text-blue-600">₹15K-25K</div>
-                    </td>
-                    <td className="px-6 py-5 text-slate-700">20-40 leads</td>
-                  </tr>
-                  <tr className="hover:bg-blue-50/50 bg-blue-50/30">
-                    <td className="px-6 py-5">
-                      <div className="font-semibold text-slate-900">Growing Business</div>
-                      <div className="text-xs text-slate-500 mt-1">Most popular</div>
-                    </td>
-                    <td className="px-6 py-5">
-                      <div className="text-lg font-bold text-blue-600">₹30K-50K</div>
-                    </td>
-                    <td className="px-6 py-5 text-slate-700">50-100 leads</td>
-                  </tr>
-                  <tr className="hover:bg-blue-50/50">
-                    <td className="px-6 py-5">
-                      <div className="font-semibold text-slate-900">Enterprise</div>
-                      <div className="text-xs text-slate-500 mt-1">For large scale</div>
-                    </td>
-                    <td className="px-6 py-5">
-                      <div className="text-lg font-bold text-blue-600">₹60K-1L+</div>
-                    </td>
-                    <td className="px-6 py-5 text-slate-700">150-300+ leads</td>
-                  </tr>
-                </tbody>
-              </table>
+          {/* How It Works */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-12">
+            {/* Step 1 */}
+            <Card className="border border-slate-200 text-center">
+              <CardHeader>
+                <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl font-bold text-blue-600">1</span>
+                </div>
+                <CardTitle className="text-xl">Free Consultation</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-slate-600">
+                  Discuss your business needs, budget, and goals in a 30-minute strategy call
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* Step 2 */}
+            <Card className="border border-slate-200 text-center">
+              <CardHeader>
+                <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl font-bold text-blue-600">2</span>
+                </div>
+                <CardTitle className="text-xl">Custom Proposal</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-slate-600">
+                  We'll present 2-3 pricing options tailored to your budget and lead volume needs
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* Step 3 */}
+            <Card className="border border-slate-200 text-center">
+              <CardHeader>
+                <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl font-bold text-blue-600">3</span>
+                </div>
+                <CardTitle className="text-xl">Start Getting Leads</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-slate-600">
+                  Once approved, verified leads start delivering weekly to your dashboard
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Pricing Ranges (Reference Only) */}
+          <div className="bg-slate-50 rounded-lg p-8 max-w-4xl mx-auto mb-12">
+            <h3 className="text-xl font-bold text-slate-900 mb-6 text-center">
+              Typical Investment Ranges
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-blue-600 mb-2">₹10K-25K</div>
+                <p className="text-sm text-slate-600">Per Month</p>
+                <p className="text-xs text-slate-500 mt-2">For small teams testing lead generation</p>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-blue-600 mb-2">₹25K-50K</div>
+                <p className="text-sm text-slate-600">Per Month</p>
+                <p className="text-xs text-slate-500 mt-2">For growing businesses scaling up</p>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-blue-600 mb-2">₹50K+</div>
+                <p className="text-sm text-slate-600">Per Month</p>
+                <p className="text-xs text-slate-500 mt-2">For established teams needing volume</p>
+              </div>
+            </div>
+            <p className="text-xs text-center text-slate-500 mt-6">
+              *Exact pricing depends on lead volume, quality requirements, industry, and geographic targeting. Discussed during consultation.
+            </p>
+          </div>
+
+          {/* Key Benefits */}
+          <div className="max-w-3xl mx-auto">
+            <h3 className="text-xl font-bold text-slate-900 mb-6 text-center">
+              Why Custom Pricing Works Better
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex items-start gap-3">
+                <CheckCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-semibold text-slate-900">Budget-Fit Plans</p>
+                  <p className="text-sm text-slate-600">Pay what you're comfortable with, not fixed tiers</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <CheckCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-semibold text-slate-900">Only Verified Leads</p>
+                  <p className="text-sm text-slate-600">Every lead is verified before delivery—no quality complaints</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <CheckCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-semibold text-slate-900">Custom Lead Mix</p>
+                  <p className="text-sm text-slate-600">Balance of ads (high intent) + scraping (cost-effective)</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <CheckCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-semibold text-slate-900">Flexible Scaling</p>
+                  <p className="text-sm text-slate-600">Start small, scale up based on results</p>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Included Features */}
-          <div className="bg-slate-50 rounded-xl p-6 mb-8">
-            <h3 className="font-semibold text-slate-900 mb-4">All Plans Include:</h3>
-            <div className="grid md:grid-cols-2 gap-2 text-sm">
-              <div className="flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-blue-600 flex-shrink-0" />
-                <span className="text-slate-700">Verified leads (90%+ active)</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-blue-600 flex-shrink-0" />
-                <span className="text-slate-700">Multi-channel generation</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-blue-600 flex-shrink-0" />
-                <span className="text-slate-700">Dashboard access</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-blue-600 flex-shrink-0" />
-                <span className="text-slate-700">Weekly delivery</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-blue-600 flex-shrink-0" />
-                <span className="text-slate-700">Quality guarantee</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-blue-600 flex-shrink-0" />
-                <span className="text-slate-700">No long-term contracts</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Single CTA */}
-          <div className="text-center">
-            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-6" asChild>
-              <Link href="/consultation">
-                Request Free Consultation
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
+          <div className="text-center mt-12">
+            <Button size="lg" className="bg-blue-600 hover:bg-blue-700" asChild>
+              <Link href="/consultation">Get Your Custom Pricing</Link>
             </Button>
-            <p className="text-sm text-slate-500 mt-4">Get exact pricing based on your needs</p>
+            <p className="text-sm text-slate-500 mt-4">
+              Free 30-minute consultation • No obligation • Custom proposal within 24 hours
+            </p>
           </div>
         </div>
       </section>

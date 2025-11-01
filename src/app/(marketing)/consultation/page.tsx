@@ -15,9 +15,11 @@ import {
   Mail,
   Building2,
   Bot,
+  MessageCircle,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import Link from 'next/link';
 import Logo from '@/components/Logo';
 import { toast } from 'sonner';
@@ -311,7 +313,7 @@ export default function ConsultationPage() {
               </div>
             </div>
 
-            <Button size="lg" className="bg-blue-600 hover:bg-blue-700" asChild variant="outline">
+            <Button size="lg" variant="outline" className="bg-blue-600 hover:bg-blue-700" asChild>
               <Link href="/">
                 Back to Homepage
               </Link>

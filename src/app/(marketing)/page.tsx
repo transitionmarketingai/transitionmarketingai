@@ -640,6 +640,36 @@ export default function LandingPage() {
             </p>
           </div>
 
+          {/* Pricing Explanation */}
+          <div className="bg-blue-50 rounded-lg p-8 max-w-4xl mx-auto mb-12 border border-blue-200">
+            <h3 className="text-xl font-bold text-slate-900 mb-4 text-center">
+              💡 Why Higher Plans = Lower Cost Per Lead
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+              <div className="text-center">
+                <div className="text-3xl font-bold text-blue-600 mb-2">₹10K-25K</div>
+                <div className="text-sm text-slate-600 mb-1">Budget</div>
+                <div className="text-lg font-semibold text-slate-900">~₹700/lead</div>
+                <div className="text-xs text-slate-500 mt-2">Smaller volume</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-blue-600 mb-2">₹25K-50K</div>
+                <div className="text-sm text-slate-600 mb-1">Budget</div>
+                <div className="text-lg font-semibold text-slate-900">~₹550/lead</div>
+                <div className="text-xs text-slate-500 mt-2">Better rates</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-blue-600 mb-2">₹50K+</div>
+                <div className="text-sm text-slate-600 mb-1">Budget</div>
+                <div className="text-lg font-semibold text-slate-900">~₹400/lead</div>
+                <div className="text-xs text-slate-500 mt-2">Best value</div>
+              </div>
+            </div>
+            <p className="text-sm text-slate-600 text-center max-w-2xl mx-auto">
+              As you scale, we optimize processes, get better ad rates, and reduce per-lead costs. These savings are passed on to you through lower per-lead pricing on higher plans.
+            </p>
+          </div>
+
           {/* Key Benefits */}
           <div className="max-w-3xl mx-auto">
             <h3 className="text-xl font-bold text-slate-900 mb-6 text-center">

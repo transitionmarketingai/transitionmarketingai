@@ -32,6 +32,9 @@ export async function POST(req: NextRequest) {
       preferredTime,
       preferredDay,
       preferredDate,
+      budgetRange,
+      requirements,
+      contactPreference,
       whatsappUpdates,
     } = body;
 
@@ -95,7 +98,9 @@ export async function POST(req: NextRequest) {
         industry: industry || null,
         preferred_day: preferredDay || fullPreferredTime || null,
         preferred_time: fullPreferredTime || null,
-        message: message || null,
+        message: message || requirements || null,
+        budget_range: budgetRange || null,
+        contact_preference: contactPreference || 'phone',
         whatsapp_updates: whatsappUpdates || false,
         status: 'pending',
       })

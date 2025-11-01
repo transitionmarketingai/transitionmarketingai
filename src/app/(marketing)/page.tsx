@@ -33,8 +33,25 @@ import Link from 'next/link';
 import Logo from '@/components/Logo';
 
 export default function LandingPage() {
+  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '918888888888';
+  const whatsappMessage = encodeURIComponent('Hi, I\'m interested in your lead generation service. Can you tell me more?');
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+
   return (
     <div className="min-h-screen bg-white">
+      {/* WhatsApp Floating Button */}
+      <a
+        href={whatsappUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 z-50 bg-green-600 hover:bg-green-700 text-white rounded-full p-4 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 group"
+        aria-label="Chat on WhatsApp"
+      >
+        <MessageCircle className="h-6 w-6" />
+        <span className="hidden sm:inline-block text-sm font-medium group-hover:max-w-xs transition-all">
+          Chat on WhatsApp
+        </span>
+      </a>
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-white border-b z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -92,7 +109,7 @@ export default function LandingPage() {
               </h1>
               
               <p className="text-lg md:text-xl text-slate-600 mb-8 leading-relaxed max-w-2xl">
-                We find and verify leads for your business. Every lead includes active phone numbers, valid emails, and complete contact information—delivered weekly to your dashboard.
+                We find and verify leads for your business. Every lead includes active phone numbers, valid emails, and complete contact information—delivered instantly to your dashboard when someone shows interest.
               </p>
 
               {/* Value Props */}
@@ -111,7 +128,7 @@ export default function LandingPage() {
                 </div>
                 <div className="flex items-center gap-2 text-slate-700">
                   <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-blue-600 flex-shrink-0" />
-                  <span className="text-sm md:text-base font-medium">Weekly Delivery</span>
+                  <span className="text-sm md:text-base font-medium">Instant Delivery</span>
                 </div>
               </div>
 
@@ -260,7 +277,7 @@ export default function LandingPage() {
             {[
               { number: 1, title: 'Find', description: 'AI searches multiple platforms for prospects matching your criteria', bgColor: 'bg-emerald-100', numberColor: 'bg-emerald-600' },
               { number: 2, title: 'Verify', description: 'Test phone numbers, validate emails, check business details', bgColor: 'bg-blue-100', numberColor: 'bg-blue-600' },
-              { number: 3, title: 'Deliver', description: 'Quality-checked leads delivered weekly to your dashboard', bgColor: 'bg-indigo-100', numberColor: 'bg-indigo-600' },
+              { number: 3, title: 'Deliver', description: 'Verified leads delivered instantly to your dashboard—no waiting', bgColor: 'bg-indigo-100', numberColor: 'bg-indigo-600' },
             ].map((step) => (
               <div key={step.number} className="flex flex-col items-center justify-center p-6 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-300 transition-colors">
                 <div className={`w-14 h-14 rounded-lg ${step.bgColor} flex items-center justify-center mb-3`}>
@@ -306,7 +323,7 @@ export default function LandingPage() {
               { name: 'Source Tracking', icon: Search, color: 'bg-indigo-100', iconColor: 'text-indigo-600' },
               { name: 'Contact Details', icon: Users, color: 'bg-purple-100', iconColor: 'text-purple-600' },
               { name: 'Dashboard Access', icon: LayoutDashboard, color: 'bg-amber-100', iconColor: 'text-amber-600' },
-              { name: 'Weekly Delivery', icon: Send, color: 'bg-cyan-100', iconColor: 'text-cyan-600' },
+              { name: 'Instant Delivery', icon: Send, color: 'bg-cyan-100', iconColor: 'text-cyan-600' },
             ].map((feature) => {
               const Icon = feature.icon;
               return (
@@ -374,7 +391,7 @@ export default function LandingPage() {
               <div className="w-14 h-14 rounded-full bg-blue-600 flex items-center justify-center mx-auto mb-4">
                 <Clock className="h-7 w-7 text-white" />
               </div>
-              <h3 className="font-bold text-slate-900 mb-2">Weekly Delivery</h3>
+              <h3 className="font-bold text-slate-900 mb-2">Instant Delivery</h3>
               <p className="text-sm text-slate-600">First leads in 7 days</p>
             </div>
           </div>
@@ -590,7 +607,7 @@ export default function LandingPage() {
               </CardHeader>
               <CardContent>
                 <p className="text-slate-600">
-                  Once approved, verified leads start delivering weekly to your dashboard
+                  Once approved, verified leads start delivering instantly—get notified immediately when someone shows interest
                 </p>
               </CardContent>
             </Card>

@@ -31,6 +31,10 @@ export default function ConsultationPage() {
     company: '',
     preferredDate: '',
     preferredTime: '',
+    budgetRange: '',
+    showRequirements: false,
+    requirements: '',
+    contactPreference: 'phone',
   });
   
   // Time slots for selection
@@ -74,6 +78,11 @@ export default function ConsultationPage() {
       toast.error('Please select a preferred time');
       return;
     }
+    
+    if (!formData.budgetRange) {
+      toast.error('Please select your monthly budget');
+      return;
+    }
 
     setIsSubmitting(true);
 
@@ -89,6 +98,9 @@ export default function ConsultationPage() {
           company: formData.company,
           preferredDate: formData.preferredDate,
           preferredTime: formData.preferredTime,
+          budgetRange: formData.budgetRange,
+          requirements: formData.showRequirements ? formData.requirements : '',
+          contactPreference: formData.contactPreference,
           whatsappUpdates: false,
         }),
       });
@@ -201,7 +213,38 @@ export default function ConsultationPage() {
               </ul>
             </div>
 
-            <Button size="lg" className="bg-blue-600 hover:bg-blue-700" asChild>
+            {/* Contact Options */}
+            <div className="space-y-4 max-w-lg mx-auto mb-8">
+              {/* WhatsApp Button */}
+              <Button 
+                size="lg" 
+                className="w-full bg-green-600 hover:bg-green-700 text-white" 
+                asChild
+              >
+                <a 
+                  href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '918888888888'}?text=Hi, I just booked a consultation. Name: ${formData.firstName}, Company: ${formData.company}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <MessageCircle className="mr-2 h-5 w-5" />
+                  Chat with Us on WhatsApp
+                </a>
+              </Button>
+
+              {/* Phone Number */}
+              <div className="text-center">
+                <p className="text-sm text-slate-600 mb-2">Or call us directly:</p>
+                <a 
+                  href={`tel:${process.env.NEXT_PUBLIC_PHONE_NUMBER || '+918888888888'}`}
+                  className="text-lg font-semibold text-blue-600 hover:text-blue-700 flex items-center justify-center gap-2"
+                >
+                  <Phone className="h-4 w-4" />
+                  {process.env.NEXT_PUBLIC_PHONE_NUMBER || '+91 88888 88888'}
+                </a>
+              </div>
+            </div>
+
+            <Button size="lg" className="bg-blue-600 hover:bg-blue-700" asChild variant="outline">
               <Link href="/">
                 Back to Homepage
               </Link>
@@ -312,6 +355,32 @@ export default function ConsultationPage() {
                   </div>
                 </div>
 
+                {/* Budget Range - Required */}
+                <div>
+                  <Label htmlFor="budgetRange" className="text-slate-700">
+                    Monthly Budget <span className="text-red-500">*</span>
+                  </Label>
+                  <Select
+                    value={formData.budgetRange}
+                    onValueChange={(value) => handleInputChange('budgetRange', value)}
+                    required
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select your monthly budget" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="10000-25000">₹10,000 - ₹25,000/month</SelectItem>
+                      <SelectItem value="25000-50000">₹25,000 - ₹50,000/month</SelectItem>
+                      <SelectItem value="50000-100000">₹50,000 - ₹1,00,000/month</SelectItem>
+                      <SelectItem value="100000+">₹1,00,000+/month</SelectItem>
+                      <SelectItem value="custom">Custom budget</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-slate-500 mt-1">
+                    💡 Higher plans = Lower cost per lead. We'll show you options during the call.
+                  </p>
+                </div>
+
                 {/* Date & Time - Required */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
@@ -360,6 +429,31 @@ export default function ConsultationPage() {
                       </Select>
                     </div>
                   </div>
+                </div>
+
+                {/* Optional Requirements */}
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <input
+                      type="checkbox"
+                      id="showRequirements"
+                      checked={formData.showRequirements}
+                      onChange={(e) => handleInputChange('showRequirements', e.target.checked)}
+                      className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                    />
+                    <Label htmlFor="showRequirements" className="text-slate-700 cursor-pointer">
+                      Tell us about your specific requirements (optional)
+                    </Label>
+                  </div>
+                  {formData.showRequirements && (
+                    <Textarea
+                      value={formData.requirements}
+                      onChange={(e) => handleInputChange('requirements', e.target.value)}
+                      placeholder="e.g., Target industry, geographic area, lead volume needed, specific criteria..."
+                      rows={3}
+                      className="mt-2"
+                    />
+                  )}
                 </div>
 
                 {/* Submit Button */}

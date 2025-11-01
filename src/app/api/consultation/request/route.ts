@@ -73,6 +73,13 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
+    
+    if (!budgetRange) {
+      return NextResponse.json(
+        { error: 'Budget range is required' },
+        { status: 400 }
+      );
+    }
 
 
     // Create Supabase client
@@ -129,8 +136,9 @@ export async function POST(req: NextRequest) {
           <p><strong>Name:</strong> ${fullName}</p>
           ${email ? `<p><strong>Email:</strong> ${email}</p>` : ''}
           ${phone ? `<p><strong>Phone:</strong> ${phone}</p>` : ''}
-            ${company ? `<p><strong>Company:</strong> ${company}</p>` : ''}
-            ${industry ? `<p><strong>Industry:</strong> ${industry}</p>` : ''}
+          ${company ? `<p><strong>Company:</strong> ${company}</p>` : ''}
+          ${industry ? `<p><strong>Industry:</strong> ${industry}</p>` : ''}
+          ${budgetRange ? `<p><strong>Budget Range:</strong> ${budgetRange}</p>` : ''}
           </div>
 
             ${fullPreferredTime ? `
@@ -176,8 +184,10 @@ ${email ? `Email: ${email}` : ''}
 ${phone ? `Phone: ${phone}` : ''}
 ${company ? `Company: ${company}` : ''}
 ${industry ? `Industry: ${industry}` : ''}
+${budgetRange ? `Budget: ${budgetRange}` : ''}
 
 ${fullPreferredTime ? `Preferred: ${fullPreferredTime}` : ''}
+${requirements ? `Requirements: ${requirements}` : ''}
 
 View: ${process.env.NEXT_PUBLIC_APP_URL || 'https://transitionmarketingai.com'}/admin/consultations/${consultation.id}`;
 

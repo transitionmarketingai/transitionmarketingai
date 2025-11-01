@@ -130,6 +130,14 @@ export async function sendInvoiceEmail({
           <p style="margin: 5px 0 0 0; color: #78350f; font-size: 14px;">
             Please make payment by the due date to avoid service interruption.
           </p>
+          ${invoice.transaction_id ? `
+            <div style="margin-top: 15px; text-align: center;">
+              <a href="${invoice.transaction_id}" 
+                 style="background: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block; font-weight: bold;">
+                Pay Now Securely
+              </a>
+            </div>
+          ` : ''}
         </div>
       ` : ''}
 

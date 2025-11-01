@@ -499,9 +499,11 @@ export default function ClientDetailPage() {
                       Edit Plan
                     </Link>
                   </Button>
-                  <Button variant="outline" className="flex-1">
-                    <FileText className="mr-2 h-4 w-4" />
-                    View Invoices
+                  <Button variant="outline" className="flex-1" asChild>
+                    <Link href={`/admin/invoices?client_id=${clientId}`}>
+                      <FileText className="mr-2 h-4 w-4" />
+                      View Invoices
+                    </Link>
                   </Button>
                 </div>
               </CardContent>

@@ -9,6 +9,7 @@ import {
   Users,
   Package,
   CreditCard,
+  FileText,
   Ticket,
   Phone,
   BarChart3,
@@ -71,6 +72,11 @@ const navigation: NavigationItem[] = [
     name: 'Billing',
     href: '/admin/billing',
     icon: CreditCard,
+  },
+  {
+    name: 'Invoices',
+    href: '/admin/invoices',
+    icon: FileText,
   },
   {
     name: 'Support',

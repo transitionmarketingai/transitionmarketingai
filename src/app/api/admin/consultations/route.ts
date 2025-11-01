@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 
 export async function GET(req: NextRequest) {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     // Verify admin authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -15,10 +15,27 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    // Fetch all consultations
+    // Fetch all consultations with all fields
     const { data: consultations, error: consultationsError } = await supabase
       .from('consultations')
-      .select('*')
+      .select(`
+        id,
+        name,
+        email,
+        phone,
+        company,
+        industry,
+        budget_range,
+        requirements,
+        contact_preference,
+        preferred_day,
+        preferred_time,
+        whatsapp_updates,
+        status,
+        notes,
+        created_at,
+        updated_at
+      `)
       .order('created_at', { ascending: false });
 
     if (consultationsError) {

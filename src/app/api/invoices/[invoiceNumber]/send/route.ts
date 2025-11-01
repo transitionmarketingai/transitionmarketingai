@@ -52,10 +52,60 @@ export async function POST(
       client: invoice.clients,
     });
 
+    // Create payment link if invoice is not paid
+    let paymentLink = null;
+    if (invoice.status !== 'paid') {
+      try {
+        const Razorpay = (await import('razorpay')).default;
+        const razorpay = new Razorpay({
+          key_id: process.env.RAZORPAY_KEY_ID!,
+          key_secret: process.env.RAZORPAY_KEY_SECRET!,
+        });
+
+        const paymentLinkResponse = await razorpay.paymentLink.create({
+          amount: Math.round(invoice.total_amount * 100),
+          currency: 'INR',
+          description: `Invoice ${invoice.invoice_number} - ${invoice.clients.company_name}`,
+          customer: {
+            name: invoice.clients.contact_person || invoice.clients.company_name,
+            email: invoice.clients.email,
+            contact: invoice.clients.phone || undefined,
+          },
+          notify: {
+            sms: false,
+            email: true,
+          },
+          reminder_enable: true,
+          callback_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://transitionmarketingai.com'}/payment/verify?invoice=${invoice.invoice_number}`,
+          callback_method: 'get',
+        });
+
+        paymentLink = paymentLinkResponse.short_url;
+
+        // Save payment link to invoice
+        await supabase
+          .from('invoices')
+          .update({
+            transaction_id: paymentLinkResponse.id,
+            updated_at: new Date().toISOString(),
+          })
+          .eq('id', invoice.id);
+      } catch (paymentLinkError) {
+        console.error('Payment link creation error (non-critical):', paymentLinkError);
+        // Continue even if payment link creation fails
+      }
+    }
+
+    // Attach payment link to invoice object for email
+    const invoiceWithPaymentLink = {
+      ...invoice,
+      transaction_id: paymentLink || invoice.transaction_id,
+    };
+
     // Send email
     await sendInvoiceEmail({
       to: invoice.clients.email,
-      invoice,
+      invoice: invoiceWithPaymentLink,
       client: invoice.clients,
       pdfBuffer,
     });

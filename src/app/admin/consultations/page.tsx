@@ -376,16 +376,27 @@ export default function AdminConsultationsPage() {
                         {new Date(consultation.created_at).toLocaleDateString('en-IN')}
                       </TableCell>
                       <TableCell className="text-right">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => {
-                            setSelectedConsultation(consultation);
-                            setIsDialogOpen(true);
-                          }}
-                        >
-                          Manage
-                        </Button>
+                        <div className="flex gap-2 justify-end">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => {
+                              window.location.href = `/admin/consultations/${consultation.id}`;
+                            }}
+                          >
+                            View Details
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => {
+                              setSelectedConsultation(consultation);
+                              setIsDialogOpen(true);
+                            }}
+                          >
+                            Quick Actions
+                          </Button>
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))}

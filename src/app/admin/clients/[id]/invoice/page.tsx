@@ -24,6 +24,7 @@ import {
   Calendar,
   IndianRupee,
   Check,
+  CreditCard,
 } from 'lucide-react';
 import Link from 'next/link';
 import { toast } from 'sonner';
@@ -542,6 +543,33 @@ export default function InvoiceGeneratorPage() {
                 <Send className="mr-2 h-4 w-4" />
                 Send via Email
               </Button>
+
+              {invoiceSuccess && (
+                <Button
+                  variant="outline"
+                  className="w-full border-green-600 text-green-600 hover:bg-green-50"
+                  onClick={async () => {
+                    try {
+                      const response = await fetch(`/api/invoices/${invoiceNumber}/payment-link`, {
+                        method: 'POST',
+                      });
+                      const result = await response.json();
+                      if (response.ok && result.payment_link) {
+                        // Copy link to clipboard
+                        await navigator.clipboard.writeText(result.payment_link);
+                        toast.success('Payment link created and copied to clipboard!');
+                      } else {
+                        throw new Error(result.error || 'Failed to create payment link');
+                      }
+                    } catch (error: any) {
+                      toast.error(error.message || 'Failed to create payment link');
+                    }
+                  }}
+                >
+                  <CreditCard className="mr-2 h-4 w-4" />
+                  Create Payment Link
+                </Button>
+              )}
             </CardContent>
           </Card>
 

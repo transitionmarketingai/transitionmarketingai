@@ -68,6 +68,7 @@ export default function LandingPage() {
               <Link href="#how-it-works" className="text-gray-700 hover:text-gray-900 font-medium">How It Works</Link>
               <Link href="#pricing" className="text-gray-700 hover:text-gray-900 font-medium">Pricing</Link>
               <Link href="#faq" className="text-gray-700 hover:text-gray-900 font-medium">FAQ</Link>
+              <Link href="/about" className="text-gray-700 hover:text-gray-900 font-medium">About</Link>
             </div>
 
             <div className="flex items-center gap-3">

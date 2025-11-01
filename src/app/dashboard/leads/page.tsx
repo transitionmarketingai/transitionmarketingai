@@ -22,6 +22,7 @@ import {
   Plus,
   Loader2,
   Brain,
+  Download,
 } from 'lucide-react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { toast } from 'sonner';
@@ -139,6 +140,41 @@ export default function LeadsPage() {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-64"
           />
+          <Button
+            variant="outline"
+            onClick={() => {
+              // Export to CSV
+              const headers = ['Name', 'Phone', 'Email', 'Company', 'Status', 'Source', 'City', 'Quality Score', 'Created At'];
+              const csvData = [
+                headers.join(','),
+                ...displayLeads.map(lead => [
+                  `"${lead.name || ''}"`,
+                  `"${lead.phone || ''}"`,
+                  `"${lead.email || ''}"`,
+                  `"${(lead as any).company || ''}"`,
+                  `"${lead.status || ''}"`,
+                  `"${lead.source || ''}"`,
+                  `"${lead.city || ''}"`,
+                  lead.quality_score || 0,
+                  (lead as any).created_at ? new Date((lead as any).created_at).toLocaleDateString('en-IN') : new Date().toLocaleDateString('en-IN')
+                ].join(','))
+              ].join('\n');
+              
+              const blob = new Blob([csvData], { type: 'text/csv' });
+              const url = window.URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = `leads-export-${new Date().toISOString().split('T')[0]}.csv`;
+              document.body.appendChild(a);
+              a.click();
+              window.URL.revokeObjectURL(url);
+              document.body.removeChild(a);
+              toast.success('Leads exported to CSV');
+            }}
+          >
+            <Download className="h-4 w-4 mr-2" />
+            Export CSV
+          </Button>
           <Dialog open={showAddLeadModal} onOpenChange={setShowAddLeadModal}>
             <DialogTrigger asChild>
               <Button className="bg-green-600 hover:bg-green-700">

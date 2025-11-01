@@ -123,7 +123,7 @@ export default function InvoiceGeneratorPage() {
   const tax = subtotal * 0.18; // 18% GST
   const total = subtotal + tax;
 
-  const handleSave = async () => {
+  const handleSave = async (autoSend = false) => {
     if (!client) return;
 
     if (items.some(item => !item.description || item.unit_price <= 0)) {
@@ -134,21 +134,22 @@ export default function InvoiceGeneratorPage() {
     setSaving(true);
 
     try {
-      const response = await fetch('/api/admin/invoices', {
+      const lineItems = items.map(item => ({
+        description: item.description,
+        quantity: item.quantity,
+        unit_price: item.unit_price,
+      }));
+
+      const response = await fetch('/api/invoices/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           client_id: clientId,
-          invoice_number: invoiceNumber,
+          line_items: lineItems,
           invoice_date: invoiceDate,
           due_date: dueDate,
-          items,
-          subtotal,
-          tax,
-          total,
           notes,
-          payment_terms: paymentTerms,
-          status: 'pending',
+          auto_send: autoSend,
         }),
       });
 
@@ -158,8 +159,14 @@ export default function InvoiceGeneratorPage() {
         throw new Error(result.error || 'Failed to create invoice');
       }
 
+      setInvoiceNumber(result.invoice.invoice_number);
       setInvoiceSuccess(true);
-      toast.success('Invoice created successfully!');
+      
+      if (autoSend && result.email_sent) {
+        toast.success('Invoice created and sent successfully!');
+      } else {
+        toast.success('Invoice created successfully!');
+      }
       
       setTimeout(() => {
         router.push(`/admin/clients/${clientId}`);
@@ -173,9 +180,58 @@ export default function InvoiceGeneratorPage() {
     }
   };
 
-  const handleDownloadPDF = () => {
-    // For now, show a toast. In production, implement actual PDF generation
-    toast.info('PDF generation coming soon! Invoice has been saved.');
+  const handleDownloadPDF = async () => {
+    if (!invoiceNumber) {
+      toast.error('Please save the invoice first');
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/invoices/${invoiceNumber}/pdf`, {
+        method: 'GET',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate PDF');
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Invoice-${invoiceNumber}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+      toast.success('PDF downloaded successfully!');
+    } catch (error: any) {
+      console.error('PDF download error:', error);
+      toast.error('Failed to download PDF');
+    }
+  };
+
+  const handleSendEmail = async () => {
+    if (!invoiceNumber) {
+      toast.error('Please save the invoice first');
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/invoices/${invoiceNumber}/send`, {
+        method: 'POST',
+      });
+
+      if (!response.ok) {
+        const result = await response.json();
+        throw new Error(result.error || 'Failed to send invoice');
+      }
+
+      toast.success('Invoice sent successfully!');
+    } catch (error: any) {
+      console.error('Email send error:', error);
+      toast.error(error.message || 'Failed to send invoice');
+    }
   };
 
   if (loading) {
@@ -433,7 +489,7 @@ export default function InvoiceGeneratorPage() {
             <CardContent className="p-4 space-y-3">
               <Button
                 className="w-full bg-blue-600 hover:bg-blue-700"
-                onClick={handleSave}
+                onClick={() => handleSave(false)}
                 disabled={saving}
               >
                 {saving ? (
@@ -448,11 +504,30 @@ export default function InvoiceGeneratorPage() {
                   </>
                 )}
               </Button>
+
+              <Button
+                className="w-full bg-green-600 hover:bg-green-700 text-white"
+                onClick={() => handleSave(true)}
+                disabled={saving}
+              >
+                {saving ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send className="mr-2 h-4 w-4" />
+                    Save & Send Email
+                  </>
+                )}
+              </Button>
               
               <Button
                 variant="outline"
                 className="w-full"
                 onClick={handleDownloadPDF}
+                disabled={!invoiceSuccess}
               >
                 <Download className="mr-2 h-4 w-4" />
                 Download PDF
@@ -461,7 +536,8 @@ export default function InvoiceGeneratorPage() {
               <Button
                 variant="outline"
                 className="w-full"
-                disabled
+                onClick={handleSendEmail}
+                disabled={!invoiceSuccess}
               >
                 <Send className="mr-2 h-4 w-4" />
                 Send via Email

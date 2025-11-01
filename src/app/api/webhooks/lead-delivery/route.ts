@@ -20,8 +20,7 @@ export async function POST(req: NextRequest) {
     
     // Lead data structure
     const {
-      client_id,
-      customer_id, // Alternative: customer_id from customers table
+      client_id, // Required: UUID of the client receiving the lead
       name,
       email,
       phone,
@@ -41,54 +40,49 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const supabase = await createClient();
-
-    // Determine customer_id
-    let finalCustomerId = customer_id;
-    if (client_id && !customer_id) {
-      // If client_id is provided, get the customer_id
-      const { data: client } = await supabase
-        .from('clients')
-        .select('id')
-        .eq('id', client_id)
-        .single();
-      
-      // Note: You may need to map clients to customers differently
-      // This is a placeholder - adjust based on your schema
-      finalCustomerId = client?.id;
-    }
-
-    if (!finalCustomerId) {
+    if (!client_id) {
       return NextResponse.json(
-        { error: 'customer_id or client_id required' },
+        { error: 'client_id is required' },
         { status: 400 }
       );
     }
+
+    const supabase = await createClient();
 
     // For ad-generated leads (Facebook/Google), they're already verified (form submission = intent)
     const isAdLead = ['facebook_ads', 'google_ads', 'linkedin_ads'].includes(source);
     const verificationStatus = isAdLead || verified ? 'verified' : 'pending';
     
     // Insert lead into database
+    // Note: We'll insert into 'leads' table if it exists with these fields
+    // If verification fields don't exist yet, they'll be added by migration
+    const leadData: any = {
+      client_id: client_id,
+      name,
+      email: email || null,
+      phone: phone || null,
+      company: company || null,
+      industry: industry || null,
+      location: location || null,
+      source: source || 'manual',
+      status: 'new',
+      created_at: new Date().toISOString(),
+    };
+
+    // Add verification fields if they exist in the table
+    if (verificationStatus) {
+      leadData.verification_status = verificationStatus;
+      leadData.phone_verified = isAdLead;
+      leadData.email_verified = isAdLead;
+      leadData.business_verified = isAdLead;
+      if (verificationStatus === 'verified') {
+        leadData.verified_at = new Date().toISOString();
+      }
+    }
+
     const { data: lead, error: leadError } = await supabase
       .from('leads')
-      .insert({
-        customer_id: finalCustomerId,
-        name,
-        email: email || null,
-        phone: phone || null,
-        company: company || null,
-        industry: industry || null,
-        location: location || null,
-        source: source || 'manual',
-        verification_status: verificationStatus,
-        phone_verified: isAdLead ? true : false, // Ad leads: form submission = verified
-        email_verified: isAdLead ? true : false, // Ad leads: form submission = verified
-        business_verified: isAdLead ? true : false, // Ad leads: assume verified
-        verified_at: verificationStatus === 'verified' ? new Date().toISOString() : null,
-        status: 'new',
-        received_at: new Date().toISOString(),
-      })
+      .insert(leadData)
       .select()
       .single();
 
@@ -100,28 +94,21 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Get customer details for notification
-    const { data: customer } = await supabase
-      .from('customers')
-      .select('email, user_id')
-      .eq('id', finalCustomerId)
+    // Get client details for notification
+    const { data: client } = await supabase
+      .from('clients')
+      .select('email, phone, account_manager_id')
+      .eq('id', client_id)
       .single();
 
-    // Get user for phone number if available
-    let customerPhone = null;
-    if (customer?.user_id) {
-      const { data: userProfile } = await supabase
-        .from('profiles')
-        .select('phone')
-        .eq('id', customer.user_id)
-        .single();
-      customerPhone = userProfile?.phone;
-    }
+    // Get client phone for WhatsApp notification
+    const clientPhone = client?.phone;
+    const clientEmail = client?.email;
 
     // Send instant notifications
     try {
       // 1. Email notification to client
-      if (customer?.email) {
+      if (clientEmail) {
         const emailContent = `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
             <h2 style="color: #2563eb;">🎉 New Lead Received!</h2>
@@ -151,14 +138,14 @@ export async function POST(req: NextRequest) {
         `;
 
         await sendEmailNotification({
-          to: customer.email,
+          to: clientEmail,
           subject: `🎉 New Lead: ${name}`,
           html: emailContent,
         });
       }
 
-      // 2. WhatsApp notification (if phone available and opted in)
-      if (customerPhone) {
+      // 2. WhatsApp notification (if phone available)
+      if (clientPhone) {
         const whatsappMessage = `🎉 New Lead Received!
 
 Name: ${name}
@@ -171,28 +158,40 @@ View: ${process.env.NEXT_PUBLIC_APP_URL || 'https://transitionmarketingai.com'}/
 
 ✅ Verified and ready to contact!`;
 
-        await sendWhatsAppDeliveryNotification(customerPhone, whatsappMessage);
+        await sendWhatsAppDeliveryNotification(clientPhone, whatsappMessage);
       }
     } catch (notificationError) {
       console.error('Notification error (non-critical):', notificationError);
       // Don't fail the request if notifications fail
     }
 
-    // 3. Create notification in database for dashboard
+    // 3. Create notification in database for dashboard (if notifications table exists)
     try {
-      await supabase
-        .from('notifications')
-        .insert({
-          user_id: customer?.user_id,
-          customer_id: finalCustomerId,
-          type: 'new_lead',
-          title: 'New Lead Received',
-          message: `${name} from ${company || 'Unknown Company'}`,
-          data: { lead_id: lead.id },
-          read: false,
-        });
+      // Try to get user_id from client's account manager or find associated user
+      let userId = null;
+      if (client?.account_manager_id) {
+        userId = client.account_manager_id;
+      }
+
+      // Only insert if we have a user_id and notifications table exists
+      if (userId) {
+        await supabase
+          .from('notifications')
+          .insert({
+            user_id: userId,
+            type: 'new_lead',
+            title: 'New Lead Received',
+            message: `${name} from ${company || 'Unknown Company'}`,
+            data: { lead_id: lead.id, client_id: client_id },
+            read: false,
+          })
+          .catch((err) => {
+            // Table might not exist yet, ignore error
+            console.log('Notifications table may not exist:', err);
+          });
+      }
     } catch (notifError) {
-      console.error('Database notification error:', notifError);
+      console.error('Database notification error (non-critical):', notifError);
     }
 
     return NextResponse.json({
@@ -200,8 +199,8 @@ View: ${process.env.NEXT_PUBLIC_APP_URL || 'https://transitionmarketingai.com'}/
       lead,
       message: 'Lead delivered instantly to dashboard',
       notifications_sent: {
-        email: !!customer?.email,
-        whatsapp: !!customerPhone,
+        email: !!clientEmail,
+        whatsapp: !!clientPhone,
       },
     }, { status: 201 });
 

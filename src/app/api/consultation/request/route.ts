@@ -123,7 +123,7 @@ export async function POST(req: NextRequest) {
     }
 
     const fullName = `${firstName} ${lastName || ''}`.trim();
-    const customerPhone = phone.replace(/\D/g, '');
+    const customerPhone = phone ? phone.replace(/\D/g, '') : '';
 
     // 1. Send email to admin
     try {
@@ -198,8 +198,9 @@ View: ${process.env.NEXT_PUBLIC_APP_URL || 'https://transitionmarketingai.com'}/
     }
 
     // 3. Send confirmation email to customer
-    try {
-      const customerEmailContent = `
+    if (email) {
+      try {
+        const customerEmailContent = `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
             <h2 style="color: #2563eb;">Thank You, ${firstName}! ✅</h2>
             

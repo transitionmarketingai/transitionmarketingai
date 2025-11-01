@@ -254,16 +254,6 @@ export default function ConsultationPage() {
       </div>
     );
   }
-            <Button size="lg" className="bg-blue-600 hover:bg-blue-700" asChild>
-              <Link href="/">
-                Back to Homepage
-              </Link>
-            </Button>
-          </div>
-        </section>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-white">

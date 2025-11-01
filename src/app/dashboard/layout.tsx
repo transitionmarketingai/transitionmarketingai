@@ -1,6 +1,10 @@
 import DashboardSidebarAI from '@/components/DashboardSidebarAI';
 import DashboardHeader from '@/components/DashboardHeader';
 
+// Force dynamic rendering for all dashboard pages (they all use client components with interactivity)
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function DashboardLayout({
   children,
 }: {
@@ -21,4 +25,3 @@ export default function DashboardLayout({
     </div>
   );
 }
-

@@ -1,0 +1,12 @@
+// Force dynamic rendering for signup page
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
+export default function SignupLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <>{children}</>;
+}
+

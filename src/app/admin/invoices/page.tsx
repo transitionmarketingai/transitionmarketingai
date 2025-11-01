@@ -248,8 +248,18 @@ export default function AdminInvoicesPage() {
         </CardHeader>
         <CardContent>
           {loading ? (
-            <div className="text-center py-12">
-              <p className="text-slate-600">Loading invoices...</p>
+            <div className="space-y-4">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="flex items-center gap-4 p-4 border rounded-lg">
+                  <div className="h-10 w-10 rounded bg-slate-200 animate-pulse" />
+                  <div className="flex-1 space-y-2">
+                    <div className="h-4 w-32 bg-slate-200 rounded animate-pulse" />
+                    <div className="h-3 w-48 bg-slate-200 rounded animate-pulse" />
+                  </div>
+                  <div className="h-6 w-16 bg-slate-200 rounded animate-pulse" />
+                  <div className="h-6 w-20 bg-slate-200 rounded animate-pulse" />
+                </div>
+              ))}
             </div>
           ) : filteredInvoices.length === 0 ? (
             <div className="text-center py-12">

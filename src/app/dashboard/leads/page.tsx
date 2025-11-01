@@ -324,9 +324,18 @@ export default function LeadsPage() {
 
             <TabsContent value={activeTab} className="mt-4">
               {loading ? (
-                <div className="text-center py-12">
-                  <Loader2 className="h-8 w-8 mx-auto animate-spin text-gray-400" />
-                  <p className="text-gray-500 mt-2">Loading leads...</p>
+                <div className="space-y-3">
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <div key={i} className="flex items-center gap-4 p-4 border rounded-lg">
+                      <div className="h-12 w-12 rounded-full bg-slate-200 animate-pulse" />
+                      <div className="flex-1 space-y-2">
+                        <div className="h-4 w-48 bg-slate-200 rounded animate-pulse" />
+                        <div className="h-3 w-32 bg-slate-200 rounded animate-pulse" />
+                      </div>
+                      <div className="h-6 w-20 bg-slate-200 rounded animate-pulse" />
+                      <div className="h-6 w-16 bg-slate-200 rounded animate-pulse" />
+                    </div>
+                  ))}
                 </div>
               ) : displayLeads.length === 0 ? (
                 <div className="text-center py-12 text-gray-500">

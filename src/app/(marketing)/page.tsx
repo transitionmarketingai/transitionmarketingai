@@ -96,7 +96,7 @@ export default function LandingPage() {
             
             {/* Left Column - Content */}
             <div className="text-center lg:text-left">
-              <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-8">
+              <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-6">
                 <Bot className="h-4 w-4 mr-2" />
                 AI-Powered Multi-Channel Lead Generation
               </div>

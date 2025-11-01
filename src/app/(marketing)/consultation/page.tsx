@@ -25,6 +25,8 @@ import { toast } from 'sonner';
 export default function ConsultationPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [formData, setFormData] = useState({
     firstName: '',
     email: '',
@@ -47,40 +49,105 @@ export default function ConsultationPage() {
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+    // Clear error when user starts typing
+    if (errors[field]) {
+      setErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
+    // Mark field as touched
+    if (!touched[field]) {
+      setTouched(prev => ({ ...prev, [field]: true }));
+    }
+  };
+
+  const validateField = (field: string, value: any): string | null => {
+    switch (field) {
+      case 'firstName':
+        if (!value || value.trim().length < 2) {
+          return 'Name must be at least 2 characters';
+        }
+        return null;
+      case 'email':
+        if (!value) {
+          return 'Email is required';
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+          return 'Please enter a valid email address';
+        }
+        return null;
+      case 'company':
+        if (!value || value.trim().length < 2) {
+          return 'Company name must be at least 2 characters';
+        }
+        return null;
+      case 'preferredDate':
+        if (!value) {
+          return 'Please select a preferred date';
+        }
+        const selectedDate = new Date(value);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        if (selectedDate < today) {
+          return 'Date cannot be in the past';
+        }
+        return null;
+      case 'preferredTime':
+        if (!value) {
+          return 'Please select a preferred time';
+        }
+        return null;
+      case 'budgetRange':
+        if (!value) {
+          return 'Please select your monthly budget';
+        }
+        return null;
+      default:
+        return null;
+    }
+  };
+
+  const validateForm = (): boolean => {
+    const newErrors: Record<string, string> = {};
+    
+    Object.keys(formData).forEach(field => {
+      if (field === 'showRequirements' || field === 'contactPreference') return;
+      const error = validateField(field, formData[field as keyof typeof formData]);
+      if (error) {
+        newErrors[field] = error;
+        setTouched(prev => ({ ...prev, [field]: true }));
+      }
+    });
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validation
-    if (!formData.firstName || formData.firstName.length < 2) {
-      toast.error('Please enter your name');
-      return;
-    }
+    // Mark all fields as touched
+    setTouched({
+      firstName: true,
+      email: true,
+      company: true,
+      preferredDate: true,
+      preferredTime: true,
+      budgetRange: true,
+    });
     
-    if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      toast.error('Please enter a valid email address');
-      return;
-    }
-    
-    if (!formData.company || formData.company.length < 2) {
-      toast.error('Please enter your company name');
-      return;
-    }
-    
-    if (!formData.preferredDate) {
-      toast.error('Please select a preferred date');
-      return;
-    }
-    
-    if (!formData.preferredTime) {
-      toast.error('Please select a preferred time');
-      return;
-    }
-    
-    if (!formData.budgetRange) {
-      toast.error('Please select your monthly budget');
+    // Validate form
+    if (!validateForm()) {
+      // Focus on first error field
+      const firstErrorField = Object.keys(errors)[0];
+      if (firstErrorField) {
+        const element = document.getElementById(firstErrorField);
+        element?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        element?.focus();
+      }
       return;
     }
 
@@ -288,61 +355,87 @@ export default function ConsultationPage() {
           <Card className="border border-slate-200 shadow-lg">
             <CardContent className="p-6">
               <form onSubmit={handleSubmit} className="space-y-4">
-                {/* Name */}
-                <div>
-                  <Label htmlFor="firstName" className="text-slate-700">
-                    Your Name <span className="text-red-500">*</span>
-                  </Label>
-                  <div className="relative mt-1">
-                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
-                    <Input
-                      id="firstName"
-                      type="text"
-                      required
-                      value={formData.firstName}
-                      onChange={(e) => handleInputChange('firstName', e.target.value)}
-                      className="pl-10"
-                      placeholder="Enter your full name"
-                    />
-                  </div>
-                </div>
+                      {/* Name */}
+                      <div>
+                        <Label htmlFor="firstName" className="text-slate-700">
+                          Your Name <span className="text-red-500">*</span>
+                        </Label>
+                        <div className="relative mt-1">
+                          <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
+                          <Input
+                            id="firstName"
+                            type="text"
+                            required
+                            value={formData.firstName}
+                            onChange={(e) => handleInputChange('firstName', e.target.value)}
+                            onBlur={() => {
+                              const error = validateField('firstName', formData.firstName);
+                              if (error) {
+                                setErrors(prev => ({ ...prev, firstName: error }));
+                              }
+                            }}
+                            className={`pl-10 ${touched.firstName && errors.firstName ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}`}
+                            placeholder="Enter your full name"
+                          />
+                        </div>
+                        {touched.firstName && errors.firstName && (
+                          <p className="text-red-500 text-xs mt-1">{errors.firstName}</p>
+                        )}
+                      </div>
 
-                {/* Email */}
-                <div>
-                  <Label htmlFor="email" className="text-slate-700">
-                    Email Address <span className="text-red-500">*</span>
-                  </Label>
-                  <div className="relative mt-1">
-                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
-                    <Input
-                      id="email"
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) => handleInputChange('email', e.target.value)}
-                      className="pl-10"
-                      placeholder="your.email@company.com"
-                    />
-                  </div>
-                </div>
+                      {/* Email */}
+                      <div>
+                        <Label htmlFor="email" className="text-slate-700">
+                          Email Address <span className="text-red-500">*</span>
+                        </Label>
+                        <div className="relative mt-1">
+                          <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
+                          <Input
+                            id="email"
+                            type="email"
+                            required
+                            value={formData.email}
+                            onChange={(e) => handleInputChange('email', e.target.value)}
+                            onBlur={() => {
+                              const error = validateField('email', formData.email);
+                              if (error) {
+                                setErrors(prev => ({ ...prev, email: error }));
+                              }
+                            }}
+                            className={`pl-10 ${touched.email && errors.email ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}`}
+                            placeholder="your.email@company.com"
+                          />
+                        </div>
+                        {touched.email && errors.email && (
+                          <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+                        )}
+                      </div>
 
                 {/* Company */}
                 <div>
                   <Label htmlFor="company" className="text-slate-700">
                     Company Name <span className="text-red-500">*</span>
                   </Label>
-                  <div className="relative mt-1">
-                    <Building2 className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
-                    <Input
-                      id="company"
-                      type="text"
-                      required
-                      value={formData.company}
-                      onChange={(e) => handleInputChange('company', e.target.value)}
-                      className="pl-10"
-                      placeholder="Your company name"
-                    />
-                  </div>
+                        <div className="relative mt-1">
+                          <Building2 className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
+                          <Input
+                            id="company"
+                            type="text"
+                            required
+                            value={formData.company}
+                            onChange={(e) => handleInputChange('company', e.target.value)}
+                            onBlur={(e) => {
+                              const value = e.target.value.trim();
+                              if (value && value.length < 2) {
+                                toast.error('Company name must be at least 2 characters');
+                              }
+                            }}
+                            className="pl-10"
+                            placeholder="Your company name"
+                            minLength={2}
+                            maxLength={200}
+                          />
+                        </div>
                 </div>
 
                 {/* Budget Range - Required */}

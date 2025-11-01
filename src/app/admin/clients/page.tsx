@@ -235,8 +235,16 @@ export default function AdminClientsPage() {
         </CardHeader>
         <CardContent>
           {loading ? (
-            <div className="text-center py-12">
-              <p className="text-slate-600">Loading clients...</p>
+            <div className="space-y-4">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="flex items-center gap-4 p-4 border rounded-lg">
+                  <div className="h-12 w-12 rounded-full bg-slate-200 animate-pulse" />
+                  <div className="flex-1 space-y-2">
+                    <div className="h-4 w-48 bg-slate-200 rounded animate-pulse" />
+                    <div className="h-3 w-32 bg-slate-200 rounded animate-pulse" />
+                  </div>
+                </div>
+              ))}
             </div>
           ) : filteredClients.length === 0 ? (
             <div className="text-center py-12">

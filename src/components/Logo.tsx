@@ -7,13 +7,15 @@ interface LogoProps {
   variant?: 'full' | 'icon' | 'text';
   className?: string;
   href?: string;
+  theme?: 'light' | 'dark'; // 'light' = dark logo on light bg, 'dark' = white logo on dark bg
 }
 
 export default function Logo({ 
   size = 'md', 
   variant = 'full', 
   className = '',
-  href = '/'
+  href = '/',
+  theme = 'light' // default to light theme (dark logo)
 }: LogoProps) {
   // Size mappings for the SVG logo
   const logoDimensions = {
@@ -23,13 +25,55 @@ export default function Logo({
     xl: { width: 420, height: 120 }  // 100% scale
   };
 
+  const iconDimensions = {
+    sm: { width: 32, height: 32 },
+    md: { width: 48, height: 48 },
+    lg: { width: 64, height: 64 },
+    xl: { width: 96, height: 96 }
+  };
+
   // Mobile: max 40px height, desktop: use size prop
   const dimensions = logoDimensions[size];
+  const iconDims = iconDimensions[size];
+
+  // Determine which logo file to use based on variant and theme
+  const getLogoSrc = () => {
+    if (variant === 'icon') {
+      return theme === 'dark' ? '/branding/logo-icon-white.svg' : '/branding/logo-icon.svg';
+    }
+    return theme === 'dark' ? '/branding/logo-header-white.svg' : '/branding/logo-header.svg';
+  };
+
+  // If variant is 'text', return text-only version
+  if (variant === 'text') {
+    const sizeClasses = {
+      sm: 'text-sm',
+      md: 'text-lg',
+      lg: 'text-xl',
+      xl: 'text-2xl'
+    };
+
+    return (
+      <Link href={href} className={`font-bold ${sizeClasses[size]} ${className}`}>
+        <span className="text-[#0A3A8C]">Transition</span>
+        <span className="text-gray-900"> Marketing AI</span>
+      </Link>
+    );
+  }
 
   // Create the logo image component with mobile responsiveness
-  const LogoImage = (
+  const LogoImage = variant === 'icon' ? (
     <Image
-      src="/branding/logo-header.svg"
+      src={getLogoSrc()}
+      alt="Transition Marketing AI"
+      width={iconDims.width}
+      height={iconDims.height}
+      priority
+      className={`h-auto w-auto ${className}`}
+    />
+  ) : (
+    <Image
+      src={getLogoSrc()}
       alt="Transition Marketing AI"
       width={dimensions.width}
       height={dimensions.height}
@@ -38,42 +82,7 @@ export default function Logo({
     />
   );
 
-  // If variant is 'icon' or 'text', keep old behavior for backward compatibility
-  // Otherwise return new logo
-  if (variant === 'icon' || variant === 'text') {
-    // Fallback to old text logo for icon/text variants
-    const sizeClasses = {
-      sm: 'text-sm',
-      md: 'text-lg',
-      lg: 'text-xl',
-      xl: 'text-2xl'
-    };
-
-    if (variant === 'text') {
-      return (
-        <Link href={href} className={`font-bold ${sizeClasses[size]} ${className}`}>
-          <span className="text-[#0A3A8C]">Transition</span>
-          <span className="text-gray-900"> Marketing AI</span>
-        </Link>
-      );
-    }
-
-    // Icon variant - use small logo
-    return (
-      <Link href={href} className="flex items-center">
-        <Image
-          src="/branding/logo-header.svg"
-          alt="Transition Marketing AI"
-          width={80}
-          height={23}
-          priority
-          className="h-auto w-auto max-h-[32px]"
-        />
-      </Link>
-    );
-  }
-
-  // Full variant (default) - use new logo with Link
+  // Icon or Full variant - wrap in Link and return
   return (
     <Link href={href} className="flex items-center">
       {LogoImage}

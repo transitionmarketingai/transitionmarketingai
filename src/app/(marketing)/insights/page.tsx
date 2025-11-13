@@ -14,25 +14,31 @@ export const metadata: Metadata = {
 export default function InsightsPage() {
   const articles = [
     {
-      title: "How AI Can 10x Real Estate Inquiries in India",
-      description: "A practical breakdown of how AI-powered targeting and ad optimization can bring serious property buyers instead of time-wasters.",
+      title: "How AI Lead Generation is Transforming Real Estate Marketing in India",
+      description: "Discover how Indian real estate businesses are using AI to generate verified property inquiries and close deals faster.",
       tag: "Real Estate",
       tagColor: "bg-green-600",
-      readTime: "6 min read"
+      readTime: "6 min read",
+      slug: "/insights/ai-real-estate-lead-generation",
+      publishDate: new Date('2025-01-15')
     },
     {
-      title: "Why Most Lead Gen Agencies Fail Indian Businesses",
-      description: "Common mistakes agencies make with ad targeting, follow-ups, and reporting — and how an AI-first approach fixes them.",
+      title: "Why Verified Inquiries Deliver Better ROI Than Buying Lead Lists",
+      description: "Stop wasting money on outdated databases. Learn how verified ad inquiries outperform bulk lead lists in conversion and trust.",
       tag: "Strategy",
       tagColor: "bg-blue-600",
-      readTime: "5 min read"
+      readTime: "5 min read",
+      slug: "/insights/verified-vs-bought-leads",
+      publishDate: new Date('2025-01-10')
     },
     {
-      title: "From Clicks to WhatsApp Inquiries: The New Funnel for Indian SMBs",
-      description: "How to convert anonymous ad clicks into high-intent WhatsApp inquiries using automation and smart routing.",
+      title: "The Future of AI Marketing Automation for Indian Businesses",
+      description: "Explore how AI marketing tools are changing the way Indian startups, agencies, and SMBs grow their customer base.",
       tag: "Automation",
       tagColor: "bg-purple-600",
-      readTime: "7 min read"
+      readTime: "7 min read",
+      slug: "/insights/ai-marketing-automation-india",
+      publishDate: new Date('2025-01-05')
     }
   ];
 
@@ -107,7 +113,7 @@ export default function InsightsPage() {
                     className="w-full border-2 border-slate-300 text-slate-700 hover:bg-slate-50"
                     asChild
                   >
-                    <Link href="#">
+                    <Link href={article.slug}>
                       Read More
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>

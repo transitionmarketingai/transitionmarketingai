@@ -1,110 +1,102 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
+import { getSupabaseServerClient } from '@/lib/supabaseServer';
+import { requireAdmin } from '@/lib/adminAuth';
+import {
+  handleSupabaseError,
+  createSuccessResponse,
+  createErrorResponse,
+  logAdminEvent,
+} from '@/lib/apiHelpers';
 
-export async function GET(
+export async function POST(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    const supabase = createClient();
-
-    // Verify admin authentication
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
-    if (authError || !user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
-
-    // Fetch client with related data
-    const { data: client, error: clientError } = await supabase
-      .from('clients')
-      .select(`
-        *,
-        custom_plans (*),
-        leads_delivered (*)
-      `)
-      .eq('id', params.id)
-      .single();
-
-    if (clientError) {
-      console.error('Client fetch error:', clientError);
-      return NextResponse.json(
-        { error: 'Failed to fetch client' },
-        { status: 500 }
-      );
-    }
-
-    return NextResponse.json(
-      {
-        success: true,
-        client,
-      },
-      { status: 200 }
-    );
-  } catch (error: any) {
-    console.error('Admin client detail API error:', error);
-    return NextResponse.json(
-      { error: error.message || 'Internal server error' },
-      { status: 500 }
-    );
-  }
-}
-
-export async function PATCH(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  try {
-    const supabase = createClient();
-
-    // Verify admin authentication
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
-    if (authError || !user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+    // Require admin authentication
+    const authError = requireAdmin(req);
+    if (authError) {
+      return authError;
     }
 
     const body = await req.json();
+    const { callRecord, status } = body;
 
-    // Update client
-    const { data: client, error: updateError } = await supabase
-      .from('clients')
-      .update({
-        ...body,
-        updated_at: new Date().toISOString(),
-      })
-      .eq('id', params.id)
-      .select()
+    const supabase = getSupabaseServerClient();
+
+    // Upsert call record
+    const { data: existingRecord, error: existingError } = await supabase
+      .from('client_onboarding_calls')
+      .select('id')
+      .eq('submission_id', params.id)
       .single();
 
-    if (updateError) {
-      console.error('Client update error:', updateError);
-      return NextResponse.json(
-        { error: 'Failed to update client' },
-        { status: 500 }
-      );
+    // It's okay if no record exists yet (we'll insert)
+    if (existingError && existingError.code !== 'PGRST116') {
+      handleSupabaseError(existingError, 'Checking existing call record');
     }
 
-    return NextResponse.json(
-      {
-        success: true,
-        client,
-        message: 'Client updated successfully',
-      },
-      { status: 200 }
-    );
+    const callRecordData = {
+      ...callRecord,
+      submission_id: params.id,
+      updated_at: new Date().toISOString(),
+    };
+
+    let result;
+    if (existingRecord) {
+      // Update existing record
+      const { data, error } = await supabase
+        .from('client_onboarding_calls')
+        .update(callRecordData)
+        .eq('id', existingRecord.id)
+        .select()
+        .single();
+      result = { data, error };
+      
+      if (handleSupabaseError(error, 'Updating client onboarding call')) {
+        return NextResponse.json(
+          createErrorResponse('Failed to update call record'),
+          { status: 500 }
+        );
+      }
+    } else {
+      // Insert new record
+      const { data, error } = await supabase
+        .from('client_onboarding_calls')
+        .insert(callRecordData)
+        .select()
+        .single();
+      result = { data, error };
+      
+      if (handleSupabaseError(error, 'Creating client onboarding call')) {
+        return NextResponse.json(
+          createErrorResponse('Failed to create call record'),
+          { status: 500 }
+        );
+      }
+    }
+
+    // Update submission status if provided
+    if (status) {
+      const { error: statusError } = await supabase
+        .from('onboarding_submissions')
+        .update({ status })
+        .eq('id', params.id);
+
+      if (handleSupabaseError(statusError, 'Updating onboarding submission status')) {
+        // Log but don't fail - the call record was saved successfully
+        console.warn('[Client Update] Failed to update submission status, but call record was saved');
+      }
+    }
+
+    logAdminEvent('Updated client call record', { submissionId: params.id, status });
+
+    return NextResponse.json(createSuccessResponse(result.data));
   } catch (error: any) {
-    console.error('Admin client update error:', error);
+    console.error('[Client Update] Unexpected error:', error);
     return NextResponse.json(
-      { error: error.message || 'Internal server error' },
+      createErrorResponse(error.message || 'An error occurred'),
       { status: 500 }
     );
   }
 }
-

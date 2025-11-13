@@ -120,6 +120,7 @@ export async function middleware(request: NextRequest) {
     // Admin routes
     const isAdminRoute = request.nextUrl.pathname.startsWith('/admin');
     const isAdminLogin = request.nextUrl.pathname === '/admin/login';
+    const adminSession = request.cookies.get('admin_session')?.value;
 
     // Allow demo mode for dashboard - check query param or cookie
     const isDemoModeParam = request.nextUrl.searchParams.get('demo') === 'true';
@@ -142,14 +143,28 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL('/login', request.url));
     }
 
-    // Admin routes require authentication
-    if (isAdminRoute && !isAdminLogin && !user) {
-      return NextResponse.redirect(new URL('/admin/login', request.url));
+    // Admin routes protection
+    const isAdminAPI = request.nextUrl.pathname.startsWith('/api/admin');
+    const isAdminAuthenticated = adminSession === 'authenticated';
+
+    // Protect admin pages (redirect to login if not authenticated)
+    if (isAdminRoute && !isAdminLogin) {
+      if (!isAdminAuthenticated) {
+        return NextResponse.redirect(new URL('/admin/login', request.url));
+      }
+    }
+
+    // Protect admin API routes (return 401 if not authenticated)
+    if (isAdminAPI && !isAdminAuthenticated) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized' },
+        { status: 401 }
+      );
     }
 
     // If admin is logged in and tries to access admin login, redirect to admin dashboard
-    if (user && isAdminLogin) {
-      return NextResponse.redirect(new URL('/admin/dashboard', request.url));
+    if (isAdminAuthenticated && isAdminLogin) {
+      return NextResponse.redirect(new URL('/admin', request.url));
     }
 
     // If user is logged in and tries to access login/signup, redirect to dashboard

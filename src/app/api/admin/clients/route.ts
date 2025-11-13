@@ -1,19 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
+import { getSupabaseServerClient } from '@/lib/supabaseServer';
+import { requireAdmin } from '@/lib/adminAuth';
+import { createSuccessResponse, createErrorResponse, handleSupabaseError } from '@/lib/apiHelpers';
 
 export async function GET(req: NextRequest) {
   try {
-    const supabase = createClient();
-
-    // Verify admin authentication
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
-    if (authError || !user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+    // Require admin authentication
+    const authError = requireAdmin(req);
+    if (authError) {
+      return authError;
     }
+
+    const supabase = getSupabaseServerClient();
 
     // Fetch all clients with their subscription details
     const { data: clients, error: clientsError } = await supabase
@@ -31,10 +29,9 @@ export async function GET(req: NextRequest) {
       `)
       .order('created_at', { ascending: false });
 
-    if (clientsError) {
-      console.error('Clients fetch error:', clientsError);
+    if (handleSupabaseError(clientsError, 'Fetching clients')) {
       return NextResponse.json(
-        { error: 'Failed to fetch clients' },
+        createErrorResponse('Failed to fetch clients'),
         { status: 500 }
       );
     }
@@ -56,16 +53,12 @@ export async function GET(req: NextRequest) {
     })) || [];
 
     return NextResponse.json(
-      {
-        success: true,
-        clients: transformedClients,
-      },
-      { status: 200 }
+      createSuccessResponse({ clients: transformedClients })
     );
   } catch (error: any) {
-    console.error('Admin clients API error:', error);
+    console.error('[Admin Clients GET] Unexpected error:', error);
     return NextResponse.json(
-      { error: error.message || 'Internal server error' },
+      createErrorResponse(error.message || 'Internal server error'),
       { status: 500 }
     );
   }
@@ -73,18 +66,13 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const supabase = createClient();
-
-    // Verify admin authentication
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
-    if (authError || !user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+    // Require admin authentication
+    const authError = requireAdmin(req);
+    if (authError) {
+      return authError;
     }
 
+    const supabase = getSupabaseServerClient();
     const body = await req.json();
     const {
       business_name,
@@ -98,7 +86,7 @@ export async function POST(req: NextRequest) {
     // Validate required fields
     if (!business_name || !contact_person || !email || !phone) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        createErrorResponse('Missing required fields: business_name, contact_person, email, phone'),
         { status: 400 }
       );
     }
@@ -117,26 +105,21 @@ export async function POST(req: NextRequest) {
       .select()
       .single();
 
-    if (clientError) {
-      console.error('Client creation error:', clientError);
+    if (handleSupabaseError(clientError, 'Creating client')) {
       return NextResponse.json(
-        { error: 'Failed to create client' },
+        createErrorResponse('Failed to create client'),
         { status: 500 }
       );
     }
 
     return NextResponse.json(
-      {
-        success: true,
-        client,
-        message: 'Client created successfully',
-      },
+      createSuccessResponse({ client, message: 'Client created successfully' }),
       { status: 201 }
     );
   } catch (error: any) {
-    console.error('Admin client creation error:', error);
+    console.error('[Admin Clients POST] Unexpected error:', error);
     return NextResponse.json(
-      { error: error.message || 'Internal server error' },
+      createErrorResponse(error.message || 'Internal server error'),
       { status: 500 }
     );
   }

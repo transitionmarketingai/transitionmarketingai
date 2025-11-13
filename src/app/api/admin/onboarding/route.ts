@@ -1,17 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
+import { requireAdmin } from '@/lib/adminAuth';
+import { getSupabaseServerClient } from '@/lib/supabaseServer';
+import { createErrorResponse } from '@/lib/apiHelpers';
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies });
-    
-    // Check admin auth
-    const { data: { user } } = await supabase.auth.getUser();
-    
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Require admin authentication
+    const authError = requireAdmin(request);
+    if (authError) {
+      return authError;
     }
+
+    const supabase = getSupabaseServerClient();
 
     const body = await request.json();
     const { consultation_id, onboarding_data } = body;

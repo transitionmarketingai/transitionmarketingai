@@ -4,16 +4,6 @@
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
   "installCommand": "npm install",
-  "crons": [
-    {
-      "path": "/api/cron/scraping",
-      "schedule": "0 9 * * *"
-    },
-    {
-      "path": "/api/cron/outreach",
-      "schedule": "0 10 * * *"
-    }
-  ],
   "functions": {
     "src/app/api/**/*.ts": {
       "maxDuration": 300

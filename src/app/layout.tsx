@@ -20,7 +20,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://transitionmarketingai.ai"),
+  metadataBase: new URL("https://transitionmarketingai.com"),
   title: {
     default: "Transition Marketing AI — AI-Powered Lead Generation & Marketing Automation",
     template: "%s | Transition Marketing AI"

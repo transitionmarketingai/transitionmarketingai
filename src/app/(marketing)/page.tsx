@@ -30,10 +30,22 @@ import { CalendlyEmbed } from '@/components/CalendlyEmbed';
 
 export default function LandingPage() {
   const [selectedIndustry, setSelectedIndustry] = useState<string>('');
+  const [showValidationError, setShowValidationError] = useState<boolean>(false);
   const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL || 'https://calendly.com';
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '918888888888';
   const whatsappMessage = encodeURIComponent('Hi, I\'m interested in your lead generation service. Can you tell me more?');
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+
+  const handleShowSolution = () => {
+    if (!selectedIndustry) {
+      setShowValidationError(true);
+      return;
+    }
+    setShowValidationError(false);
+    const encodedIndustry = encodeURIComponent(selectedIndustry);
+    const urlWithIndustry = `${calendlyUrl}?industry=${encodedIndustry}`;
+    window.open(urlWithIndustry, '_blank', 'noopener,noreferrer');
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -66,6 +78,7 @@ export default function LandingPage() {
               <Link href="#how-it-works" className="text-gray-700 hover:text-gray-900 font-medium">How It Works</Link>
               <Link href="#pricing" className="text-gray-700 hover:text-gray-900 font-medium">Pricing</Link>
               <Link href="#results" className="text-gray-700 hover:text-gray-900 font-medium">Results</Link>
+              <Link href="/insights" className="text-gray-700 hover:text-gray-900 font-medium">Insights</Link>
               <Link href="#faq" className="text-gray-700 hover:text-gray-900 font-medium">FAQ</Link>
             </div>
 
@@ -165,32 +178,46 @@ export default function LandingPage() {
           </div>
           
           <div className="max-w-md mx-auto">
-            <Select value={selectedIndustry} onValueChange={setSelectedIndustry}>
+            <Select 
+              value={selectedIndustry} 
+              onValueChange={(value) => {
+                setSelectedIndustry(value);
+                setShowValidationError(false);
+              }}
+            >
               <SelectTrigger className="w-full h-14 text-lg">
                 <SelectValue placeholder="Choose your industry..." />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="real-estate">Real Estate</SelectItem>
-                <SelectItem value="healthcare">Healthcare</SelectItem>
-                <SelectItem value="saas">SaaS</SelectItem>
-                <SelectItem value="education">Education</SelectItem>
-                <SelectItem value="local-businesses">Local Businesses</SelectItem>
-                <SelectItem value="ecommerce">E-commerce</SelectItem>
-                <SelectItem value="b2b-services">B2B Services</SelectItem>
-                <SelectItem value="other">Other</SelectItem>
+                <SelectItem value="professional-services">Professional Services</SelectItem>
+                <SelectItem value="healthcare-wellness">Healthcare & Wellness</SelectItem>
+                <SelectItem value="real-estate-builders">Real Estate & Builders</SelectItem>
+                <SelectItem value="dealerships-service-centers">Dealerships & Service Centers</SelectItem>
+                <SelectItem value="retail-local-businesses">Retail & Local Businesses</SelectItem>
+                <SelectItem value="startups-saas">Startups & SaaS</SelectItem>
+                <SelectItem value="education-training">Education & Training Providers</SelectItem>
+                <SelectItem value="home-renovation">Home & Renovation Services</SelectItem>
+                <SelectItem value="event-media-hospitality">Event, Media & Hospitality</SelectItem>
+                <SelectItem value="travel-tour">Travel & Tour Services</SelectItem>
+                <SelectItem value="finance-insurance">Finance & Insurance Services</SelectItem>
+                <SelectItem value="freelancers-creators">Freelancers & Creators</SelectItem>
+                <SelectItem value="logistics-b2b">Logistics & B2B Service Providers</SelectItem>
               </SelectContent>
             </Select>
+            
+            {showValidationError && (
+              <p className="text-red-600 text-sm mt-2 text-center">
+                Please select your industry to see a custom solution.
+              </p>
+            )}
             
             <Button 
               size="lg" 
               className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white text-lg py-6"
-              disabled={!selectedIndustry}
-              asChild
+              onClick={handleShowSolution}
             >
-              <a href={calendlyUrl} target="_blank" rel="noopener noreferrer">
-                Show My AI Solution
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </a>
+              Show My AI Solution
+              <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>
         </div>
@@ -389,6 +416,52 @@ export default function LandingPage() {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </a>
             </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Dashboard Preview Section */}
+      <section id="dashboard-preview" className="py-20 px-4 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Left side - Text content */}
+            <div>
+              <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+                See Your Leads in Real Time
+              </h2>
+              <p className="text-xl text-slate-600 mb-8">
+                Track every inquiry in one place with our AI dashboard.
+              </p>
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="h-6 w-6 text-green-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-slate-700 text-lg">Live inquiry tracking from all campaigns</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="h-6 w-6 text-green-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-slate-700 text-lg">Lead details: name, contact, source & intent</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="h-6 w-6 text-green-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-slate-700 text-lg">Status tags: New, In Progress, Closed</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="h-6 w-6 text-green-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-slate-700 text-lg">Export to CSV or sync with your CRM</span>
+                </div>
+              </div>
+            </div>
+            
+            {/* Right side - Dashboard image */}
+            <div className="relative">
+              <div className="bg-slate-50 rounded-xl p-4 shadow-2xl border border-slate-200">
+                <img 
+                  src="/images/dashboard-preview.png" 
+                  alt="Transition Marketing AI lead dashboard preview"
+                  className="w-full h-auto rounded-lg"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -885,6 +958,11 @@ export default function LandingPage() {
                 <li>
                   <Link href="#results" className="text-slate-400 hover:text-white transition-colors">
                     Results
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/insights" className="text-slate-400 hover:text-white transition-colors">
+                    Insights
                   </Link>
                 </li>
               </ul>

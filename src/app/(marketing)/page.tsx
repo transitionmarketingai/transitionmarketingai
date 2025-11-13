@@ -868,7 +868,7 @@ export default function LandingPage() {
               </p>
               <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-10 py-6" asChild>
                 <Link href="/book">
-                  Start Quiz Now
+                  Book My Free Strategy Session
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>

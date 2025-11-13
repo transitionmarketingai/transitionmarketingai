@@ -6,6 +6,8 @@ import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { FloatingWhatsApp } from "@/components/layout/floating-whatsapp";
 import { Providers } from "@/components/providers";
+import { AnalyticsProvider } from "@/lib/analytics";
+import { GlobalClickTracker } from "@/components/analytics/GlobalClickTracker";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -73,6 +75,8 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${geistMono.variable} bg-background text-foreground antialiased`}
       >
+        <AnalyticsProvider />
+        <GlobalClickTracker />
         <Providers>
           <div className="flex min-h-screen flex-col">
             <Header />

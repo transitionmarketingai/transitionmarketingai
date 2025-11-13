@@ -1,75 +1,65 @@
 "use client";
 
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { ArrowRight, Sparkles } from "lucide-react";
-
-import { Section } from "@/components/layout/section";
-import { Badge } from "@/components/ui/badge";
+import { Section } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { MessageCircle } from "lucide-react";
+import { motion } from "framer-motion";
 
-export function HeroSection() {
+const WA = `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}?text=${encodeURIComponent(
+  process.env.NEXT_PUBLIC_WHATSAPP_PREFILL ??
+    "Hi, I want to start the 14-day Ads Sprint and get hot enquiries."
+)}`;
+
+export default function Hero() {
   return (
-    <Section className="pb-10 pt-12">
-      <motion.div
-        className="grid gap-10 lg:grid-cols-[1.1fr,0.9fr] lg:items-center"
-        initial={{ opacity: 0, y: 40 }}
+    <Section className="text-center">
+      <motion.h1
+        initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        transition={{ duration: 0.4 }}
+        className="text-3xl md:text-5xl font-semibold tracking-tight"
       >
-        <div className="space-y-6">
-          <Badge className="w-fit bg-primary/10 text-primary">
-            AI Campaign Orchestrator
-          </Badge>
-          <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-            Transition every marketing moment with AI that thinks like your team.
-          </h1>
-          <p className="max-w-2xl text-lg text-muted-foreground">
-            Transition Marketing AI blends strategic operators, automation, and
-            experimentation to relaunch your funnels in weeks—not quarters.
-          </p>
-          <div className="flex flex-wrap items-center gap-3">
-            <Button asChild size="lg" className="gap-2">
-              <Link href="/consultation">
-                Start Campaign <ArrowRight className="size-4" />
-              </Link>
-            </Button>
-            <Button asChild variant="outline" size="lg">
-              <Link href="/how-it-works">See how it works</Link>
-            </Button>
-          </div>
-        </div>
-        <motion.div
-          className="grid gap-4"
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.2, duration: 0.5, ease: "easeOut" }}
-        >
-          <Card className="bg-primary text-primary-foreground">
-            <CardContent className="space-y-4 p-6">
-              <div className="inline-flex items-center gap-2 text-sm font-medium">
-                <Sparkles className="size-4" />
-                Campaign Transition Blueprint
-              </div>
-              <p className="text-base leading-relaxed">
-                Map your acquisition, nurture, and retention plays into an
-                adaptive AI system tailored to your ICP and goals.
-              </p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="space-y-3 p-6">
-              <h3 className="text-lg font-semibold text-foreground">
-                Launch-ready in 21 days
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                Onboard, audit, and deploy AI-backed experiments with clear
-                owners, metrics, and automations.
-              </p>
-            </CardContent>
-          </Card>
-        </motion.div>
+        We bring you hot, in-market enquiries.
+      </motion.h1>
+
+      <motion.p
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.05, duration: 0.4 }}
+        className="mt-3 md:mt-4 text-base md:text-lg text-neutral-600"
+      >
+        Meta + Google ads → real people who want your service. We verify by WhatsApp/phone and deliver fast.
+      </motion.p>
+
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1, duration: 0.4 }}
+        className="mt-4 flex flex-wrap justify-center gap-2 text-sm"
+      >
+        <span className="rounded-full bg-neutral-100 px-3 py-1">Speed-to-lead &lt;5 min</span>
+        <span className="rounded-full bg-neutral-100 px-3 py-1">95%+ valid emails</span>
+        <span className="rounded-full bg-neutral-100 px-3 py-1">90%+ active phones</span>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.15, duration: 0.4 }}
+        className="mt-6 flex flex-wrap items-center justify-center gap-3"
+      >
+        <Button data-analytics-id="hero_start" asChild>
+          <a href="/consultation">Start Campaign</a>
+        </Button>
+        <Button data-analytics-id="hero_book" variant="outline" asChild>
+          <a href="/consultation#calendar">Book a Call</a>
+        </Button>
+        <Button data-analytics-id="hero_whatsapp" variant="ghost" asChild>
+          <a href={WA} aria-label="WhatsApp Us">
+            <MessageCircle className="mr-2 h-4 w-4" />
+            WhatsApp Us
+          </a>
+        </Button>
       </motion.div>
     </Section>
   );

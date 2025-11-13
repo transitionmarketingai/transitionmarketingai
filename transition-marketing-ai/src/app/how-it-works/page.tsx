@@ -1,6 +1,6 @@
 import { Lightbulb, PlugZap, Radar, Sparkles } from "lucide-react";
 
-import { Section } from "@/components/layout/section";
+import { Section } from "@/components/ui/section";
 import {
   Card,
   CardContent,

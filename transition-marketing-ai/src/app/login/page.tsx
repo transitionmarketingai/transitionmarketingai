@@ -1,6 +1,6 @@
 import { Lock } from "lucide-react";
 
-import { Section } from "@/components/layout/section";
+import { Section } from "@/components/ui/section";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 

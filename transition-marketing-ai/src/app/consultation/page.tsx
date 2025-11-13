@@ -1,69 +1,74 @@
-import Link from "next/link";
-import { ShieldCheck, Timer, Workflow } from "lucide-react";
-
-import { CalendlyEmbed } from "@/components/consultation/calendly-embed";
-import { Section } from "@/components/layout/section";
-import { Badge } from "@/components/ui/badge";
+import { Section } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
+import { MessageCircle } from "lucide-react";
 
-const PROMISES = [
-  {
-    icon: Timer,
-    title: "Rapid activation",
-    description: "We align on goals and assemble your transition pod in under 72 hours.",
-  },
-  {
-    icon: Workflow,
-    title: "Operator-led roadmap",
-    description: "Leave with a step-by-step action plan and AI workflow map tailored to your growth stack.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Data & compliance ready",
-    description: "DPDP-first data handling, security best practices, and transparent governance.",
-  },
-];
+const CAL = process.env.NEXT_PUBLIC_CALENDLY_URL;
+const WA = `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}?text=${encodeURIComponent(
+  process.env.NEXT_PUBLIC_WHATSAPP_PREFILL ??
+    "Hi, I want to book a quick consultation and start the 14-day Ads Sprint."
+)}`;
+
+export const metadata = {
+  title: "Consultation — Transition Marketing AI",
+  description: "Book a 15-min call to launch your 14-day Ads Sprint. WhatsApp fallback available.",
+};
 
 export default function ConsultationPage() {
   return (
-    <>
-      <Section className="bg-muted/30" containerClassName="gap-6">
-        <Badge className="w-fit bg-primary/15 text-primary">
-          Book a consultation
-        </Badge>
-        <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-          Map your transition sprint with our operators.
-        </h1>
-        <p className="max-w-3xl text-lg text-muted-foreground">
-          Share your current funnel, blockers, and north-star metrics. We&apos;ll
-          co-build a transition plan and outline the pod to execute it.
+    <main>
+      <Section className="text-center">
+        <h1 className="text-2xl font-semibold md:text-4xl">Book your 15-min consultation</h1>
+        <p className="mt-2 text-neutral-600">
+          We’ll align ICP, geo, and budget — then launch your 14-day Ads Sprint.
         </p>
-        <div className="flex flex-wrap items-center gap-3">
-          <Button asChild size="lg">
-            <Link href="#calendar">Jump to calendar</Link>
+
+        <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+          <Button data-analytics-id="consult_start" asChild>
+            <a href="/consultation">Start Campaign</a>
           </Button>
-          <Button asChild variant="outline" size="lg">
-            <Link href="/pricing">View pricing options</Link>
+          <Button data-analytics-id="consult_whatsapp" variant="ghost" asChild>
+            <a href={WA} aria-label="WhatsApp Us">
+              <MessageCircle className="mr-2 h-4 w-4" /> WhatsApp Us
+            </a>
           </Button>
         </div>
       </Section>
 
-      <Section containerClassName="gap-10">
-        <div className="grid gap-6 sm:grid-cols-3">
-          {PROMISES.map(({ icon: Icon, title, description }) => (
-            <div key={title} className="rounded-xl border border-border/70 bg-muted/10 p-5">
-              <div className="mb-4 inline-flex rounded-md bg-primary/10 p-2 text-primary">
-                <Icon className="size-5" />
-              </div>
-              <h2 className="text-lg font-semibold text-foreground">{title}</h2>
-              <p className="mt-2 text-sm text-muted-foreground">{description}</p>
+      <Section className="pt-4">
+        {CAL ? (
+          <div
+            id="calendar"
+            className="mx-auto w-full max-w-3xl overflow-hidden rounded-xl border border-neutral-200 bg-white"
+          >
+            <iframe
+              title="Calendly"
+              src={CAL}
+              className="h-[70vh] w-full"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+        ) : (
+          <div className="mx-auto w-full max-w-xl rounded-xl border border-neutral-200 bg-white p-6 text-center">
+            <p className="text-neutral-700">
+              Calendly isn’t configured yet. Set
+              <code className="mx-1 rounded bg-neutral-100 px-1 py-0.5">NEXT_PUBLIC_CALENDLY_URL</code>
+              and reload.
+            </p>
+            <div className="mt-4">
+              <Button data-analytics-id="consult_whatsapp_alt" variant="outline" asChild>
+                <a href={WA}>
+                  <MessageCircle className="mr-2 h-4 w-4" /> Chat on WhatsApp instead
+                </a>
+              </Button>
             </div>
-          ))}
-        </div>
-        <div className="overflow-hidden rounded-2xl border border-border/60 bg-background shadow-lg">
-          <CalendlyEmbed className="min-h-[720px] w-full" />
-        </div>
+          </div>
+        )}
+
+        <p className="mt-4 text-center text-sm text-neutral-600">
+          Prefer WhatsApp? <a className="underline underline-offset-4" href={WA}>Chat now</a>.
+        </p>
       </Section>
-    </>
+    </main>
   );
 }

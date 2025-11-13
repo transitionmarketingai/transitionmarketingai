@@ -1,7 +1,7 @@
 import { Mail, MessageCircle, Phone } from "lucide-react";
 
 import { ContactForm } from "@/components/contact/contact-form";
-import { Section } from "@/components/layout/section";
+import { Section } from "@/components/ui/section";
 import { Badge } from "@/components/ui/badge";
 
 const CONTACT_OPTIONS = [

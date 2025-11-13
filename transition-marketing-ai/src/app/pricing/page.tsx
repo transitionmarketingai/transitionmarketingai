@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Check } from "lucide-react";
 
-import { Section } from "@/components/layout/section";
+import { Section } from "@/components/ui/section";
 import {
   Card,
   CardContent,

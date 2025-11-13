@@ -5,8 +5,8 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export const metadata: Metadata = {
-  title: "Transition Marketing AI | AI-Powered Lead Generation & Marketing Automation in India",
-  description: "Build a complete AI-powered marketing system for your business. We run paid ads, deliver verified inquiries, and automate your follow-ups via WhatsApp and dashboard access.",
+  title: "Verified Lead Generation in India | Transition Marketing AI",
+  description: "Get verified, warm inquiries — not cold leads. We run AI-powered ad campaigns and manually verify every inquiry before you ever speak to them. Real conversations waiting to happen.",
   keywords: [
     "AI lead generation India",
     "verified business inquiries",

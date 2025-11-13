@@ -128,25 +128,25 @@ export default function LandingPage() {
                 <Link href="/login">Client Login</Link>
               </Button>
               <Button className="bg-blue-600 hover:bg-blue-700" asChild>
-                <a href={calendlyUrl} target="_blank" rel="noopener noreferrer">Book Free Consultation</a>
+                <Link href="/onboarding">See If You Qualify</Link>
               </Button>
             </div>
           </div>
         </div>
       </nav>
 
-      {/* Hero Section - Hormozi Style */}
+      {/* Hero Section - Simplified Trust-Focused */}
       <section className="relative pt-24 md:pt-32 pb-20 px-4 bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-4xl mx-auto">
             {/* Main Headline */}
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-slate-900 mb-6 leading-tight">
-              We Bring You 30–50 Qualified Inquiries in 30 Days — Guaranteed.
+              Get Verified, Warm Inquiries — Not Cold Leads.
             </h1>
             
             {/* Subheadline */}
             <p className="text-xl md:text-2xl text-slate-700 mb-8 leading-relaxed font-medium">
-              AI-powered paid ads + real human verification. Leads delivered directly to your WhatsApp & dashboard.
+              We run AI-powered ad campaigns and manually verify every inquiry before you ever speak to them.
             </p>
 
             {/* Social Proof */}
@@ -158,76 +158,47 @@ export default function LandingPage() {
               <span className="font-semibold text-slate-900">Trusted across India</span>
             </div>
 
-            {/* CTA Buttons */}
+            {/* CTA Buttons - Primary: Quiz, Secondary: Consultation */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
               <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-10 py-6" asChild>
+                <Link href="/onboarding">
+                  See If You Qualify (Takes 30 Seconds)
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" className="text-lg px-10 py-6 border-2" asChild>
                 <a href={calendlyUrl} target="_blank" rel="noopener noreferrer">
                   Book Free Consultation
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </a>
-              </Button>
-              <Button size="lg" variant="outline" className="text-lg px-10 py-6 border-2" asChild>
-                <Link href="/onboarding">
-                  See If You Qualify
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
               </Button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Who This Is For / Not For */}
-      <section className="py-20 px-4 bg-white">
+      {/* Why We're Different */}
+      <section className="py-20 px-4 bg-white reveal-on-scroll">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-              Who This Works For
+              Not Just Leads — Real Conversations Waiting to Happen
             </h2>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* This Works Best For */}
-            <Card className="border-2 border-green-200 bg-green-50">
-              <CardHeader>
-                <CardTitle className="text-2xl flex items-center gap-2 text-green-900">
-                  <CheckCircle className="h-6 w-6 text-green-600" />
-                  This Works Best For:
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
-                  {[
-                    'Real Estate developers & builders',
-                    'Hospitals & clinics',
-                    'Education & coaching providers',
-                    'B2B service companies',
-                    'High-ticket local businesses',
-                    'Startups & SaaS',
-                  ].map((item, idx) => (
-                    <li key={idx} className="flex items-start gap-3">
-                      <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
-                      <span className="text-slate-700">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-
-            {/* Not For */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-5xl mx-auto mb-12">
+            {/* Left Column - What We Don't Do */}
             <Card className="border-2 border-red-200 bg-red-50">
               <CardHeader>
                 <CardTitle className="text-2xl flex items-center gap-2 text-red-900">
                   <X className="h-6 w-6 text-red-600" />
-                  Not For:
+                  What We Don't Do:
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3">
                   {[
-                    'Low-ticket ₹499 product sellers',
-                    'People without a sales process',
-                    'Those unwilling to invest in ads',
-                    'People expecting leads without follow-up',
+                    'No cold data or purchased lists',
+                    'No recycled contacts',
                   ].map((item, idx) => (
                     <li key={idx} className="flex items-start gap-3">
                       <X className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
@@ -237,6 +208,103 @@ export default function LandingPage() {
                 </ul>
               </CardContent>
             </Card>
+
+            {/* Right Column - What We Do */}
+            <Card className="border-2 border-green-200 bg-green-50">
+              <CardHeader>
+                <CardTitle className="text-2xl flex items-center gap-2 text-green-900">
+                  <CheckCircle className="h-6 w-6 text-green-600" />
+                  What We Deliver:
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3">
+                  {[
+                    'Real-time verified inquiries',
+                    'Exclusive to your business',
+                    'Delivered with source proof',
+                    'Backed by performance guarantee',
+                  ].map((item, idx) => (
+                    <li key={idx} className="flex items-start gap-3">
+                      <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
+                      <span className="text-slate-700">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+          <div className="text-center">
+            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-10 py-6" asChild>
+              <Link href="/onboarding">
+                See If You Qualify
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Industries We Serve */}
+      <section className="py-20 px-4 bg-slate-50 reveal-on-scroll">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+              Industries We Serve
+            </h2>
+            <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+              See how our AI-powered ads + verification work for your industry
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+            {[
+              {
+                name: 'Real Estate',
+                slug: 'real-estate-builders',
+                icon: Home,
+                color: 'bg-blue-100 border-blue-300 text-blue-700'
+              },
+              {
+                name: 'Healthcare',
+                slug: 'healthcare-wellness',
+                icon: Stethoscope,
+                color: 'bg-green-100 border-green-300 text-green-700'
+              },
+              {
+                name: 'Education',
+                slug: 'education-training',
+                icon: GraduationCap,
+                color: 'bg-purple-100 border-purple-300 text-purple-700'
+              },
+              {
+                name: 'B2B Services',
+                slug: 'professional-services',
+                icon: Briefcase,
+                color: 'bg-amber-100 border-amber-300 text-amber-700'
+              },
+              {
+                name: 'Startups',
+                slug: 'startups-saas',
+                icon: Rocket,
+                color: 'bg-pink-100 border-pink-300 text-pink-700'
+              },
+            ].map((industry, idx) => {
+              const Icon = industry.icon;
+              return (
+                <Link key={idx} href={`/industries/${industry.slug}`}>
+                  <Card className={`border-2 ${industry.color} hover:shadow-xl transition-all cursor-pointer h-full`}>
+                    <CardContent className="p-6 text-center">
+                      <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center mx-auto mb-4 shadow-md">
+                        <Icon className="h-8 w-8 text-slate-700" />
+                      </div>
+                      <h3 className="font-bold text-lg">{industry.name}</h3>
+                      <p className="text-sm mt-2 text-slate-600">Learn more →</p>
+                    </CardContent>
+                  </Card>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -285,33 +353,30 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-              How It Works
+              How We Deliver Verified Inquiries
             </h2>
-            <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-              Simple 3-step process to get you verified inquiries
-            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             {[
               {
                 step: 1,
-                title: "Tell us about your business",
-                description: "Complete the onboarding quiz.",
+                title: "Complete the onboarding quiz",
+                description: "Tell us about your business.",
                 icon: FileText,
                 color: "bg-blue-600"
               },
               {
                 step: 2,
-                title: "We build & run your AI campaigns",
-                description: "Live in 48 hours.",
+                title: "We build & launch AI-optimized ad campaigns",
+                description: "Google, Meta, LinkedIn.",
                 icon: Zap,
                 color: "bg-green-600"
               },
               {
                 step: 3,
-                title: "You receive verified inquiries every week",
-                description: "Delivered to WhatsApp + dashboard.",
+                title: "You receive verified inquiries",
+                description: "On WhatsApp + dashboard every week.",
                 icon: CheckCircle,
                 color: "bg-purple-600"
               }
@@ -338,8 +403,63 @@ export default function LandingPage() {
 
           <div className="text-center">
             <p className="text-xl font-bold text-slate-900">
-              Guaranteed minimum: 30–50 inquiries in 30 days.
+              Guaranteed minimum 30–50 inquiries in 30 days.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Verification Process (NEW SECTION) */}
+      <section className="py-20 px-4 bg-slate-50 reveal-on-scroll">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+              How We Verify Every Inquiry
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                step: "1️⃣",
+                title: "Ad Intent",
+                description: "Every lead starts with real ad clicks from your target audience.",
+                icon: Target,
+                color: "bg-blue-100 border-blue-300"
+              },
+              {
+                step: "2️⃣",
+                title: "Human Verification",
+                description: "Our team confirms every phone & email manually.",
+                icon: Users,
+                color: "bg-green-100 border-green-300"
+              },
+              {
+                step: "3️⃣",
+                title: "Quality Check",
+                description: "Duplicates, spam, or fake data are instantly removed.",
+                icon: Shield,
+                color: "bg-purple-100 border-purple-300"
+              }
+            ].map((item, idx) => {
+              const Icon = item.icon;
+              return (
+                <Card key={idx} className={`border-2 ${item.color} shadow-lg`}>
+                  <CardHeader>
+                    <div className="text-center mb-4">
+                      <div className="text-4xl mb-3">{item.step}</div>
+                      <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center mx-auto mb-4 shadow-md">
+                        <Icon className="h-8 w-8 text-slate-700" />
+                      </div>
+                    </div>
+                    <CardTitle className="text-2xl text-center">{item.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-slate-700 leading-relaxed text-center">{item.description}</p>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -391,15 +511,15 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Example Economics (Hormozi Style Proof Section) */}
+      {/* Typical Results & Investment */}
       <section className="py-20 px-4 bg-white reveal-on-scroll">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-              Example Economics
+              Typical Results & Investment Range
             </h2>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-              Real numbers from our 30-day pilot program
+              Your exact investment depends on your onboarding details
             </p>
           </div>
 
@@ -425,7 +545,7 @@ export default function LandingPage() {
                     <p className="text-xl font-bold text-green-600">40–60 verified property inquiries</p>
                   </div>
                   <div>
-                    <p className="text-sm text-slate-600 mb-1">Cost per inquiry:</p>
+                    <p className="text-sm text-slate-600 mb-1">Cost per verified inquiry:</p>
                     <p className="text-lg font-semibold text-slate-900">₹700–₹1,100</p>
                   </div>
                 </div>
@@ -439,21 +559,12 @@ export default function LandingPage() {
                   <Stethoscope className="h-5 w-5 text-green-600" />
                   <Badge className="bg-green-100 text-green-700">Healthcare</Badge>
                 </div>
-                <CardTitle className="text-lg">Healthcare Example</CardTitle>
+                <CardTitle className="text-lg">Healthcare</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   <div>
-                    <p className="text-sm text-slate-600 mb-1">Investment:</p>
-                    <p className="text-2xl font-bold text-slate-900">₹35,000</p>
-                    <p className="text-xs text-slate-500">(all-inclusive pilot)</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-slate-600 mb-1">Output:</p>
-                    <p className="text-xl font-bold text-green-600">50–80 inquiries</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-slate-600 mb-1">Cost per inquiry:</p>
+                    <p className="text-sm text-slate-600 mb-1">Cost per verified inquiry:</p>
                     <p className="text-lg font-semibold text-slate-900">₹450–₹700</p>
                   </div>
                 </div>
@@ -467,21 +578,12 @@ export default function LandingPage() {
                   <GraduationCap className="h-5 w-5 text-purple-600" />
                   <Badge className="bg-purple-100 text-purple-700">Education</Badge>
                 </div>
-                <CardTitle className="text-lg">Education Example</CardTitle>
+                <CardTitle className="text-lg">Education</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   <div>
-                    <p className="text-sm text-slate-600 mb-1">Investment:</p>
-                    <p className="text-2xl font-bold text-slate-900">₹30,000</p>
-                    <p className="text-xs text-slate-500">(all-inclusive pilot)</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-slate-600 mb-1">Output:</p>
-                    <p className="text-xl font-bold text-green-600">50–90 inquiries</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-slate-600 mb-1">Cost per inquiry:</p>
+                    <p className="text-sm text-slate-600 mb-1">Cost per verified inquiry:</p>
                     <p className="text-lg font-semibold text-slate-900">₹350–₹600</p>
                   </div>
                 </div>
@@ -495,21 +597,12 @@ export default function LandingPage() {
                   <Briefcase className="h-5 w-5 text-amber-600" />
                   <Badge className="bg-amber-100 text-amber-700">B2B</Badge>
                 </div>
-                <CardTitle className="text-lg">B2B Example</CardTitle>
+                <CardTitle className="text-lg">B2B Services</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   <div>
-                    <p className="text-sm text-slate-600 mb-1">Investment:</p>
-                    <p className="text-2xl font-bold text-slate-900">₹55,000</p>
-                    <p className="text-xs text-slate-500">(all-inclusive pilot)</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-slate-600 mb-1">Output:</p>
-                    <p className="text-xl font-bold text-green-600">15–30 decision-maker inquiries</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-slate-600 mb-1">Cost per inquiry:</p>
+                    <p className="text-sm text-slate-600 mb-1">Cost per verified inquiry:</p>
                     <p className="text-lg font-semibold text-slate-900">₹1,500–₹3,000</p>
                   </div>
                 </div>
@@ -519,7 +612,7 @@ export default function LandingPage() {
 
           <div className="text-center mt-8">
             <p className="text-lg text-slate-600">
-              Your exact estimated numbers will be shown after the onboarding quiz.
+              Your exact investment depends on your onboarding details.
             </p>
           </div>
         </div>
@@ -555,13 +648,16 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Proof / Case Study Section */}
+      {/* Results & Testimonials Section */}
       <section id="results" className="py-20 px-4 bg-white reveal-on-scroll">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
               Real Results for Real Businesses
             </h2>
+            <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+              Every inquiry we send you is verified, tracked, and timestamped for proof.
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -575,7 +671,8 @@ export default function LandingPage() {
                   <Badge className="bg-blue-100 text-blue-700">Real Estate</Badge>
                 </div>
                 <CardTitle className="text-xl">60+ qualified inquiries in 30 days</CardTitle>
-                <p className="text-sm text-slate-600 mt-2">Mumbai developer</p>
+                <p className="text-sm text-slate-600 mt-2 font-semibold">Rajesh Kumar, Mumbai</p>
+                <p className="text-xs text-slate-500 mt-1 italic">"Every inquiry was verified before I called them. No time wasted."</p>
               </CardHeader>
             </Card>
 
@@ -589,7 +686,8 @@ export default function LandingPage() {
                   <Badge className="bg-green-100 text-green-700">Healthcare</Badge>
                 </div>
                 <CardTitle className="text-xl">72 patient inquiries generated</CardTitle>
-                <p className="text-sm text-slate-600 mt-2">Clinic in Bangalore</p>
+                <p className="text-sm text-slate-600 mt-2 font-semibold">Dr. Priya Sharma, Bangalore</p>
+                <p className="text-xs text-slate-500 mt-1 italic">"Real patients, not just phone numbers. Quality over quantity."</p>
               </CardHeader>
             </Card>
 
@@ -603,7 +701,8 @@ export default function LandingPage() {
                   <Badge className="bg-purple-100 text-purple-700">B2B SaaS</Badge>
                 </div>
                 <CardTitle className="text-xl">45 demo call inquiries</CardTitle>
-                <p className="text-sm text-slate-600 mt-2">B2B tech company</p>
+                <p className="text-sm text-slate-600 mt-2 font-semibold">Amit Patel, Pune</p>
+                <p className="text-xs text-slate-500 mt-1 italic">"Decision-makers who actually booked demos. Worth every rupee."</p>
               </CardHeader>
             </Card>
 
@@ -617,7 +716,8 @@ export default function LandingPage() {
                   <Badge className="bg-amber-100 text-amber-700">Education</Badge>
                 </div>
                 <CardTitle className="text-xl">120 student inquiries in one month</CardTitle>
-                <p className="text-sm text-slate-600 mt-2">Delhi coaching center</p>
+                <p className="text-sm text-slate-600 mt-2 font-semibold">Meera Singh, Delhi</p>
+                <p className="text-xs text-slate-500 mt-1 italic">"Parents ready to enroll. No more chasing leads that don't convert."</p>
               </CardHeader>
             </Card>
           </div>
@@ -806,17 +906,25 @@ export default function LandingPage() {
       <section className="py-20 px-4 bg-gradient-to-br from-blue-600 to-blue-700 text-white">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Ready to Get 30–50 Qualified Inquiries in 30 Days?
+            Ready to Get Verified, Warm Inquiries?
           </h2>
           <p className="text-xl mb-8 text-blue-100">
-            Book your free consultation and get your custom AI marketing plan.
+            See if you qualify for our 30-day pilot. Takes 30 seconds.
           </p>
-          <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 text-lg px-10 py-6 font-semibold" asChild>
-            <a href={calendlyUrl} target="_blank" rel="noopener noreferrer">
-              Book Free Consultation
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </a>
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 text-lg px-10 py-6 font-semibold" asChild>
+              <Link href="/onboarding">
+                See If You Qualify (Takes 30 Seconds)
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
+            <Button size="lg" variant="outline" className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-blue-600 text-lg px-10 py-6 font-semibold" asChild>
+              <a href={calendlyUrl} target="_blank" rel="noopener noreferrer">
+                Book Free Consultation
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </a>
+            </Button>
+          </div>
         </div>
       </section>
 

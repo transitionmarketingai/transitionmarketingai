@@ -209,24 +209,14 @@ export default function OnboardingPage() {
       }
 
       // Redirect based on score
-      if (score >= 70) {
-        router.push('/qualified');
-      } else if (score >= 40) {
-        router.push('/review-needed');
-      } else {
-        router.push('/not-a-fit');
-      }
+      // Redirect all users to thank-you page (simplified funnel)
+      router.push('/thank-you');
     } catch (error) {
       console.error('Submission error:', error);
       // Still redirect even if storage fails
       const score = calculateScore(quizData);
-      if (score >= 70) {
-        router.push('/qualified');
-      } else if (score >= 40) {
-        router.push('/review-needed');
-      } else {
-        router.push('/not-a-fit');
-      }
+      // Redirect all users to thank-you page (simplified funnel)
+      router.push('/thank-you');
     } finally {
       setIsSubmitting(false);
     }

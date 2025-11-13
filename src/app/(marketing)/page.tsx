@@ -90,12 +90,12 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* WhatsApp Floating Button */}
+      {/* WhatsApp Floating Button - Sticky for Mobile */}
       <a
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 z-50 bg-green-600 hover:bg-green-700 text-white rounded-full p-4 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 group"
+        className="fixed bottom-6 right-6 z-50 bg-green-600 hover:bg-green-700 text-white rounded-full p-4 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 group md:bottom-6 md:right-6"
         aria-label="Chat on WhatsApp"
       >
         <MessageCircle className="h-6 w-6" />
@@ -145,17 +145,30 @@ export default function LandingPage() {
             </h1>
             
             {/* Subheadline */}
-            <p className="text-xl md:text-2xl text-slate-700 mb-8 leading-relaxed font-medium">
-              We run AI-powered ad campaigns and manually verify every inquiry before you ever speak to them.
+            <p className="text-xl md:text-2xl text-slate-700 mb-6 leading-relaxed font-medium">
+              We use AI + human verification to send you only genuine people who want what you sell.
             </p>
 
             {/* Social Proof */}
-            <div className="flex flex-wrap justify-center items-center gap-6 mb-10 text-sm text-slate-600">
+            <div className="flex flex-wrap justify-center items-center gap-6 mb-6 text-sm text-slate-600">
               <span className="font-semibold text-slate-900">10,000+ leads delivered</span>
               <span>•</span>
               <span className="font-semibold text-slate-900">90% verified</span>
               <span>•</span>
               <span className="font-semibold text-slate-900">Trusted across India</span>
+            </div>
+
+            {/* Micro Badges */}
+            <div className="flex flex-wrap justify-center items-center gap-4 mb-10">
+              <Badge className="bg-green-100 text-green-800 border-green-300 px-4 py-1.5">
+                Data Verified ✓
+              </Badge>
+              <Badge className="bg-blue-100 text-blue-800 border-blue-300 px-4 py-1.5">
+                Ad Spend Included ✓
+              </Badge>
+              <Badge className="bg-purple-100 text-purple-800 border-purple-300 px-4 py-1.5">
+                Exclusive Inquiries ✓
+              </Badge>
             </div>
 
             {/* CTA Buttons - Primary: Quiz, Secondary: Consultation */}
@@ -531,18 +544,14 @@ export default function LandingPage() {
                   <Home className="h-5 w-5 text-blue-600" />
                   <Badge className="bg-blue-100 text-blue-700">Real Estate</Badge>
                 </div>
-                <CardTitle className="text-lg">Real Estate Example</CardTitle>
+                <CardTitle className="text-lg">Real Estate</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   <div>
-                    <p className="text-sm text-slate-600 mb-1">Investment:</p>
-                    <p className="text-2xl font-bold text-slate-900">₹45,000</p>
-                    <p className="text-xs text-slate-500">(all-inclusive pilot)</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-slate-600 mb-1">Output:</p>
-                    <p className="text-xl font-bold text-green-600">40–60 verified property inquiries</p>
+                    <p className="text-sm text-slate-600 mb-1">Typical Range:</p>
+                    <p className="text-lg font-semibold text-slate-900">₹35,000–₹50,000</p>
+                    <p className="text-xs text-slate-500">(includes ad spend)</p>
                   </div>
                   <div>
                     <p className="text-sm text-slate-600 mb-1">Cost per verified inquiry:</p>
@@ -564,6 +573,11 @@ export default function LandingPage() {
               <CardContent>
                 <div className="space-y-3">
                   <div>
+                    <p className="text-sm text-slate-600 mb-1">Typical Range:</p>
+                    <p className="text-lg font-semibold text-slate-900">₹35,000–₹50,000</p>
+                    <p className="text-xs text-slate-500">(includes ad spend)</p>
+                  </div>
+                  <div>
                     <p className="text-sm text-slate-600 mb-1">Cost per verified inquiry:</p>
                     <p className="text-lg font-semibold text-slate-900">₹450–₹700</p>
                   </div>
@@ -582,6 +596,11 @@ export default function LandingPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
+                  <div>
+                    <p className="text-sm text-slate-600 mb-1">Typical Range:</p>
+                    <p className="text-lg font-semibold text-slate-900">₹35,000–₹50,000</p>
+                    <p className="text-xs text-slate-500">(includes ad spend)</p>
+                  </div>
                   <div>
                     <p className="text-sm text-slate-600 mb-1">Cost per verified inquiry:</p>
                     <p className="text-lg font-semibold text-slate-900">₹350–₹600</p>
@@ -602,6 +621,11 @@ export default function LandingPage() {
               <CardContent>
                 <div className="space-y-3">
                   <div>
+                    <p className="text-sm text-slate-600 mb-1">Typical Range:</p>
+                    <p className="text-lg font-semibold text-slate-900">₹35,000–₹50,000</p>
+                    <p className="text-xs text-slate-500">(includes ad spend)</p>
+                  </div>
+                  <div>
                     <p className="text-sm text-slate-600 mb-1">Cost per verified inquiry:</p>
                     <p className="text-lg font-semibold text-slate-900">₹1,500–₹3,000</p>
                   </div>
@@ -612,39 +636,44 @@ export default function LandingPage() {
 
           <div className="text-center mt-8">
             <p className="text-lg text-slate-600">
-              Your exact investment depends on your onboarding details.
+              Exact plan and quote are shared after your onboarding quiz.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Guarantee Section (Stronger) */}
-      <section className="py-20 px-4 bg-slate-50 reveal-on-scroll">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
+      {/* Performance-Backed Guarantee */}
+      <section className="py-20 px-4 bg-gradient-to-br from-green-50 to-emerald-50 reveal-on-scroll">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-8">
+            <div className="inline-block bg-green-600 text-white px-6 py-2 rounded-full text-sm font-semibold mb-4">
+              Performance-Backed Guarantee
+            </div>
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-              Our Performance Guarantee
+              Performance-Backed Guarantee
             </h2>
-            <p className="text-xl text-slate-600 max-w-2xl mx-auto mb-8">
-              If we don't deliver the minimum number of inquiries, we work for free until we do.
+            <p className="text-xl text-slate-700 max-w-2xl mx-auto leading-relaxed">
+              If we don't deliver the minimum verified inquiries, we continue running your campaign at our cost until we do.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              'No excuses',
-              'No algorithm blame',
-              'No extra fees',
-              'You only pay for performance',
-            ].map((item, idx) => (
-              <Card key={idx} className="border-2 border-green-200 bg-green-50 text-center">
-                <CardContent className="pt-6">
-                  <CheckCircle className="h-8 w-8 text-green-600 mx-auto mb-3" />
-                  <p className="font-semibold text-slate-900">{item}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          <Card className="border-2 border-green-300 bg-white shadow-xl">
+            <CardContent className="p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {[
+                  'No excuses',
+                  'No algorithm blame',
+                  'No extra fees',
+                  'You only pay for performance',
+                ].map((item, idx) => (
+                  <div key={idx} className="flex items-center gap-3">
+                    <CheckCircle className="h-6 w-6 text-green-600 flex-shrink-0" />
+                    <p className="font-semibold text-slate-900">{item}</p>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </section>
 
@@ -943,7 +972,7 @@ export default function LandingPage() {
                 How are inquiries generated?
               </AccordionTrigger>
               <AccordionContent className="text-slate-600">
-                We use AI-powered paid ad campaigns on Google, Facebook, and LinkedIn to find people actively searching for your services. Our AI optimizes targeting and creatives, then we verify every inquiry (phone + email) before delivering to your dashboard and WhatsApp.
+                Through paid campaigns on Google, Meta, and LinkedIn targeted by intent. Our AI optimizes ad targeting and creatives to reach people actively searching for your services, then we verify every inquiry manually before delivery.
               </AccordionContent>
             </AccordionItem>
 
@@ -952,16 +981,16 @@ export default function LandingPage() {
                 Are inquiries exclusive to me?
               </AccordionTrigger>
               <AccordionContent className="text-slate-600">
-                <strong className="text-slate-900">Yes.</strong> All inquiries come from our AI-powered ad campaigns. Once delivered to you, those inquiries are yours exclusively. We don't resell leads or share them with other clients.
+                Yes. Each inquiry is unique to your campaign and not resold. All inquiries come from your dedicated ad campaigns, and once delivered, they're exclusively yours.
               </AccordionContent>
             </AccordionItem>
 
             <AccordionItem value="item-3" className="bg-white rounded-lg border-2 border-slate-200 px-6">
               <AccordionTrigger className="text-left font-semibold text-slate-900">
-                What is considered a "verified inquiry"?
+                What is a verified inquiry?
               </AccordionTrigger>
               <AccordionContent className="text-slate-600">
-                A verified inquiry includes: active phone number (tested), valid email address, confirmed business details, verified intent from ad engagement, and clear interest in your service. We verify all of this before delivery.
+                We confirm every lead manually by phone/email before delivering. A verified inquiry means: active phone number (tested), valid email address, confirmed intent from ad engagement, and genuine interest in your service.
               </AccordionContent>
             </AccordionItem>
 
@@ -970,7 +999,7 @@ export default function LandingPage() {
                 How soon will I see results?
               </AccordionTrigger>
               <AccordionContent className="text-slate-600">
-                After we set up your AI campaigns (48 hours), you'll start receiving verified inquiries within <strong className="text-slate-900">7-14 days</strong>. Inquiries are delivered to your dashboard and WhatsApp every week from live, active campaigns.
+                First verified inquiries usually appear within 5–7 days after campaign launch. After setup (48 hours), inquiries are delivered to your dashboard and WhatsApp every week from live, active campaigns.
               </AccordionContent>
             </AccordionItem>
 
@@ -979,7 +1008,7 @@ export default function LandingPage() {
                 What happens if you don't deliver?
               </AccordionTrigger>
               <AccordionContent className="text-slate-600">
-                If we don't deliver the minimum number of verified inquiries (30-50 in 30 days), we work for free until we do. No excuses, no algorithm blame, no extra fees. You only pay for performance.
+                We continue working at our cost until your minimum inquiries are reached. No excuses, no algorithm blame, no extra fees. You only pay for performance.
               </AccordionContent>
             </AccordionItem>
           </Accordion>

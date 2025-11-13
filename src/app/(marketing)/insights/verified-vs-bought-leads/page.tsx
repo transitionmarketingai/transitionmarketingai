@@ -137,17 +137,36 @@ export default function VerifiedLeadsArticle() {
               This means you only receive inquiries from people who have shown clear interest in your service. The AI also verifies contact information in real-time, ensuring phone numbers are active and email addresses are deliverable. This combination of intent scoring and verification dramatically improves your conversion rates compared to cold lists.
             </p>
 
+            <h2 className="text-3xl font-bold text-slate-900 mt-12 mb-6">
+              The Hidden Cost of Low-Quality Lead Lists
+            </h2>
+
+            <p className="text-lg text-slate-700 leading-relaxed mb-6">
+              While purchased lead lists seem cheaper upfront (₹50-₹200 per lead), the hidden costs quickly add up. When 70% of those leads are outdated or uninterested, your sales team wastes hours calling disconnected numbers and emailing invalid addresses. This wasted time costs more than the list itself, and the poor conversion rates mean you're spending money without seeing real results.
+            </p>
+
+            <p className="text-lg text-slate-700 leading-relaxed mb-6">
+              Verified inquiries, on the other hand, may cost more per lead (₹400-₹500), but they deliver significantly better ROI. With a 12-25% conversion rate compared to 2-5% for purchased lists, you're not just buying contacts—you're buying real business opportunities. Every verified inquiry has been confirmed as genuine and interested, meaning your team's time is spent on leads that actually convert.
+            </p>
+
+            <p className="text-lg text-slate-700 leading-relaxed mb-6">
+              The choice is clear: stop wasting money on outdated databases and start investing in verified inquiries from real ad campaigns. <Link href="/onboarding" className="text-blue-600 hover:text-blue-700 font-semibold">Take our 30-second onboarding quiz</Link> to see if you qualify for our 30-day pilot program and start receiving verified inquiries every week.
+            </p>
+
             <div className="bg-blue-50 border-l-4 border-blue-600 p-6 my-12 rounded-r-lg">
               <h3 className="text-xl font-bold text-slate-900 mb-3">Ready to Switch to Verified Inquiries?</h3>
               <p className="text-slate-700 mb-4">
                 Book a free consultation to see how verified AI-generated inquiries can improve your ROI.
               </p>
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white" asChild>
+              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white mb-2" asChild>
                 <a href={calendlyUrl} target="_blank" rel="noopener noreferrer">
                   Book a Free Consultation
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                  <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
                 </a>
               </Button>
+              <p className="text-sm text-slate-600 mt-4">
+                Or <Link href="/onboarding" className="text-blue-600 hover:text-blue-700 font-semibold">start the onboarding quiz</Link> to see if you qualify.
+              </p>
             </div>
           </div>
         </div>

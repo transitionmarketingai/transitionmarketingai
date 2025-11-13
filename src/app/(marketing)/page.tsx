@@ -41,12 +41,54 @@ import {
 import Link from 'next/link';
 import Logo from '@/components/Logo';
 import { CalendlyEmbed } from '@/components/CalendlyEmbed';
+import { getABTestVariant, trackOnboardingSubmit, trackCalendlyBooking, trackWhatsAppClick, getUTMParams } from '@/lib/tracking';
+import { StructuredDataFAQ } from '@/components/analytics/StructuredDataFAQ';
 
 export default function LandingPage() {
   const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL || 'https://calendly.com';
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '918888888888';
   const whatsappMessage = encodeURIComponent('Hi, I\'m interested in your lead generation service. Can you tell me more?');
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+
+  // A/B Test: Hero Headline (client-side only)
+  const [heroVariant, setHeroVariant] = useState<'A' | 'B'>('A');
+  
+  const heroHeadlines = {
+    A: "Get Verified, Warm Inquiries — Not Cold Leads.",
+    B: "Stop Wasting Time on Cold Leads. Get Real Verified Inquiries.",
+  };
+
+  // Track UTM params and set A/B test variant on page load
+  useEffect(() => {
+    const utmParams = getUTMParams();
+    if (Object.keys(utmParams).length > 0) {
+      // UTM params are automatically stored in localStorage by getUTMParams
+      console.log('UTM params captured:', utmParams);
+    }
+
+    // Set A/B test variant (consistent per user)
+    const variant = getABTestVariant('hero_headline', ['A', 'B']) as 'A' | 'B';
+    setHeroVariant(variant);
+
+    // Track which variant is shown
+    if (typeof window !== 'undefined' && window.dataLayer) {
+      window.dataLayer.push({
+        event: 'ab_test_view',
+        test_name: 'hero_headline',
+        variant: variant,
+      });
+    }
+  }, []);
+
+  // Track WhatsApp clicks
+  const handleWhatsAppClick = () => {
+    trackWhatsAppClick();
+  };
+
+  // Track Calendly bookings
+  const handleCalendlyClick = () => {
+    trackCalendlyBooking();
+  };
 
   const handleQuizSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -95,10 +137,11 @@ export default function LandingPage() {
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={handleWhatsAppClick}
         className="fixed bottom-6 right-6 z-50 bg-green-600 hover:bg-green-700 text-white rounded-full p-4 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 group md:bottom-6 md:right-6"
         aria-label="Chat on WhatsApp"
       >
-        <MessageCircle className="h-6 w-6" />
+        <MessageCircle className="h-6 w-6" aria-hidden="true" />
         <span className="hidden sm:inline-block text-sm font-medium group-hover:max-w-xs transition-all">
           Chat on WhatsApp
         </span>
@@ -139,9 +182,9 @@ export default function LandingPage() {
       <section className="relative pt-24 md:pt-32 pb-20 px-4 bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-4xl mx-auto">
-            {/* Main Headline */}
+            {/* Main Headline - A/B Test */}
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-slate-900 mb-6 leading-tight">
-              Get Verified, Warm Inquiries — Not Cold Leads.
+              {heroHeadlines[heroVariant as 'A' | 'B']}
             </h1>
             
             {/* Subheadline */}
@@ -160,13 +203,13 @@ export default function LandingPage() {
 
             {/* Micro Badges */}
             <div className="flex flex-wrap justify-center items-center gap-4 mb-10">
-              <Badge className="bg-green-100 text-green-800 border-green-300 px-4 py-1.5">
+              <Badge className="bg-green-100 text-green-800 border-green-300 px-4 py-1.5" aria-label="Data Verified">
                 Data Verified ✓
               </Badge>
-              <Badge className="bg-blue-100 text-blue-800 border-blue-300 px-4 py-1.5">
+              <Badge className="bg-blue-100 text-blue-800 border-blue-300 px-4 py-1.5" aria-label="Ad Spend Included">
                 Ad Spend Included ✓
               </Badge>
-              <Badge className="bg-purple-100 text-purple-800 border-purple-300 px-4 py-1.5">
+              <Badge className="bg-purple-100 text-purple-800 border-purple-300 px-4 py-1.5" aria-label="Exclusive Inquiries">
                 Exclusive Inquiries ✓
               </Badge>
             </div>
@@ -180,9 +223,9 @@ export default function LandingPage() {
                 </Link>
               </Button>
               <Button size="lg" variant="outline" className="text-lg px-10 py-6 border-2" asChild>
-                <a href={calendlyUrl} target="_blank" rel="noopener noreferrer">
+                <a href={calendlyUrl} target="_blank" rel="noopener noreferrer" onClick={handleCalendlyClick}>
                   Book Free Consultation
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                  <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
                 </a>
               </Button>
             </div>
@@ -959,6 +1002,30 @@ export default function LandingPage() {
 
       {/* FAQ Section */}
       <section id="faq" className="py-20 px-4 bg-white">
+        <StructuredDataFAQ
+          faqs={[
+            {
+              question: 'How are inquiries generated?',
+              answer: 'Through paid campaigns on Google, Meta, and LinkedIn targeted by intent. Our AI optimizes ad targeting and creatives to reach people actively searching for your services, then we verify every inquiry manually before delivery.',
+            },
+            {
+              question: 'Are inquiries exclusive to me?',
+              answer: 'Yes. Each inquiry is unique to your campaign and not resold. All inquiries come from your dedicated ad campaigns, and once delivered, they\'re exclusively yours.',
+            },
+            {
+              question: 'What is a verified inquiry?',
+              answer: 'We confirm every lead manually by phone/email before delivering. A verified inquiry means: active phone number (tested), valid email address, confirmed intent from ad engagement, and genuine interest in your service.',
+            },
+            {
+              question: 'How soon will I see results?',
+              answer: 'First verified inquiries usually appear within 5–7 days after campaign launch. After setup (48 hours), inquiries are delivered to your dashboard and WhatsApp every week from live, active campaigns.',
+            },
+            {
+              question: 'What happens if you don\'t deliver?',
+              answer: 'We continue working at our cost until your minimum inquiries are reached. No excuses, no algorithm blame, no extra fees. You only pay for performance.',
+            },
+          ]}
+        />
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">

@@ -11,14 +11,17 @@ export default function StructuredData({ type = 'website', data }: StructuredDat
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "Transition Marketing AI",
-      "description": "Get qualified leads, consistent content, and smart AI tools in one subscription. Built for Indian SMBs. No hiring. No hassle.",
+      "description": "AI-powered verified lead generation for Indian businesses — 30–50 real inquiries in 30 days, backed by a performance guarantee.",
       "url": "https://transitionmarketingai.com",
       "logo": "https://transitionmarketingai.com/logo.png",
+      "foundingDate": "2024",
       "contactPoint": {
         "@type": "ContactPoint",
         "telephone": "+91-XXXXXXXXXX",
         "contactType": "customer service",
-        "email": "info@transitionmarketingai.com"
+        "email": "info@transitionmarketingai.com",
+        "areaServed": "IN",
+        "availableLanguage": ["en", "hi"]
       },
       "address": {
         "@type": "PostalAddress",
@@ -31,11 +34,18 @@ export default function StructuredData({ type = 'website', data }: StructuredDat
       ],
       "offers": {
         "@type": "Offer",
-        "name": "AI Marketing Subscription",
-        "description": "Automated AI marketing systems for Indian SMBs",
-        "price": "999",
+        "name": "30-Day Pilot - Verified Lead Generation",
+        "description": "AI-powered verified lead generation with performance guarantee",
+        "price": "35000",
         "priceCurrency": "INR",
-        "availability": "https://schema.org/InStock"
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
+          "price": "35000",
+          "priceCurrency": "INR",
+          "valueAddedTaxIncluded": true
+        },
+        "availability": "https://schema.org/InStock",
+        "validFrom": "2025-01-01"
       }
     };
 

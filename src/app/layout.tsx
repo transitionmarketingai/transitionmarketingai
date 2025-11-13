@@ -4,6 +4,8 @@ import "./globals.css";
 import StructuredData from "@/components/StructuredData";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { Toaster } from 'sonner';
+import { GoogleTagManager } from "@/components/analytics/GoogleTagManager";
+import { MetaPixel } from "@/components/analytics/MetaPixel";
 
 // Mobile viewport meta tag
 export const viewport = {
@@ -135,6 +137,10 @@ export default function RootLayout({
       <body
         className={`${inter.variable} font-sans antialiased bg-background text-primary min-h-screen relative`}
       >
+        {/* Analytics */}
+        <GoogleTagManager />
+        <MetaPixel />
+        
         {/* Subtle radial gradient glow behind content */}
         <div className="relative z-10">
           <StructuredData type="organization" />

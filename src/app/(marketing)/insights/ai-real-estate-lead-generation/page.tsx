@@ -110,17 +110,36 @@ export default function RealEstateArticle() {
               This means your sales team spends time on serious buyers who are ready to visit properties and make decisions, not on tire-kickers or outdated contacts. The result? Higher conversion rates, faster deal closures, and significantly better ROI on your marketing spend.
             </p>
 
+            <h2 className="text-3xl font-bold text-slate-900 mt-12 mb-6">
+              Real Results for Indian Real Estate Businesses
+            </h2>
+
+            <p className="text-lg text-slate-700 leading-relaxed mb-6">
+              Our clients have seen remarkable improvements in their lead quality and conversion rates. One Mumbai developer who previously relied on cold calling and newspaper ads saw their conversion rate increase from 3% to 18% after switching to our AI-powered verified inquiry system. They now receive 40-60 verified property inquiries per month, with each inquiry from a genuine buyer ready to make a purchase decision.
+            </p>
+
+            <p className="text-lg text-slate-700 leading-relaxed mb-6">
+              The key difference is verification. Unlike traditional lead lists, every inquiry we deliver has been manually verified—we confirm the phone number works, the email is active, and most importantly, the buyer has genuine interest in purchasing property. This verification process eliminates wasted time on fake numbers, wrong contacts, or tire-kickers who aren't serious about buying.
+            </p>
+
+            <p className="text-lg text-slate-700 leading-relaxed mb-6">
+              If you're tired of wasting hours on cold calls that go nowhere, or if you want to see verified property inquiries delivered directly to your WhatsApp every week, <Link href="/onboarding" className="text-blue-600 hover:text-blue-700 font-semibold">start the 30-second onboarding quiz</Link> to see if you qualify for our 30-day pilot program.
+            </p>
+
             <div className="bg-blue-50 border-l-4 border-blue-600 p-6 my-12 rounded-r-lg">
               <h3 className="text-xl font-bold text-slate-900 mb-3">Ready to Transform Your Real Estate Lead Generation?</h3>
               <p className="text-slate-700 mb-4">
                 Book a free consultation to see how AI-powered marketing can bring verified property inquiries to your business every week.
               </p>
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white" asChild>
+              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white mb-2" asChild>
                 <a href={calendlyUrl} target="_blank" rel="noopener noreferrer">
                   Book a Free Consultation
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                  <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
                 </a>
               </Button>
+              <p className="text-sm text-slate-600 mt-4">
+                Or <Link href="/onboarding" className="text-blue-600 hover:text-blue-700 font-semibold">see if you qualify</Link> for our 30-day pilot program.
+              </p>
             </div>
           </div>
         </div>

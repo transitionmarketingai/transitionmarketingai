@@ -56,11 +56,16 @@ export async function POST(req: NextRequest) {
       email,
       phone,
       score,
+      utm_source,
+      utm_medium,
+      utm_campaign,
+      utm_term,
+      utm_content,
     } = body;
 
     const supabase = getSupabaseServerClient();
 
-    // Store in Supabase
+    // Store in Supabase (UTM params stored in raw_answers JSONB)
     const { data, error } = await supabase
       .from('onboarding_submissions')
       .insert({
@@ -75,10 +80,40 @@ export async function POST(req: NextRequest) {
         email: email || null,
         phone: phone || null,
         score,
-        raw_answers: body, // Store entire payload for future reference
+        raw_answers: body, // Store entire payload including UTM params
       })
       .select()
       .single();
+
+    // Send to webhook (Airtable/Google Sheets) if configured
+    if (process.env.WEBHOOK_URL) {
+      try {
+        await fetch(process.env.WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            event: 'onboarding_submit',
+            data: {
+              name,
+              email,
+              phone,
+              industry,
+              city,
+              score,
+              utm_source,
+              utm_medium,
+              utm_campaign,
+              utm_term,
+              utm_content,
+              timestamp: new Date().toISOString(),
+            },
+          }),
+        });
+      } catch (webhookError) {
+        // Don't fail the request if webhook fails
+        console.error('[Onboarding Submit] Webhook error:', webhookError);
+      }
+    }
 
     if (handleSupabaseError(error, 'Creating onboarding submission')) {
       return NextResponse.json(

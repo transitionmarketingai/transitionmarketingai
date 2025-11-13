@@ -10,6 +10,7 @@ import { ArrowRight, ArrowLeft, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 import Logo from '@/components/Logo';
 import { useRouter } from 'next/navigation';
+import { getStoredUTMParams, trackOnboardingSubmit } from '@/lib/tracking';
 
 interface QuizData {
   industry: string;
@@ -22,6 +23,11 @@ interface QuizData {
   name: string;
   email: string;
   phone: string;
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  utm_term?: string;
+  utm_content?: string;
 }
 
 const INDUSTRIES = [
@@ -141,6 +147,15 @@ export default function OnboardingPage() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // Get UTM params from localStorage on mount
+  const [utmParams] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return getStoredUTMParams();
+    }
+    return {};
+  });
+
   const [quizData, setQuizData] = useState<QuizData>({
     industry: '',
     city: '',
@@ -152,6 +167,7 @@ export default function OnboardingPage() {
     name: '',
     email: '',
     phone: '',
+    ...utmParams,
   });
 
   const totalSteps = 8;
@@ -197,18 +213,37 @@ export default function OnboardingPage() {
       // Calculate score
       const score = calculateScore(quizData);
 
+      // Include UTM params in submission
+      const submissionData = {
+        ...quizData,
+        score,
+        utm_source: utmParams.utm_source,
+        utm_medium: utmParams.utm_medium,
+        utm_campaign: utmParams.utm_campaign,
+        utm_term: utmParams.utm_term,
+        utm_content: utmParams.utm_content,
+      };
+
+      // Track submission event
+      trackOnboardingSubmit({
+        industry: quizData.industry,
+        score,
+        utmSource: utmParams.utm_source,
+        utmMedium: utmParams.utm_medium,
+        utmCampaign: utmParams.utm_campaign,
+      });
+
       // Store results in backend
       const response = await fetch('/api/onboarding/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...quizData, score }),
+        body: JSON.stringify(submissionData),
       });
 
       if (!response.ok) {
         throw new Error('Failed to submit quiz');
       }
 
-      // Redirect based on score
       // Redirect all users to thank-you page (simplified funnel)
       router.push('/thank-you');
     } catch (error) {

@@ -63,6 +63,33 @@ export function trackCalendlyBooking() {
 }
 
 /**
+ * Track booking session start (form opened)
+ */
+export function trackBookSessionStart() {
+  trackEvent('book_session_start', {
+    event_category: 'conversion',
+    event_label: 'booking_form_opened',
+  });
+}
+
+/**
+ * Track booking session complete (Calendly booking confirmed)
+ */
+export function trackBookSessionComplete(data?: {
+  industry?: string;
+  budgetRange?: string;
+  goal?: string;
+}) {
+  trackEvent('book_session_complete', {
+    event_category: 'conversion',
+    event_label: 'consultation_scheduled',
+    industry: data?.industry,
+    budget_range: data?.budgetRange,
+    goal: data?.goal,
+  });
+}
+
+/**
  * Track WhatsApp click
  */
 export function trackWhatsAppClick() {

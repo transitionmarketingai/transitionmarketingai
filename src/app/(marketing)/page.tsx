@@ -211,7 +211,7 @@ export default function LandingPage() {
                 className="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm px-5 py-2.5 shadow-md hover:shadow-lg transition-all" 
                 asChild
               >
-                <Link href="/onboarding">See If You Qualify</Link>
+                <Link href="/book">Book My Free Strategy Session</Link>
               </Button>
               {/* Mobile Menu Button */}
               <Button
@@ -265,20 +265,17 @@ export default function LandingPage() {
               </Badge>
             </div>
 
-            {/* CTA Buttons - Primary: Quiz, Secondary: Consultation */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-10 py-6" asChild>
-                <Link href="/onboarding">
-                  See If You Qualify (Takes 30 Seconds)
+            {/* CTA Button - Unified */}
+            <div className="flex flex-col items-center gap-4 mb-8">
+              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-12 py-6 shadow-lg hover:shadow-xl transition-all" asChild>
+                <Link href="/book">
+                  Book My Free Strategy Session
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" className="text-lg px-10 py-6 border-2" asChild>
-                <a href={calendlyUrl} target="_blank" rel="noopener noreferrer" onClick={handleCalendlyClick}>
-                  Book Free Consultation
-                  <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
-                </a>
-              </Button>
+              <Badge className="bg-orange-100 text-orange-800 border-orange-300 px-4 py-1.5 text-sm font-medium">
+                Only 10 new launch slots per month
+              </Badge>
             </div>
           </div>
         </div>
@@ -343,8 +340,8 @@ export default function LandingPage() {
           </div>
           <div className="text-center">
             <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-10 py-6" asChild>
-              <Link href="/onboarding">
-                See If You Qualify
+              <Link href="/book">
+                Book My Free Strategy Session
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
@@ -416,15 +413,15 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* The Flagship Offer (30-Day Pilot) */}
+      {/* The Flagship Offer (Verified Leads Launch Program) */}
       <section id="pilot-offer" className="py-20 px-4 bg-gradient-to-br from-blue-600 to-blue-700 text-white reveal-on-scroll">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              The Transition Marketing AI Pilot (30 Days)
+              The Verified Leads Launch Program
             </h2>
             <p className="text-xl text-blue-100 mb-8">
-              Get 30–50 qualified inquiries in 30 days — or we work for free until we do.
+              Get 30–50 verified inquiries in 30 days — or we work for free until we do.
             </p>
           </div>
 
@@ -447,7 +444,7 @@ export default function LandingPage() {
               </div>
               <div className="bg-blue-50 rounded-lg p-6 border-l-4 border-blue-600">
                 <p className="text-lg font-semibold text-slate-900">
-                  One all-inclusive pilot fee (includes ad spend). Exact investment shown after onboarding quiz.
+                  One all-inclusive launch fee (includes ad spend). Exact investment shared during your free strategy session.
                 </p>
               </div>
             </CardContent>
@@ -468,8 +465,8 @@ export default function LandingPage() {
             {[
               {
                 step: 1,
-                title: "Complete the onboarding quiz",
-                description: "Tell us about your business.",
+                title: "Book your free strategy session",
+                description: "Tell us about your business in 30 seconds.",
                 icon: FileText,
                 color: "bg-blue-600"
               },
@@ -730,7 +727,7 @@ export default function LandingPage() {
 
           <div className="text-center mt-8">
             <p className="text-lg text-slate-600">
-              Exact plan and quote are shared after your onboarding quiz.
+              Exact plan and quote are shared during your free strategy session.
             </p>
           </div>
         </div>
@@ -740,8 +737,16 @@ export default function LandingPage() {
       <section className="py-20 px-4 bg-gradient-to-br from-green-50 to-emerald-50 reveal-on-scroll">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8">
-            <div className="inline-block bg-green-600 text-white px-6 py-2 rounded-full text-sm font-semibold mb-4">
-              Performance-Backed Guarantee
+            <div className="inline-block relative group mb-4">
+              <div className="bg-green-600 text-white px-6 py-2 rounded-full text-sm font-semibold cursor-help">
+                Performance-Backed ✓ We work free until you hit your goal
+              </div>
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-72 p-4 bg-slate-900 text-white text-sm rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 pointer-events-none">
+                We continue running your campaign at our cost until we deliver your minimum inquiries. No excuses, no extra fees.
+                <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-1">
+                  <div className="w-3 h-3 bg-slate-900 rotate-45"></div>
+                </div>
+              </div>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
               Performance-Backed Guarantee
@@ -776,7 +781,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-              Real Results for Real Businesses
+              What Our Clients Said After 30 Days
             </h2>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
               Every inquiry we send you is verified, tracked, and timestamped for proof.
@@ -852,17 +857,17 @@ export default function LandingPage() {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-              See If You Qualify (Takes 30 Seconds)
+              Book Your Free Strategy Session
             </h2>
           </div>
 
           <Card className="border-2 border-slate-200 shadow-lg">
             <CardContent className="p-8 text-center">
               <p className="text-lg text-slate-700 mb-6">
-                Answer 8 simple questions about your business to see if you qualify for our 30-day pilot program.
+                Answer 4 quick questions about your business to get started with your free strategy session.
               </p>
               <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-10 py-6" asChild>
-                <Link href="/onboarding">
+                <Link href="/book">
                   Start Quiz Now
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
@@ -1032,21 +1037,18 @@ export default function LandingPage() {
             Ready to Get Verified, Warm Inquiries?
           </h2>
           <p className="text-xl mb-8 text-blue-100">
-            See if you qualify for our 30-day pilot. Takes 30 seconds.
+            Book your free strategy session. Takes 30 seconds to get started.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 text-lg px-10 py-6 font-semibold" asChild>
-              <Link href="/onboarding">
-                See If You Qualify (Takes 30 Seconds)
+          <div className="flex flex-col items-center gap-4">
+            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 text-lg px-12 py-6 font-semibold shadow-lg" asChild>
+              <Link href="/book">
+                Book My Free Strategy Session
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
-            <Button size="lg" variant="outline" className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-blue-600 text-lg px-10 py-6 font-semibold" asChild>
-              <a href={calendlyUrl} target="_blank" rel="noopener noreferrer">
-                Book Free Consultation
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </a>
-            </Button>
+            <Badge className="bg-white/20 text-white border-white/30 px-4 py-1.5 text-sm font-medium">
+              Only 10 new launch slots per month
+            </Badge>
           </div>
         </div>
       </section>
@@ -1204,9 +1206,20 @@ export default function LandingPage() {
           </div>
 
           <div className="border-t border-slate-700 pt-8">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <div className="text-sm text-slate-400">
-                © 2025 Transition Marketing AI. All rights reserved.
+            <div className="flex flex-col gap-6">
+              <div className="bg-slate-800 rounded-lg p-6 max-w-2xl mx-auto text-center">
+                <p className="text-slate-300 italic mb-2">
+                  "We built Transition Marketing AI because we were tired of seeing businesses waste time on cold leads. 
+                  Every inquiry we deliver is verified, because your time is valuable."
+                </p>
+                <p className="text-slate-400 text-sm mt-2">
+                  — Abhishek John, Founder
+                </p>
+              </div>
+              <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div className="text-sm text-slate-400">
+                  © 2025 Transition Marketing AI. All rights reserved.
+                </div>
               </div>
             </div>
           </div>

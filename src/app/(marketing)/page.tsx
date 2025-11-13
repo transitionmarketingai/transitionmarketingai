@@ -67,7 +67,7 @@ export default function LandingPage() {
                 <Link href="/login">Client Login</Link>
               </Button>
               <Button className="bg-blue-600 hover:bg-blue-700" asChild>
-                <Link href="/consultation">Request Free Consultation</Link>
+                <Link href="/consultation">Get 5 Free Leads</Link>
               </Button>
             </div>
           </div>
@@ -78,24 +78,19 @@ export default function LandingPage() {
       <section className="relative pt-24 md:pt-32 pb-20 px-4 bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-4xl mx-auto">
-            {/* Badge */}
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-red-100 text-red-700 text-sm font-semibold mb-6">
-              <X className="h-4 w-4 mr-2" />
-              The Problem Most Businesses Face
-            </div>
-            
-            {/* Main Headline - Hormozi Style: Direct, Problem-Focused */}
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-slate-900 mb-6 leading-tight">
-              Stop Wasting Money on
-              <br />
-              <span className="text-red-600">Ads That Don't Convert</span>
+            {/* Main Headline - Hormozi Style: Direct Offer */}
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-slate-900 mb-4 leading-tight">
+              We Get You 5–20 Qualified Leads Every Week.
             </h1>
             
+            {/* Subline */}
+            <p className="text-xl md:text-2xl text-slate-700 mb-4 leading-relaxed font-semibold">
+              First 5 leads are free. No commitments. Cancel anytime.
+            </p>
+            
             {/* Subheadline - Value Proposition */}
-            <p className="text-xl md:text-2xl text-slate-700 mb-8 leading-relaxed font-medium">
-              Get <span className="text-blue-600 font-bold">50+ verified, qualified leads</span> delivered to your inbox every month.
-              <br />
-              <span className="text-lg text-slate-600">No setup. No guesswork. Just results.</span>
+            <p className="text-lg md:text-xl text-slate-600 mb-8 leading-relaxed">
+              We use AI + human researchers to find, verify, and deliver sales-ready leads for your business every week.
             </p>
 
             {/* Social Proof Numbers - Hormozi Style */}
@@ -126,30 +121,34 @@ export default function LandingPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-10 py-6 text-base font-semibold" asChild>
                 <Link href="/consultation">
-                  Get Your Free Consultation
+                  Get My 5 Free Leads
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
               <Button size="lg" variant="outline" className="border-2 border-slate-300 text-lg px-10 py-6" asChild>
-                <Link href="#how-it-works">
-                  See How It Works
+                <Link href="/consultation">
+                  Talk to a Specialist
                 </Link>
               </Button>
             </div>
 
-            {/* Trust Indicators */}
+            {/* Supporting Bullets - Outcome-Focused */}
             <div className="flex flex-wrap justify-center items-center gap-6 text-sm text-slate-600">
               <div className="flex items-center gap-2">
-                <Shield className="h-4 w-4 text-blue-500" />
-                <span>100% Money-Back Guarantee</span>
+                <CheckCircle className="h-4 w-4 text-green-600" />
+                <span>90%+ verified phone numbers and emails</span>
               </div>
               <div className="flex items-center gap-2">
-                <Clock className="h-4 w-4 text-blue-500" />
-                <span>Free 30-Min Consultation</span>
+                <CheckCircle className="h-4 w-4 text-green-600" />
+                <span>Leads matched to your ideal customer profile</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-blue-500" />
-                <span>No Commitment Required</span>
+                <CheckCircle className="h-4 w-4 text-green-600" />
+                <span>Weekly delivery to your dashboard + WhatsApp</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-4 w-4 text-green-600" />
+                <span>No long-term contracts. Cancel anytime.</span>
               </div>
             </div>
           </div>
@@ -245,12 +244,29 @@ export default function LandingPage() {
           <div className="text-center mt-12">
             <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-10 py-6" asChild>
               <Link href="/consultation">
-                Get Your Free Consultation
+                Get My 5 Free Leads
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
             <p className="text-sm text-slate-500 mt-4">
-              No obligation • Free strategy session • Custom plan in 24 hours
+              First 5 leads free • No commitment • Cancel anytime
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Where We Find Your Leads */}
+      <section className="py-20 px-4 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+              Where We Find Your Leads
+            </h2>
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto mb-4">
+              We search across Google Maps, LinkedIn, Facebook, Google Ads, and top business directories to find your ideal prospects – then verify every contact before it reaches you.
+            </p>
+            <p className="text-lg text-slate-700 font-semibold">
+              You get the benefit of a full-time research team without hiring one.
             </p>
           </div>
         </div>
@@ -261,7 +277,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-              How It Works
+              How We Find & Verify Leads
             </h2>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
               Simple 3-step process to get you quality leads
@@ -272,22 +288,22 @@ export default function LandingPage() {
             {[
               {
                 step: 1,
-                title: "Free 30-Min Consultation",
-                description: "We understand your business, target customers, and goals. No sales pitch—just a genuine conversation.",
+                title: "You tell us who you want",
+                description: "Share your ideal customer, industries, locations, and budgets.",
                 icon: MessageCircle,
                 color: "bg-blue-600"
               },
               {
                 step: 2,
-                title: "We Handle Everything",
-                description: "AI finds prospects across multiple platforms. Our team verifies every contact (phone, email, business details).",
+                title: "We find and verify them",
+                description: "AI + human researchers find prospects and verify their phone, email, and business details.",
                 icon: Target,
                 color: "bg-green-600"
               },
               {
                 step: 3,
-                title: "Leads Delivered to Your Dashboard",
-                description: "First batch within 7 days. Monthly deliveries based on your plan. Track everything in your personal dashboard.",
+                title: "You get leads every week",
+                description: "We deliver fresh, sales-ready leads to your dashboard and WhatsApp every 7 days.",
                 icon: CheckCircle,
                 color: "bg-purple-600"
               }
@@ -315,7 +331,7 @@ export default function LandingPage() {
           <div className="text-center">
             <Button size="lg" variant="outline" className="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 text-lg px-10 py-6" asChild>
               <Link href="/consultation">
-                Start Your Free Consultation
+                Get My 5 Free Leads
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
@@ -496,10 +512,10 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-              Simple, Transparent Pricing
+              Simple Monthly Plans
             </h2>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-              Pay only for verified leads that match your criteria
+              Start with 5 free leads before you decide.
             </p>
           </div>
 
@@ -533,10 +549,10 @@ export default function LandingPage() {
                   </div>
                 </div>
                 <Button className="w-full bg-blue-600 hover:bg-blue-700" asChild>
-                  <Link href="/consultation">Get Started</Link>
+                  <Link href="/consultation">Get 5 Free Leads</Link>
                 </Button>
                 <p className="text-xs text-center text-slate-500 mt-3">
-                  Perfect for small businesses testing lead generation
+                  Ideal for local services, solo professionals, clinics, and consultants.
                 </p>
               </CardContent>
             </Card>
@@ -573,10 +589,10 @@ export default function LandingPage() {
                   </div>
                 </div>
                 <Button className="w-full bg-blue-600 hover:bg-blue-700" asChild>
-                  <Link href="/consultation">Get Started</Link>
+                  <Link href="/consultation">Get 5 Free Leads</Link>
                 </Button>
                 <p className="text-xs text-center text-slate-500 mt-3">
-                  Perfect for growing businesses scaling up
+                  For businesses ready to scale with a steady flow of weekly leads.
                 </p>
               </CardContent>
             </Card>
@@ -610,10 +626,10 @@ export default function LandingPage() {
                   </div>
                 </div>
                 <Button className="w-full bg-blue-600 hover:bg-blue-700" asChild>
-                  <Link href="/consultation">Get Started</Link>
+                  <Link href="/consultation">Get 5 Free Leads</Link>
                 </Button>
                 <p className="text-xs text-center text-slate-500 mt-3">
-                  Perfect for established teams needing volume
+                  For teams that need high-volume, consistent lead flow every month.
                 </p>
               </CardContent>
             </Card>
@@ -622,9 +638,12 @@ export default function LandingPage() {
           {/* Money-Back Guarantee - Hormozi Style Risk Reversal */}
           <div className="bg-green-50 rounded-xl p-8 border-2 border-green-200 text-center">
             <Shield className="h-12 w-12 text-green-600 mx-auto mb-4" />
-            <h3 className="text-2xl font-bold text-slate-900 mb-2">100% Money-Back Guarantee</h3>
+            <h3 className="text-2xl font-bold text-slate-900 mb-2">Our 7-Day, 5-Lead Guarantee</h3>
+            <p className="text-lg font-semibold text-slate-900 mb-4">
+              If we don't deliver your first 5 verified leads in 7 days, you don't pay. Period.
+            </p>
             <p className="text-slate-700 mb-4">
-              If you're not satisfied with lead quality in your first month, we'll:
+              We don't just scrape data. We verify it so your sales team doesn't waste time on dead numbers.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
               <div className="bg-white rounded-lg p-4">
@@ -647,6 +666,11 @@ export default function LandingPage() {
               We take the risk. You get the results.
             </p>
           </div>
+
+          {/* All Plans Include */}
+          <p className="text-center text-slate-700 mt-8 font-medium">
+            All plans include: AI + human-verified leads, weekly delivery, WhatsApp + dashboard access, and our 7-day, 5-lead guarantee.
+          </p>
         </div>
       </section>
 
@@ -662,55 +686,55 @@ export default function LandingPage() {
           <Accordion type="single" collapsible className="w-full space-y-4">
             <AccordionItem value="item-1" className="bg-white rounded-lg border-2 border-slate-200 px-6">
               <AccordionTrigger className="text-left font-semibold text-slate-900">
-                How do you generate leads?
+                How are leads generated?
               </AccordionTrigger>
               <AccordionContent className="text-slate-600">
-                We use advanced AI-powered scraping and targeting across multiple platforms including Google Maps, LinkedIn, Facebook, Google Ads, and industry-specific directories. Our AI analyzes millions of data points to identify prospects that match your ideal customer profile. Every lead is then manually verified by our team before delivery.
+                We use a combination of AI-powered tools and human researchers to search across multiple channels including Google Maps, LinkedIn, Facebook, Google Ads, and top business directories. Our AI identifies prospects that match your ideal customer profile, then our team verifies every contact before delivery.
               </AccordionContent>
             </AccordionItem>
 
             <AccordionItem value="item-2" className="bg-white rounded-lg border-2 border-slate-200 px-6">
               <AccordionTrigger className="text-left font-semibold text-slate-900">
-                Are the leads verified and exclusive to me?
+                Are the leads exclusive to me?
               </AccordionTrigger>
               <AccordionContent className="text-slate-600">
-                <strong className="text-slate-900">Yes, absolutely!</strong> Every lead comes with verified phone number and email address. We test contact information before delivery. While leads discovered through public channels (like Google Maps) may be contacted by others, our AI-targeted leads from paid campaigns and LinkedIn are often exclusive. You can also opt for exclusive lead packages.
+                <strong className="text-slate-900">Yes.</strong> We don't resell leads. Once delivered to you, those leads are yours. While some leads may come from public sources (like Google Maps) where others could theoretically find them, our AI-targeted leads from paid campaigns and LinkedIn are typically exclusive to you.
               </AccordionContent>
             </AccordionItem>
 
             <AccordionItem value="item-3" className="bg-white rounded-lg border-2 border-slate-200 px-6">
               <AccordionTrigger className="text-left font-semibold text-slate-900">
-                What happens during the free consultation?
+                What does "verified" mean?
               </AccordionTrigger>
               <AccordionContent className="text-slate-600">
-                We'll discuss your business, target audience, current lead generation challenges, and goals. Then we'll create a custom plan with recommended budget, expected lead volume, cost per lead, and timelines. There's no obligation—think of it as a free strategy session for your business.
+                Every lead we deliver includes verified phone numbers and email addresses. We test phone numbers to confirm they're active and reachable, and verify email addresses are valid and deliverable. We also verify business details like company name, location, and industry match your criteria.
               </AccordionContent>
             </AccordionItem>
 
             <AccordionItem value="item-4" className="bg-white rounded-lg border-2 border-slate-200 px-6">
               <AccordionTrigger className="text-left font-semibold text-slate-900">
-                How much does it cost?
+                When will I see my first leads?
               </AccordionTrigger>
               <AccordionContent className="text-slate-600">
-                We offer transparent pricing starting at ₹10,000/month for 25 leads. Our Growth plan (₹25,000/month) delivers 50 leads, and our Scale plan (₹50,000/month) delivers 150 leads. All plans include verified leads, industry-specific targeting, and personal dashboard access. Custom plans available for higher volumes.
+                You'll receive your first 5 verified leads within <strong className="text-slate-900">7 days</strong> of signing up. After that, you'll get fresh leads delivered to your dashboard and WhatsApp every week based on your plan.
               </AccordionContent>
             </AccordionItem>
 
             <AccordionItem value="item-5" className="bg-white rounded-lg border-2 border-slate-200 px-6">
               <AccordionTrigger className="text-left font-semibold text-slate-900">
-                How long before I see results?
+                Is there a contract or lock-in?
               </AccordionTrigger>
               <AccordionContent className="text-slate-600">
-                You'll receive your first batch of verified leads within <strong className="text-slate-900">7 business days</strong> of signing up. Most clients start seeing qualified conversations within the first week and closed deals within 2-4 weeks, depending on their sales cycle.
+                <strong className="text-slate-900">No.</strong> There are no long-term contracts. You can cancel anytime. Start with 5 free leads, and if you're happy, continue with weekly deliveries. If not, cancel with no questions asked.
               </AccordionContent>
             </AccordionItem>
 
             <AccordionItem value="item-6" className="bg-white rounded-lg border-2 border-slate-200 px-6">
               <AccordionTrigger className="text-left font-semibold text-slate-900">
-                What if I'm not satisfied?
+                What happens if you don't deliver?
               </AccordionTrigger>
               <AccordionContent className="text-slate-600">
-                We offer a <strong className="text-slate-900">100% money-back guarantee</strong>. If you're not satisfied with lead quality in your first month, we'll replace all bad leads for FREE or refund 100% of your money—no questions asked. We take the risk, you get the results.
+                Our <strong className="text-slate-900">7-day, 5-lead guarantee</strong> means if we don't deliver your first 5 verified leads within 7 days, you don't pay. Period. If you're not satisfied with lead quality at any time, you can cancel immediately with no questions asked.
               </AccordionContent>
             </AccordionItem>
           </Accordion>
@@ -721,31 +745,36 @@ export default function LandingPage() {
       <section className="py-20 px-4 bg-gradient-to-br from-blue-600 to-blue-700 text-white">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Ready to Stop Wasting Money on Ads?
+            Ready to Get 5–20 Qualified Leads Every Week?
           </h2>
           <p className="text-xl mb-8 text-blue-100">
-            Get your free 30-minute consultation and discover how we can get you 50+ verified leads every month.
+            First 5 leads are free. No commitments. Cancel anytime.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
             <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 text-lg px-10 py-6 font-semibold" asChild>
               <Link href="/consultation">
-                Get Your Free Consultation
+                Get My 5 Free Leads
                 <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
+            <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white/10 text-lg px-10 py-6 font-semibold" asChild>
+              <Link href="/consultation">
+                Talk to a Lead Specialist
               </Link>
             </Button>
           </div>
           <div className="flex flex-wrap justify-center items-center gap-6 text-sm text-blue-100">
             <div className="flex items-center gap-2">
               <CheckCircle className="h-4 w-4" />
-              <span>No obligation</span>
+              <span>First 5 leads free</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle className="h-4 w-4" />
-              <span>Free strategy session</span>
+              <span>No commitment</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle className="h-4 w-4" />
-              <span>Custom plan in 24 hours</span>
+              <span>Cancel anytime</span>
             </div>
           </div>
         </div>
@@ -852,4 +881,12 @@ export default function LandingPage() {
     </div>
   );
 }
+
+
+
+
+
+
+
+
 

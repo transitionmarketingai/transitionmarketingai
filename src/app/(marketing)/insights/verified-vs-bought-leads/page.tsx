@@ -20,9 +20,7 @@ export default function VerifiedLeadsArticle() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-3">
-              <Link href="/">
-                <Logo size="md" />
-              </Link>
+              <Logo size="md" href="/" />
             </div>
             <div className="flex items-center gap-3">
               <Button variant="outline" asChild>

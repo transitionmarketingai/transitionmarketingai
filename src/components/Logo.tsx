@@ -1,83 +1,82 @@
 import React from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 
 interface LogoProps {
   size?: 'sm' | 'md' | 'lg' | 'xl';
   variant?: 'full' | 'icon' | 'text';
   className?: string;
+  href?: string;
 }
 
-export default function Logo({ size = 'md', variant = 'full', className = '' }: LogoProps) {
-  const sizeClasses = {
-    sm: 'text-sm',
-    md: 'text-lg',
-    lg: 'text-xl',
-    xl: 'text-2xl'
+export default function Logo({ 
+  size = 'md', 
+  variant = 'full', 
+  className = '',
+  href = '/'
+}: LogoProps) {
+  // Size mappings for the SVG logo
+  const logoDimensions = {
+    sm: { width: 140, height: 40 },  // ~35% scale
+    md: { width: 210, height: 60 },  // 50% scale (recommended)
+    lg: { width: 280, height: 80 },  // ~67% scale
+    xl: { width: 420, height: 120 }  // 100% scale
   };
 
-  const iconSizes = {
-    sm: 'w-8 h-8',
-    md: 'w-10 h-10',
-    lg: 'w-12 h-12',
-    xl: 'w-16 h-16'
-  };
+  // Mobile: max 40px height, desktop: use size prop
+  const dimensions = logoDimensions[size];
 
-  // Modern professional icon with upward arrow/growth symbol
-  const LogoIcon = ({ className: iconClass = '' }: { className?: string }) => (
-    <div className={`bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-700 rounded-xl flex items-center justify-center shadow-md ${iconClass}`}>
-      <svg viewBox="0 0 48 48" fill="none" className="w-4/5 h-4/5">
-        {/* Upward trending arrow */}
-        <path 
-          d="M8 36 L18 26 L26 30 L40 12" 
-          stroke="white" 
-          strokeWidth="3" 
-          strokeLinecap="round" 
-          strokeLinejoin="round"
-        />
-        {/* Arrow head */}
-        <path 
-          d="M32 12 L40 12 L40 20" 
-          stroke="white" 
-          strokeWidth="3" 
-          strokeLinecap="round" 
-          strokeLinejoin="round"
-        />
-        {/* Data points */}
-        <circle cx="8" cy="36" r="2.5" fill="white" />
-        <circle cx="18" cy="26" r="2.5" fill="white" />
-        <circle cx="26" cy="30" r="2.5" fill="white" />
-        <circle cx="40" cy="12" r="3" fill="#FFD700" />
-      </svg>
-    </div>
+  // Create the logo image component with mobile responsiveness
+  const LogoImage = (
+    <Image
+      src="/branding/logo-header.svg"
+      alt="Transition Marketing AI"
+      width={dimensions.width}
+      height={dimensions.height}
+      priority
+      className={`h-auto w-auto max-h-[40px] md:max-h-none ${className}`}
+    />
   );
 
-  if (variant === 'icon') {
-    return <LogoIcon className={`${iconSizes[size]} ${className}`} />;
-  }
+  // If variant is 'icon' or 'text', keep old behavior for backward compatibility
+  // Otherwise return new logo
+  if (variant === 'icon' || variant === 'text') {
+    // Fallback to old text logo for icon/text variants
+    const sizeClasses = {
+      sm: 'text-sm',
+      md: 'text-lg',
+      lg: 'text-xl',
+      xl: 'text-2xl'
+    };
 
-  if (variant === 'text') {
+    if (variant === 'text') {
+      return (
+        <Link href={href} className={`font-bold ${sizeClasses[size]} ${className}`}>
+          <span className="text-[#0A3A8C]">Transition</span>
+          <span className="text-gray-900"> Marketing AI</span>
+        </Link>
+      );
+    }
+
+    // Icon variant - use small logo
     return (
-      <div className={`font-bold ${sizeClasses[size]} ${className}`}>
-        <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-          Transition
-        </span>
-        <span className="text-gray-900"> Marketing AI</span>
-      </div>
+      <Link href={href} className="flex items-center">
+        <Image
+          src="/branding/logo-header.svg"
+          alt="Transition Marketing AI"
+          width={80}
+          height={23}
+          priority
+          className="h-auto w-auto max-h-[32px]"
+        />
+      </Link>
     );
   }
 
+  // Full variant (default) - use new logo with Link
   return (
-    <div className={`flex items-center gap-2.5 ${className}`}>
-      <LogoIcon className={iconSizes[size]} />
-      <div>
-        <div className={`font-bold ${sizeClasses[size]} leading-tight`}>
-          <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-            Transition
-          </span>
-        </div>
-        <div className={`font-bold ${sizeClasses[size]} leading-tight`}>
-          <span className="text-gray-700">Marketing AI</span>
-        </div>
-      </div>
-    </div>
+    <Link href={href} className="flex items-center">
+      {LogoImage}
+    </Link>
   );
 }

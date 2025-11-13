@@ -10,9 +10,7 @@ export default function HealthcareIndustryPage() {
       <nav className="fixed top-0 w-full bg-white border-b z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <Link href="/">
-              <Logo size="md" />
-            </Link>
+            <Logo size="md" href="/" />
             <Link href="/onboarding">
               <Button className="bg-blue-600 hover:bg-blue-700">Start Free Onboarding</Button>
             </Link>

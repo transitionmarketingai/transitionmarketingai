@@ -204,9 +204,11 @@ interface LogoProps {
 ### Structure
 
 **Desktop Header**:
-- Height: 64px (h-16)
-- Background: White with subtle border-bottom
-- Padding: 16px horizontal (px-4)
+- Height: 64px (h-16) on mobile, 80px (h-20) on desktop
+- Background: Semi-transparent white with backdrop blur (`bg-white/95 backdrop-blur-sm`)
+- Border: Subtle border-bottom (`border-slate-200/80`)
+- Shadow: Light shadow for depth (`shadow-sm`)
+- Padding: 16px horizontal (px-4 sm:px-6 lg:px-8)
 - Max-width: 1280px (max-w-7xl)
 
 **Layout**:
@@ -359,6 +361,92 @@ Transition Marketing AI
 
 ---
 
+## 📱 Favicon & App Icons
+
+### Favicon Set
+
+**Location**: `/public/` and Next.js App Router icon files
+
+**Required Sizes**:
+- `favicon.svg` — Modern SVG favicon (scalable)
+- `favicon.ico` — Legacy fallback (16×16, 32×32, 48×48)
+- `favicon-16x16.png` — Browser tab icon
+- `favicon-32x32.png` — Browser tab icon (high-DPI)
+- `favicon-96x96.png` — Desktop shortcuts
+- `favicon-192x192.png` — Android home screen
+- `favicon-512x512.png` — Android splash screen
+- `apple-touch-icon.png` — iOS home screen (180×180)
+- `mstile-144x144.png` — Windows tile
+
+**Source**: All favicons derived from `logo-icon.svg` (brand logo mark)
+
+**Implementation**:
+- Next.js generates dynamic favicons via `src/app/icon.tsx`
+- Apple touch icon via `src/app/apple-icon.tsx`
+- Manifest config in `src/app/manifest.ts`
+
+---
+
+## 📱 Social Media Assets
+
+### Open Graph Image
+
+**Size**: 1200 × 630px (1.91:1 ratio)
+
+**Specifications**:
+- Background: White or brand blue gradient
+- Logo: Horizontal logo, centered or top-left
+- Headline: "Transition Marketing AI" (Inter Semibold)
+- Subtext: Value proposition tagline
+- Brand colors: #0A3A8C primary, #10B981 accent
+
+**File**: `/public/og-image.png`
+
+**Usage**: Automatically used for Facebook, LinkedIn, Twitter cards
+
+### Twitter Card Image
+
+**Size**: Same as OG (1200 × 630px)
+
+**Alternative**: 1200 × 600px for summary cards
+
+### LinkedIn Company Page
+
+**Logo**: Horizontal logo (white variant)
+**Cover Image**: 1192 × 220px (branded background)
+**Square Logo**: 300 × 300px (icon logo)
+
+---
+
+## 🎨 CSS Brand Variables
+
+### Brand Color Variables
+
+All brand colors are available as CSS variables in `src/app/globals.css`:
+
+```css
+/* Brand Colors */
+--color-brand-primary: #0A3A8C;
+--color-brand-primary-light: #2563EB;
+--color-brand-primary-dark: #05245C;
+--color-brand-accent: #10B981;
+--color-brand-accent-dark: #059669;
+```
+
+**Usage**:
+```css
+.button-primary {
+  background-color: var(--color-brand-primary);
+  color: white;
+}
+
+.button-primary:hover {
+  background-color: var(--color-brand-primary-dark);
+}
+```
+
+---
+
 ## 📚 Resources
 
 ### Logo Files Location
@@ -369,6 +457,15 @@ Transition Marketing AI
 - `logo-header-white.svg` — Horizontal logo (white)
 - `logo-icon.svg` — Icon-only (dark)
 - `logo-icon-white.svg` — Icon-only (white)
+
+### Favicon Files
+`/public/` and Next.js App Router
+
+**Files**:
+- `favicon.svg` — Modern SVG favicon
+- `src/app/icon.tsx` — Dynamic favicon generator
+- `src/app/apple-icon.tsx` — Apple touch icon generator
+- `src/app/manifest.ts` — Web app manifest
 
 ### Component Usage
 See `src/components/Logo.tsx` for implementation.

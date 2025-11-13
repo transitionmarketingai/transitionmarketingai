@@ -9,24 +9,34 @@ export const size = {
 
 export const contentType = 'image/png';
 
+// Apple Touch Icon using brand logo mark
 export default function AppleIcon() {
   return new ImageResponse(
     (
       <div
         style={{
-          fontSize: 64,
-          background: 'linear-gradient(90deg, #2563eb 0%, #7c3aed 100%)',
           width: '100%',
           height: '100%',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          color: 'white',
-          fontWeight: 'bold',
-          borderRadius: 40,
+          background: 'white',
         }}
       >
-        T
+        <svg width="180" height="180" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(28, 28)">
+            {/* Human head */}
+            <circle cx="100" cy="48" r="32" fill="#0A3A8C"/>
+            {/* Shoulders/Top of funnel */}
+            <path d="M16 104C16 94.0589 24.0589 86 34 86H166C175.941 86 184 94.0589 184 104V109C184 115.075 179.075 120 173 120H27C20.9249 120 16 115.075 16 109V104Z" fill="#0A3A8C"/>
+            {/* Funnel body */}
+            <path d="M40 120L160 120L96 196C93.809 203.006 86.5224 208 77.2038 208H76.7962C67.4776 208 60.191 203.006 58 196L40 120Z" fill="#0A3A8C"/>
+            {/* Verification checkmark */}
+            <path d="M64 160L80 176L144 112" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            {/* Accent dot */}
+            <circle cx="100" cy="156" r="5" fill="#10B981"/>
+          </g>
+        </svg>
       </div>
     ),
     {
@@ -34,5 +44,3 @@ export default function AppleIcon() {
     }
   );
 }
-
-

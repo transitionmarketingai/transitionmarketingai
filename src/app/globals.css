@@ -30,7 +30,14 @@
 :root { 
   color-scheme: light; 
   
-  /* Design System Colors - Sintra.ai exact color scheme */
+  /* Brand Colors - Transition Marketing AI */
+  --color-brand-primary: #0A3A8C;
+  --color-brand-primary-light: #2563EB;
+  --color-brand-primary-dark: #05245C;
+  --color-brand-accent: #10B981;
+  --color-brand-accent-dark: #059669;
+  
+  /* Legacy Design System Colors (for backward compatibility) */
   --color-primary: #8b5cf6;
   --color-primary-dark: #7c3aed;
   --color-secondary: #06b6d4;

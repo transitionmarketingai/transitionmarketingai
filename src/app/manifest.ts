@@ -8,18 +8,24 @@ export default function manifest(): MetadataRoute.Manifest {
     start_url: '/dashboard',
     display: 'standalone',
     background_color: '#ffffff',
-    theme_color: '#1E40AF',
+    theme_color: '#0A3A8C',
     orientation: 'portrait-primary',
     scope: '/',
     icons: [
       {
-        src: '/favicon.png',
+        src: '/favicon.svg',
+        sizes: 'any',
+        type: 'image/svg+xml',
+        purpose: 'any'
+      },
+      {
+        src: '/favicon-192x192.png',
         sizes: '192x192',
         type: 'image/png',
         purpose: 'maskable'
       },
       {
-        src: '/favicon.png',
+        src: '/favicon-512x512.png',
         sizes: '512x512',
         type: 'image/png',
         purpose: 'maskable'

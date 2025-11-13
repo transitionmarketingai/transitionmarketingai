@@ -101,16 +101,28 @@ export const metadata: Metadata = {
   category: "technology",
   classification: "Business Software",
   manifest: "/manifest.json",
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+  },
   other: {
     "application-name": "Transition Marketing AI",
     "apple-mobile-web-app-capable": "yes",
     "apple-mobile-web-app-status-bar-style": "default",
     "apple-mobile-web-app-title": "Transition Marketing AI",
     "mobile-web-app-capable": "yes",
-    "msapplication-TileColor": "#2563eb",
-    "theme-color": "#2563eb",
-    "apple-touch-icon": "/favicon.png",
-    "apple-touch-icon-sizes": "180x180",
+    "msapplication-TileColor": "#0A3A8C",
+    "msapplication-TileImage": "/mstile-144x144.png",
+    "theme-color": "#0A3A8C",
   },
 };
 

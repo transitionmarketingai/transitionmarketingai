@@ -8,9 +8,44 @@ export async function middleware(request: NextRequest) {
     },
   });
 
+  // Check if Supabase is configured
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  // If Supabase is not configured, skip auth and allow all routes
+  if (!supabaseUrl || !supabaseAnonKey) {
+    // Allow demo mode for dashboard - check query param or cookie
+    const isDemoModeParam = request.nextUrl.searchParams.get('demo') === 'true';
+    const isDemoModeCookie = request.cookies.get('demo_mode')?.value === 'true';
+    const isDemoMode = isDemoModeParam || isDemoModeCookie;
+
+    // If demo mode param is present, set the cookie
+    if (isDemoModeParam && !isDemoModeCookie) {
+      response.cookies.set('demo_mode', 'true', {
+        path: '/',
+        maxAge: 60 * 60 * 24, // 24 hours
+        sameSite: 'lax',
+        httpOnly: false,
+      });
+    }
+
+    // Protected routes - allow in demo mode or skip auth
+    const protectedRoutes = ['/dashboard', '/onboarding'];
+    const isProtectedRoute = protectedRoutes.some((route) =>
+      request.nextUrl.pathname.startsWith(route)
+    );
+
+    if (isProtectedRoute && !isDemoMode) {
+      // Redirect to login if not in demo mode
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
+
+    return response;
+  }
+
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    supabaseUrl,
+    supabaseAnonKey,
     {
       cookies: {
         get(name: string) {
@@ -55,11 +90,17 @@ export async function middleware(request: NextRequest) {
   );
 
   // Refresh session if expired - required for Server Components
-  await supabase.auth.getSession();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  let user = null;
+  try {
+    await supabase.auth.getSession();
+    const {
+      data: { user: authUser },
+    } = await supabase.auth.getUser();
+    user = authUser;
+  } catch (error) {
+    // If Supabase fails, continue without auth
+    console.error('Middleware auth error:', error);
+  }
 
   // Protected routes
   const protectedRoutes = ['/dashboard', '/onboarding'];

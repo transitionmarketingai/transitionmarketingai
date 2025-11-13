@@ -147,39 +147,90 @@ export default function LandingPage() {
         </span>
       </a>
 
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-white border-b z-50">
+      {/* Premium Navigation */}
+      <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-sm border-b border-slate-200/80 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center gap-3">
-              <Logo size="md" href="/" />
-              <Badge variant="outline" className="border-blue-600 text-blue-700 bg-blue-50">
+          <div className="flex justify-between items-center h-16 md:h-20">
+            {/* Logo Section */}
+            <div className="flex items-center gap-4">
+              <Logo size="md" href="/" className="hover:opacity-90 transition-opacity" />
+              <Badge variant="outline" className="hidden sm:inline-flex border-blue-200 text-blue-700 bg-blue-50/80 font-medium px-2.5 py-1 text-xs">
                 🇮🇳 India
               </Badge>
             </div>
             
-            <div className="hidden md:flex items-center gap-8">
-              <Link href="#how-it-works" className="text-gray-700 hover:text-gray-900 font-medium">How It Works</Link>
-              <Link href="#pilot-offer" className="text-gray-700 hover:text-gray-900 font-medium">Pilot Offer</Link>
-              <Link href="#results" className="text-gray-700 hover:text-gray-900 font-medium">Results</Link>
-              <Link href="/insights" className="text-gray-700 hover:text-gray-900 font-medium">Insights</Link>
-              <Link href="#faq" className="text-gray-700 hover:text-gray-900 font-medium">FAQ</Link>
+            {/* Navigation Links */}
+            <div className="hidden lg:flex items-center gap-8">
+              <Link 
+                href="#how-it-works" 
+                className="text-slate-700 hover:text-slate-900 font-medium text-sm transition-colors relative group"
+              >
+                How It Works
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all group-hover:w-full"></span>
+              </Link>
+              <Link 
+                href="#pilot-offer" 
+                className="text-slate-700 hover:text-slate-900 font-medium text-sm transition-colors relative group"
+              >
+                Pilot Offer
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all group-hover:w-full"></span>
+              </Link>
+              <Link 
+                href="#results" 
+                className="text-slate-700 hover:text-slate-900 font-medium text-sm transition-colors relative group"
+              >
+                Results
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all group-hover:w-full"></span>
+              </Link>
+              <Link 
+                href="/insights" 
+                className="text-slate-700 hover:text-slate-900 font-medium text-sm transition-colors relative group"
+              >
+                Insights
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all group-hover:w-full"></span>
+              </Link>
+              <Link 
+                href="#faq" 
+                className="text-slate-700 hover:text-slate-900 font-medium text-sm transition-colors relative group"
+              >
+                FAQ
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all group-hover:w-full"></span>
+              </Link>
             </div>
 
+            {/* CTA Section */}
             <div className="flex items-center gap-3">
-              <Button variant="outline" asChild>
+              <Button 
+                variant="outline" 
+                className="hidden md:inline-flex border-slate-300 text-slate-700 hover:bg-slate-50 font-medium text-sm" 
+                asChild
+              >
                 <Link href="/login">Client Login</Link>
               </Button>
-              <Button className="bg-blue-600 hover:bg-blue-700" asChild>
+              <Button 
+                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm px-5 py-2.5 shadow-md hover:shadow-lg transition-all" 
+                asChild
+              >
                 <Link href="/onboarding">See If You Qualify</Link>
+              </Button>
+              {/* Mobile Menu Button */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="lg:hidden"
+                aria-label="Open menu"
+              >
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
               </Button>
             </div>
           </div>
         </div>
       </nav>
 
-      {/* Hero Section - Simplified Trust-Focused */}
-      <section className="relative pt-24 md:pt-32 pb-20 px-4 bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
+      {/* Hero Section - Premium Brand Positioning */}
+      <section className="relative pt-28 md:pt-36 pb-24 px-4 bg-gradient-to-br from-white via-slate-50/50 to-blue-50/20">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-4xl mx-auto">
             {/* Main Headline - A/B Test */}

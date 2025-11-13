@@ -61,7 +61,7 @@ export default function Logo({
     );
   }
 
-  // Create the logo image component with mobile responsiveness
+  // Create the logo image component with mobile responsiveness and refined styling
   const LogoImage = variant === 'icon' ? (
     <Image
       src={getLogoSrc()}
@@ -70,6 +70,7 @@ export default function Logo({
       height={iconDims.height}
       priority
       className={`h-auto w-auto ${className}`}
+      style={{ imageRendering: 'crisp-edges' }}
     />
   ) : (
     <Image
@@ -78,7 +79,8 @@ export default function Logo({
       width={dimensions.width}
       height={dimensions.height}
       priority
-      className={`h-auto w-auto max-h-[40px] md:max-h-none ${className}`}
+      className={`h-auto w-auto max-h-[40px] md:max-h-[60px] ${className}`}
+      style={{ imageRendering: 'crisp-edges' }}
     />
   );
 

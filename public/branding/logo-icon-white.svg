@@ -1,9 +1,18 @@
 <svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <g fill="#FFFFFF">
-    <circle cx="128" cy="64" r="40"/>
-    <path d="M64 112C64 99.1929 74.1929 89 87 89H169C181.807 89 192 99.1929 192 112V118C192 123.523 187.523 128 182 128H74C68.4772 128 64 123.523 64 118V112Z"/>
-    <path d="M88 128L168 128L140 216C137.57 223.632 130.323 229 122.329 229H117.671C109.677 229 102.43 223.632 100 216L88 128Z"/>
-    <path d="M111 162L123 174L149 148" stroke="white" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <g transform="translate(28, 28)">
+    <!-- Human head -->
+    <circle cx="100" cy="48" r="32" fill="#FFFFFF"/>
+    
+    <!-- Shoulders/Top of funnel -->
+    <path d="M16 104C16 94.0589 24.0589 86 34 86H166C175.941 86 184 94.0589 184 104V109C184 115.075 179.075 120 173 120H27C20.9249 120 16 115.075 16 109V104Z" fill="#FFFFFF"/>
+    
+    <!-- Funnel body -->
+    <path d="M40 120L160 120L96 196C93.809 203.006 86.5224 208 77.2038 208H76.7962C67.4776 208 60.191 203.006 58 196L40 120Z" fill="#FFFFFF"/>
+    
+    <!-- Verification checkmark -->
+    <path d="M64 160L80 176L144 112" stroke="#0A3A8C" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    
+    <!-- Accent dot -->
+    <circle cx="100" cy="156" r="5" fill="#10B981"/>
   </g>
 </svg>
-

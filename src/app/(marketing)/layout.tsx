@@ -6,7 +6,7 @@ export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: "Transition Marketing AI | AI-Powered Lead Generation & Marketing Automation in India",
-  description: "Transition Marketing AI builds AI-powered paid ad systems that deliver verified inquiries straight to your WhatsApp and dashboard. Get real leads every week with our managed campaigns.",
+  description: "Transition Marketing AI builds AI-powered paid ad systems that deliver real, verified inquiries to Indian businesses. Get campaigns, dashboards, and WhatsApp automation for real estate, healthcare, SaaS, local services, and more.",
   openGraph: {
     title: "Transition Marketing AI | AI-Powered Lead Generation & Marketing Automation in India",
     description: "Transition Marketing AI builds AI-powered paid ad systems that deliver verified inquiries straight to your WhatsApp and dashboard. Get real leads every week with our managed campaigns.",

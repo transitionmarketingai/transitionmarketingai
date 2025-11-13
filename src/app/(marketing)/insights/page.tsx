@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Clock } from 'lucide-react';
 import Link from 'next/link';
 import Logo from '@/components/Logo';
 
@@ -14,22 +14,25 @@ export const metadata: Metadata = {
 export default function InsightsPage() {
   const articles = [
     {
-      title: "How Indian Businesses Can Use AI to Get More Inquiries from Paid Ads",
-      description: "A step-by-step overview of how AI-powered campaigns help you reach high-intent customers without wasting ad spend.",
-      tag: "AI Lead Generation",
-      tagColor: "bg-blue-600"
-    },
-    {
-      title: "Real Estate Lead Generation in India: From Clicks to Verified Inquiries",
-      description: "Exactly how real estate developers and brokers can turn ad clicks into booked site visits using AI automation.",
+      title: "How AI Can 10x Real Estate Inquiries in India",
+      description: "A practical breakdown of how AI-powered targeting and ad optimization can bring serious property buyers instead of time-wasters.",
       tag: "Real Estate",
-      tagColor: "bg-green-600"
+      tagColor: "bg-green-600",
+      readTime: "6 min read"
     },
     {
-      title: "Why WhatsApp Automation Is the Secret Weapon for Closing More Deals",
-      description: "Discover how automated WhatsApp follow-ups can significantly improve your conversion rate from inquiries to customers.",
+      title: "Why Most Lead Gen Agencies Fail Indian Businesses",
+      description: "Common mistakes agencies make with ad targeting, follow-ups, and reporting — and how an AI-first approach fixes them.",
+      tag: "Strategy",
+      tagColor: "bg-blue-600",
+      readTime: "5 min read"
+    },
+    {
+      title: "From Clicks to WhatsApp Inquiries: The New Funnel for Indian SMBs",
+      description: "How to convert anonymous ad clicks into high-intent WhatsApp inquiries using automation and smart routing.",
       tag: "Automation",
-      tagColor: "bg-purple-600"
+      tagColor: "bg-purple-600",
+      readTime: "7 min read"
     }
   ];
 
@@ -84,10 +87,14 @@ export default function InsightsPage() {
             {articles.map((article, index) => (
               <Card key={index} className="border-2 border-slate-200 hover:border-blue-300 transition-colors flex flex-col">
                 <CardHeader>
-                  <div className="mb-4">
+                  <div className="flex items-center justify-between mb-4">
                     <Badge className={`${article.tagColor} text-white`}>
                       {article.tag}
                     </Badge>
+                    <div className="flex items-center gap-1 text-sm text-slate-500">
+                      <Clock className="h-4 w-4" />
+                      <span>{article.readTime}</span>
+                    </div>
                   </div>
                   <CardTitle className="text-xl mb-4">{article.title}</CardTitle>
                 </CardHeader>
@@ -98,10 +105,12 @@ export default function InsightsPage() {
                   <Button 
                     variant="outline" 
                     className="w-full border-2 border-slate-300 text-slate-700 hover:bg-slate-50"
-                    disabled
+                    asChild
                   >
-                    Coming Soon
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    <Link href="#">
+                      Read More
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
                   </Button>
                 </CardContent>
               </Card>

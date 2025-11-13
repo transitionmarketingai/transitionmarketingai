@@ -1,11 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { 
   MessageCircle,
   CheckCircle,
@@ -42,10 +41,32 @@ export default function LandingPage() {
       return;
     }
     setShowValidationError(false);
-    const encodedIndustry = encodeURIComponent(selectedIndustry);
-    const urlWithIndustry = `${calendlyUrl}?industry=${encodedIndustry}`;
-    window.open(urlWithIndustry, '_blank', 'noopener,noreferrer');
+    console.log('Selected industry:', selectedIndustry);
+    // For now, just log to console. Later this can route to industry-specific pages.
   };
+
+  // Scroll animation setup
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        }
+      });
+    }, observerOptions);
+
+    const elements = document.querySelectorAll('.reveal-on-scroll');
+    elements.forEach((el) => observer.observe(el));
+
+    return () => {
+      elements.forEach((el) => observer.unobserve(el));
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-white">
@@ -178,36 +199,37 @@ export default function LandingPage() {
           </div>
           
           <div className="max-w-md mx-auto">
-            <Select 
-              value={selectedIndustry} 
-              onValueChange={(value) => {
-                setSelectedIndustry(value);
+            <label htmlFor="industry-select" className="block text-sm font-medium text-slate-700 mb-2">
+              Choose your industry
+            </label>
+            <select
+              id="industry-select"
+              value={selectedIndustry}
+              onChange={(e) => {
+                setSelectedIndustry(e.target.value);
                 setShowValidationError(false);
               }}
+              className="w-full h-14 text-lg px-4 py-2 rounded-md border-2 border-slate-300 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              <SelectTrigger className="w-full h-14 text-lg">
-                <SelectValue placeholder="Choose your industry..." />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="professional-services">Professional Services</SelectItem>
-                <SelectItem value="healthcare-wellness">Healthcare & Wellness</SelectItem>
-                <SelectItem value="real-estate-builders">Real Estate & Builders</SelectItem>
-                <SelectItem value="dealerships-service-centers">Dealerships & Service Centers</SelectItem>
-                <SelectItem value="retail-local-businesses">Retail & Local Businesses</SelectItem>
-                <SelectItem value="startups-saas">Startups & SaaS</SelectItem>
-                <SelectItem value="education-training">Education & Training Providers</SelectItem>
-                <SelectItem value="home-renovation">Home & Renovation Services</SelectItem>
-                <SelectItem value="event-media-hospitality">Event, Media & Hospitality</SelectItem>
-                <SelectItem value="travel-tour">Travel & Tour Services</SelectItem>
-                <SelectItem value="finance-insurance">Finance & Insurance Services</SelectItem>
-                <SelectItem value="freelancers-creators">Freelancers & Creators</SelectItem>
-                <SelectItem value="logistics-b2b">Logistics & B2B Service Providers</SelectItem>
-              </SelectContent>
-            </Select>
+              <option value="">Select an industry</option>
+              <option value="professional-services">Professional Services</option>
+              <option value="healthcare-wellness">Healthcare & Wellness</option>
+              <option value="real-estate-builders">Real Estate & Builders</option>
+              <option value="dealerships-service-centers">Dealerships & Service Centers</option>
+              <option value="retail-local-businesses">Retail & Local Businesses</option>
+              <option value="startups-saas">Startups & SaaS</option>
+              <option value="education-training">Education & Training Providers</option>
+              <option value="home-renovation">Home & Renovation Services</option>
+              <option value="event-media-hospitality">Event, Media & Hospitality</option>
+              <option value="travel-tour">Travel & Tour Services</option>
+              <option value="finance-insurance">Finance & Insurance Services</option>
+              <option value="freelancers-creators">Freelancers & Creators</option>
+              <option value="logistics-b2b">Logistics & B2B Service Providers</option>
+            </select>
             
             {showValidationError && (
               <p className="text-red-600 text-sm mt-2 text-center">
-                Please select your industry to see a custom solution.
+                Please select an industry first.
               </p>
             )}
             
@@ -354,7 +376,7 @@ export default function LandingPage() {
       </section>
 
       {/* How Our System Works */}
-      <section id="how-it-works" className="py-20 px-4 bg-slate-50">
+      <section id="how-it-works" className="py-20 px-4 bg-slate-50 reveal-on-scroll">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
@@ -421,7 +443,7 @@ export default function LandingPage() {
       </section>
 
       {/* Dashboard Preview Section */}
-      <section id="dashboard-preview" className="py-20 px-4 bg-white">
+      <section id="dashboard-preview" className="py-20 px-4 bg-white reveal-on-scroll">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Left side - Text content */}
@@ -467,7 +489,7 @@ export default function LandingPage() {
       </section>
 
       {/* Industry-Specific Results - Hormozi Style */}
-      <section id="results" className="py-20 px-4 bg-white">
+      <section id="results" className="py-20 px-4 bg-white reveal-on-scroll">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
@@ -480,14 +502,15 @@ export default function LandingPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
             {/* Real Estate */}
-            <Card className="border-2 border-slate-200">
-              <CardHeader>
-                <CardTitle className="text-2xl flex items-center gap-2">
-                  <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <TrendingUp className="h-6 w-6 text-blue-600" />
-                  </div>
-                  Real Estate Developers
-                </CardTitle>
+            <Card className="border-2 border-slate-200 shadow-lg rounded-xl overflow-hidden relative">
+              <div className="absolute top-4 left-4">
+                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md">
+                  R
+                </div>
+              </div>
+              <CardHeader className="pt-16">
+                <Badge className="w-fit mb-2 bg-blue-100 text-blue-700 border-blue-300">Real Estate Developers</Badge>
+                <CardTitle className="text-2xl">Real Estate Developers</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
@@ -518,14 +541,15 @@ export default function LandingPage() {
             </Card>
 
             {/* Healthcare */}
-            <Card className="border-2 border-slate-200">
-              <CardHeader>
-                <CardTitle className="text-2xl flex items-center gap-2">
-                  <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                    <Users className="h-6 w-6 text-green-600" />
-                  </div>
-                  Healthcare Providers
-                </CardTitle>
+            <Card className="border-2 border-slate-200 shadow-lg rounded-xl overflow-hidden relative">
+              <div className="absolute top-4 left-4">
+                <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md">
+                  H
+                </div>
+              </div>
+              <CardHeader className="pt-16">
+                <Badge className="w-fit mb-2 bg-green-100 text-green-700 border-green-300">Healthcare Providers</Badge>
+                <CardTitle className="text-2xl">Healthcare Providers</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
@@ -556,14 +580,15 @@ export default function LandingPage() {
             </Card>
 
             {/* B2B Services */}
-            <Card className="border-2 border-slate-200">
-              <CardHeader>
-                <CardTitle className="text-2xl flex items-center gap-2">
-                  <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                    <BarChart3 className="h-6 w-6 text-purple-600" />
-                  </div>
-                  B2B Services
-                </CardTitle>
+            <Card className="border-2 border-slate-200 shadow-lg rounded-xl overflow-hidden relative">
+              <div className="absolute top-4 left-4">
+                <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md">
+                  B
+                </div>
+              </div>
+              <CardHeader className="pt-16">
+                <Badge className="w-fit mb-2 bg-purple-100 text-purple-700 border-purple-300">B2B Services</Badge>
+                <CardTitle className="text-2xl">B2B Services</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
@@ -594,14 +619,15 @@ export default function LandingPage() {
             </Card>
 
             {/* E-commerce */}
-            <Card className="border-2 border-slate-200">
-              <CardHeader>
-                <CardTitle className="text-2xl flex items-center gap-2">
-                  <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center">
-                    <Zap className="h-6 w-6 text-amber-600" />
-                  </div>
-                  E-commerce Brands
-                </CardTitle>
+            <Card className="border-2 border-slate-200 shadow-lg rounded-xl overflow-hidden relative">
+              <div className="absolute top-4 left-4">
+                <div className="w-12 h-12 bg-amber-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md">
+                  E
+                </div>
+              </div>
+              <CardHeader className="pt-16">
+                <Badge className="w-fit mb-2 bg-amber-100 text-amber-700 border-amber-300">E-commerce Brands</Badge>
+                <CardTitle className="text-2xl">E-commerce Brands</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
@@ -635,7 +661,7 @@ export default function LandingPage() {
       </section>
 
       {/* Pricing Section - Campaign Management Tiers */}
-      <section id="pricing" className="py-20 px-4 bg-slate-50">
+      <section id="pricing" className="py-20 px-4 bg-slate-50 reveal-on-scroll">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
@@ -763,7 +789,7 @@ export default function LandingPage() {
           </div>
 
           {/* Guarantee Section */}
-          <div className="bg-green-50 rounded-xl p-8 border-2 border-green-200 text-center">
+          <div className="bg-green-50 rounded-xl p-8 border-2 border-green-200 text-center reveal-on-scroll">
             <Shield className="h-12 w-12 text-green-600 mx-auto mb-4" />
             <h3 className="text-2xl font-bold text-slate-900 mb-2">Our Guarantee</h3>
             <p className="text-lg font-semibold text-slate-900 mb-4">

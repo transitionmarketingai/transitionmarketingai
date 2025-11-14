@@ -249,7 +249,7 @@ export default function BookPage() {
   };
 
   // Handle Calendly booking completion
-  const handleCalendlyEventScheduled = () => {
+  const handleCalendlyEventScheduled = async () => {
     setIsCalendlyBooked(true);
     
     trackEvent('book_session_calendly_booked', {
@@ -259,6 +259,77 @@ export default function BookPage() {
       budget_range: bookingData.budgetRange,
       main_goal: bookingData.mainGoal,
     });
+
+    // Send WhatsApp confirmation message
+    try {
+      const whatsappResponse = await fetch('/api/whatsapp-leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          phoneNumber: bookingData.whatsapp,
+          name: bookingData.fullName,
+          date_time: 'We\'ll confirm shortly', // Calendly event data could be passed here
+          messageType: 'confirmation',
+        }),
+      });
+
+      if (whatsappResponse.ok) {
+        const result = await whatsappResponse.json();
+        if (result.success) {
+          trackEvent('lead_confirmation_sent', {
+            event_category: 'whatsapp',
+            event_label: 'confirmation_message_sent',
+            phone_number: bookingData.whatsapp,
+          });
+          console.log('✅ WhatsApp confirmation sent');
+        }
+      } else {
+        console.error('Failed to send WhatsApp confirmation:', await whatsappResponse.text());
+      }
+    } catch (error) {
+      console.error('Error sending WhatsApp confirmation:', error);
+      // Don't block the UI if WhatsApp fails
+    }
+
+    // Send email confirmation (if email is available from Calendly)
+    // Note: Calendly doesn't provide email in the event, so we'll need to get it from the form or Calendly webhook
+    // For now, we'll skip email if not available
+    // In production, you'd want to capture email in the form or use Calendly webhooks
+    const emailFromCalendly = null; // This would come from Calendly webhook in production
+    
+    if (emailFromCalendly) {
+      try {
+        const emailResponse = await fetch('/api/email-leads', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: bookingData.fullName,
+            email: emailFromCalendly,
+            date_time: 'We\'ll confirm shortly',
+            calendly_link: CALENDLY_URL,
+            phone: bookingData.whatsapp,
+            industry: bookingData.industry,
+          }),
+        });
+
+        if (emailResponse.ok) {
+          const result = await emailResponse.json();
+          if (result.success) {
+            trackEvent('email_confirmation_sent', {
+              event_category: 'email',
+              event_label: 'confirmation_email_sent',
+              email: emailFromCalendly,
+            });
+            console.log('✅ Email confirmation sent');
+          }
+        } else {
+          console.error('Failed to send email confirmation:', await emailResponse.text());
+        }
+      } catch (error) {
+        console.error('Error sending email confirmation:', error);
+        // Don't block the UI if email fails
+      }
+    }
   };
 
   // Build Calendly URL with prefill parameters

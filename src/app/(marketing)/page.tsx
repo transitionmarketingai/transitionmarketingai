@@ -43,6 +43,8 @@ import Logo from '@/components/Logo';
 import { CalendlyEmbed } from '@/components/CalendlyEmbed';
 import { getABTestVariant, trackOnboardingSubmit, trackCalendlyBooking, trackWhatsAppClick, getUTMParams } from '@/lib/tracking';
 import { StructuredDataFAQ } from '@/components/analytics/StructuredDataFAQ';
+import { StructuredDataOrganization } from '@/components/analytics/StructuredDataOrganization';
+import { CookieConsent } from '@/components/CookieConsent';
 
 export default function LandingPage() {
   const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL || 'https://calendly.com';

@@ -163,12 +163,25 @@ export async function POST(request: NextRequest) {
           },
         });
 
-        await transporter.sendMail({
+        const mailOptions: any = {
           from: process.env.SMTP_FROM || '"Transition Marketing AI" <hello@transitionmarketingai.com>',
           to: email,
           subject: 'Your Verified Lead Proposal is on the Way',
           html: emailHtml,
-        });
+        };
+
+        // Add PDF attachment if provided
+        if (body.attachment && body.attachmentName) {
+          mailOptions.attachments = [
+            {
+              filename: body.attachmentName,
+              content: Buffer.from(body.attachment, 'base64'),
+              contentType: 'application/pdf',
+            },
+          ];
+        }
+
+        await transporter.sendMail(mailOptions);
 
         emailSent = true;
         console.log('[Email] Follow-up sent via SMTP');

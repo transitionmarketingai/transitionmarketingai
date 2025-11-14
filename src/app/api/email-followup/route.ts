@@ -6,6 +6,8 @@ interface EmailFollowupData {
   email: string;
   customMessage?: string;
   proposalLink?: string;
+  attachment?: string; // Base64 encoded PDF
+  attachmentName?: string; // PDF filename
 }
 
 /**
@@ -108,18 +110,30 @@ export async function POST(request: NextRequest) {
     // Option 1: Use Resend API (recommended)
     if (resendApiKey) {
       try {
+        const emailPayload: any = {
+          from: process.env.SMTP_FROM || 'Transition Marketing AI <hello@transitionmarketingai.com>',
+          to: email,
+          subject: 'Your Verified Lead Proposal is on the Way',
+          html: emailHtml,
+        };
+
+        // Add PDF attachment if provided
+        if (body.attachment && body.attachmentName) {
+          emailPayload.attachments = [
+            {
+              filename: body.attachmentName,
+              content: body.attachment, // Base64 encoded PDF
+            },
+          ];
+        }
+
         const resendResponse = await fetch('https://api.resend.com/emails', {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${resendApiKey}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            from: process.env.SMTP_FROM || 'Transition Marketing AI <hello@transitionmarketingai.com>',
-            to: email,
-            subject: 'Your Verified Lead Proposal is on the Way',
-            html: emailHtml,
-          }),
+          body: JSON.stringify(emailPayload),
         });
 
         if (resendResponse.ok) {

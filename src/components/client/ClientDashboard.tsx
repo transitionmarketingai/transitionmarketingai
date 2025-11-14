@@ -86,6 +86,26 @@ interface Invoice {
   description: string;
 }
 
+interface Ticket {
+  id: string;
+  ticketId: string;
+  clientId: string;
+  clientName: string;
+  clientEmail: string;
+  subject: string;
+  description: string;
+  status: string;
+  priority: string;
+  assignedTo: string;
+  createdAt: string;
+  updatedAt: string;
+  messages: Array<{
+    from: string;
+    message: string;
+    timestamp: string;
+  }>;
+}
+
 interface KPIs {
   verifiedLeads: number;
   avgCostPerLead: number;
@@ -110,7 +130,11 @@ export default function ClientDashboard() {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [showSupportDialog, setShowSupportDialog] = useState(false);
-  const [supportForm, setSupportForm] = useState({ subject: '', message: '', type: 'general' });
+  const [supportForm, setSupportForm] = useState({ subject: '', message: '', type: 'Medium' });
+  const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
+  const [showTicketDialog, setShowTicketDialog] = useState(false);
+  const [replyMessage, setReplyMessage] = useState('');
 
   // Get client token
   const getToken = () => {
@@ -226,8 +250,10 @@ export default function ClientDashboard() {
         await fetchReports();
       } else if (activeTab === 'billing') {
         await fetchInvoices();
-      } else if (activeTab === 'overview') {
+      } else       if (activeTab === 'overview') {
         await Promise.all([fetchLeads(), fetchInvoices()]);
+      } else if (activeTab === 'support') {
+        await fetchTickets();
       }
       
       setLoading(false);
@@ -252,31 +278,118 @@ export default function ClientDashboard() {
     }
   };
 
-  // Handle support request
-  const handleSupportRequest = async () => {
+  // Fetch tickets
+  const fetchTickets = async () => {
     try {
       const token = getToken();
-      const response = await fetch('/api/client/request-support', {
-        method: 'POST',
+      const response = await fetch('/api/support/list', {
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(supportForm),
       });
 
       const data = await response.json();
 
       if (data.success) {
-        toast.success('Support request submitted successfully');
-        setShowSupportDialog(false);
-        setSupportForm({ subject: '', message: '', type: 'general' });
-      } else {
-        toast.error(data.error || 'Failed to submit support request');
+        setTickets(data.data.tickets || []);
       }
     } catch (error) {
-      console.error('Error submitting support request:', error);
-      toast.error('Failed to submit support request');
+      console.error('Error fetching tickets:', error);
+    }
+  };
+
+  // Handle create ticket
+  const handleCreateTicket = async () => {
+    try {
+      const token = getToken();
+      const response = await fetch('/api/support/create', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          subject: supportForm.subject,
+          description: supportForm.message,
+          priority: supportForm.type,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        toast.success('Your ticket has been submitted! Our team will respond shortly.');
+        setShowSupportDialog(false);
+        setSupportForm({ subject: '', message: '', type: 'Medium' });
+        fetchTickets();
+      } else {
+        toast.error(data.error || 'Failed to create ticket');
+      }
+    } catch (error) {
+      console.error('Error creating ticket:', error);
+      toast.error('Failed to create ticket');
+    }
+  };
+
+  // Handle view ticket
+  const handleViewTicket = (ticket: Ticket) => {
+    setSelectedTicket(ticket);
+    setShowTicketDialog(true);
+  };
+
+  // Handle send reply
+  const handleSendReply = async () => {
+    if (!selectedTicket || !replyMessage.trim()) {
+      return;
+    }
+
+    try {
+      const token = getToken();
+      const response = await fetch('/api/support/message', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ticketId: selectedTicket.id,
+          message: replyMessage,
+          from: 'Client',
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        toast.success('Reply sent successfully');
+        setReplyMessage('');
+        fetchTickets();
+        // Refresh selected ticket
+        const updatedTicket = tickets.find((t) => t.id === selectedTicket.id);
+        if (updatedTicket) {
+          setSelectedTicket(updatedTicket);
+        }
+      } else {
+        toast.error(data.error || 'Failed to send reply');
+      }
+    } catch (error) {
+      console.error('Error sending reply:', error);
+      toast.error('Failed to send reply');
+    }
+  };
+
+  const getTicketStatusBadge = (status: string) => {
+    switch (status.toLowerCase()) {
+      case 'open':
+        return 'bg-blue-100 text-blue-800 border-blue-300';
+      case 'in progress':
+        return 'bg-yellow-100 text-yellow-800 border-yellow-300';
+      case 'resolved':
+        return 'bg-green-100 text-green-800 border-green-300';
+      case 'closed':
+        return 'bg-gray-100 text-gray-800 border-gray-300';
+      default:
+        return 'bg-slate-100 text-slate-800 border-slate-300';
     }
   };
 
@@ -711,68 +824,139 @@ export default function ClientDashboard() {
 
           {/* SUPPORT TAB */}
           <TabsContent value="support" className="space-y-6">
+            {/* Raise Ticket Section */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Support Tickets</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Dialog open={showSupportDialog} onOpenChange={setShowSupportDialog}>
+                  <DialogTrigger asChild>
+                    <Button className="bg-[#0053FF] hover:bg-[#0046E0] text-white">
+                      <FileText className="h-4 w-4 mr-2" />
+                      Raise a Ticket
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-2xl">
+                    <DialogHeader>
+                      <DialogTitle>Create Support Ticket</DialogTitle>
+                      <DialogDescription>
+                        Describe your issue and we'll get back to you soon.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Subject</label>
+                        <Input
+                          value={supportForm.subject}
+                          onChange={(e) => setSupportForm({ ...supportForm, subject: e.target.value })}
+                          placeholder="Brief description of your issue"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Description</label>
+                        <textarea
+                          className="w-full min-h-[150px] border border-slate-300 rounded-md p-2"
+                          value={supportForm.message}
+                          onChange={(e) => setSupportForm({ ...supportForm, message: e.target.value })}
+                          placeholder="Provide detailed information about your issue..."
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Priority</label>
+                        <select
+                          className="w-full px-3 py-2 border border-slate-300 rounded-md"
+                          value={supportForm.type}
+                          onChange={(e) => setSupportForm({ ...supportForm, type: e.target.value })}
+                        >
+                          <option value="Low">Low</option>
+                          <option value="Medium">Medium</option>
+                          <option value="High">High</option>
+                          <option value="Urgent">Urgent</option>
+                        </select>
+                      </div>
+                      <Button
+                        onClick={handleCreateTicket}
+                        className="w-full bg-[#0053FF] hover:bg-[#0046E0]"
+                        disabled={!supportForm.subject || !supportForm.message}
+                      >
+                        Submit Ticket
+                      </Button>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+
+                {/* Tickets List */}
+                <div className="mt-6">
+                  <h3 className="font-semibold text-slate-900 mb-4">Your Tickets</h3>
+                  {loading ? (
+                    <div className="text-center py-8">Loading...</div>
+                  ) : tickets.length === 0 ? (
+                    <div className="text-center py-8 text-slate-500">
+                      <FileText className="h-12 w-12 mx-auto mb-4 text-slate-400" />
+                      <p>No tickets yet. Raise a ticket to get started.</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {tickets.map((ticket) => (
+                        <Card key={ticket.id} className="border-2 border-slate-200">
+                          <CardContent className="p-6">
+                            <div className="flex items-start justify-between">
+                              <div className="flex-1">
+                                <div className="flex items-center gap-3 mb-2">
+                                  <h4 className="font-semibold text-slate-900">{ticket.subject}</h4>
+                                  <Badge className={getTicketStatusBadge(ticket.status)}>
+                                    {ticket.status}
+                                  </Badge>
+                                  <Badge variant="outline">{ticket.priority}</Badge>
+                                </div>
+                                <p className="text-sm text-slate-600 mb-2">{ticket.description}</p>
+                                <div className="flex items-center gap-4 text-xs text-slate-500">
+                                  <span>Ticket ID: {ticket.ticketId}</span>
+                                  <span>•</span>
+                                  <span>Updated: {new Date(ticket.updatedAt).toLocaleDateString()}</span>
+                                </div>
+                              </div>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handleViewTicket(ticket)}
+                              >
+                                <Eye className="h-4 w-4 mr-2" />
+                                View / Reply
+                              </Button>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Quick Contact */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>Get Support</CardTitle>
+                  <CardTitle>Quick Contact</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <p className="text-slate-600">
-                    Need help? Contact us via WhatsApp or submit a support request.
-                  </p>
-                  <div className="space-y-2">
-                    <Button
-                      className="w-full bg-green-600 hover:bg-green-700"
-                      onClick={() => {
-                        const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '919876543210';
-                        const message = encodeURIComponent(
-                          `Hi, I'm ${clientInfo?.name || 'a client'}. I need support. Client ID: ${clientInfo?.id || 'N/A'}`
-                        );
-                        window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
-                      }}
-                    >
-                      <MessageCircle className="h-4 w-4 mr-2" />
-                      Chat on WhatsApp
-                    </Button>
-                    <Dialog open={showSupportDialog} onOpenChange={setShowSupportDialog}>
-                      <DialogTrigger asChild>
-                        <Button variant="outline" className="w-full">
-                          <FileText className="h-4 w-4 mr-2" />
-                          Request Support
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>Submit Support Request</DialogTitle>
-                          <DialogDescription>
-                            Fill out the form below and we'll get back to you soon.
-                          </DialogDescription>
-                        </DialogHeader>
-                        <div className="space-y-4">
-                          <div>
-                            <label className="text-sm font-medium mb-2 block">Subject</label>
-                            <Input
-                              value={supportForm.subject}
-                              onChange={(e) => setSupportForm({ ...supportForm, subject: e.target.value })}
-                              placeholder="What do you need help with?"
-                            />
-                          </div>
-                          <div>
-                            <label className="text-sm font-medium mb-2 block">Message</label>
-                            <textarea
-                              className="w-full min-h-[150px] border border-slate-300 rounded-md p-2"
-                              value={supportForm.message}
-                              onChange={(e) => setSupportForm({ ...supportForm, message: e.target.value })}
-                              placeholder="Describe your issue or question..."
-                            />
-                          </div>
-                          <Button onClick={handleSupportRequest} className="w-full">
-                            Submit Request
-                          </Button>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
-                  </div>
+                  <Button
+                    className="w-full bg-green-600 hover:bg-green-700"
+                    onClick={() => {
+                      const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '919876543210';
+                      const message = encodeURIComponent(
+                        `Hi, I'm ${clientInfo?.name || 'a client'}. I need support. Client ID: ${clientInfo?.id || 'N/A'}`
+                      );
+                      window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
+                    }}
+                  >
+                    <MessageCircle className="h-4 w-4 mr-2" />
+                    Chat on WhatsApp
+                  </Button>
                 </CardContent>
               </Card>
 
@@ -808,6 +992,57 @@ export default function ClientDashboard() {
                 </CardContent>
               </Card>
             </div>
+
+            {/* Ticket Dialog */}
+            <Dialog open={showTicketDialog} onOpenChange={setShowTicketDialog}>
+              <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+                <DialogHeader>
+                  <DialogTitle>{selectedTicket?.subject}</DialogTitle>
+                  <DialogDescription>
+                    Ticket ID: {selectedTicket?.ticketId} • Status: {selectedTicket?.status} • Priority: {selectedTicket?.priority}
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4">
+                  {/* Messages Thread */}
+                  <div className="space-y-4 max-h-[400px] overflow-y-auto">
+                    {selectedTicket?.messages.map((msg, idx) => (
+                      <div
+                        key={idx}
+                        className={`p-4 rounded-lg ${
+                          msg.from === 'Client' ? 'bg-blue-50 ml-8' : 'bg-slate-50 mr-8'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="font-semibold text-slate-900">{msg.from}</span>
+                          <span className="text-xs text-slate-500">
+                            {new Date(msg.timestamp).toLocaleString()}
+                          </span>
+                        </div>
+                        <p className="text-slate-700">{msg.message}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Reply Form */}
+                  <div className="border-t pt-4">
+                    <label className="text-sm font-medium mb-2 block">Your Reply</label>
+                    <textarea
+                      className="w-full min-h-[100px] border border-slate-300 rounded-md p-2"
+                      value={replyMessage}
+                      onChange={(e) => setReplyMessage(e.target.value)}
+                      placeholder="Type your reply..."
+                    />
+                    <Button
+                      onClick={handleSendReply}
+                      className="mt-2 bg-[#0053FF] hover:bg-[#0046E0]"
+                      disabled={!replyMessage.trim()}
+                    >
+                      Send Reply
+                    </Button>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
           </TabsContent>
         </Tabs>
       </div>

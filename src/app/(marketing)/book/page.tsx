@@ -158,7 +158,12 @@ export default function BookPage() {
       // Store booking data in sessionStorage for Calendly prefill
       sessionStorage.setItem('bookingData', JSON.stringify(bookingData));
 
-      // Fire book_session_submit event
+      // Fire book_session_start and book_session_submit events
+      trackEvent('book_session_start', {
+        event_category: 'conversion',
+        event_label: 'booking_form_started',
+      });
+      
       trackEvent('book_session_submit', {
         event_category: 'conversion',
         event_label: 'qualification_form_submitted',
@@ -294,26 +299,19 @@ export default function BookPage() {
           {step === 1 && (
             <div className="text-center mb-10 reveal-on-scroll">
               <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4 leading-tight">
-                Book Your Free Strategy Call — See If You Qualify in 30 Seconds
+                Book Your Free Strategy Call — See If You Qualify in 30 Seconds.
               </h1>
-              <p className="text-xl md:text-2xl text-slate-700 mb-4 leading-relaxed">
+              <p className="text-xl md:text-2xl text-slate-700 mb-6 leading-relaxed">
                 Get a custom proposal for your business. We'll analyze your goals, budget, and audience — and show you exactly how many verified, warm inquiries we can deliver.
-              </p>
-              <p className="text-base text-slate-600 mb-6 italic">
-                No sales pitch. Just clarity on what's possible for your business.
               </p>
               
               {/* Trust Badges */}
-              <div className="flex flex-wrap justify-center items-center gap-4 mb-8">
-                <span className="inline-flex items-center gap-2 text-sm font-medium text-slate-700 bg-slate-100 px-4 py-2 rounded-full">
-                  🛡️ 100% Data Verified
-                </span>
-                <span className="inline-flex items-center gap-2 text-sm font-medium text-slate-700 bg-slate-100 px-4 py-2 rounded-full">
-                  Ad Spend Included
-                </span>
-                <span className="inline-flex items-center gap-2 text-sm font-medium text-slate-700 bg-slate-100 px-4 py-2 rounded-full">
-                  Exclusive Inquiries
-                </span>
+              <div className="flex flex-wrap justify-center items-center gap-2 mb-8 text-sm font-medium text-slate-700">
+                <span>🛡️ 100% Data Verified</span>
+                <span className="text-slate-400">•</span>
+                <span>Ad Spend Included</span>
+                <span className="text-slate-400">•</span>
+                <span>Exclusive Inquiries</span>
               </div>
             </div>
           )}
@@ -522,13 +520,10 @@ export default function BookPage() {
             <div className="space-y-6 reveal-on-scroll">
               <div className="text-center mb-6">
                 <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
-                  Step 2 of 2: Schedule Your Strategy Call
+                  Step 2 of 2: Schedule Your Strategy Call.
                 </h2>
-                <p className="text-lg text-slate-700 mb-2">
-                  You qualify for our <span className="font-semibold">Verified Leads Launch Program</span> 🎯
-                </p>
-                <p className="text-base text-slate-600">
-                  Choose a time that works best for you — we'll walk you through your custom plan and estimated lead costs.
+                <p className="text-lg text-slate-700">
+                  You qualify for our Verified Leads Launch Program 🎯 Choose a time below — we'll walk you through your custom plan and lead costs.
                 </p>
               </div>
 
@@ -543,27 +538,10 @@ export default function BookPage() {
               </Card>
 
               {/* Notes under widget */}
-              <div className="bg-slate-50 rounded-lg p-6 border border-slate-200">
-                <div className="space-y-3">
-                  <div className="flex items-start gap-3">
-                    <Calendar className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                    <p className="text-sm text-slate-700">
-                      <span className="font-semibold">📅 Average calls last 15–20 minutes</span>
-                    </p>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
-                    <p className="text-sm text-slate-700">
-                      <span className="font-semibold">💬 You'll see sample verified leads and your projected ROI</span>
-                    </p>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <Shield className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                    <p className="text-sm text-slate-700">
-                      <span className="font-semibold">🔒 No spam. No hard sell.</span>
-                    </p>
-                  </div>
-                </div>
+              <div className="bg-slate-50 rounded-lg p-6 border border-slate-200 text-center">
+                <p className="text-sm text-slate-700 font-medium">
+                  📅 Average call 15–20 min <span className="text-slate-400 mx-2">•</span> 💬 See sample verified leads <span className="text-slate-400 mx-2">•</span> 🔒 No spam.
+                </p>
               </div>
 
               <div className="text-center">
@@ -586,13 +564,10 @@ export default function BookPage() {
                   <CheckCircle className="h-12 w-12 text-white" />
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-                  ✅ Thanks, {bookingData.fullName}!
+                  ✅ Thanks {bookingData.fullName.split(' ')[0]}!
                 </h2>
-                <p className="text-xl text-slate-700 mb-2 leading-relaxed">
-                  Your consultation is confirmed.
-                </p>
-                <p className="text-lg text-slate-600 leading-relaxed">
-                  We'll prepare your AI Marketing Report and reach out via WhatsApp before the call.
+                <p className="text-xl text-slate-700 leading-relaxed">
+                  Your consultation is confirmed. We'll prepare your AI Marketing Report and reach out via WhatsApp before the call.
                 </p>
                 <div className="mt-8">
                   <Button size="lg" className="bg-[#0053FF] hover:bg-[#0046E0] text-white" asChild>

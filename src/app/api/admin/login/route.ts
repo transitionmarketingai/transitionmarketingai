@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { setAdminSession } from '@/lib/adminAuth';
 import { createSuccessResponse, createErrorResponse } from '@/lib/apiHelpers';
+import { trackEvent } from '@/lib/tracking';
 
-export async function POST(req: NextRequest) {
+/**
+ * Admin Login API
+ * Simple password-based authentication
+ */
+export async function POST(request: NextRequest) {
   try {
-    const { password } = await req.json();
+    const body = await request.json();
+    const { password } = body;
 
     if (!password) {
       return NextResponse.json(
@@ -13,36 +18,49 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const adminPassword = process.env.ADMIN_PASSWORD;
+    const adminPassword = process.env.ADMIN_PASSWORD || process.env.ADMIN_PASS;
 
     if (!adminPassword) {
       console.error('[Admin Login] ADMIN_PASSWORD not configured');
       return NextResponse.json(
-        createErrorResponse('Admin password not configured'),
+        createErrorResponse('Admin authentication not configured'),
         { status: 500 }
       );
     }
 
     if (password !== adminPassword) {
-      console.warn('[Admin Login] Invalid password attempt');
       return NextResponse.json(
         createErrorResponse('Invalid password'),
         { status: 401 }
       );
     }
 
-    // Set admin session cookie
-    await setAdminSession();
+    // Fire analytics event
+    trackEvent('admin_login', {
+      event_category: 'admin',
+      event_label: 'admin_login_success',
+    });
 
-    console.log('[Admin Login] Successful admin login');
+    // Set session cookie
+    const response = NextResponse.json(
+      createSuccessResponse({ message: 'Login successful' })
+    );
 
-    return NextResponse.json(createSuccessResponse());
+    // Set httpOnly cookie for server-side auth checks
+    response.cookies.set('admin_session', 'authenticated', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24, // 24 hours
+      path: '/',
+    });
+
+    return response;
   } catch (error: any) {
     console.error('[Admin Login] Error:', error);
     return NextResponse.json(
-      createErrorResponse('An error occurred'),
+      createErrorResponse(error.message || 'Internal server error'),
       { status: 500 }
     );
   }
 }
-

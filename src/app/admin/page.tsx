@@ -1,22 +1,51 @@
-import { getSupabaseServerClient } from '@/lib/supabaseServer';
-import { requireAdminPage } from '@/lib/adminAuth';
-import AdminDashboard from '@/components/admin/AdminDashboard';
-import { handleSupabaseError } from '@/lib/apiHelpers';
+'use client';
 
-export default async function AdminPage() {
-  // Require admin authentication
-  await requireAdminPage();
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import BillingDashboard from '@/components/admin/BillingDashboard';
 
-  // Fetch submissions
-  const supabase = getSupabaseServerClient();
-  const { data: submissions, error } = await supabase
-    .from('onboarding_submissions')
-    .select('*')
-    .order('created_at', { ascending: false });
+export default function AdminPage() {
+  const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  if (handleSupabaseError(error, 'Fetching onboarding submissions for admin dashboard')) {
-    // Log error but continue with empty array
+  useEffect(() => {
+    // Check localStorage for admin session
+    const session = localStorage.getItem('admin_session');
+    const expiresAt = localStorage.getItem('admin_session_expires');
+    
+    if (session && expiresAt) {
+      const expires = new Date(expiresAt);
+      if (expires > new Date()) {
+        setIsAuthenticated(true);
+      } else {
+        // Session expired
+        localStorage.removeItem('admin_session');
+        localStorage.removeItem('admin_session_expires');
+        router.push('/admin/login');
+      }
+    } else {
+      // No session, redirect to login
+      router.push('/admin/login');
+    }
+    
+    setIsLoading(false);
+  }, [router]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-slate-600">Loading...</p>
+        </div>
+      </div>
+    );
   }
 
-  return <AdminDashboard initialSubmissions={submissions || []} />;
+  if (!isAuthenticated) {
+    return null; // Will redirect
+  }
+
+  return <BillingDashboard />;
 }

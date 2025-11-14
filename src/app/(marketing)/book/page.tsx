@@ -99,6 +99,27 @@ export default function BookPage() {
     }
   }, [step, bookingData.industry, bookingData.budgetRange, bookingData.mainGoal, isCalendlyBooked]);
 
+  // Initialize reveal-on-scroll animations
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const elements = document.querySelectorAll('.reveal-on-scroll');
+    elements.forEach((el) => observer.observe(el));
+
+    return () => {
+      elements.forEach((el) => observer.unobserve(el));
+    };
+  }, [step]);
+
   const validateForm = (): boolean => {
     const newErrors: Partial<BookingData> = {};
 

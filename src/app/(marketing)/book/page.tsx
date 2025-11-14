@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { CheckCircle, ArrowRight, Calendar, Shield } from 'lucide-react';
+import { CheckCircle, ArrowRight, Shield, Calendar, Lock } from 'lucide-react';
 import Link from 'next/link';
 import Logo from '@/components/Logo';
 import { CalendlyEmbed } from '@/components/CalendlyEmbed';
@@ -65,20 +65,9 @@ export default function BookPage() {
   const [errors, setErrors] = useState<Partial<BookingData>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasStartedTyping, setHasStartedTyping] = useState(false);
+  const [isCalendlyBooked, setIsCalendlyBooked] = useState(false);
 
-  // Track when Calendly widget loads (Step 2) - fire book_session_complete
-  useEffect(() => {
-    if (step === 2) {
-      trackEvent('book_session_complete', {
-        event_category: 'conversion',
-        event_label: 'calendly_widget_loaded',
-        industry: bookingData.industry,
-        budget_range: bookingData.budgetRange,
-        main_goal: bookingData.mainGoal,
-      });
-    }
-  }, [step, bookingData.industry, bookingData.budgetRange, bookingData.mainGoal]);
-
+  // Track when user starts typing (first keystroke)
   const handleChange = (field: keyof BookingData, value: string) => {
     setBookingData(prev => ({ ...prev, [field]: value }));
     
@@ -96,6 +85,19 @@ export default function BookPage() {
       setErrors(prev => ({ ...prev, [field]: undefined }));
     }
   };
+
+  // Track when Calendly widget loads (Step 2) - fire book_session_complete
+  useEffect(() => {
+    if (step === 2 && !isCalendlyBooked) {
+      trackEvent('book_session_complete', {
+        event_category: 'conversion',
+        event_label: 'calendly_widget_loaded',
+        industry: bookingData.industry,
+        budget_range: bookingData.budgetRange,
+        main_goal: bookingData.mainGoal,
+      });
+    }
+  }, [step, bookingData.industry, bookingData.budgetRange, bookingData.mainGoal, isCalendlyBooked]);
 
   const validateForm = (): boolean => {
     const newErrors: Partial<BookingData> = {};
@@ -135,11 +137,20 @@ export default function BookPage() {
       // Store booking data in sessionStorage for Calendly prefill
       sessionStorage.setItem('bookingData', JSON.stringify(bookingData));
 
-      // Submit to webhook (Airtable/Sheets)
+      // Fire book_session_submit event
+      trackEvent('book_session_submit', {
+        event_category: 'conversion',
+        event_label: 'qualification_form_submitted',
+        industry: bookingData.industry,
+        budget_range: bookingData.budgetRange,
+        main_goal: bookingData.mainGoal,
+      });
+
+      // Submit to webhook (Airtable/Sheets) if configured
       const webhookUrl = process.env.NEXT_PUBLIC_WEBHOOK_URL;
       if (webhookUrl) {
         try {
-          await fetch(webhookUrl, {
+          const webhookResponse = await fetch(webhookUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -154,10 +165,16 @@ export default function BookPage() {
                 utm_source: bookingData.utm_source || '',
                 utm_medium: bookingData.utm_medium || '',
                 utm_campaign: bookingData.utm_campaign || '',
+                utm_term: bookingData.utm_term || '',
+                utm_content: bookingData.utm_content || '',
                 timestamp: new Date().toISOString(),
               },
             }),
           });
+
+          if (webhookResponse.ok) {
+            console.log('✅ Lead submitted successfully');
+          }
         } catch (webhookError) {
           console.error('Webhook error:', webhookError);
           // Continue even if webhook fails
@@ -177,10 +194,15 @@ export default function BookPage() {
             city: '', // Optional
             avg_customer_value: '',
             current_leads_per_month: '',
-            desired_leads_per_month: '',
+            desired_leads_per_month: bookingData.mainGoal,
             comfort_budget_range: bookingData.budgetRange,
             has_sales_team: '',
             score: 50, // Default score
+            utm_source: bookingData.utm_source,
+            utm_medium: bookingData.utm_medium,
+            utm_campaign: bookingData.utm_campaign,
+            utm_term: bookingData.utm_term,
+            utm_content: bookingData.utm_content,
             ...bookingData,
           }),
         });
@@ -188,15 +210,6 @@ export default function BookPage() {
         console.error('API error:', apiError);
         // Continue even if API fails
       }
-
-      // Track form submission
-      trackEvent('book_session_form_submitted', {
-        event_category: 'conversion',
-        event_label: 'qualification_form_complete',
-        industry: bookingData.industry,
-        budget_range: bookingData.budgetRange,
-        main_goal: bookingData.mainGoal,
-      });
 
       // Move to Step 2 (Calendly)
       setStep(2);
@@ -211,6 +224,8 @@ export default function BookPage() {
 
   // Handle Calendly booking completion
   const handleCalendlyEventScheduled = () => {
+    setIsCalendlyBooked(true);
+    
     trackEvent('book_session_calendly_booked', {
       event_category: 'conversion',
       event_label: 'consultation_scheduled',
@@ -218,11 +233,6 @@ export default function BookPage() {
       budget_range: bookingData.budgetRange,
       main_goal: bookingData.mainGoal,
     });
-
-    // Redirect to thank-you page after a delay
-    setTimeout(() => {
-      window.location.href = '/thank-you';
-    }, 2000);
   };
 
   // Build Calendly URL with prefill parameters
@@ -232,9 +242,11 @@ export default function BookPage() {
       url.searchParams.set('name', bookingData.fullName);
     }
     if (bookingData.whatsapp) {
+      // Calendly custom field for phone (a1 = custom field 1)
       url.searchParams.set('a1', `+91${bookingData.whatsapp}`);
     }
     if (bookingData.businessName) {
+      // Calendly custom field for business name (a2 = custom field 2)
       url.searchParams.set('a2', bookingData.businessName);
     }
     return url.toString();
@@ -257,18 +269,36 @@ export default function BookPage() {
       {/* Main Content */}
       <section className="pt-28 md:pt-32 pb-20 px-4">
         <div className="max-w-2xl mx-auto">
-          {/* Hero Header */}
-          <div className="text-center mb-8">
-            <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-3">
-              Book Your Free Strategy Session
-            </h1>
-            <p className="text-lg text-slate-600 font-medium">
-              Takes 30 Seconds
-            </p>
-          </div>
+          {/* Hero Section */}
+          {step === 1 && (
+            <div className="text-center mb-10 reveal-on-scroll">
+              <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4 leading-tight">
+                Book Your Free Strategy Call — See If You Qualify in 30 Seconds
+              </h1>
+              <p className="text-xl md:text-2xl text-slate-700 mb-4 leading-relaxed">
+                Get a custom proposal for your business. We'll analyze your goals, budget, and audience — and show you exactly how many verified, warm inquiries we can deliver.
+              </p>
+              <p className="text-base text-slate-600 mb-6 italic">
+                No sales pitch. Just clarity on what's possible for your business.
+              </p>
+              
+              {/* Trust Badges */}
+              <div className="flex flex-wrap justify-center items-center gap-4 mb-8">
+                <span className="inline-flex items-center gap-2 text-sm font-medium text-slate-700 bg-slate-100 px-4 py-2 rounded-full">
+                  🛡️ 100% Data Verified
+                </span>
+                <span className="inline-flex items-center gap-2 text-sm font-medium text-slate-700 bg-slate-100 px-4 py-2 rounded-full">
+                  Ad Spend Included
+                </span>
+                <span className="inline-flex items-center gap-2 text-sm font-medium text-slate-700 bg-slate-100 px-4 py-2 rounded-full">
+                  Exclusive Inquiries
+                </span>
+              </div>
+            </div>
+          )}
 
           {/* Progress Bar - Step 1 of 2 → Step 2 of 2 */}
-          <div className="flex justify-center mb-6">
+          <div className="flex justify-center mb-8">
             <div className="flex items-center gap-2 bg-slate-100 rounded-full px-4 py-2">
               <div className={`flex items-center gap-2 ${step >= 1 ? 'text-blue-600' : 'text-slate-400'}`}>
                 <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold ${step >= 1 ? 'bg-blue-600 text-white' : 'bg-slate-300 text-slate-500'}`}>
@@ -287,8 +317,17 @@ export default function BookPage() {
 
           {/* Step 1: Qualification Form */}
           {step === 1 && (
-            <Card className="border-2 border-slate-200 shadow-xl">
+            <Card className="border-2 border-slate-200 shadow-xl reveal-on-scroll">
               <CardContent className="p-6 md:p-10">
+                <div className="mb-6">
+                  <h2 className="text-2xl font-bold text-slate-900 mb-2">
+                    Step 1 of 2: Tell Us About Your Business
+                  </h2>
+                  <p className="text-slate-600">
+                    Answer a few quick questions so we can prepare your verified lead generation quote before your call.
+                  </p>
+                </div>
+
                 <form onSubmit={handleSubmit} className="space-y-5">
                   {/* Full Name */}
                   <div>
@@ -430,9 +469,9 @@ export default function BookPage() {
 
                   {/* Privacy Note */}
                   <div className="flex items-start gap-2 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                    <Shield className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <Lock className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
                     <p className="text-sm text-slate-700">
-                      We'll never share your contact information.
+                      We use this info to tailor your proposal. Your data stays 100% private.
                     </p>
                   </div>
 
@@ -440,7 +479,7 @@ export default function BookPage() {
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold text-lg py-6"
+                    className="w-full bg-[#0053FF] hover:bg-[#0046E0] text-white font-semibold text-lg py-6 transition-all"
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? (
@@ -458,22 +497,19 @@ export default function BookPage() {
           )}
 
           {/* Step 2: Calendly Booking */}
-          {step === 2 && (
-            <div className="space-y-6">
-              <Card className="border-2 border-green-200 bg-green-50/50">
-                <CardContent className="p-6 text-center">
-                  <CheckCircle className="h-12 w-12 text-green-600 mx-auto mb-4" />
-                  <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-3">
-                    Thanks, {bookingData.fullName}!
-                  </h2>
-                  <p className="text-lg text-slate-700 mb-2">
-                    You qualify for our <span className="font-semibold">Verified Leads Launch Program</span>.
-                  </p>
-                  <p className="text-base text-slate-600">
-                    Choose a time below to discuss your custom quote.
-                  </p>
-                </CardContent>
-              </Card>
+          {step === 2 && !isCalendlyBooked && (
+            <div className="space-y-6 reveal-on-scroll">
+              <div className="text-center mb-6">
+                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
+                  Step 2 of 2: Schedule Your Strategy Call
+                </h2>
+                <p className="text-lg text-slate-700 mb-2">
+                  You qualify for our <span className="font-semibold">Verified Leads Launch Program</span> 🎯
+                </p>
+                <p className="text-base text-slate-600">
+                  Choose a time that works best for you — we'll walk you through your custom plan and estimated lead costs.
+                </p>
+              </div>
 
               <Card className="border-2 border-slate-200 shadow-xl">
                 <CardContent className="p-0">
@@ -485,6 +521,30 @@ export default function BookPage() {
                 </CardContent>
               </Card>
 
+              {/* Notes under widget */}
+              <div className="bg-slate-50 rounded-lg p-6 border border-slate-200">
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <Calendar className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <p className="text-sm text-slate-700">
+                      <span className="font-semibold">📅 Average calls last 15–20 minutes</span>
+                    </p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
+                    <p className="text-sm text-slate-700">
+                      <span className="font-semibold">💬 You'll see sample verified leads and your projected ROI</span>
+                    </p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Shield className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <p className="text-sm text-slate-700">
+                      <span className="font-semibold">🔒 No spam. No hard sell.</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
               <div className="text-center">
                 <Button
                   variant="outline"
@@ -495,6 +555,34 @@ export default function BookPage() {
                 </Button>
               </div>
             </div>
+          )}
+
+          {/* Confirmation Message (after Calendly booking) */}
+          {step === 2 && isCalendlyBooked && (
+            <Card className="border-2 border-green-200 bg-green-50/50 shadow-xl reveal-on-scroll">
+              <CardContent className="p-10 text-center">
+                <div className="w-20 h-20 rounded-full bg-green-600 flex items-center justify-center mx-auto mb-6">
+                  <CheckCircle className="h-12 w-12 text-white" />
+                </div>
+                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+                  ✅ Thanks, {bookingData.fullName}!
+                </h2>
+                <p className="text-xl text-slate-700 mb-2 leading-relaxed">
+                  Your consultation is confirmed.
+                </p>
+                <p className="text-lg text-slate-600 leading-relaxed">
+                  We'll prepare your AI Marketing Report and reach out via WhatsApp before the call.
+                </p>
+                <div className="mt-8">
+                  <Button size="lg" className="bg-[#0053FF] hover:bg-[#0046E0] text-white" asChild>
+                    <Link href="/">
+                      Back to Home
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
           )}
         </div>
       </section>

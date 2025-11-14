@@ -268,14 +268,20 @@ export default function BookPage() {
           </div>
 
           {/* Progress Bar - Step 1 of 2 → Step 2 of 2 */}
-          <div className="flex justify-center mb-8">
-            <div className="flex items-center gap-4">
+          <div className="flex justify-center mb-6">
+            <div className="flex items-center gap-2 bg-slate-100 rounded-full px-4 py-2">
               <div className={`flex items-center gap-2 ${step >= 1 ? 'text-blue-600' : 'text-slate-400'}`}>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold text-sm ${step >= 1 ? 'bg-blue-600 text-white' : 'bg-slate-200 text-slate-500'}`}>
-                  {step > 1 ? <CheckCircle className="h-4 w-4" /> : '1'}
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold ${step >= 1 ? 'bg-blue-600 text-white' : 'bg-slate-300 text-slate-500'}`}>
+                  {step > 1 ? <CheckCircle className="h-3 w-3" /> : '1'}
                 </div>
-                <span className="font-medium text-sm">Step {step} of 2</span>
               </div>
+              <span className="text-slate-400 mx-1">→</span>
+              <div className={`flex items-center gap-2 ${step >= 2 ? 'text-blue-600' : 'text-slate-400'}`}>
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold ${step >= 2 ? 'bg-blue-600 text-white' : 'bg-slate-300 text-slate-500'}`}>
+                  {step > 2 ? <CheckCircle className="h-3 w-3" /> : '2'}
+                </div>
+              </div>
+              <span className="ml-2 text-sm font-medium text-slate-600">Step {step} of 2</span>
             </div>
           </div>
 

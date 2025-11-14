@@ -6,17 +6,19 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { CheckCircle, ArrowRight, Calendar } from 'lucide-react';
+import { CheckCircle, ArrowRight, Calendar, Shield } from 'lucide-react';
 import Link from 'next/link';
 import Logo from '@/components/Logo';
 import { CalendlyEmbed } from '@/components/CalendlyEmbed';
 import { getStoredUTMParams, trackEvent } from '@/lib/tracking';
 
 interface BookingData {
+  fullName: string;
+  businessName: string;
   industry: string;
   budgetRange: string;
-  goal: string;
   whatsapp: string;
+  mainGoal: string;
   utm_source?: string;
   utm_medium?: string;
   utm_campaign?: string;
@@ -25,70 +27,70 @@ interface BookingData {
 }
 
 const INDUSTRIES = [
-  { value: 'professional-services', label: 'Professional Services' },
-  { value: 'healthcare-wellness', label: 'Healthcare & Wellness' },
-  { value: 'real-estate-builders', label: 'Real Estate & Builders' },
-  { value: 'dealerships-service-centers', label: 'Dealerships & Service Centers' },
-  { value: 'retail-local-businesses', label: 'Retail & Local Businesses' },
-  { value: 'startups-saas', label: 'Startups & SaaS' },
-  { value: 'education-training', label: 'Education & Training Providers' },
-  { value: 'home-renovation', label: 'Home & Renovation Services' },
-  { value: 'event-media-hospitality', label: 'Event, Media & Hospitality' },
-  { value: 'travel-tour', label: 'Travel & Tour Services' },
-  { value: 'finance-insurance', label: 'Finance & Insurance Services' },
-  { value: 'freelancers-creators', label: 'Freelancers & Creators' },
-  { value: 'logistics-b2b', label: 'Logistics & B2B Service Providers' },
+  { value: 'real-estate', label: 'Real Estate' },
+  { value: 'healthcare', label: 'Healthcare' },
+  { value: 'education', label: 'Education' },
+  { value: 'b2b-professional-services', label: 'B2B / Professional Services' },
+  { value: 'saas-startups', label: 'SaaS / Startups' },
+  { value: 'local-business', label: 'Local Business' },
+  { value: 'other', label: 'Other' },
 ];
 
 const BUDGET_OPTIONS = [
-  { value: 'under-25k', label: 'Under ₹25,000/month' },
-  { value: '25k-40k', label: '₹25,000 - ₹40,000/month' },
-  { value: '40k-60k', label: '₹40,000 - ₹60,000/month' },
-  { value: '60k-100k', label: '₹60,000 - ₹1 Lakh/month' },
-  { value: 'over-100k', label: 'Over ₹1 Lakh/month' },
+  { value: 'under-30k', label: '< ₹30,000' },
+  { value: '30k-75k', label: '₹30,000–₹75,000' },
+  { value: '75k-150k', label: '₹75,000–₹150,000' },
+  { value: '150k-plus', label: '₹150,000+' },
 ];
 
 const GOAL_OPTIONS = [
-  { value: '30-50', label: '30-50 verified inquiries per month' },
-  { value: '50-100', label: '50-100 verified inquiries per month' },
-  { value: '100-200', label: '100-200 verified inquiries per month' },
-  { value: '200+', label: '200+ verified inquiries per month' },
-  { value: 'custom', label: 'Custom goal (we\'ll discuss)' },
+  { value: 'generate-new-leads', label: 'Generate New Leads' },
+  { value: 'scale-existing-campaign', label: 'Scale Existing Campaign' },
+  { value: 'improve-conversion-rate', label: 'Improve Conversion Rate' },
 ];
+
+const CALENDLY_URL = 'https://calendly.com/transitionmarketingai-info/30min';
 
 export default function BookPage() {
   const [step, setStep] = useState(1);
   const [bookingData, setBookingData] = useState<BookingData>({
+    fullName: '',
+    businessName: '',
     industry: '',
     budgetRange: '',
-    goal: '',
     whatsapp: '',
+    mainGoal: '',
     ...getStoredUTMParams(),
   });
   const [errors, setErrors] = useState<Partial<BookingData>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL || 'https://calendly.com';
+  const [hasStartedTyping, setHasStartedTyping] = useState(false);
 
-  // Track when form opens
-  useEffect(() => {
-    trackEvent('book_session_start', {
-      event_category: 'conversion',
-      event_label: 'booking_form_opened',
-    });
-  }, []);
-
-  // Track when Calendly widget loads (Step 2)
+  // Track when Calendly widget loads (Step 2) - fire book_session_complete
   useEffect(() => {
     if (step === 2) {
-      trackEvent('book_session_calendly_loaded', {
+      trackEvent('book_session_complete', {
         event_category: 'conversion',
-        event_label: 'calendly_widget_visible',
+        event_label: 'calendly_widget_loaded',
+        industry: bookingData.industry,
+        budget_range: bookingData.budgetRange,
+        main_goal: bookingData.mainGoal,
       });
     }
-  }, [step]);
+  }, [step, bookingData.industry, bookingData.budgetRange, bookingData.mainGoal]);
 
   const handleChange = (field: keyof BookingData, value: string) => {
     setBookingData(prev => ({ ...prev, [field]: value }));
+    
+    // Fire book_session_start event when user starts typing
+    if (!hasStartedTyping && value) {
+      setHasStartedTyping(true);
+      trackEvent('book_session_start', {
+        event_category: 'conversion',
+        event_label: 'booking_form_started',
+      });
+    }
+    
     // Clear error for this field
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: undefined }));
@@ -98,19 +100,22 @@ export default function BookPage() {
   const validateForm = (): boolean => {
     const newErrors: Partial<BookingData> = {};
 
+    if (!bookingData.fullName.trim()) {
+      newErrors.fullName = 'Full name is required';
+    }
     if (!bookingData.industry) {
       newErrors.industry = 'Please select your industry';
     }
     if (!bookingData.budgetRange) {
-      newErrors.budgetRange = 'Please select your ad budget range';
-    }
-    if (!bookingData.goal) {
-      newErrors.goal = 'Please select your goal';
+      newErrors.budgetRange = 'Please select your monthly ad budget range';
     }
     if (!bookingData.whatsapp) {
       newErrors.whatsapp = 'WhatsApp number is required';
     } else if (!/^[6-9]\d{9}$/.test(bookingData.whatsapp.replace(/[\s-]/g, ''))) {
       newErrors.whatsapp = 'Please enter a valid 10-digit Indian mobile number';
+    }
+    if (!bookingData.mainGoal) {
+      newErrors.mainGoal = 'Please select your main goal';
     }
 
     setErrors(newErrors);
@@ -127,28 +132,62 @@ export default function BookPage() {
     setIsSubmitting(true);
 
     try {
-      // Store booking data (for later use in Calendly pre-fill if needed)
+      // Store booking data in sessionStorage for Calendly prefill
       sessionStorage.setItem('bookingData', JSON.stringify(bookingData));
 
-      // Submit to backend (optional - for tracking/notifications)
-      const response = await fetch('/api/onboarding/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: 'Booking User', // Will get from Calendly
-          email: '', // Will get from Calendly
-          phone: `+91${bookingData.whatsapp}`,
-          industry: bookingData.industry,
-          city: '', // Optional
-          avg_customer_value: '',
-          current_leads_per_month: '',
-          desired_leads_per_month: bookingData.goal,
-          comfort_budget_range: bookingData.budgetRange,
-          has_sales_team: '',
-          score: 50, // Default score
-          ...bookingData,
-        }),
-      });
+      // Submit to webhook (Airtable/Sheets)
+      const webhookUrl = process.env.NEXT_PUBLIC_WEBHOOK_URL;
+      if (webhookUrl) {
+        try {
+          await fetch(webhookUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              event: 'booking_form_submit',
+              data: {
+                full_name: bookingData.fullName,
+                business_name: bookingData.businessName || '',
+                industry: bookingData.industry,
+                budget_range: bookingData.budgetRange,
+                whatsapp: `+91${bookingData.whatsapp}`,
+                main_goal: bookingData.mainGoal,
+                utm_source: bookingData.utm_source || '',
+                utm_medium: bookingData.utm_medium || '',
+                utm_campaign: bookingData.utm_campaign || '',
+                timestamp: new Date().toISOString(),
+              },
+            }),
+          });
+        } catch (webhookError) {
+          console.error('Webhook error:', webhookError);
+          // Continue even if webhook fails
+        }
+      }
+
+      // Also submit to existing onboarding API for backward compatibility
+      try {
+        await fetch('/api/onboarding/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: bookingData.fullName,
+            email: '', // Will get from Calendly
+            phone: `+91${bookingData.whatsapp}`,
+            industry: bookingData.industry,
+            city: '', // Optional
+            avg_customer_value: '',
+            current_leads_per_month: '',
+            desired_leads_per_month: '',
+            comfort_budget_range: bookingData.budgetRange,
+            has_sales_team: '',
+            score: 50, // Default score
+            ...bookingData,
+          }),
+        });
+      } catch (apiError) {
+        console.error('API error:', apiError);
+        // Continue even if API fails
+      }
 
       // Track form submission
       trackEvent('book_session_form_submitted', {
@@ -156,14 +195,14 @@ export default function BookPage() {
         event_label: 'qualification_form_complete',
         industry: bookingData.industry,
         budget_range: bookingData.budgetRange,
-        goal: bookingData.goal,
+        main_goal: bookingData.mainGoal,
       });
 
       // Move to Step 2 (Calendly)
       setStep(2);
     } catch (error) {
       console.error('Error submitting booking form:', error);
-      // Still move to Step 2 even if API call fails
+      // Still move to Step 2 even if submission fails
       setStep(2);
     } finally {
       setIsSubmitting(false);
@@ -172,17 +211,33 @@ export default function BookPage() {
 
   // Handle Calendly booking completion
   const handleCalendlyEventScheduled = () => {
-    trackEvent('book_session_complete', {
+    trackEvent('book_session_calendly_booked', {
       event_category: 'conversion',
       event_label: 'consultation_scheduled',
       industry: bookingData.industry,
       budget_range: bookingData.budgetRange,
+      main_goal: bookingData.mainGoal,
     });
 
     // Redirect to thank-you page after a delay
     setTimeout(() => {
       window.location.href = '/thank-you';
     }, 2000);
+  };
+
+  // Build Calendly URL with prefill parameters
+  const getCalendlyUrl = () => {
+    const url = new URL(CALENDLY_URL);
+    if (bookingData.fullName) {
+      url.searchParams.set('name', bookingData.fullName);
+    }
+    if (bookingData.whatsapp) {
+      url.searchParams.set('a1', `+91${bookingData.whatsapp}`);
+    }
+    if (bookingData.businessName) {
+      url.searchParams.set('a2', bookingData.businessName);
+    }
+    return url.toString();
   };
 
   return (
@@ -201,22 +256,25 @@ export default function BookPage() {
 
       {/* Main Content */}
       <section className="pt-28 md:pt-32 pb-20 px-4">
-        <div className="max-w-4xl mx-auto">
-          {/* Step Indicator */}
+        <div className="max-w-2xl mx-auto">
+          {/* Hero Header */}
+          <div className="text-center mb-8">
+            <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-3">
+              Book Your Free Strategy Session
+            </h1>
+            <p className="text-lg text-slate-600 font-medium">
+              Takes 30 Seconds
+            </p>
+          </div>
+
+          {/* Progress Bar - Step 1 of 2 → Step 2 of 2 */}
           <div className="flex justify-center mb-8">
             <div className="flex items-center gap-4">
               <div className={`flex items-center gap-2 ${step >= 1 ? 'text-blue-600' : 'text-slate-400'}`}>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 1 ? 'bg-blue-600 text-white' : 'bg-slate-200 text-slate-500'}`}>
-                  {step > 1 ? <CheckCircle className="h-5 w-5" /> : '1'}
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold text-sm ${step >= 1 ? 'bg-blue-600 text-white' : 'bg-slate-200 text-slate-500'}`}>
+                  {step > 1 ? <CheckCircle className="h-4 w-4" /> : '1'}
                 </div>
-                <span className="font-medium hidden sm:inline">Qualification</span>
-              </div>
-              <div className={`w-12 h-0.5 ${step >= 2 ? 'bg-blue-600' : 'bg-slate-200'}`} />
-              <div className={`flex items-center gap-2 ${step >= 2 ? 'text-blue-600' : 'text-slate-400'}`}>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 2 ? 'bg-blue-600 text-white' : 'bg-slate-200 text-slate-500'}`}>
-                  {step > 2 ? <CheckCircle className="h-5 w-5" /> : '2'}
-                </div>
-                <span className="font-medium hidden sm:inline">Book Session</span>
+                <span className="font-medium text-sm">Step {step} of 2</span>
               </div>
             </div>
           </div>
@@ -224,21 +282,45 @@ export default function BookPage() {
           {/* Step 1: Qualification Form */}
           {step === 1 && (
             <Card className="border-2 border-slate-200 shadow-xl">
-              <CardContent className="p-8 md:p-12">
-                <div className="text-center mb-8">
-                  <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
-                    Book Your Free Strategy Session
-                  </h1>
-                  <p className="text-lg text-slate-600">
-                    Takes 30 seconds. We'll personalize your proposal before the call.
-                  </p>
-                </div>
+              <CardContent className="p-6 md:p-10">
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  {/* Full Name */}
+                  <div>
+                    <Label htmlFor="fullName" className="text-base font-semibold mb-2 block">
+                      Full Name <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="fullName"
+                      type="text"
+                      placeholder="John Doe"
+                      value={bookingData.fullName}
+                      onChange={(e) => handleChange('fullName', e.target.value)}
+                      className={errors.fullName ? 'border-red-500' : ''}
+                      required
+                    />
+                    {errors.fullName && (
+                      <p className="text-red-500 text-sm mt-1">{errors.fullName}</p>
+                    )}
+                  </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Business / Brand Name */}
+                  <div>
+                    <Label htmlFor="businessName" className="text-base font-semibold mb-2 block">
+                      Business / Brand Name <span className="text-slate-400 text-sm font-normal">(optional)</span>
+                    </Label>
+                    <Input
+                      id="businessName"
+                      type="text"
+                      placeholder="ABC Enterprises"
+                      value={bookingData.businessName}
+                      onChange={(e) => handleChange('businessName', e.target.value)}
+                    />
+                  </div>
+
                   {/* Industry */}
                   <div>
                     <Label htmlFor="industry" className="text-base font-semibold mb-2 block">
-                      Your Industry <span className="text-red-500">*</span>
+                      Industry <span className="text-red-500">*</span>
                     </Label>
                     <Select
                       value={bookingData.industry}
@@ -260,7 +342,7 @@ export default function BookPage() {
                     )}
                   </div>
 
-                  {/* Budget Range */}
+                  {/* Monthly Ad Budget Range */}
                   <div>
                     <Label htmlFor="budgetRange" className="text-base font-semibold mb-2 block">
                       Monthly Ad Budget Range <span className="text-red-500">*</span>
@@ -270,7 +352,7 @@ export default function BookPage() {
                       onValueChange={(value) => handleChange('budgetRange', value)}
                     >
                       <SelectTrigger id="budgetRange" className={errors.budgetRange ? 'border-red-500' : ''}>
-                        <SelectValue placeholder="Select your ad budget range" />
+                        <SelectValue placeholder="Select your monthly ad budget range" />
                       </SelectTrigger>
                       <SelectContent>
                         {BUDGET_OPTIONS.map((budget) => (
@@ -282,31 +364,6 @@ export default function BookPage() {
                     </Select>
                     {errors.budgetRange && (
                       <p className="text-red-500 text-sm mt-1">{errors.budgetRange}</p>
-                    )}
-                  </div>
-
-                  {/* Goal */}
-                  <div>
-                    <Label htmlFor="goal" className="text-base font-semibold mb-2 block">
-                      Your Goal <span className="text-red-500">*</span>
-                    </Label>
-                    <Select
-                      value={bookingData.goal}
-                      onValueChange={(value) => handleChange('goal', value)}
-                    >
-                      <SelectTrigger id="goal" className={errors.goal ? 'border-red-500' : ''}>
-                        <SelectValue placeholder="Select your goal" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {GOAL_OPTIONS.map((goal) => (
-                          <SelectItem key={goal.value} value={goal.value}>
-                            {goal.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    {errors.goal && (
-                      <p className="text-red-500 text-sm mt-1">{errors.goal}</p>
                     )}
                   </div>
 
@@ -329,6 +386,7 @@ export default function BookPage() {
                           handleChange('whatsapp', value);
                         }}
                         className={`flex-1 rounded-l-none ${errors.whatsapp ? 'border-red-500' : ''}`}
+                        required
                       />
                     </div>
                     {errors.whatsapp && (
@@ -336,6 +394,39 @@ export default function BookPage() {
                     )}
                     <p className="text-slate-500 text-sm mt-1">
                       We'll send your personalized proposal here
+                    </p>
+                  </div>
+
+                  {/* Main Goal */}
+                  <div>
+                    <Label htmlFor="mainGoal" className="text-base font-semibold mb-2 block">
+                      Main Goal <span className="text-red-500">*</span>
+                    </Label>
+                    <Select
+                      value={bookingData.mainGoal}
+                      onValueChange={(value) => handleChange('mainGoal', value)}
+                    >
+                      <SelectTrigger id="mainGoal" className={errors.mainGoal ? 'border-red-500' : ''}>
+                        <SelectValue placeholder="Select your main goal" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {GOAL_OPTIONS.map((goal) => (
+                          <SelectItem key={goal.value} value={goal.value}>
+                            {goal.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    {errors.mainGoal && (
+                      <p className="text-red-500 text-sm mt-1">{errors.mainGoal}</p>
+                    )}
+                  </div>
+
+                  {/* Privacy Note */}
+                  <div className="flex items-start gap-2 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                    <Shield className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <p className="text-sm text-slate-700">
+                      We'll never share your contact information.
                     </p>
                   </div>
 
@@ -350,7 +441,7 @@ export default function BookPage() {
                       'Processing...'
                     ) : (
                       <>
-                        Continue to Calendar
+                        Book My Free Strategy Call
                         <ArrowRight className="ml-2 h-5 w-5" />
                       </>
                     )}
@@ -366,11 +457,14 @@ export default function BookPage() {
               <Card className="border-2 border-green-200 bg-green-50/50">
                 <CardContent className="p-6 text-center">
                   <CheckCircle className="h-12 w-12 text-green-600 mx-auto mb-4" />
-                  <h2 className="text-2xl font-bold text-slate-900 mb-2">
-                    Great! Now let's schedule your call
+                  <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-3">
+                    Thanks, {bookingData.fullName}!
                   </h2>
-                  <p className="text-slate-600">
-                    Choose a time that works for you. We'll send your personalized proposal before the call.
+                  <p className="text-lg text-slate-700 mb-2">
+                    You qualify for our <span className="font-semibold">Verified Leads Launch Program</span>.
+                  </p>
+                  <p className="text-base text-slate-600">
+                    Choose a time below to discuss your custom quote.
                   </p>
                 </CardContent>
               </Card>
@@ -378,8 +472,9 @@ export default function BookPage() {
               <Card className="border-2 border-slate-200 shadow-xl">
                 <CardContent className="p-0">
                   <CalendlyEmbed
-                    url={calendlyUrl}
+                    url={getCalendlyUrl()}
                     onEventScheduled={handleCalendlyEventScheduled}
+                    height={700}
                   />
                 </CardContent>
               </Card>
@@ -400,4 +495,3 @@ export default function BookPage() {
     </div>
   );
 }
-

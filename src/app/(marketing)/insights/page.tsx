@@ -65,7 +65,7 @@ export default function InsightsPage() {
                 <Link href="/login">Client Login</Link>
               </Button>
               <Button className="bg-blue-600 hover:bg-blue-700" asChild>
-                <a href={process.env.NEXT_PUBLIC_CALENDLY_URL || 'https://calendly.com'} target="_blank" rel="noopener noreferrer">Book Free Consultation</a>
+                <a href={process.env.NEXT_PUBLIC_CALENDLY_URL || 'https://calendly.com'} target="_blank" rel="noopener noreferrer">Book My Free Strategy Call</a>
               </Button>
             </div>
           </div>
@@ -134,7 +134,7 @@ export default function InsightsPage() {
           </p>
           <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-10 py-6" asChild>
             <a href={process.env.NEXT_PUBLIC_CALENDLY_URL || 'https://calendly.com'} target="_blank" rel="noopener noreferrer">
-              Book Free Consultation
+              Book My Free Strategy Call
               <ArrowRight className="ml-2 h-5 w-5" />
             </a>
           </Button>

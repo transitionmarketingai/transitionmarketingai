@@ -29,7 +29,7 @@ export default function AutomationArticle() {
                 <Link href="/login">Client Login</Link>
               </Button>
               <Button className="bg-blue-600 hover:bg-blue-700" asChild>
-                <a href={calendlyUrl} target="_blank" rel="noopener noreferrer">Book Free Consultation</a>
+                <a href={calendlyUrl} target="_blank" rel="noopener noreferrer">Book My Free Strategy Call</a>
               </Button>
             </div>
           </div>

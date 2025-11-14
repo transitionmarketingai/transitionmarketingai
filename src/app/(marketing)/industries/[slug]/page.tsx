@@ -827,7 +827,7 @@ export default function IndustryPage({ params }: { params: { slug: string } }) {
                 <Link href="/login">Client Login</Link>
               </Button>
               <Button className="bg-blue-600 hover:bg-blue-700" asChild>
-                <a href={calendlyUrl} target="_blank" rel="noopener noreferrer">Book Free Consultation</a>
+                <a href={calendlyUrl} target="_blank" rel="noopener noreferrer">Book My Free Strategy Call</a>
               </Button>
             </div>
           </div>
@@ -845,7 +845,7 @@ export default function IndustryPage({ params }: { params: { slug: string } }) {
           </p>
           <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-10 py-6" asChild>
             <a href={calendlyUrl} target="_blank" rel="noopener noreferrer">
-              Book Free Consultation
+              Book My Free Strategy Call
               <ArrowRight className="ml-2 h-5 w-5" />
             </a>
           </Button>
@@ -1050,7 +1050,7 @@ export default function IndustryPage({ params }: { params: { slug: string } }) {
           </p>
           <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-10 py-6" asChild>
             <a href={calendlyUrl} target="_blank" rel="noopener noreferrer">
-              Book Free Consultation
+              Book My Free Strategy Call
               <ArrowRight className="ml-2 h-5 w-5" />
             </a>
           </Button>
@@ -1091,7 +1091,7 @@ export default function IndustryPage({ params }: { params: { slug: string } }) {
           </p>
           <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 text-lg px-10 py-6 font-semibold" asChild>
             <a href={calendlyUrl} target="_blank" rel="noopener noreferrer">
-              Book Free Consultation
+              Book My Free Strategy Call
               <ArrowRight className="ml-2 h-5 w-5" />
             </a>
           </Button>

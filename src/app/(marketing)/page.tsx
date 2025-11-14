@@ -344,7 +344,7 @@ export default function LandingPage() {
           <div className="text-center">
             <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-10 py-6" asChild>
               <Link href="/book">
-                Book My Free Strategy Session
+                Book My Free Strategy Call
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
@@ -1094,7 +1094,7 @@ export default function LandingPage() {
           <div className="flex flex-col items-center gap-4">
             <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 text-lg px-12 py-6 font-semibold shadow-lg" asChild>
               <Link href="/book">
-                Book My Free Strategy Session
+                Book My Free Strategy Call
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
@@ -1107,30 +1107,6 @@ export default function LandingPage() {
 
       {/* FAQ Section */}
       <section id="faq" className="py-20 px-4 bg-white">
-        <StructuredDataFAQ
-          faqs={[
-            {
-              question: 'How are inquiries generated?',
-              answer: 'Through paid campaigns on Google, Meta, and LinkedIn targeted by intent. Our AI optimizes ad targeting and creatives to reach people actively searching for your services, then we verify every inquiry manually before delivery.',
-            },
-            {
-              question: 'Are inquiries exclusive to me?',
-              answer: 'Yes. Each inquiry is unique to your campaign and not resold. All inquiries come from your dedicated ad campaigns, and once delivered, they\'re exclusively yours.',
-            },
-            {
-              question: 'What is a verified inquiry?',
-              answer: 'We confirm every lead manually by phone/email before delivering. A verified inquiry means: active phone number (tested), valid email address, confirmed intent from ad engagement, and genuine interest in your service.',
-            },
-            {
-              question: 'How soon will I see results?',
-              answer: 'First verified inquiries usually appear within 5–7 days after campaign launch. After setup (48 hours), inquiries are delivered to your dashboard and WhatsApp every week from live, active campaigns.',
-            },
-            {
-              question: 'What happens if you don\'t deliver?',
-              answer: 'We continue working at our cost until your minimum inquiries are reached. No excuses, no algorithm blame, no extra fees. You only pay for performance.',
-            },
-          ]}
-        />
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">

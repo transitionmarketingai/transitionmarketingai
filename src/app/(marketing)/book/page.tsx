@@ -560,9 +560,10 @@ export default function BookPage() {
                   {/* Privacy Note */}
                   <div className="flex items-start gap-2 p-4 bg-blue-50 rounded-lg border border-blue-200">
                     <Lock className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                    <p className="text-sm text-slate-700">
-                      We use this info to tailor your proposal. Your data stays 100% private.
-                    </p>
+                    <div className="text-sm text-slate-700">
+                      <p className="font-semibold mb-1">We never share or sell your data.</p>
+                      <p>Your details are used only to prepare your proposal. Your data stays 100% private.</p>
+                    </div>
                   </div>
 
                   {/* Submit Button */}
@@ -640,13 +641,18 @@ export default function BookPage() {
                 <p className="text-xl text-slate-700 leading-relaxed">
                   Your consultation is confirmed. We'll prepare your AI Marketing Report and reach out via WhatsApp before the call.
                 </p>
-                <div className="mt-8">
+                <div className="mt-8 space-y-4">
                   <Button size="lg" className="bg-[#0053FF] hover:bg-[#0046E0] text-white" asChild>
                     <Link href="/">
-                      Back to Home
+                      Back to Homepage
                       <ArrowRight className="ml-2 h-5 w-5" />
                     </Link>
                   </Button>
+                  <p className="text-sm text-slate-600">
+                    <Link href="/" className="text-blue-600 hover:text-blue-700 underline">
+                      ← Back to Homepage
+                    </Link>
+                  </p>
                 </div>
               </CardContent>
             </Card>

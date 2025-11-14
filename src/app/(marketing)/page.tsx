@@ -148,7 +148,7 @@ export default function LandingPage() {
       </a>
 
       {/* Premium Navigation */}
-      <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-sm border-b border-slate-200/80 z-50 shadow-sm">
+      <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-sm border-b border-slate-200/80 z-50 shadow-sm sticky">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 md:h-20">
             {/* Logo Section */}
@@ -172,7 +172,7 @@ export default function LandingPage() {
                 href="#pilot-offer" 
                 className="text-slate-700 hover:text-slate-900 font-medium text-sm transition-colors relative group"
               >
-                Pilot Offer
+                Launch Program
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all group-hover:w-full"></span>
               </Link>
               <Link 
@@ -211,7 +211,7 @@ export default function LandingPage() {
                 className="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm px-5 py-2.5 shadow-md hover:shadow-lg transition-all" 
                 asChild
               >
-                <Link href="/book">Book My Free Strategy Session</Link>
+                <Link href="/book">Book My Free Strategy Call</Link>
               </Button>
               {/* Mobile Menu Button */}
               <Button
@@ -230,8 +230,11 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero Section - Premium Brand Positioning */}
-      <section className="relative pt-28 md:pt-36 pb-24 px-4 bg-gradient-to-br from-white via-slate-50/50 to-blue-50/20">
-        <div className="max-w-7xl mx-auto">
+      <section className="relative pt-28 md:pt-36 pb-24 px-4 bg-gradient-to-br from-white via-slate-50/50 to-blue-50/20 overflow-hidden">
+        {/* Animated gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-50/30 via-purple-50/20 to-blue-50/30 animate-pulse opacity-50"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(10,58,140,0.1),transparent_50%)]"></div>
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center max-w-4xl mx-auto">
             {/* Main Headline - A/B Test */}
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-slate-900 mb-6 leading-tight">
@@ -269,7 +272,7 @@ export default function LandingPage() {
             <div className="flex flex-col items-center gap-4 mb-8">
               <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-12 py-6 shadow-lg hover:shadow-xl transition-all" asChild>
                 <Link href="/book">
-                  Book My Free Strategy Session
+                  Book My Free Strategy Call
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
@@ -514,7 +517,7 @@ export default function LandingPage() {
       </section>
 
       {/* Verification Process (NEW SECTION) */}
-      <section className="py-20 px-4 bg-slate-50 reveal-on-scroll">
+      <section id="verification" className="py-20 px-4 bg-slate-50 reveal-on-scroll">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
@@ -603,11 +606,12 @@ export default function LandingPage() {
             {/* Right side - Dashboard image */}
             <div className="relative">
               <div className="bg-slate-50 rounded-xl p-4 shadow-2xl border border-slate-200">
-                <img 
+                  <img 
                   src="/images/dashboard-preview.png" 
                   alt="Transition Marketing AI lead dashboard preview"
                   className="w-full h-auto rounded-lg"
                   loading="lazy"
+                  decoding="async"
                 />
               </div>
             </div>
@@ -776,6 +780,30 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Trusted By Section */}
+      <section className="py-12 px-4 bg-slate-50 reveal-on-scroll">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-8">
+            <p className="text-sm font-semibold text-slate-600 uppercase tracking-wide mb-6">Trusted By</p>
+            <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
+              {/* Placeholder logos - replace with actual client logos */}
+              <div className="h-12 w-32 bg-slate-300 rounded flex items-center justify-center text-slate-500 text-xs font-semibold">
+                Client Logo
+              </div>
+              <div className="h-12 w-32 bg-slate-300 rounded flex items-center justify-center text-slate-500 text-xs font-semibold">
+                Client Logo
+              </div>
+              <div className="h-12 w-32 bg-slate-300 rounded flex items-center justify-center text-slate-500 text-xs font-semibold">
+                Client Logo
+              </div>
+              <div className="h-12 w-32 bg-slate-300 rounded flex items-center justify-center text-slate-500 text-xs font-semibold">
+                Client Logo
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Results & Testimonials Section */}
       <section id="results" className="py-20 px-4 bg-white reveal-on-scroll">
         <div className="max-w-7xl mx-auto">
@@ -786,6 +814,30 @@ export default function LandingPage() {
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
               Every inquiry we send you is verified, tracked, and timestamped for proof.
             </p>
+          </div>
+
+          {/* Mini Case Studies */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+            <Card className="border-2 border-green-200 bg-green-50/50">
+              <CardContent className="p-6">
+                <p className="text-lg font-semibold text-slate-900 mb-2">
+                  Real Estate Agency — 60 Leads in 30 Days → 3 Bookings
+                </p>
+                <p className="text-slate-600 text-sm">
+                  Mumbai-based developer received verified property buyer inquiries, converted 3 into confirmed bookings within the first month.
+                </p>
+              </CardContent>
+            </Card>
+            <Card className="border-2 border-blue-200 bg-blue-50/50">
+              <CardContent className="p-6">
+                <p className="text-lg font-semibold text-slate-900 mb-2">
+                  Healthcare Clinic — 72 Patient Inquiries in 30 Days
+                </p>
+                <p className="text-slate-600 text-sm">
+                  Bangalore clinic received verified patient inquiries, all confirmed by phone before delivery, resulting in 15 new patient registrations.
+                </p>
+              </CardContent>
+            </Card>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -868,7 +920,7 @@ export default function LandingPage() {
               </p>
               <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-10 py-6" asChild>
                 <Link href="/book">
-                  Book My Free Strategy Session
+                  Book My Free Strategy Call
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
@@ -1209,8 +1261,7 @@ export default function LandingPage() {
             <div className="flex flex-col gap-6">
               <div className="bg-slate-800 rounded-lg p-6 max-w-2xl mx-auto text-center">
                 <p className="text-slate-300 italic mb-2">
-                  "We built Transition Marketing AI because we were tired of seeing businesses waste time on cold leads. 
-                  Every inquiry we deliver is verified, because your time is valuable."
+                  "Hi, I'm Abhishek — I built Transition Marketing AI to help Indian businesses stop wasting money on cold leads. Every inquiry you receive here is verified by real people."
                 </p>
                 <p className="text-slate-400 text-sm mt-2">
                   — Abhishek John, Founder

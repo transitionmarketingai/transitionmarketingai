@@ -268,6 +268,30 @@ Transition Marketing AI 🇮🇳`;
       }
     }
 
+    // Create automated task for new consultation/lead
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://transitionmarketingai.com';
+      await fetch(`${baseUrl}/api/task-automation`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          event: 'lead_created',
+          details: {
+            leadId: consultation.id,
+            id: consultation.id,
+            name: `${firstName} ${lastName || ''}`.trim(),
+            business: company || 'N/A',
+            industry: industry || 'Unknown',
+            budget: budgetRange || 'Not specified',
+            priority: 'High', // Consultations are high priority
+          },
+        }),
+      });
+    } catch (taskError) {
+      console.error('[Consultation Request] Task automation error:', taskError);
+      // Continue even if task creation fails
+    }
+
     return NextResponse.json(
       {
         success: true,

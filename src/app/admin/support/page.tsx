@@ -67,6 +67,9 @@ export default function AdminSupportPage() {
   const [replyMessage, setReplyMessage] = useState('');
   const [assignTo, setAssignTo] = useState('');
   const [updateStatus, setUpdateStatus] = useState('');
+  const [aiSummary, setAiSummary] = useState<string | null>(null);
+  const [aiReplyDraft, setAiReplyDraft] = useState<string | null>(null);
+  const [loadingAI, setLoadingAI] = useState(false);
 
   // Fetch tickets
   const fetchTickets = async () => {
@@ -194,6 +197,86 @@ export default function AdminSupportPage() {
         return <Badge className="bg-gray-100 text-gray-800 border-gray-300">Closed</Badge>;
       default:
         return <Badge variant="outline">{status}</Badge>;
+    }
+  };
+
+  // Handle AI summarize
+  const handleAISummarize = async () => {
+    if (!selectedTicket) return;
+
+    setLoadingAI(true);
+    try {
+      const messagesText = selectedTicket.messages
+        .map((m) => `${m.from}: ${m.message}`)
+        .join('\n\n');
+
+      const response = await fetch('/api/ai-assistant', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'ticket-summary',
+          content: `Subject: ${selectedTicket.subject}\n\nDescription: ${selectedTicket.description}\n\nConversation:\n${messagesText}`,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setAiSummary(data.data.result);
+        trackEvent('ai_summary_generated', {
+          event_category: 'ai',
+          event_label: 'ticket_summary',
+          ticket_id: selectedTicket.id,
+        });
+      } else {
+        toast.error('Failed to generate summary');
+      }
+    } catch (error) {
+      console.error('Error generating AI summary:', error);
+      toast.error('Error generating summary');
+    } finally {
+      setLoadingAI(false);
+    }
+  };
+
+  // Handle AI generate reply
+  const handleAIGenerateReply = async () => {
+    if (!selectedTicket) return;
+
+    setLoadingAI(true);
+    try {
+      const lastClientMessage = selectedTicket.messages
+        .filter((m) => m.from === 'Client')
+        .pop()?.message || selectedTicket.description;
+
+      const response = await fetch('/api/ai-assistant', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'ticket-reply',
+          content: lastClientMessage,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setAiReplyDraft(data.data.result);
+        setReplyMessage(data.data.result);
+        trackEvent('ai_reply_drafted', {
+          event_category: 'ai',
+          event_label: 'ticket_reply_draft',
+          ticket_id: selectedTicket.id,
+        });
+        toast.success('Reply draft generated');
+      } else {
+        toast.error('Failed to generate reply');
+      }
+    } catch (error) {
+      console.error('Error generating AI reply:', error);
+      toast.error('Error generating reply');
+    } finally {
+      setLoadingAI(false);
     }
   };
 
@@ -345,6 +428,45 @@ export default function AdminSupportPage() {
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-6">
+            {/* AI Assistant Actions */}
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                onClick={handleAISummarize}
+                disabled={loadingAI}
+              >
+                {loadingAI ? 'Generating...' : '🤖 Summarize with AI'}
+              </Button>
+              <Button
+                variant="outline"
+                onClick={handleAIGenerateReply}
+                disabled={loadingAI}
+              >
+                {loadingAI ? 'Generating...' : '🤖 Generate Reply Draft'}
+              </Button>
+            </div>
+
+            {/* AI Summary */}
+            {aiSummary && (
+              <Card className="bg-blue-50 border-blue-200">
+                <CardContent className="p-4">
+                  <div className="flex items-start justify-between mb-2">
+                    <h4 className="font-semibold text-blue-900">AI Summary</h4>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setAiSummary(null)}
+                    >
+                      ×
+                    </Button>
+                  </div>
+                  <pre className="text-sm text-blue-800 whitespace-pre-wrap font-sans">
+                    {aiSummary}
+                  </pre>
+                </CardContent>
+              </Card>
+            )}
+
             {/* Ticket Actions */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>

@@ -20,6 +20,9 @@ import {
   ChevronRight,
   BookOpen,
   Calculator,
+  CheckCircle,
+  TrendingUp,
+  DollarSign,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
@@ -82,6 +85,31 @@ const navigation: NavigationItem[] = [
     name: 'Support',
     href: '/admin/support',
     icon: Ticket,
+  },
+  {
+    name: 'Tasks',
+    href: '/admin/tasks',
+    icon: CheckCircle,
+  },
+  {
+    name: 'Forecast',
+    href: '/admin/forecast',
+    icon: TrendingUp,
+  },
+  {
+    name: 'Ads',
+    href: '/admin/ads',
+    icon: BarChart3,
+  },
+  {
+    name: 'Sales',
+    href: '/admin/sales',
+    icon: DollarSign,
+  },
+  {
+    name: 'Retention',
+    href: '/admin/retention',
+    icon: Users,
   },
   {
     name: 'Settings',

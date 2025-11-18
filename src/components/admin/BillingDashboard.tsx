@@ -47,6 +47,7 @@ import {
 import { toast } from 'sonner';
 import { trackEvent } from '@/lib/tracking';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
+import AILeadInsights from './AILeadInsights';
 
 interface Lead {
   id: string;
@@ -112,6 +113,8 @@ export default function BillingDashboard() {
     planId: '',
     period: 'monthly' as 'monthly' | 'quarterly' | 'yearly',
   });
+  const [selectedLeadForAI, setSelectedLeadForAI] = useState<Lead | null>(null);
+  const [showAIInsights, setShowAIInsights] = useState(false);
 
   // Fetch leads
   const fetchLeads = async () => {
@@ -530,6 +533,17 @@ export default function BillingDashboard() {
                                     <Eye className="h-4 w-4" />
                                   </Button>
                                 )}
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => {
+                                    setSelectedLeadForAI(lead);
+                                    setShowAIInsights(true);
+                                  }}
+                                  title="AI Insights"
+                                >
+                                  🧠
+                                </Button>
                                 <Button
                                   variant="ghost"
                                   size="sm"

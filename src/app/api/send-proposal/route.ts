@@ -169,6 +169,35 @@ export async function POST(request: NextRequest) {
       // Don't fail the request if update fails
     }
 
+    // Auto-create deal in "Proposal Sent" stage
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://transitionmarketingai.com';
+      const cronSecret = process.env.CRON_SECRET;
+      
+      // Get lead value from proposal or estimate
+      const estimatedValue = lead['Plan Amount'] || lead['Monthly Amount'] || 0;
+      
+      await fetch(`${baseUrl}/api/deals`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(cronSecret ? { 'Authorization': `Bearer ${cronSecret}` } : {}),
+        },
+        body: JSON.stringify({
+          leadId: recordId,
+          client: lead.Name || lead.Business || 'Client',
+          stage: 'Proposal Sent',
+          value: estimatedValue,
+          owner: lead['Assigned To'] || 'Sales 1',
+          industry: lead.Industry || '',
+          notes: `Proposal sent automatically for ${lead.Business || lead.Name}.`,
+        }),
+      });
+    } catch (dealError) {
+      console.error('[Send Proposal] Deal creation error:', dealError);
+      // Continue even if deal creation fails
+    }
+
     // 5️⃣ Fire analytics event
     trackEvent('proposal_sent_auto', {
       event_category: 'proposal',

@@ -3,6 +3,34 @@
     {
       "path": "/api/monthly-reports",
       "schedule": "0 6 1 * *"
+    },
+    {
+      "path": "/api/ai-digest",
+      "schedule": "0 8 * * *"
+    },
+    {
+      "path": "/api/operations-digest",
+      "schedule": "0 8 * * *"
+    },
+    {
+      "path": "/api/daily-task-summary",
+      "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/ads-sync",
+      "schedule": "30 7 * * *"
+    },
+    {
+      "path": "/api/sales-digest",
+      "schedule": "0 8 * * *"
+    },
+    {
+      "path": "/api/retention-check",
+      "schedule": "0 7 * * *"
+    },
+    {
+      "path": "/api/forecast-scheduler",
+      "schedule": "0 7 1 * *"
     }
   ]
 }

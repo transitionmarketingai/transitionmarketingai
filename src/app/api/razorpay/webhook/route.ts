@@ -120,6 +120,65 @@ export async function POST(request: NextRequest) {
             payment_id: payment.id,
             amount: payment.amount ? payment.amount / 100 : 0,
           });
+
+          // Create task for payment received
+          try {
+            const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://transitionmarketingai.com';
+            await fetch(`${baseUrl}/api/task-automation`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                event: 'payment_captured',
+                details: {
+                  clientId: clientRecordId,
+                  client: payment.notes?.clientName || 'Client',
+                  amount: payment.amount ? payment.amount / 100 : 0,
+                  paymentId: payment.id,
+                },
+              }),
+            });
+          } catch (taskError) {
+            console.error('[Razorpay Webhook] Task automation error:', taskError);
+          }
+
+          // Auto-move deal to Closed-Won if exists
+          try {
+            const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://transitionmarketingai.com';
+            const dealsResponse = await fetch(`${baseUrl}/api/deals?owner=all`, {
+              headers: {
+                'Cookie': request.headers.get('cookie') || '',
+              },
+            });
+            
+            if (dealsResponse.ok) {
+              const dealsData = await dealsResponse.json();
+              if (dealsData.success) {
+                // Find deal for this client
+                const clientDeal = dealsData.data.deals.find((deal: any) => 
+                  deal.client === (payment.notes?.clientName || '') ||
+                  deal.leadId === clientRecordId
+                );
+                
+                if (clientDeal && clientDeal.stage !== 'Closed-Won') {
+                  // Update deal to Closed-Won
+                  await fetch(`${baseUrl}/api/deals/${clientDeal.id}`, {
+                    method: 'PATCH',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'Cookie': request.headers.get('cookie') || '',
+                    },
+                    body: JSON.stringify({
+                      stage: 'Closed-Won',
+                      value: payment.amount ? payment.amount / 100 : clientDeal.value,
+                    }),
+                  });
+                }
+              }
+            }
+          } catch (dealError) {
+            console.error('[Razorpay Webhook] Deal update error:', dealError);
+            // Continue even if deal update fails
+          }
         } else if (event === 'payment.failed' || event === 'subscription.payment_failed') {
           trackEvent('subscription_payment_failed', {
             event_category: 'billing',
@@ -127,6 +186,26 @@ export async function POST(request: NextRequest) {
             payment_id: payment.id,
             amount: payment.amount ? payment.amount / 100 : 0,
           });
+
+          // Create task for failed payment
+          try {
+            const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://transitionmarketingai.com';
+            await fetch(`${baseUrl}/api/task-automation`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                event: 'payment_failed',
+                details: {
+                  clientId: clientRecordId,
+                  client: payment.notes?.clientName || 'Client',
+                  amount: payment.amount ? payment.amount / 100 : 0,
+                  paymentId: payment.id,
+                },
+              }),
+            });
+          } catch (taskError) {
+            console.error('[Razorpay Webhook] Task automation error:', taskError);
+          }
         }
 
         // Optional: Send notifications

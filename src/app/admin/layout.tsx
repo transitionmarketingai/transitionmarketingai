@@ -1,4 +1,5 @@
 import AdminSidebar from '@/components/admin/AdminSidebar';
+import FloatingAIAssistant from '@/components/admin/FloatingAIAssistant';
 
 // Force dynamic rendering for all admin pages
 export const dynamic = 'force-dynamic';
@@ -17,6 +18,7 @@ export default function AdminLayout({
           {children}
         </main>
       </div>
+      <FloatingAIAssistant />
     </div>
   );
 }

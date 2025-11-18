@@ -172,6 +172,39 @@ export default function AdminDashboardPage() {
           </CardContent>
         </Card>
 
+        {/* Forecast Widget */}
+        <Card className="lg:col-span-3">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-slate-600">
+              Next-Month Forecast
+            </CardTitle>
+            <Link href="/admin/forecast">
+              <Button variant="ghost" size="sm">
+                View Full Forecast
+              </Button>
+            </Link>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-3 gap-4">
+              <div>
+                <p className="text-xs text-slate-500 mb-1">Lead Growth</p>
+                <p className="text-xl font-bold text-green-600">+12%</p>
+              </div>
+              <div>
+                <p className="text-xs text-slate-500 mb-1">Revenue Growth</p>
+                <p className="text-xl font-bold text-blue-600">+18%</p>
+              </div>
+              <div>
+                <p className="text-xs text-slate-500 mb-1">Churn Risk</p>
+                <p className="text-xl font-bold text-red-600">-1 pt</p>
+              </div>
+            </div>
+            <Link href="/admin/forecast" className="text-xs text-blue-600 hover:underline mt-2 block">
+              View detailed AI forecast →
+            </Link>
+          </CardContent>
+        </Card>
+
         {/* Avg Cost Per Lead */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

@@ -185,6 +185,30 @@ export async function POST(request: NextRequest) {
       priority,
     });
 
+    // Create automated task
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://transitionmarketingai.com';
+      await fetch(`${baseUrl}/api/task-automation`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          event: 'support_ticket_created',
+          details: {
+            ticketId: newTicket.id,
+            subject,
+            client: clientName,
+            clientName,
+            clientId: payload.clientRecordId,
+            priority,
+            assignee: 'Support Team',
+          },
+        }),
+      });
+    } catch (taskError) {
+      console.error('[Support Create] Task automation error:', taskError);
+      // Continue even if task creation fails
+    }
+
     return NextResponse.json(
       createSuccessResponse({
         ticket: {

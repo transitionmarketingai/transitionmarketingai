@@ -52,11 +52,11 @@ export default function HealthcareIndustryPage() {
             </div>
             
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-[#1A1F2B] mb-6 leading-[1.1] tracking-tight">
-              Verified Patient Inquiries — Real Cases, Real Appointments
+              Verified Patient Inquiries for Clinics, Hospitals & Wellness Brands.
             </h1>
             
             <p className="text-xl md:text-2xl text-[#1A1F2B] opacity-90 mb-10 leading-relaxed">
-              Receive patient inquiries that are confirmed by phone and validated for location, requirement, and treatment need.
+              Instead of random phone numbers from lead vendors, you get patients who have shared their problem and are ready to talk to your front desk.
             </p>
 
             <Button size="lg" className="bg-[#233DFF] hover:bg-[#1E35E6] text-white text-[17px] font-medium px-12 py-6 rounded-[16px] shadow-[0_6px_20px_rgba(35,61,255,0.15)] hover:shadow-[0_8px_24px_rgba(35,61,255,0.2)] hover:scale-[1.015] transition-all" asChild>
@@ -84,6 +84,71 @@ export default function HealthcareIndustryPage() {
           "Appointment-ready inquiries delivered instantly."
         ]}
       />
+
+      {/* SECTION 2.5 — How Our Verified Inquiry Funnel Works */}
+      <section className="py-[110px] md:py-[140px] px-4 md:px-8 bg-[#F7F8FA]">
+        <div className="max-w-[1300px] mx-auto">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#1A1F2B] mb-5 leading-[1.1]">
+              How Our Healthcare Funnel Works
+            </h2>
+          </div>
+
+          {/* 5-Step Vertical Layout */}
+          <div className="max-w-3xl mx-auto space-y-8">
+            {[
+              {
+                step: 1,
+                title: 'City + Specialty Targeting',
+                description: 'We run campaigns specific to your city and specialties (dental, skin, ortho, physiotherapy, etc.).',
+              },
+              {
+                step: 2,
+                title: 'Patient Intake Form',
+                description: 'Patients answer a few simple questions about symptoms, service type, and urgency.',
+              },
+              {
+                step: 3,
+                title: 'AI Priority Scoring',
+                description: 'Our AI flags high-urgency and high-value cases so your staff knows who to call first.',
+              },
+              {
+                step: 4,
+                title: 'Human Verification',
+                description: 'Our team verifies phone numbers and checks if they're genuinely looking to book an appointment.',
+              },
+              {
+                step: 5,
+                title: 'Verified Patient Inquiries to You',
+                description: 'You receive verified inquiries with context, not just a phone number.',
+              },
+            ].map((item) => (
+              <Card key={item.step} className="border border-[#E4E7EC] bg-white rounded-[16px] shadow-[0_6px_20px_rgba(0,0,0,0.06)]">
+                <CardContent className="p-8">
+                  <div className="flex items-start gap-6">
+                    <div className="w-12 h-12 rounded-full bg-[#F7F8FA] flex items-center justify-center flex-shrink-0 text-xl font-bold text-[#1A1F2B]">
+                      {item.step}
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-bold text-xl text-[#1A1F2B] mb-2">{item.title}</h3>
+                      <p className="text-[#1A1F2B] opacity-70 leading-relaxed">{item.description}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {/* Disclaimer */}
+          <div className="max-w-3xl mx-auto mt-20">
+            <div className="bg-blue-50 p-6 rounded-[16px] border border-blue-200">
+              <p className="text-[#1A1F2B] opacity-80 leading-relaxed text-sm italic">
+                We never give medical advice or promises — we simply help qualified patients find the right provider and verify their interest before you speak to them.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* SECTION 3 — What You Receive */}
       <IndustryBenefits 
@@ -285,7 +350,7 @@ export default function HealthcareIndustryPage() {
       {/* SECTION 7 — Final CTA */}
       <FinalCTA 
         headline="Ready for Verified, Qualified, Real Inquiries?"
-        subtext="Book your free strategy session and see how many verified inquiries we can deliver."
+        subtext="See how many new patient inquiries we can target for your specialty in the next 30 days."
         buttonText="Book My Free Strategy Call"
         secondaryLink="#ai-verification-engine"
         secondaryLinkText="See Verification Steps →"

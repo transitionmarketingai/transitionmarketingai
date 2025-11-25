@@ -31,6 +31,8 @@ export default function InquiryDetailsPage() {
   const [aiReason, setAiReason] = useState('');
   const [aiLoading, setAiLoading] = useState(false);
   const [deliverLoading, setDeliverLoading] = useState(false);
+  const [clientEmail, setClientEmail] = useState('');
+  const [clientSaving, setClientSaving] = useState(false);
 
   async function loadInquiry() {
     if (!id) {
@@ -59,6 +61,7 @@ export default function InquiryDetailsPage() {
     if (inquiry) {
       setAiScore(inquiry.ai_score ?? null);
       setAiReason(inquiry.ai_reason || '');
+      setClientEmail(inquiry.client_email || '');
     }
   }, [inquiry]);
 
@@ -278,6 +281,67 @@ export default function InquiryDetailsPage() {
                 : '—'}
             </span>
           </p>
+        </div>
+
+        {/* Assigned Client */}
+        <div className="mt-6 p-4 border rounded bg-white">
+          <h3 className="font-semibold mb-3 text-sm">Assigned Client</h3>
+
+          <label className="block mb-2 text-xs font-medium">
+            Client Email (inquiries delivered to this client)
+          </label>
+
+          <input
+            type="email"
+            className="w-full border border-slate-300 p-2 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="client@example.com"
+            value={clientEmail}
+            onChange={(e) => setClientEmail(e.target.value)}
+          />
+
+          <button
+            className="mt-3 px-3 py-1 text-xs rounded bg-gray-900 text-white disabled:opacity-60"
+            disabled={clientSaving}
+            onClick={async () => {
+              if (!clientEmail) {
+                const ok = confirm(
+                  'Client email is empty. This will unassign the inquiry from any specific client. Continue?'
+                );
+                if (!ok) return;
+              }
+
+              try {
+                setClientSaving(true);
+                const res = await fetch('/api/inquiries/assign-client', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'x-admin-key': process.env.NEXT_PUBLIC_ADMIN_KEY || '',
+                  },
+                  body: JSON.stringify({
+                    id,
+                    client_email: clientEmail || null,
+                  }),
+                });
+                const json = await res.json();
+                console.log('Assign client response:', json);
+                // Optional: refresh to ensure UI matches DB
+                await loadInquiry();
+              } catch (e) {
+                console.error('Failed to assign client:', e);
+              } finally {
+                setClientSaving(false);
+              }
+            }}
+          >
+            {clientSaving ? 'Saving…' : 'Save Client Email'}
+          </button>
+
+          {inquiry.client_email && (
+            <p className="mt-2 text-[11px] text-gray-600">
+              Currently assigned to: {inquiry.client_email}
+            </p>
+          )}
         </div>
 
         {/* AI Intent Score */}

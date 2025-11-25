@@ -1,6 +1,9 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
+
+const CLIENT_EMAIL =
+  process.env.NEXT_PUBLIC_DEMO_CLIENT_EMAIL || 'client@example.com';
 
 const MOCK_INQUIRIES = [
   {
@@ -102,8 +105,58 @@ export default function ClientDashboardPage() {
   const [statusFilter, setStatusFilter] = useState('');
   const [intentFilter, setIntentFilter] = useState('');
 
+  const [inquiries, setInquiries] = useState(MOCK_INQUIRIES);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    async function loadInquiries() {
+      try {
+        setLoading(true);
+        setError('');
+
+        const res = await fetch(
+          `/api/client/inquiries?email=${encodeURIComponent(CLIENT_EMAIL)}`
+        );
+        const json = await res.json();
+
+        if (!json.success) {
+          console.error('Client inquiries API error:', json.error);
+          setError('Could not load live inquiries. Showing sample data.');
+          return;
+        }
+
+        // Map Supabase rows into the structure the UI expects
+        const mapped = (json.inquiries || []).map((row: any) => ({
+          id: row.id,
+          name: row.name || '',
+          phone: row.phone || '',
+          email: row.email || '',
+          industry: row.industry || '',
+          intentScore: row.ai_score ?? null,
+          status: 'new', // placeholder, can be extended later (clients can mark in-progress/closed)
+          deliveredAt: row.delivered_at,
+          requirement: row.requirement || '',
+        }));
+
+        if (mapped.length > 0) {
+          setInquiries(mapped);
+        } else {
+          setError('No live inquiries yet. Showing sample data for now.');
+        }
+      } catch (e) {
+        console.error('Client dashboard fetch failed:', e);
+        setError('Could not connect to server. Showing sample data.');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadInquiries();
+  }, []);
+
   const filtered = useMemo(() => {
-    return MOCK_INQUIRIES.filter((inq) => {
+    return inquiries.filter((inq) => {
       const text = search.toLowerCase();
 
       if (text) {
@@ -124,14 +177,14 @@ export default function ClientDashboardPage() {
     });
   }, [search, industryFilter, statusFilter, intentFilter]);
 
-  const totalCount = MOCK_INQUIRIES.length;
-  const newCount = MOCK_INQUIRIES.filter((i) => i.status === 'new').length;
-  const inProgressCount = MOCK_INQUIRIES.filter((i) => i.status === 'in_progress').length;
-  const closedCount = MOCK_INQUIRIES.filter((i) => i.status === 'closed').length;
+  const totalCount = inquiries.length;
+  const newCount = inquiries.filter((i) => i.status === 'new').length;
+  const inProgressCount = inquiries.filter((i) => i.status === 'in_progress').length;
+  const closedCount = inquiries.filter((i) => i.status === 'closed').length;
 
-  const highIntentCount = MOCK_INQUIRIES.filter((i) => intentLevel(i.intentScore) === 'High').length;
-  const mediumIntentCount = MOCK_INQUIRIES.filter((i) => intentLevel(i.intentScore) === 'Medium').length;
-  const lowIntentCount = MOCK_INQUIRIES.filter((i) => intentLevel(i.intentScore) === 'Low').length;
+  const highIntentCount = inquiries.filter((i) => intentLevel(i.intentScore) === 'High').length;
+  const mediumIntentCount = inquiries.filter((i) => intentLevel(i.intentScore) === 'Medium').length;
+  const lowIntentCount = inquiries.filter((i) => intentLevel(i.intentScore) === 'Low').length;
 
   function exportCSV() {
     const rows = [
@@ -272,6 +325,15 @@ export default function ClientDashboardPage() {
           Export CSV
         </button>
       </div>
+
+      {/* Loading and Error States */}
+      {loading && (
+        <p className="text-xs text-gray-600 mb-2">Loading your live inquiries…</p>
+      )}
+
+      {!loading && error && (
+        <p className="text-xs text-orange-700 mb-2">{error}</p>
+      )}
 
       {/* Table */}
       <div className="overflow-x-auto text-sm">

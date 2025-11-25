@@ -258,6 +258,9 @@ export default function LandingPage() {
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
+                <p className="text-sm text-[#1A1F2B] opacity-70 max-w-md">
+                  Takes less than 30 seconds. We'll ask a few questions, then show you what's realistic for your industry.
+                </p>
                 <Badge className="bg-[#F7F8FA] text-[#1A1F2B] border border-[#E4E7EC] px-4 py-1.5 text-sm font-medium w-fit">
                   Only 10 launch slots per month
                 </Badge>
@@ -432,10 +435,10 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              The Verified Inquiry Launch Program
+              The Verified Inquiries Launch Program
             </h2>
             <p className="text-xl text-blue-100 mb-8">
-              Get 30–50 verified inquiries in 30 days — or we work for free until we do.
+              Get 30–50 verified inquiries in your first 30 days — or we keep working at our cost until we hit the minimum.
             </p>
           </div>
 
@@ -443,12 +446,12 @@ export default function LandingPage() {
             <CardContent className="p-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 {[
-                  'AI-optimized Google, Facebook & LinkedIn campaigns',
-                  'Industry-specific targeting & creatives',
-                  'AI + human verification (phone + email)',
-                  'Instant delivery to WhatsApp + dashboard',
-                  'Weekly optimization and reporting',
-                  'No lock-in, no contract',
+                  'AI-optimized campaigns on Google, Meta and/or LinkedIn for your industry',
+                  'Industry-specific funnel with qualifying questions (not just a basic form)',
+                  'AI scoring for every inquiry (0–100 intent score)',
+                  'Human verification of phone and key details before delivery',
+                  'WhatsApp + dashboard delivery of verified inquiries',
+                  'Weekly review and optimization during the launch period',
                 ].map((item, idx) => (
                   <div key={idx} className="flex items-start gap-3">
                     <CheckCircle className="h-6 w-6 text-green-600 flex-shrink-0 mt-0.5" />
@@ -458,11 +461,39 @@ export default function LandingPage() {
               </div>
               <div className="bg-blue-50 rounded-lg p-6 border-l-4 border-blue-600">
                 <p className="text-lg font-semibold text-slate-900">
-                  One all-inclusive launch fee (includes ad spend). Exact investment shared during your free strategy session.
+                  If we don't deliver the agreed minimum verified inquiries in the launch period, we keep running your campaign at our cost until we do.
                 </p>
               </div>
             </CardContent>
           </Card>
+        </div>
+      </section>
+
+      {/* What Happens After Your Launch Program */}
+      <section className="py-20 px-4 bg-white reveal-on-scroll">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-8">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+              What Happens After Your Launch Program?
+            </h2>
+            <p className="text-xl text-slate-700 max-w-2xl mx-auto leading-relaxed">
+              Once your 30–50 verified inquiries are delivered during the launch period, you can move to a monthly verified inquiry plan. No contracts, no lock-in. You decide how many verified inquiries you want per month, and we keep delivering.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+            {[
+              'No monthly retainer or agency lock-in',
+              'Simple, transparent verified-inquiry plans',
+              'Scale up or pause based on your results',
+              'Pay for verified inquiries — not cold lists or impressions',
+            ].map((item, idx) => (
+              <div key={idx} className="flex items-center gap-3">
+                <CheckCircle className="h-6 w-6 text-green-600 flex-shrink-0" />
+                <p className="text-lg font-semibold text-slate-900">{item}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -485,20 +516,20 @@ export default function LandingPage() {
             {[
               {
                 step: 1,
-                title: "Book Your Strategy Session",
-                description: "Tell us about your business and goals in 30 seconds.",
+                title: "Quick onboarding + free strategy session",
+                description: "Answer a few questions about your business and book a free strategy call. We clarify what a 'good inquiry' means for you and set realistic targets.",
                 icon: Calendar,
               },
               {
                 step: 2,
-                title: "We Build & Run Your Funnel",
-                description: "AI-optimized ads + industry funnel + verification engine.",
+                title: "30-day Verified Inquiries Launch Program",
+                description: "We build your campaigns, funnel, and verification workflow. You start receiving verified inquiries on WhatsApp and your dashboard within the launch window.",
                 icon: Zap,
               },
               {
                 step: 3,
-                title: "You Receive Verified Inquiries",
-                description: "Delivered with proof and verification timestamp.",
+                title: "Decide if you want to scale",
+                description: "After the launch, you can either stay on a monthly verified-inquiries plan or pause. There is no long-term contract or forced retainer.",
                 icon: CheckCircle,
               }
             ].map((item) => {
@@ -540,8 +571,11 @@ export default function LandingPage() {
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#1A1F2B] mb-5 leading-[1.1]">
               Typical Investment Range (includes ad spend)
             </h2>
+            <p className="text-lg text-[#1A1F2B] opacity-70 max-w-2xl mx-auto mb-4">
+              These ranges are for verified inquiries only — people who have passed both AI scoring and human verification.
+            </p>
             <p className="text-lg text-[#1A1F2B] opacity-70 max-w-2xl mx-auto">
-              Exact quote is shared during your free strategy session.
+              Exact plan, channel mix, and quote are shared after your onboarding questions and free strategy session. We don't lock you into a one-size-fits-all package.
             </p>
           </div>
 
@@ -689,25 +723,48 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Why Our Verified Inquiries Convert Better */}
+      <section className="py-20 px-4 bg-gradient-to-br from-blue-50 to-indigo-50 reveal-on-scroll">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+              Why Our Verified Inquiries Convert Better Than Normal Leads
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {[
+              'No raw lead exports — only verified inquiries',
+              'Every inquiry starts from a real ad click + form',
+              'AI scores each inquiry for intent and fit',
+              'Humans verify phone and key details before delivery',
+              'No shared or recycled leads — every inquiry is exclusive to you',
+              'We only count an inquiry once it passes AI + human checks',
+            ].map((item, idx) => (
+              <div key={idx} className="flex items-start gap-3 bg-white p-4 rounded-lg shadow-sm">
+                <CheckCircle className="h-6 w-6 text-green-600 flex-shrink-0 mt-0.5" />
+                <p className="text-slate-700 font-medium">{item}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Trusted By Section */}
       <section className="py-12 px-4 bg-slate-50 reveal-on-scroll">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-8">
             <p className="text-sm font-semibold text-slate-600 uppercase tracking-wide mb-6">Trusted By</p>
-            <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
+            <div className="flex flex-wrap gap-6 items-center justify-center">
               {/* Placeholder logos - replace with actual client logos */}
-              <div className="h-12 w-32 bg-slate-300 rounded flex items-center justify-center text-slate-500 text-xs font-semibold">
-                Client Logo
-              </div>
-              <div className="h-12 w-32 bg-slate-300 rounded flex items-center justify-center text-slate-500 text-xs font-semibold">
-                Client Logo
-              </div>
-              <div className="h-12 w-32 bg-slate-300 rounded flex items-center justify-center text-slate-500 text-xs font-semibold">
-                Client Logo
-              </div>
-              <div className="h-12 w-32 bg-slate-300 rounded flex items-center justify-center text-slate-500 text-xs font-semibold">
-                Client Logo
-              </div>
+              {[1, 2, 3, 4, 5, 6].map((idx) => (
+                <div
+                  key={idx}
+                  className="w-16 h-16 md:w-20 md:h-20 bg-gray-100 rounded-full flex items-center justify-center text-[10px] md:text-xs text-gray-600"
+                >
+                  Client Logo
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -797,10 +854,32 @@ export default function LandingPage() {
 
       {/* Final CTA - Premium Centered */}
       <FinalCTA 
-        headline="Ready for Verified, Qualified, Real Inquiries?"
-        subtext="Book your free strategy session and see how many verified inquiries we can deliver for your business."
+        headline="Ready to Get Verified, High-Intent Inquiries?"
+        subtext="Book your free strategy session. It takes 30 seconds and helps us understand exactly what verified inquiries mean for your business."
         buttonText="Book My Free Strategy Call"
       />
+
+      {/* Founder Story Section */}
+      <section className="py-20 px-4 bg-slate-50 reveal-on-scroll">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
+              Built for Indian Businesses That Are Tired of Cold Leads
+            </h2>
+            <div className="prose prose-lg max-w-2xl mx-auto text-slate-700 leading-relaxed">
+              <p className="text-lg mb-4">
+                Hi, I'm Abhishek — Founder of Transition Marketing AI. After years of watching businesses in India waste money on cold leads and bulk data lists, I built a system that uses AI + human verification to deliver only high-intent inquiries. No more chasing people who never asked to hear from you.
+              </p>
+              <p className="text-base mb-3">
+                This platform is designed for founders, marketers, and sales teams who want fewer, better inquiries — not bigger spreadsheets of cold contacts.
+              </p>
+              <p className="text-sm text-slate-600 italic font-medium">
+                No agencies. No recycled leads. Just verified inquiries.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* FAQ Section */}
       <section id="faq" className="py-20 px-4 bg-white">
@@ -853,16 +932,25 @@ export default function LandingPage() {
                 What happens if you don't deliver the promised inquiries?
               </AccordionTrigger>
               <AccordionContent className="text-slate-600">
-                Our performance guarantee covers you. If we don't meet your minimum verified inquiry target, we keep running the campaigns at our cost until we do. No excuses and no extra fees.
+                If we don't reach the agreed minimum number of verified inquiries during your launch period, we continue running your campaign at our cost until we do. You're never paying for cold lists or unverified data — only real inquiries we've checked.
               </AccordionContent>
             </AccordionItem>
 
             <AccordionItem value="item-6" className="bg-white rounded-lg border-2 border-slate-200 px-6">
               <AccordionTrigger className="text-left font-semibold text-slate-900">
-                Do you charge separately for ads?
+                How much does it cost?
               </AccordionTrigger>
               <AccordionContent className="text-slate-600">
-                No. Your investment includes ad spend, funnel setup, verification, and delivery. This makes our pricing transparent and predictable.
+                We usually start in the ₹35,000–₹50,000 range for a 30-day Verified Inquiries Launch Program, including ad spend. Exact pricing depends on your industry, city, and how many verified inquiries you want per month. You'll get a clear quote after your onboarding questions and free strategy session.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-6b" className="bg-white rounded-lg border-2 border-slate-200 px-6">
+              <AccordionTrigger className="text-left font-semibold text-slate-900">
+                Is there a retainer or long-term contract?
+              </AccordionTrigger>
+              <AccordionContent className="text-slate-600">
+                After your launch, you can move to a monthly verified-inquiries plan or pause. There is no long-term lock-in or forced retainer. We keep working together only if the verified inquiries are valuable for you.
               </AccordionContent>
             </AccordionItem>
 

@@ -52,11 +52,11 @@ export default function StartupsSaaSPage() {
             </Badge>
             
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-slate-900 mb-6 leading-tight">
-              Verified SaaS Inquiries — Delivered Daily
+              Product Demo Requests from Real Decision-Makers.
             </h1>
             
             <p className="text-xl md:text-2xl text-slate-700 mb-8 leading-relaxed">
-              AI-powered targeting + the AI Verification Engine™ ensures only genuine, ready-to-convert inquiries reach you.
+              We fill your demo calendar with qualified prospects, not just trial signups that never show up.
             </p>
 
             <Button size="lg" className="bg-[#233DFF] hover:bg-[#1E35E6] text-white text-[17px] font-medium px-12 py-6 rounded-[16px] shadow-[0_6px_20px_rgba(35,61,255,0.15)] hover:shadow-[0_8px_24px_rgba(35,61,255,0.2)] hover:scale-[1.015] transition-all" asChild>
@@ -71,6 +71,63 @@ export default function StartupsSaaSPage() {
 
       {/* SECTION 2 — Industry Funnel Diagram */}
       <IndustryFunnel industryName="SaaS" />
+
+      {/* SECTION 2.5 — How Our Verified Inquiry Funnel Works */}
+      <section className="py-[110px] md:py-[140px] px-4 md:px-8 bg-[#F7F8FA]">
+        <div className="max-w-[1300px] mx-auto">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#1A1F2B] mb-5 leading-[1.1]">
+              How Our SaaS Funnel Works
+            </h2>
+          </div>
+
+          {/* 5-Step Vertical Layout */}
+          <div className="max-w-3xl mx-auto space-y-8">
+            {[
+              {
+                step: 1,
+                title: 'ICP Traffic to a Focused Demo Page',
+                description: 'We send ideal prospects to a single, clear demo/consultation page.',
+              },
+              {
+                step: 2,
+                title: 'Qualifying Questions',
+                description: 'We capture company name, team size, current tool stack, and problem they're trying to solve.',
+              },
+              {
+                step: 3,
+                title: 'AI Fit & Intent Score',
+                description: 'Our AI model scores the account based on fit and urgency.',
+              },
+              {
+                step: 4,
+                title: 'Human Confirmation',
+                description: 'Our team verifies the contact and confirms they're ready for a product conversation.',
+              },
+              {
+                step: 5,
+                title: 'Verified Demo Requests',
+                description: 'You receive verified demo requests that your sales team can directly book or follow up on.',
+              },
+            ].map((item) => (
+              <Card key={item.step} className="border border-[#E4E7EC] bg-white rounded-[16px] shadow-[0_6px_20px_rgba(0,0,0,0.06)]">
+                <CardContent className="p-8">
+                  <div className="flex items-start gap-6">
+                    <div className="w-12 h-12 rounded-full bg-[#F7F8FA] flex items-center justify-center flex-shrink-0 text-xl font-bold text-[#1A1F2B]">
+                      {item.step}
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-bold text-xl text-[#1A1F2B] mb-2">{item.title}</h3>
+                      <p className="text-[#1A1F2B] opacity-70 leading-relaxed">{item.description}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+        </div>
+      </section>
 
       {/* SECTION 3 — What You Receive */}
       <IndustryBenefits industryName="SaaS" />
@@ -147,7 +204,7 @@ export default function StartupsSaaSPage() {
       {/* SECTION 7 — Final CTA */}
       <FinalCTA 
         headline="Ready for Verified, Qualified, Real Inquiries?"
-        subtext="Book your free strategy session and see how many verified inquiries we can deliver."
+        subtext="See how a verified demo request funnel would look for your SaaS."
         buttonText="Book My Free Strategy Call"
         secondaryLink="#ai-verification-engine"
         secondaryLinkText="See Verification Steps →"

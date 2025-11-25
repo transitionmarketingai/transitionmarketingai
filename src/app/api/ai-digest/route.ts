@@ -89,12 +89,12 @@ export async function GET(request: NextRequest) {
 
     // Generate AI summary
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://transitionmarketingai.com';
-    const cronSecret = process.env.CRON_SECRET;
+    const cronSecretEnv = process.env.CRON_SECRET;
     const aiResponse = await fetch(`${baseUrl}/api/ai-assistant`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        ...(cronSecret ? { 'Authorization': `Bearer ${cronSecret}` } : {}),
+        ...(cronSecretEnv ? { 'Authorization': `Bearer ${cronSecretEnv}` } : {}),
       },
       body: JSON.stringify({
         type: 'daily-digest',

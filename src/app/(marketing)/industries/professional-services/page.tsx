@@ -102,7 +102,7 @@ export default function ProfessionalServicesPage() {
               {
                 step: 4,
                 title: 'Human Qualification',
-                description: 'Our team verifies contact details and checks if they're open to a discovery/demo call.',
+                description: "Our team verifies contact details and checks if they're open to a discovery/demo call.",
               },
               {
                 step: 5,

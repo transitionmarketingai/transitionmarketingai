@@ -92,7 +92,7 @@ export default function StartupsSaaSPage() {
               {
                 step: 2,
                 title: 'Qualifying Questions',
-                description: 'We capture company name, team size, current tool stack, and problem they're trying to solve.',
+                description: "We capture company name, team size, current tool stack, and problem they're trying to solve.",
               },
               {
                 step: 3,
@@ -102,7 +102,7 @@ export default function StartupsSaaSPage() {
               {
                 step: 4,
                 title: 'Human Confirmation',
-                description: 'Our team verifies the contact and confirms they're ready for a product conversation.',
+                description: "Our team verifies the contact and confirms they're ready for a product conversation.",
               },
               {
                 step: 5,

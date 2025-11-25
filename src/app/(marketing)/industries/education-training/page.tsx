@@ -102,12 +102,12 @@ export default function EducationIndustryPage() {
               {
                 step: 4,
                 title: 'Human Verification Call',
-                description: 'Our team verifies basic details and confirms they're open to a call with your counsellor.',
+                description: "Our team verifies basic details and confirms they're open to a call with your counsellor.",
               },
               {
                 step: 5,
                 title: 'Verified Enquiries to Your Team',
-                description: 'You receive verified student enquiries with all important details — they're expecting your call.',
+                description: "You receive verified student enquiries with all important details — they're expecting your call.",
               },
             ].map((item) => (
               <Card key={item.step} className="border border-[#E4E7EC] bg-white rounded-[16px] shadow-[0_6px_20px_rgba(0,0,0,0.06)]">

@@ -115,7 +115,7 @@ export default function HealthcareIndustryPage() {
               {
                 step: 4,
                 title: 'Human Verification',
-                description: 'Our team verifies phone numbers and checks if they're genuinely looking to book an appointment.',
+                description: "Our team verifies phone numbers and checks if they're genuinely looking to book an appointment.",
               },
               {
                 step: 5,

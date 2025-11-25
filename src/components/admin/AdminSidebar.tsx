@@ -23,6 +23,7 @@ import {
   CheckCircle,
   TrendingUp,
   DollarSign,
+  Bot,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
@@ -54,6 +55,12 @@ const navigation: NavigationItem[] = [
     name: 'Analytics',
     href: '/admin/analytics',
     icon: BarChart3,
+  },
+  {
+    name: 'Command Center',
+    href: '/admin/command',
+    icon: Bot,
+    badge: 'AI',
   },
   {
     name: 'Resources',

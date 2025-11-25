@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { UTMCapture } from '@/components/UTMCapture';
 
 // Force dynamic rendering for marketing pages (they use client components with interactivity)
 export const dynamic = 'force-dynamic';
@@ -49,6 +50,11 @@ export default function MarketingLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return (
+    <>
+      <UTMCapture />
+      {children}
+    </>
+  );
 }
 

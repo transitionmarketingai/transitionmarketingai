@@ -6,8 +6,8 @@ import Logo from '@/components/Logo';
 import Image from 'next/image';
 
 export const metadata: Metadata = {
-  title: "Why Verified Inquiries Deliver Better ROI Than Buying Lead Lists | Transition Marketing AI",
-  description: "Stop wasting money on outdated databases. Learn how verified ad inquiries outperform bulk lead lists in conversion and trust.",
+  title: "Verified Inquiries vs. Bought Leads — What Indian Businesses Need to Know | Transition Marketing AI",
+  description: "Most Indian businesses still buy raw leads — but the industry is shifting quickly toward verified inquiries. Learn why the difference matters more than ever.",
 };
 
 export default function VerifiedLeadsArticle() {
@@ -50,10 +50,10 @@ export default function VerifiedLeadsArticle() {
               </span>
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4 leading-tight">
-              Why Verified Inquiries Deliver Better ROI Than Buying Lead Lists
+              Verified Inquiries vs. Bought Leads — What Indian Businesses Need to Know
             </h1>
             <p className="text-xl text-slate-600 mb-6">
-              Stop wasting money on outdated databases. Learn how verified ad inquiries outperform bulk lead lists in conversion and trust.
+              Most Indian businesses still buy raw leads — but the industry is shifting quickly toward verified inquiries. Here's why the difference matters more than ever.
             </p>
             <div className="flex items-center gap-4 text-sm text-slate-500">
               <span>Transition Marketing AI Team</span>
@@ -77,8 +77,80 @@ export default function VerifiedLeadsArticle() {
           {/* Article Content */}
           <div className="prose prose-lg max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed mb-6">
-              Many businesses in India still buy lead lists from data vendors, hoping to find customers. But these lists are often outdated, inaccurate, and filled with contacts who have no interest in your service. Verified inquiries from AI-powered ad campaigns, on the other hand, come from people actively engaging with your ads—meaning they're already interested and ready to talk.
+              Most Indian businesses still buy raw leads — but the industry is shifting quickly toward verified inquiries. Here's why the difference matters more than ever.
             </p>
+
+            <h2 className="text-3xl font-bold text-slate-900 mt-12 mb-6">
+              What Are Bought Leads?
+            </h2>
+
+            <p className="text-lg text-slate-700 leading-relaxed mb-6">
+              Bought leads are raw data purchased from lists, marketplaces, or agencies. These leads typically have several problems:
+            </p>
+
+            <ul className="list-disc pl-6 mb-6 space-y-3 text-lg text-slate-700">
+              <li><strong>Raw data from lists, marketplaces, or agencies:</strong> Contact information is collected from various sources without verification of intent or accuracy.</li>
+              <li><strong>Often duplicate, outdated, or fake:</strong> Many contacts in these lists are no longer valid, have already been contacted, or were never real to begin with.</li>
+              <li><strong>No verification of intent:</strong> There's no way to know if the person on the list is actually interested in your service or even aware they're on a lead list.</li>
+            </ul>
+
+            <h2 className="text-3xl font-bold text-slate-900 mt-12 mb-6">
+              The Hidden Cost of Bought Leads
+            </h2>
+
+            <p className="text-lg text-slate-700 leading-relaxed mb-6">
+              While bought leads may seem inexpensive upfront, the hidden costs quickly add up:
+            </p>
+
+            <ul className="list-disc pl-6 mb-6 space-y-3 text-lg text-slate-700">
+              <li><strong>Time wasted calling uninterested people:</strong> Your sales team spends hours reaching out to contacts who have no interest in your service, wasting valuable time that could be spent on real prospects.</li>
+              <li><strong>Low conversion rates:</strong> Without intent verification, conversion rates from bought leads typically range from 2-5%, meaning most of your investment goes to waste.</li>
+              <li><strong>Weak ROI:</strong> When you factor in the time cost of calling unqualified leads, the actual ROI becomes negative for many businesses.</li>
+              <li><strong>No accountability:</strong> Lead vendors don't guarantee results or take responsibility for low conversion rates, leaving you with no recourse when leads don't convert.</li>
+            </ul>
+
+            <h2 className="text-3xl font-bold text-slate-900 mt-12 mb-6">
+              What Is a Verified Inquiry?
+            </h2>
+
+            <p className="text-lg text-slate-700 leading-relaxed mb-6">
+              A verified inquiry is fundamentally different from a bought lead. It goes through a rigorous verification process:
+            </p>
+
+            <ul className="list-disc pl-6 mb-6 space-y-3 text-lg text-slate-700">
+              <li><strong>Real user → real ad click:</strong> Every inquiry starts with a real person clicking on your ad, showing genuine interest in your service.</li>
+              <li><strong>AI intent scoring:</strong> The system analyzes user behavior, engagement patterns, and click signals to score intent before the inquiry reaches you.</li>
+              <li><strong>AI identity validation:</strong> Automated systems check for fake numbers, invalid emails, duplicates, and spam patterns to ensure contact information is real.</li>
+              <li><strong>Human confirmation:</strong> A short manual call confirms genuine interest, accurate requirement, budget, and timeline before delivery.</li>
+            </ul>
+
+            <h2 className="text-3xl font-bold text-slate-900 mt-12 mb-6">
+              Why Verified Inquiries Convert Better
+            </h2>
+
+            <p className="text-lg text-slate-700 leading-relaxed mb-6">
+              Verified inquiries deliver significantly better results because they address the core problems with bought leads:
+            </p>
+
+            <ul className="list-disc pl-6 mb-6 space-y-3 text-lg text-slate-700">
+              <li><strong>Genuine intent:</strong> Every verified inquiry has shown real interest through ad engagement and passed intent scoring, meaning they're actively looking for what you offer.</li>
+              <li><strong>Correct contact details:</strong> Identity validation ensures phone numbers and emails are active and belong to real people, eliminating wasted calls to disconnected numbers.</li>
+              <li><strong>Valid budget/timeline:</strong> Human verification confirms the prospect has the budget for your service and a realistic timeline, ensuring you're talking to qualified buyers.</li>
+              <li><strong>Exclusive delivery:</strong> Each inquiry is delivered to only one business, never shared or recycled, giving you exclusive access to that prospect.</li>
+            </ul>
+
+            <h2 className="text-3xl font-bold text-slate-900 mt-12 mb-6">
+              Performance Guarantee vs No Guarantee
+            </h2>
+
+            <p className="text-lg text-slate-700 leading-relaxed mb-6">
+              The difference in accountability is stark:
+            </p>
+
+            <ul className="list-disc pl-6 mb-6 space-y-3 text-lg text-slate-700">
+              <li><strong>Agencies cannot guarantee results:</strong> Traditional lead vendors and agencies sell you data but take no responsibility for conversion rates or lead quality. If leads don't convert, you bear the full cost.</li>
+              <li><strong>Verified Inquiry system is performance-backed:</strong> With a verified inquiry system, if minimum verified inquiries aren't delivered, campaigns continue at the provider's cost until targets are met. This aligns incentives and ensures accountability.</li>
+            </ul>
 
             <h2 className="text-3xl font-bold text-slate-900 mt-12 mb-6">
               Comparison: Verified Inquiries vs. Purchased Lead Lists
@@ -124,47 +196,24 @@ export default function VerifiedLeadsArticle() {
             </div>
 
             <h2 className="text-3xl font-bold text-slate-900 mt-12 mb-6">
-              How AI Filters for High-Intent Leads
+              Conclusion
             </h2>
 
             <p className="text-lg text-slate-700 leading-relaxed mb-6">
-              AI-powered systems don't just collect contact information—they analyze user behavior to identify genuine buying intent. When someone clicks on your ad, views your landing page, fills out a form, or engages with your content, the AI system tracks these signals and scores each lead based on likelihood to convert.
-            </p>
-
-            <p className="text-lg text-slate-700 leading-relaxed mb-6">
-              This means you only receive inquiries from people who have shown clear interest in your service. The AI also verifies contact information in real-time, ensuring phone numbers are active and email addresses are deliverable. This combination of intent scoring and verification dramatically improves your conversion rates compared to cold lists.
-            </p>
-
-            <h2 className="text-3xl font-bold text-slate-900 mt-12 mb-6">
-              The Hidden Cost of Low-Quality Lead Lists
-            </h2>
-
-            <p className="text-lg text-slate-700 leading-relaxed mb-6">
-              While purchased lead lists seem cheaper upfront (₹50-₹200 per lead), the hidden costs quickly add up. When 70% of those leads are outdated or uninterested, your sales team wastes hours calling disconnected numbers and emailing invalid addresses. This wasted time costs more than the list itself, and the poor conversion rates mean you're spending money without seeing real results.
-            </p>
-
-            <p className="text-lg text-slate-700 leading-relaxed mb-6">
-              Verified inquiries, on the other hand, may cost more per lead (₹400-₹500), but they deliver significantly better ROI. With a 12-25% conversion rate compared to 2-5% for purchased lists, you're not just buying contacts—you're buying real business opportunities. Every verified inquiry has been confirmed as genuine and interested, meaning your team's time is spent on leads that actually convert.
-            </p>
-
-            <p className="text-lg text-slate-700 leading-relaxed mb-6">
-              The choice is clear: stop wasting money on outdated databases and start investing in verified inquiries from real ad campaigns. <Link href="/onboarding" className="text-blue-600 hover:text-blue-700 font-semibold">Take our 30-second onboarding quiz</Link> to see if you qualify for our 30-day pilot program and start receiving verified inquiries every week.
+              Verified inquiries remove the uncertainty from lead generation. It's a reliable, predictable way for businesses to grow without wasting time or money. Instead of buying raw data with no guarantees, verified inquiries deliver real people with genuine intent, validated contact information, and confirmed requirements — backed by a performance guarantee that ensures you get results.
             </p>
 
             <div className="bg-blue-50 border-l-4 border-blue-600 p-6 my-12 rounded-r-lg">
-              <h3 className="text-xl font-bold text-slate-900 mb-3">Ready to Switch to Verified Inquiries?</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">Ready to Get Verified Inquiries for Your Business?</h3>
               <p className="text-slate-700 mb-4">
-                Book a free consultation to see how verified AI-generated inquiries can improve your ROI.
+                Book your free strategy session and see how many verified inquiries we can deliver for your business.
               </p>
               <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white mb-2" asChild>
                 <a href={calendlyUrl} target="_blank" rel="noopener noreferrer">
-                  Book a Free Consultation
+                  Book My Free Strategy Call
                   <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
                 </a>
               </Button>
-              <p className="text-sm text-slate-600 mt-4">
-                Or <Link href="/onboarding" className="text-blue-600 hover:text-blue-700 font-semibold">start the onboarding quiz</Link> to see if you qualify.
-              </p>
             </div>
           </div>
         </div>

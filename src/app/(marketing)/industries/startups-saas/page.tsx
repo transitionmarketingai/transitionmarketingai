@@ -1,76 +1,157 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { ArrowRight, Rocket, CheckCircle, X } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { 
+  Rocket,
+  CheckCircle,
+  ArrowRight,
+  Shield,
+  BarChart3,
+  Phone,
+  Users,
+  Target,
+  ArrowRightCircle,
+  Zap,
+  TrendingUp,
+  Monitor
+} from 'lucide-react';
 import Link from 'next/link';
 import Logo from '@/components/Logo';
+import IndustryFunnel from '@/components/public/IndustryFunnel';
+import IndustryBenefits from '@/components/public/IndustryBenefits';
+import HowWeVerify from '@/components/public/HowWeVerify';
+import IndustryProof from '@/components/public/IndustryProof';
+import IndustryPricing from '@/components/public/IndustryPricing';
+import FinalCTA from '@/components/public/FinalCTA';
 
 export default function StartupsSaaSPage() {
   return (
     <div className="min-h-screen bg-white">
-      <nav className="fixed top-0 w-full bg-white border-b z-50">
+      <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-sm border-b z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <Logo size="md" href="/" />
-            <Link href="/onboarding">
-              <Button className="bg-blue-600 hover:bg-blue-700">Start Free Onboarding</Button>
+            <Link href="/">
+              <Logo size="md" />
             </Link>
+            <Button className="bg-[#233DFF] hover:bg-[#1E35E6] text-white" asChild>
+              <Link href="/book">Book My Free Strategy Call</Link>
+            </Button>
           </div>
         </div>
       </nav>
 
-      <section className="pt-32 pb-20 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h1 className="text-5xl md:text-6xl font-bold text-slate-900 mb-6">
-              Demo Requests from Real Decision-Makers.
+      {/* Hero Section */}
+      <section className="pt-32 pb-20 px-4 bg-gradient-to-br from-pink-50 via-white to-blue-50/30">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center max-w-4xl mx-auto">
+            <Badge className="mb-4 bg-pink-100 text-pink-700 border-pink-200">
+              <Rocket className="h-3 w-3 mr-1" />
+              For SaaS & Startups
+            </Badge>
+            
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-slate-900 mb-6 leading-tight">
+              Verified SaaS Inquiries — Delivered Daily
             </h1>
-          </div>
+            
+            <p className="text-xl md:text-2xl text-slate-700 mb-8 leading-relaxed">
+              AI-powered targeting + the AI Verification Engine™ ensures only genuine, ready-to-convert inquiries reach you.
+            </p>
 
-          <Card className="border-2 border-slate-200 shadow-lg mb-8">
-            <CardContent className="p-8">
-              <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-                <X className="h-6 w-6 text-red-600" />
-                The Problem
-              </h2>
-              <div className="space-y-3 text-slate-700">
-                <p>Poor lead quality means your team books demos with people who aren't decision-makers or can't afford your product. You're spending time on follow-ups that never convert to paying customers.</p>
-                <p>Traditional SaaS lead generation gives you email lists and form submissions, but no verification that those leads are real businesses with budget and authority to buy.</p>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-2 border-green-200 bg-green-50 shadow-lg mb-8">
-            <CardContent className="p-8">
-              <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-                <CheckCircle className="h-6 w-6 text-green-600" />
-                How We Solve It
-              </h2>
-              <div className="space-y-3 text-slate-700">
-                <p>We run targeted campaigns on Google, LinkedIn, and tech platforms. When decision-makers request a demo, we verify their company, role, and budget before delivering them to you.</p>
-                <p>Every demo request is verified—real businesses, confirmed decision-makers, and genuine intent to evaluate your product. Your sales team only demos to companies ready to buy.</p>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-2 border-blue-200 bg-blue-50 shadow-lg mb-8">
-            <CardContent className="p-8">
-              <h2 className="text-2xl font-bold text-slate-900 mb-4">Typical Cost</h2>
-              <p className="text-3xl font-bold text-blue-600 mb-2">₹1,000–₹2,000 per verified inquiry</p>
-              <p className="text-slate-600">Typical range: ₹35,000–₹50,000 (includes ad spend). Exact quote after onboarding.</p>
-            </CardContent>
-          </Card>
-
-          <div className="text-center">
-            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-10 py-6" asChild>
-              <Link href="/onboarding">
-                Start Free Onboarding
+            <Button size="lg" className="bg-[#233DFF] hover:bg-[#1E35E6] text-white text-[17px] font-medium px-12 py-6 rounded-[16px] shadow-[0_6px_20px_rgba(35,61,255,0.15)] hover:shadow-[0_8px_24px_rgba(35,61,255,0.2)] hover:scale-[1.015] transition-all" asChild>
+              <Link href="/book">
+                Book My Free Strategy Call
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
           </div>
         </div>
       </section>
+
+      {/* SECTION 2 — Industry Funnel Diagram */}
+      <IndustryFunnel industryName="SaaS" />
+
+      {/* SECTION 3 — What You Receive */}
+      <IndustryBenefits industryName="SaaS" />
+
+      {/* SECTION 4 — What You Get - SaaS Specific */}
+      <section className="py-20 px-4 bg-slate-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+              What You Receive
+            </h2>
+            <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+              Every inquiry includes verified details specific to SaaS
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              {
+                title: "Verified ICP match",
+                description: "Inquiries match your ideal customer profile - company size, industry, role",
+                icon: Target,
+                color: "bg-blue-100 text-blue-700"
+              },
+              {
+                title: "Use Case + problem confirmation",
+                description: "Specific use case and problem statement verified during call",
+                icon: Monitor,
+                color: "bg-green-100 text-green-700"
+              },
+              {
+                title: "Demo-ready with timeline",
+                description: "Decision-makers ready for demos with confirmed evaluation timeline",
+                icon: Calendar,
+                color: "bg-purple-100 text-purple-700"
+              },
+              {
+                title: "Budget & authority verified",
+                description: "Budget availability and decision-making authority confirmed",
+                icon: TrendingUp,
+                color: "bg-amber-100 text-amber-700"
+              }
+            ].map((item, idx) => {
+              const Icon = item.icon;
+              return (
+                <Card key={idx} className="border-2 border-slate-200 hover:shadow-lg transition-shadow">
+                  <CardContent className="p-6">
+                    <div className={`w-12 h-12 rounded-lg ${item.color} flex items-center justify-center mb-4`}>
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <h3 className="font-bold text-lg mb-2 text-slate-900">{item.title}</h3>
+                    <p className="text-sm text-slate-600">{item.description}</p>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 4 — How We Verify */}
+      <HowWeVerify industryName="SaaS" />
+
+      {/* SECTION 5 — Proof & Case Studies */}
+      <IndustryProof industryName="SaaS" />
+
+      {/* SECTION 6 — Investment Range */}
+      <IndustryPricing 
+        industryName="SaaS" 
+        typicalRange="₹35,000–₹50,000"
+        costPerInquiry="₹1,200–₹2,500"
+      />
+
+      {/* SECTION 7 — Final CTA */}
+      <FinalCTA 
+        headline="Ready for Verified, Qualified, Real Inquiries?"
+        subtext="Book your free strategy session and see how many verified inquiries we can deliver."
+        buttonText="Book My Free Strategy Call"
+        secondaryLink="#ai-verification-engine"
+        secondaryLinkText="See Verification Steps →"
+      />
     </div>
   );
 }
-

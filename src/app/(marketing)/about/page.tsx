@@ -26,9 +26,9 @@ export default function AboutUsPage() {
       {/* Hero Section */}
       <section className="pt-24 pb-16 px-4 bg-gradient-to-br from-slate-50 to-blue-50/30">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">About Transition Marketing AI</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">Built to Solve the Biggest Problem in Lead Generation: Trust.</h1>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-            We're dedicated to helping Indian businesses grow by delivering verified, high-quality leads through AI-powered multi-channel lead generation.
+            Most businesses in India waste money on raw leads — fake numbers, cold lists, and unverified forms. We built Transition Marketing AI to change this completely. Our system delivers only verified, ready-to-convert inquiries that come from real people with genuine intent.
           </p>
         </div>
       </section>
@@ -39,132 +39,122 @@ export default function AboutUsPage() {
           {/* Mission */}
           <Card>
             <CardContent className="p-8">
-              <h2 className="text-3xl font-bold text-slate-900 mb-4">Our Mission</h2>
+              <h2 className="text-3xl font-bold text-slate-900 mb-4">Our Mission Is Simple: Deliver Real Growth, Not Raw Data.</h2>
               <p className="text-slate-700 leading-relaxed text-lg">
-                To democratize access to high-quality B2B leads for businesses in India. We believe every business, regardless of size, should have access to verified leads that help them grow sustainably.
+                We help Indian businesses stop wasting money on cold leads. Instead of sending unverified form fills, we deliver real inquiries that are verified at every stage — AI scoring, identity validation, and manual confirmation. This reduces time wasted, increases conversions, and creates predictable revenue.
               </p>
             </CardContent>
           </Card>
 
-          {/* What We Do */}
+          {/* The Problem with Traditional Lead Generation */}
           <Card>
             <CardContent className="p-8">
-              <h2 className="text-3xl font-bold text-slate-900 mb-6">What We Do</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
-                    <Target className="h-6 w-6 text-blue-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-slate-900 mb-2">AI-Powered Lead Discovery</h3>
-                    <p className="text-slate-600 text-sm">We use advanced AI to find and identify potential customers across multiple platforms and channels.</p>
-                  </div>
+              <h2 className="text-3xl font-bold text-slate-900 mb-6">The Industry Is Broken — And Businesses Deserve Better.</h2>
+              <div className="space-y-4 mb-6">
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
+                  <p className="text-slate-700">Raw leads with no verification</p>
                 </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center flex-shrink-0">
-                    <Shield className="h-6 w-6 text-green-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-slate-900 mb-2">Lead Verification</h3>
-                    <p className="text-slate-600 text-sm">Every lead is verified for phone numbers, email addresses, and business information before delivery.</p>
-                  </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
+                  <p className="text-slate-700">Fake numbers and invalid emails</p>
                 </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center flex-shrink-0">
-                    <Zap className="h-6 w-6 text-purple-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-slate-900 mb-2">Multi-Channel Generation</h3>
-                    <p className="text-slate-600 text-sm">We combine paid ads, AI scraping, and manual research to find leads wherever they exist.</p>
-                  </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
+                  <p className="text-slate-700">Duplicates and recycled lists</p>
                 </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-orange-100 flex items-center justify-center flex-shrink-0">
-                    <Users className="h-6 w-6 text-orange-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-slate-900 mb-2">Custom Plans</h3>
-                    <p className="text-slate-600 text-sm">Every client gets a custom plan tailored to their budget, industry, and lead volume needs.</p>
-                  </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
+                  <p className="text-slate-700">No accountability for results</p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
+                  <p className="text-slate-700">High ad spend with low conversions</p>
                 </div>
               </div>
+              <p className="text-slate-700 font-semibold text-lg">
+                We built a system that fixes all of this permanently.
+              </p>
             </CardContent>
           </Card>
 
-          {/* Our Approach */}
+          {/* The Transition Marketing AI Approach */}
           <Card>
             <CardContent className="p-8">
-              <h2 className="text-3xl font-bold text-slate-900 mb-4">Our Approach</h2>
-              <p className="text-slate-700 leading-relaxed mb-6">
-                We're not just another lead generation tool. We're a service that works with you to understand your business needs and deliver leads that actually convert.
+              <h2 className="text-3xl font-bold text-slate-900 mb-4">A Verified Inquiry System — Powered by AI + Human Intelligence.</h2>
+              <p className="text-slate-700 leading-relaxed text-lg mb-6">
+                Our Verification Engine™ combines AI intent signals, identity validation, and human confirmation to ensure that every inquiry you receive is genuine. Only real people with real interest reach your business.
               </p>
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
                   <CheckCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <h3 className="font-semibold text-slate-900 mb-1">Free Consultation First</h3>
-                    <p className="text-slate-600 text-sm">We start with a no-obligation consultation to understand your business, target audience, and budget.</p>
-                  </div>
+                  <p className="text-slate-700 font-semibold">AI Intent Scoring</p>
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <h3 className="font-semibold text-slate-900 mb-1">Custom Plan Creation</h3>
-                    <p className="text-slate-600 text-sm">Based on your consultation, we create a custom plan with pricing that fits your budget and lead volume needs.</p>
-                  </div>
+                  <p className="text-slate-700 font-semibold">AI Identity Validation</p>
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <h3 className="font-semibold text-slate-900 mb-1">Verified Lead Delivery</h3>
-                    <p className="text-slate-600 text-sm">Leads are verified and delivered instantly to your dashboard when someone shows interest or we find qualified prospects.</p>
-                  </div>
+                  <p className="text-slate-700 font-semibold">Human Confirmation Call</p>
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <h3 className="font-semibold text-slate-900 mb-1">Ongoing Support</h3>
-                    <p className="text-slate-600 text-sm">We're here to help you succeed. Our team provides ongoing support to ensure you get the most out of your leads.</p>
-                  </div>
+                  <p className="text-slate-700 font-semibold">Verified Delivery (WhatsApp + Dashboard)</p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          {/* Why Choose Us */}
+
+          {/* Why Businesses Trust Us */}
           <Card>
             <CardContent className="p-8">
-              <h2 className="text-3xl font-bold text-slate-900 mb-6">Why Choose Us</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <h3 className="font-semibold text-slate-900 mb-2">🇮🇳 India-Focused</h3>
-                  <p className="text-slate-600 text-sm">We understand the Indian market, business practices, and local compliance requirements.</p>
+              <h2 className="text-3xl font-bold text-slate-900 mb-6">A System Built for Reliability, Consistency, and Transparency.</h2>
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <p className="text-slate-700">Exclusive inquiries — delivered to only one business</p>
                 </div>
-                <div>
-                  <h3 className="font-semibold text-slate-900 mb-2">✅ Verified Leads Only</h3>
-                  <p className="text-slate-600 text-sm">Every lead is verified before delivery - no fake numbers or invalid emails.</p>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <p className="text-slate-700">Verification timestamp + proof</p>
                 </div>
-                <div>
-                  <h3 className="font-semibold text-slate-900 mb-2">💰 Transparent Pricing</h3>
-                  <p className="text-slate-600 text-sm">Custom pricing based on your budget - no hidden fees or surprise charges.</p>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <p className="text-slate-700">Industry-specific funnels</p>
                 </div>
-                <div>
-                  <h3 className="font-semibold text-slate-900 mb-2">⚡ Instant Delivery</h3>
-                  <p className="text-slate-600 text-sm">Get leads as they come in - no waiting until end of week for batch delivery.</p>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <p className="text-slate-700">Real-time tracking</p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <p className="text-slate-700">Performance-backed guarantee</p>
                 </div>
               </div>
+            </CardContent>
+          </Card>
+
+          {/* Our Impact */}
+          <Card>
+            <CardContent className="p-8">
+              <h2 className="text-3xl font-bold text-slate-900 mb-4">10,000+ Verified Inquiries Delivered Across India.</h2>
+              <p className="text-slate-700 leading-relaxed text-lg">
+                From real estate to healthcare to B2B services, we have helped businesses get predictable, verified demand — not cold leads.
+              </p>
             </CardContent>
           </Card>
 
           {/* CTA */}
           <Card className="bg-blue-600 text-white">
             <CardContent className="p-8 text-center">
-              <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
+              <h2 className="text-3xl font-bold mb-4">Ready to Stop Chasing Unverified Inquiries and Start Closing Real Conversations?</h2>
               <p className="text-blue-100 mb-6 text-lg">
-                Book a free consultation and let's discuss how we can help grow your business.
+                Book your free strategy session and see how many verified inquiries we can deliver for your business.
               </p>
               <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50" asChild>
-                <Link href="/consultation">Request Free Consultation</Link>
+                <Link href="/book">Book My Free Strategy Call</Link>
               </Button>
             </CardContent>
           </Card>

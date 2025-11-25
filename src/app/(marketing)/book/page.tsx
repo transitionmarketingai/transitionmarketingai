@@ -19,6 +19,15 @@ interface BookingData {
   budgetRange: string;
   whatsapp: string;
   mainGoal: string;
+  // Conditional fields
+  serviceType?: string;
+  courseProgram?: string;
+  studentAgeGrade?: string;
+  serviceCategory?: string;
+  teamSize?: string;
+  currentToolChallenge?: string;
+  propertyType?: string;
+  timeline?: string;
   utm_source?: string;
   utm_medium?: string;
   utm_campaign?: string;
@@ -44,7 +53,7 @@ const BUDGET_OPTIONS = [
 ];
 
 const GOAL_OPTIONS = [
-  { value: 'generate-new-leads', label: 'Generate New Leads' },
+  { value: 'generate-new-inquiries', label: 'Generate New Verified Inquiries' },
   { value: 'scale-existing-campaign', label: 'Scale Existing Campaign' },
   { value: 'improve-conversion-rate', label: 'Improve Conversion Rate' },
 ];
@@ -129,16 +138,20 @@ export default function BookPage() {
     if (!bookingData.industry) {
       newErrors.industry = 'Please select your industry';
     }
-    if (!bookingData.budgetRange) {
-      newErrors.budgetRange = 'Please select your monthly ad budget range';
+    // Budget range only required for Real Estate, B2B, SaaS
+    if ((bookingData.industry === 'real-estate' || 
+         bookingData.industry === 'b2b-professional-services' || 
+         bookingData.industry === 'saas-startups') && 
+        !bookingData.budgetRange) {
+      newErrors.budgetRange = 'Please select your budget range';
     }
     if (!bookingData.whatsapp) {
-      newErrors.whatsapp = 'WhatsApp number is required';
+      newErrors.whatsapp = 'Phone number is required';
     } else if (!/^[6-9]\d{9}$/.test(bookingData.whatsapp.replace(/[\s-]/g, ''))) {
       newErrors.whatsapp = 'Please enter a valid 10-digit Indian mobile number';
     }
-    if (!bookingData.mainGoal) {
-      newErrors.mainGoal = 'Please select your main goal';
+    if (!bookingData.mainGoal || !bookingData.mainGoal.trim()) {
+      newErrors.mainGoal = 'Please tell us what you hope to achieve';
     }
 
     setErrors(newErrors);
@@ -172,7 +185,80 @@ export default function BookPage() {
         main_goal: bookingData.mainGoal,
       });
 
-      // Submit to webhook (Airtable/Sheets) if configured
+      // Get referrer for tracking
+      const referrer = typeof window !== 'undefined' ? document.referrer : '';
+
+      // Simple Airtable submission with UTM tracking
+      try {
+        // Get UTM values from localStorage
+        const utm = {
+          source: typeof window !== 'undefined' ? localStorage.getItem('utm_source') : null,
+          medium: typeof window !== 'undefined' ? localStorage.getItem('utm_medium') : null,
+          campaign: typeof window !== 'undefined' ? localStorage.getItem('utm_campaign') : null,
+          term: typeof window !== 'undefined' ? localStorage.getItem('utm_term') : null,
+          content: typeof window !== 'undefined' ? localStorage.getItem('utm_content') : null,
+        };
+
+        const airtableResponse = await fetch('/api/airtable-submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: bookingData.fullName,
+            phone: `+91${bookingData.whatsapp}`,
+            industry: bookingData.industry,
+            revenue_range: bookingData.budgetRange,
+            inquiry_volume: bookingData.mainGoal,
+            utm: utm,
+          }),
+        });
+
+        if (airtableResponse.ok) {
+          const result = await airtableResponse.json();
+          console.log('✅ Submitted to Airtable:', result.record_id);
+        } else {
+          console.error('⚠️ Airtable submission failed (non-critical)');
+        }
+      } catch (airtableError) {
+        console.error('⚠️ Airtable submission error (non-critical):', airtableError);
+        // Continue even if Airtable fails - don't block user flow
+      }
+
+      // PRIMARY SUBMISSION: Write to Airtable (primary ingestion point)
+      try {
+        const bookingResponse = await fetch('/api/bookings/create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: bookingData.fullName,
+            phone: `+91${bookingData.whatsapp}`,
+            industry: bookingData.industry,
+            revenue_range: bookingData.budgetRange,
+            inquiry_volume: bookingData.mainGoal,
+            business_name: bookingData.businessName || '',
+            utm_source: bookingData.utm_source || '',
+            utm_medium: bookingData.utm_medium || '',
+            utm_campaign: bookingData.utm_campaign || '',
+            utm_term: bookingData.utm_term || '',
+            utm_content: bookingData.utm_content || '',
+            referrer: referrer,
+            main_goal: bookingData.mainGoal, // Fallback for inquiry_volume
+          }),
+        });
+
+        if (bookingResponse.ok) {
+          const bookingResult = await bookingResponse.json();
+          console.log('✅ PRIMARY: Booking created in Airtable:', bookingResult.airtable_id);
+        } else {
+          const errorText = await bookingResponse.text();
+          console.error('❌ PRIMARY submission failed:', errorText);
+          // Don't block form submission - continue to Calendly
+        }
+      } catch (bookingError) {
+        console.error('❌ PRIMARY submission error (continuing to Calendly):', bookingError);
+        // Continue even if primary submission fails - don't block user flow
+      }
+
+      // Submit to webhook (Airtable/Sheets) if configured - backward compatibility
       const webhookUrl = process.env.NEXT_PUBLIC_WEBHOOK_URL;
       if (webhookUrl) {
         try {
@@ -199,7 +285,7 @@ export default function BookPage() {
           });
 
           if (webhookResponse.ok) {
-            console.log('✅ Lead submitted successfully');
+            console.log('✅ Legacy webhook submitted successfully');
           }
         } catch (webhookError) {
           console.error('Webhook error:', webhookError);
@@ -370,10 +456,13 @@ export default function BookPage() {
           {step === 1 && (
             <div className="text-center mb-10 reveal-on-scroll">
               <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4 leading-tight">
-                Book Your Free Strategy Call — See If You Qualify in 30 Seconds.
+                Book Your Free Strategy Session
               </h1>
-              <p className="text-xl md:text-2xl text-slate-700 mb-6 leading-relaxed">
-                Get a custom proposal for your business. We'll analyze your goals, budget, and audience — and show you exactly how many verified, warm inquiries we can deliver.
+              <p className="text-xl md:text-2xl text-slate-700 mb-2 leading-relaxed">
+                Answer a few quick questions so we can understand your business and estimate how many verified inquiries we can deliver for you.
+              </p>
+              <p className="text-lg text-slate-600 mb-6">
+                Takes less than 30 seconds.
               </p>
               
               {/* Trust Badges */}
@@ -414,7 +503,7 @@ export default function BookPage() {
                     Step 1 of 2: Tell Us About Your Business
                   </h2>
                   <p className="text-slate-600">
-                    Answer a few quick questions so we can prepare your verified lead generation quote before your call.
+                    Answer a few quick questions so we can understand your business and estimate how many verified inquiries we can deliver for you.
                   </p>
                 </div>
 
@@ -422,12 +511,12 @@ export default function BookPage() {
                   {/* Full Name */}
                   <div>
                     <Label htmlFor="fullName" className="text-base font-semibold mb-2 block">
-                      Full Name <span className="text-red-500">*</span>
+                      Your Name <span className="text-red-500">*</span>
                     </Label>
                     <Input
                       id="fullName"
                       type="text"
-                      placeholder="John Doe"
+                      placeholder="John Shah"
                       value={bookingData.fullName}
                       onChange={(e) => handleChange('fullName', e.target.value)}
                       className={errors.fullName ? 'border-red-500' : ''}
@@ -441,12 +530,12 @@ export default function BookPage() {
                   {/* Business / Brand Name */}
                   <div>
                     <Label htmlFor="businessName" className="text-base font-semibold mb-2 block">
-                      Business / Brand Name <span className="text-slate-400 text-sm font-normal">(optional)</span>
+                      Your Business / Company Name <span className="text-slate-400 text-sm font-normal">(optional)</span>
                     </Label>
                     <Input
                       id="businessName"
                       type="text"
-                      placeholder="ABC Enterprises"
+                      placeholder="ABC Real Estate / XYZ Dental Clinic"
                       value={bookingData.businessName}
                       onChange={(e) => handleChange('businessName', e.target.value)}
                     />
@@ -455,14 +544,14 @@ export default function BookPage() {
                   {/* Industry */}
                   <div>
                     <Label htmlFor="industry" className="text-base font-semibold mb-2 block">
-                      Industry <span className="text-red-500">*</span>
+                      Select Your Industry <span className="text-red-500">*</span>
                     </Label>
                     <Select
                       value={bookingData.industry}
                       onValueChange={(value) => handleChange('industry', value)}
                     >
                       <SelectTrigger id="industry" className={errors.industry ? 'border-red-500' : ''}>
-                        <SelectValue placeholder="Select your industry" />
+                        <SelectValue placeholder="Select Your Industry" />
                       </SelectTrigger>
                       <SelectContent>
                         {INDUSTRIES.map((industry) => (
@@ -477,35 +566,167 @@ export default function BookPage() {
                     )}
                   </div>
 
-                  {/* Monthly Ad Budget Range */}
-                  <div>
-                    <Label htmlFor="budgetRange" className="text-base font-semibold mb-2 block">
-                      Monthly Ad Budget Range <span className="text-red-500">*</span>
-                    </Label>
-                    <Select
-                      value={bookingData.budgetRange}
-                      onValueChange={(value) => handleChange('budgetRange', value)}
-                    >
-                      <SelectTrigger id="budgetRange" className={errors.budgetRange ? 'border-red-500' : ''}>
-                        <SelectValue placeholder="Select your monthly ad budget range" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {BUDGET_OPTIONS.map((budget) => (
-                          <SelectItem key={budget.value} value={budget.value}>
-                            {budget.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    {errors.budgetRange && (
-                      <p className="text-red-500 text-sm mt-1">{errors.budgetRange}</p>
-                    )}
-                  </div>
+                  {/* Conditional Fields Based on Industry */}
+                  {bookingData.industry === 'real-estate' && (
+                    <>
+                      <div>
+                        <Label htmlFor="propertyType" className="text-base font-semibold mb-2 block">
+                          Property Type <span className="text-slate-400 text-sm font-normal">(optional)</span>
+                        </Label>
+                        <Input
+                          id="propertyType"
+                          type="text"
+                          placeholder="Residential / Commercial / Plots"
+                          value={bookingData.propertyType || ''}
+                          onChange={(e) => handleChange('propertyType', e.target.value)}
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="timeline" className="text-base font-semibold mb-2 block">
+                          Timeline <span className="text-slate-400 text-sm font-normal">(optional)</span>
+                        </Label>
+                        <Input
+                          id="timeline"
+                          type="text"
+                          placeholder="When do you need inquiries?"
+                          value={bookingData.timeline || ''}
+                          onChange={(e) => handleChange('timeline', e.target.value)}
+                        />
+                      </div>
+                    </>
+                  )}
+
+                  {bookingData.industry === 'healthcare' && (
+                    <div>
+                      <Label htmlFor="serviceType" className="text-base font-semibold mb-2 block">
+                        Service Type <span className="text-slate-400 text-sm font-normal">(optional)</span>
+                      </Label>
+                      <Select
+                        value={bookingData.serviceType || ''}
+                        onValueChange={(value) => handleChange('serviceType', value)}
+                      >
+                        <SelectTrigger id="serviceType">
+                          <SelectValue placeholder="Select service type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="dental">Dental</SelectItem>
+                          <SelectItem value="skin">Skin</SelectItem>
+                          <SelectItem value="ortho">Ortho</SelectItem>
+                          <SelectItem value="general-clinic">General Clinic</SelectItem>
+                          <SelectItem value="other">Other</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )}
+
+                  {bookingData.industry === 'education' && (
+                    <>
+                      <div>
+                        <Label htmlFor="courseProgram" className="text-base font-semibold mb-2 block">
+                          Course / Program <span className="text-slate-400 text-sm font-normal">(optional)</span>
+                        </Label>
+                        <Input
+                          id="courseProgram"
+                          type="text"
+                          placeholder="What courses or programs do you offer?"
+                          value={bookingData.courseProgram || ''}
+                          onChange={(e) => handleChange('courseProgram', e.target.value)}
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="studentAgeGrade" className="text-base font-semibold mb-2 block">
+                          Student Age / Grade Range <span className="text-slate-400 text-sm font-normal">(optional)</span>
+                        </Label>
+                        <Input
+                          id="studentAgeGrade"
+                          type="text"
+                          placeholder="e.g., 15-18 years / Class 9-12"
+                          value={bookingData.studentAgeGrade || ''}
+                          onChange={(e) => handleChange('studentAgeGrade', e.target.value)}
+                        />
+                      </div>
+                    </>
+                  )}
+
+                  {bookingData.industry === 'b2b-professional-services' && (
+                    <>
+                      <div>
+                        <Label htmlFor="serviceCategory" className="text-base font-semibold mb-2 block">
+                          Service Category <span className="text-slate-400 text-sm font-normal">(optional)</span>
+                        </Label>
+                        <Input
+                          id="serviceCategory"
+                          type="text"
+                          placeholder="e.g., Legal / Accounting / Consulting"
+                          value={bookingData.serviceCategory || ''}
+                          onChange={(e) => handleChange('serviceCategory', e.target.value)}
+                        />
+                      </div>
+                    </>
+                  )}
+
+                  {bookingData.industry === 'saas-startups' && (
+                    <>
+                      <div>
+                        <Label htmlFor="teamSize" className="text-base font-semibold mb-2 block">
+                          Team Size <span className="text-slate-400 text-sm font-normal">(optional)</span>
+                        </Label>
+                        <Input
+                          id="teamSize"
+                          type="text"
+                          placeholder="e.g., 5-10 / 10-50 / 50+"
+                          value={bookingData.teamSize || ''}
+                          onChange={(e) => handleChange('teamSize', e.target.value)}
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="currentToolChallenge" className="text-base font-semibold mb-2 block">
+                          Current Tool / Challenge <span className="text-slate-400 text-sm font-normal">(optional)</span>
+                        </Label>
+                        <Input
+                          id="currentToolChallenge"
+                          type="text"
+                          placeholder="What tool are you replacing or what problem are you solving?"
+                          value={bookingData.currentToolChallenge || ''}
+                          onChange={(e) => handleChange('currentToolChallenge', e.target.value)}
+                        />
+                      </div>
+                    </>
+                  )}
+
+                  {/* Monthly Ad Budget Range - Conditional for Real Estate, B2B, SaaS */}
+                  {(bookingData.industry === 'real-estate' || 
+                    bookingData.industry === 'b2b-professional-services' || 
+                    bookingData.industry === 'saas-startups') && (
+                    <div>
+                      <Label htmlFor="budgetRange" className="text-base font-semibold mb-2 block">
+                        Budget Range <span className="text-red-500">*</span>
+                      </Label>
+                      <Select
+                        value={bookingData.budgetRange}
+                        onValueChange={(value) => handleChange('budgetRange', value)}
+                      >
+                        <SelectTrigger id="budgetRange" className={errors.budgetRange ? 'border-red-500' : ''}>
+                          <SelectValue placeholder="Select your budget range" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {BUDGET_OPTIONS.map((budget) => (
+                            <SelectItem key={budget.value} value={budget.value}>
+                              {budget.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      {errors.budgetRange && (
+                        <p className="text-red-500 text-sm mt-1">{errors.budgetRange}</p>
+                      )}
+                    </div>
+                  )}
 
                   {/* WhatsApp Number */}
                   <div>
                     <Label htmlFor="whatsapp" className="text-base font-semibold mb-2 block">
-                      WhatsApp Number <span className="text-red-500">*</span>
+                      Phone Number (WhatsApp preferred) <span className="text-red-500">*</span>
                     </Label>
                     <div className="flex items-center gap-2">
                       <span className="text-slate-500 font-medium px-3 py-2 border border-slate-300 rounded-l-md bg-slate-50">
@@ -514,7 +735,7 @@ export default function BookPage() {
                       <Input
                         id="whatsapp"
                         type="tel"
-                        placeholder="9876543210"
+                        placeholder="98765 43210"
                         value={bookingData.whatsapp}
                         onChange={(e) => {
                           const value = e.target.value.replace(/\D/g, '').slice(0, 10);
@@ -532,26 +753,20 @@ export default function BookPage() {
                     </p>
                   </div>
 
-                  {/* Main Goal */}
+                  {/* Primary Goal - Text Field */}
                   <div>
                     <Label htmlFor="mainGoal" className="text-base font-semibold mb-2 block">
-                      Main Goal <span className="text-red-500">*</span>
+                      What are you hoping to achieve with verified inquiries? <span className="text-red-500">*</span>
                     </Label>
-                    <Select
+                    <Input
+                      id="mainGoal"
+                      type="text"
+                      placeholder="More patient bookings / property buyers / demo calls / admissions"
                       value={bookingData.mainGoal}
-                      onValueChange={(value) => handleChange('mainGoal', value)}
-                    >
-                      <SelectTrigger id="mainGoal" className={errors.mainGoal ? 'border-red-500' : ''}>
-                        <SelectValue placeholder="Select your main goal" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {GOAL_OPTIONS.map((goal) => (
-                          <SelectItem key={goal.value} value={goal.value}>
-                            {goal.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                      onChange={(e) => handleChange('mainGoal', e.target.value)}
+                      className={errors.mainGoal ? 'border-red-500' : ''}
+                      required
+                    />
                     {errors.mainGoal && (
                       <p className="text-red-500 text-sm mt-1">{errors.mainGoal}</p>
                     )}
@@ -595,7 +810,7 @@ export default function BookPage() {
                   Step 2 of 2: Schedule Your Strategy Call.
                 </h2>
                 <p className="text-lg text-slate-700">
-                  You qualify for our Verified Leads Launch Program 🎯 Choose a time below — we'll walk you through your custom plan and lead costs.
+                  You qualify for our Verified Inquiry Launch Program 🎯 Choose a time below — we'll walk you through your custom plan and verified inquiry costs.
                 </p>
               </div>
 
@@ -612,7 +827,7 @@ export default function BookPage() {
               {/* Notes under widget */}
               <div className="bg-slate-50 rounded-lg p-6 border border-slate-200 text-center">
                 <p className="text-sm text-slate-700 font-medium">
-                  📅 Average call 15–20 min <span className="text-slate-400 mx-2">•</span> 💬 See sample verified leads <span className="text-slate-400 mx-2">•</span> 🔒 No spam.
+                  📅 Average call 15–20 min <span className="text-slate-400 mx-2">•</span> 💬 See sample verified inquiries <span className="text-slate-400 mx-2">•</span> 🔒 No spam.
                 </p>
               </div>
 

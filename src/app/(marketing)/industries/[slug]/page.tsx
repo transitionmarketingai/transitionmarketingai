@@ -72,7 +72,7 @@ const industryData: Record<string, IndustryData> = {
       },
       {
         question: 'Are inquiries exclusive to me?',
-        answer: 'Yes. Once an inquiry is delivered to you, it\'s yours exclusively. We don\'t resell leads. All inquiries come from our AI-powered ad campaigns, not shared databases.'
+        answer: 'Yes. Every inquiry we deliver is exclusive to your business. We never recycle data, never share leads across clients, and never deliver cold lists.'
       },
       {
         question: 'What is considered a "verified inquiry"?',
@@ -127,7 +127,7 @@ const industryData: Record<string, IndustryData> = {
       },
       {
         question: 'Are inquiries exclusive to me?',
-        answer: 'Yes. All inquiries delivered to you are exclusive. They come from our AI-powered ad campaigns, not shared patient databases. Once delivered, those inquiries are yours.'
+        answer: 'Yes. Every inquiry we deliver is exclusive to your business. We never recycle data, never share leads across clients, and never deliver cold lists.'
       },
       {
         question: 'What is considered a "verified inquiry"?',

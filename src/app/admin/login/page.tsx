@@ -11,6 +11,7 @@ import Logo from '@/components/Logo';
 
 export default function AdminLoginPage() {
   const router = useRouter();
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -24,7 +25,7 @@ export default function AdminLoginPage() {
       const response = await fetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({ email, password }),
       });
       
       // Store session in localStorage for 24h
@@ -56,7 +57,7 @@ export default function AdminLoginPage() {
         <div className="text-center mb-8">
           <Logo size="md" className="mx-auto mb-4" />
           <h1 className="text-3xl font-bold text-slate-900 mb-2">Admin Login</h1>
-          <p className="text-slate-600">Enter your password to access the admin dashboard</p>
+          <p className="text-slate-600">Enter your email and password to access the admin dashboard</p>
         </div>
 
         <Card className="border-2 border-slate-200 shadow-lg">
@@ -66,16 +67,28 @@ export default function AdminLoginPage() {
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  className="mt-1"
+                  required
+                  autoFocus
+                />
+              </div>
+              <div>
                 <Label htmlFor="password">Password</Label>
                 <Input
                   id="password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter admin password"
+                  placeholder="Enter your password"
                   className="mt-1"
                   required
-                  autoFocus
                 />
               </div>
 

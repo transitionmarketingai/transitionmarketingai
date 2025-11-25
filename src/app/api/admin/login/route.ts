@@ -9,15 +9,17 @@ import { trackEvent } from '@/lib/tracking';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { password } = body;
+    const { email, password } = body;
 
-    if (!password) {
+    if (!email || !password) {
       return NextResponse.json(
-        createErrorResponse('Password is required'),
+        createErrorResponse('Email and password are required'),
         { status: 400 }
       );
     }
 
+    // Get admin credentials from environment variables
+    const adminEmail = process.env.ADMIN_EMAIL || 'info@transitionmarketingai.com';
     const adminPassword = process.env.ADMIN_PASSWORD || process.env.ADMIN_PASS;
 
     if (!adminPassword) {
@@ -28,9 +30,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (password !== adminPassword) {
+    // Normalize email for comparison (case-insensitive)
+    const normalizedEmail = email.toLowerCase().trim();
+    const normalizedAdminEmail = adminEmail.toLowerCase().trim();
+
+    // Check email and password
+    if (normalizedEmail !== normalizedAdminEmail || password !== adminPassword) {
       return NextResponse.json(
-        createErrorResponse('Invalid password'),
+        createErrorResponse('Invalid email or password'),
         { status: 401 }
       );
     }

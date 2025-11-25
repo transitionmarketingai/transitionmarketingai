@@ -8,7 +8,8 @@ import { NextRequest } from 'next/server';
  */
 export function checkAdminKey(req: NextRequest): boolean {
   const headerKey = req.headers.get('x-admin-key');
-  const validKey = process.env.ADMIN_API_KEY;
+  // Support both ADMIN_API_KEY and NEXT_PUBLIC_ADMIN_KEY for backward compatibility
+  const validKey = process.env.NEXT_PUBLIC_ADMIN_KEY || process.env.ADMIN_API_KEY;
 
   if (!validKey) return false;
   if (!headerKey) return false;

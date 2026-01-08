@@ -39,10 +39,16 @@ export default function Header() {
               Home
             </Link>
             <Link
-              href="/agents"
+              href="#problem"
               className="text-sm font-medium transition-colors hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-sm"
             >
-              Agents
+              How It Works
+            </Link>
+            <Link
+              href="#results"
+              className="text-sm font-medium transition-colors hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-sm"
+            >
+              Results
             </Link>
             <Link
               href="/pricing"
@@ -50,18 +56,12 @@ export default function Header() {
             >
               Pricing
             </Link>
-            <Link
-              href="/docs"
-              className="text-sm font-medium transition-colors hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-sm"
-            >
-              Docs
-            </Link>
           </nav>
         </div>
         <div className="flex items-center space-x-4">
           <Button asChild>
-            <Link href="/signup" aria-label="Get started with TransitionMarketingAI">
-              Get Started
+            <Link href="#contact" aria-label="Book a strategy session">
+              Book Strategy Session
             </Link>
           </Button>
           
@@ -102,11 +102,18 @@ export default function Header() {
               Home
             </Link>
             <Link
-              href="/agents"
+              href="#problem"
               className="block px-3 py-2 text-sm font-medium transition-colors hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-sm"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              Agents
+              How It Works
+            </Link>
+            <Link
+              href="#results"
+              className="block px-3 py-2 text-sm font-medium transition-colors hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-sm"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Results
             </Link>
             <Link
               href="/pricing"
@@ -114,13 +121,6 @@ export default function Header() {
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Pricing
-            </Link>
-            <Link
-              href="/docs"
-              className="block px-3 py-2 text-sm font-medium transition-colors hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-sm"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Docs
             </Link>
           </div>
         </div>

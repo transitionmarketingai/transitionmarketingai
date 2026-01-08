@@ -1,17 +1,18 @@
 import Header from '@/components/header';
 import Footer from '@/components/footer';
 import Hero from '@/components/hero';
+import ComparisonTable from '@/components/marketing/comparison-table';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { 
-  FileText, 
-  Target, 
-  Mail, 
-  Search, 
-  BarChart3, 
-  Zap, 
-  CheckCircle, 
+import {
+  FileText,
+  Target,
+  Mail,
+  Search,
+  BarChart3,
+  Zap,
+  CheckCircle,
   ArrowRight,
   Users,
   TrendingUp,
@@ -26,228 +27,156 @@ export default function HomePage() {
       <Header />
       <main className="flex-1">
         <Hero />
-        
-        {/* Features Preview Section */}
-        <section className="py-20 bg-muted/30">
+
+        {/* The Problem Section */}
+        <ComparisonTable />
+
+        {/* The Solution / Verification Engine */}
+        <section id="process" className="py-20 bg-background">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold mb-4">5 AI Agents Working 24/7 for Your Business</h2>
+              <h2 className="text-3xl font-bold mb-4">The AI Verification Engine™</h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                Our specialized AI agents handle every aspect of your marketing, from content creation to campaign optimization, 
-                all working together seamlessly to drive results.
+                We don't just "run ads". We use a proprietary 5-step AI process to verified intent, identity, and ability to pay before you ever speak to a lead.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-              {/* Content Agent */}
-              <Card className="group hover:shadow-lg transition-all duration-300 hover-lift animate-fade-in animate-stagger-1">
+              {/* Content Agent -> Intent Scoring */}
+              <Card className="group hover:shadow-lg transition-all duration-300 hover-lift">
                 <CardHeader>
                   <div className="flex items-center space-x-3 mb-2">
                     <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                      <FileText className="h-6 w-6 text-blue-600" />
+                      <Target className="h-6 w-6 text-blue-600" />
                     </div>
                     <div>
-                      <CardTitle className="text-lg">Content Agent</CardTitle>
-                      <Badge variant="secondary" className="text-xs">AI-Powered</Badge>
+                      <CardTitle className="text-lg">1. AI Intent Scoring</CardTitle>
+                      <Badge variant="secondary" className="text-xs">Step 1</Badge>
                     </div>
                   </div>
                   <CardDescription>
-                    Creates engaging blog posts, social media content, and email newsletters tailored to your audience.
+                    We analyze thousands of data points to identify prospects who are actively looking for your solution right now.
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                      <span>47 posts created this month</span>
-                    </div>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                      <span>89.2% engagement rate</span>
-                    </div>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                      <span>12.5k total views</span>
-                    </div>
-                  </div>
-                </CardContent>
               </Card>
 
-              {/* Ads Agent */}
-              <Card className="group hover:shadow-lg transition-all duration-300 hover-lift animate-fade-in animate-stagger-2">
+              {/* Ads Agent -> Identity Validation */}
+              <Card className="group hover:shadow-lg transition-all duration-300 hover-lift">
                 <CardHeader>
                   <div className="flex items-center space-x-3 mb-2">
                     <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                      <Target className="h-6 w-6 text-green-600" />
+                      <Shield className="h-6 w-6 text-green-600" />
                     </div>
                     <div>
-                      <CardTitle className="text-lg">Ads Agent</CardTitle>
-                      <Badge variant="secondary" className="text-xs">Auto-Optimized</Badge>
+                      <CardTitle className="text-lg">2. Identity Validation</CardTitle>
+                      <Badge variant="secondary" className="text-xs">Step 2</Badge>
                     </div>
                   </div>
                   <CardDescription>
-                    Manages and optimizes your Facebook, Google, and LinkedIn ad campaigns for maximum ROI.
+                    Our AI cross-references contact details with social profiles (LinkedIn, TrueCaller) to ensure every lead is a real person.
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                      <span>$24,500 total revenue</span>
-                    </div>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                      <span>4.2x average ROAS</span>
-                    </div>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                      <span>3.1% average CTR</span>
-                    </div>
-                  </div>
-                </CardContent>
               </Card>
 
-              {/* Email Agent */}
-              <Card className="group hover:shadow-lg transition-all duration-300 hover-lift animate-fade-in animate-stagger-3">
+              {/* Email Agent -> Nurture & Qualify */}
+              <Card className="group hover:shadow-lg transition-all duration-300 hover-lift">
                 <CardHeader>
                   <div className="flex items-center space-x-3 mb-2">
                     <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
                       <Mail className="h-6 w-6 text-purple-600" />
                     </div>
                     <div>
-                      <CardTitle className="text-lg">Email Agent</CardTitle>
-                      <Badge variant="secondary" className="text-xs">Personalized</Badge>
+                      <CardTitle className="text-lg">3. Auto-Nurture</CardTitle>
+                      <Badge variant="secondary" className="text-xs">Step 3</Badge>
                     </div>
                   </div>
                   <CardDescription>
-                    Sends personalized email campaigns and automated sequences that convert leads into customers.
+                    We engage leads immediately via SMS and Email to qualify their budget and timeline before passing them to you.
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                      <span>15,420 subscribers</span>
-                    </div>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                      <span>89.2% open rate</span>
-                    </div>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                      <span>12.4% click rate</span>
-                    </div>
-                  </div>
-                </CardContent>
               </Card>
 
-              {/* SEO Agent */}
-              <Card className="group hover:shadow-lg transition-all duration-300 hover-lift animate-fade-in animate-stagger-4">
+              {/* SEO Agent -> Market Authority */}
+              <Card className="group hover:shadow-lg transition-all duration-300 hover-lift">
                 <CardHeader>
                   <div className="flex items-center space-x-3 mb-2">
                     <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
                       <Search className="h-6 w-6 text-orange-600" />
                     </div>
                     <div>
-                      <CardTitle className="text-lg">SEO Agent</CardTitle>
-                      <Badge variant="secondary" className="text-xs">Ranking Optimized</Badge>
+                      <CardTitle className="text-lg">4. Authority Positioning</CardTitle>
+                      <Badge variant="secondary" className="text-xs">Step 4</Badge>
                     </div>
                   </div>
                   <CardDescription>
-                    Optimizes your content for search engines and tracks keyword rankings to drive organic traffic.
+                    We position your brand as the expert choice so prospects are pre-sold when they get on the call.
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                      <span>156 keywords in top 10</span>
-                    </div>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                      <span>45.2k monthly traffic</span>
-                    </div>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                      <span>+23% traffic growth</span>
-                    </div>
-                  </div>
-                </CardContent>
               </Card>
 
-              {/* Analytics Agent */}
-              <Card className="group hover:shadow-lg transition-all duration-300 hover-lift animate-fade-in animate-stagger-5">
+              {/* Analytics Agent -> Performance Loop */}
+              <Card className="group hover:shadow-lg transition-all duration-300 hover-lift">
                 <CardHeader>
                   <div className="flex items-center space-x-3 mb-2">
                     <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
                       <BarChart3 className="h-6 w-6 text-red-600" />
                     </div>
                     <div>
-                      <CardTitle className="text-lg">Analytics Agent</CardTitle>
-                      <Badge variant="secondary" className="text-xs">AI Insights</Badge>
+                      <CardTitle className="text-lg">5. ROI Tracking</CardTitle>
+                      <Badge variant="secondary" className="text-xs">Step 5</Badge>
                     </div>
                   </div>
                   <CardDescription>
-                    Analyzes all your marketing data and provides actionable insights to improve performance.
+                    We track every dollar. If a lead doesn't turn into an opportunity, our system learns and adjusts instantly.
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                      <span>$45,200 total revenue</span>
-                    </div>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                      <span>4.8x marketing ROI</span>
-                    </div>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                      <span>12,450 total leads</span>
-                    </div>
-                  </div>
-                </CardContent>
               </Card>
 
-              {/* Integration Card */}
-              <Card className="group hover:shadow-lg transition-all duration-300 border-2 border-primary/20">
+              {/* Delivery */}
+              <Card className="group hover:shadow-lg transition-all duration-300 border-2 border-primary/20 bg-primary/5">
                 <CardHeader>
                   <div className="flex items-center space-x-3 mb-2">
                     <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                      <Zap className="h-6 w-6 text-primary" />
+                      <CheckCircle className="h-6 w-6 text-primary" />
                     </div>
                     <div>
-                      <CardTitle className="text-lg">Seamless Integration</CardTitle>
-                      <Badge variant="default" className="text-xs">All Connected</Badge>
+                      <CardTitle className="text-lg">Verified Delivery</CardTitle>
+                      <Badge variant="default" className="text-xs">The Result</Badge>
                     </div>
                   </div>
                   <CardDescription>
-                    All agents work together, sharing data and insights to create a unified marketing strategy.
+                    You only get the leads that pass all 5 steps. Clean, verified, and ready to buy.
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                      <span>Real-time synchronization</span>
-                    </div>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                      <span>Cross-agent intelligence</span>
-                    </div>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                      <span>Automated workflows</span>
-                    </div>
-                  </div>
-                </CardContent>
               </Card>
             </div>
 
-            <div className="text-center animate-bounce-in">
-              <Button asChild size="lg" className="hover-glow hover-lift">
-                <Link href="/login">
-                  Try Demo Dashboard
+            {/* What is Verified? */}
+            <div className="bg-muted/50 rounded-xl p-8 mb-16 border border-border">
+              <h3 className="text-2xl font-bold text-center mb-8">What exactly is a "Verified Lead"?</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="flex flex-col items-center text-center">
+                  <CheckCircle className="h-10 w-10 text-green-500 mb-4" />
+                  <h4 className="font-bold text-lg mb-2">100% Valid Contact Info</h4>
+                  <p className="text-muted-foreground text-sm">We ping the number and verify email deliverability. No more fake numbers.</p>
+                </div>
+                <div className="flex flex-col items-center text-center">
+                  <CheckCircle className="h-10 w-10 text-green-500 mb-4" />
+                  <h4 className="font-bold text-lg mb-2">High Intent Action</h4>
+                  <p className="text-muted-foreground text-sm">They didn't just "click". They filled a form, answered qualifying questions, and requested information.</p>
+                </div>
+                <div className="flex flex-col items-center text-center">
+                  <CheckCircle className="h-10 w-10 text-green-500 mb-4" />
+                  <h4 className="font-bold text-lg mb-2">Replacements Guaranteed</h4>
+                  <p className="text-muted-foreground text-sm">If a lead has a disconnect number, we replace it instantly. No questions asked.</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="text-center">
+              <Button asChild size="lg" className="hover-glow hover-lift px-8">
+                <Link href="#contact">
+                  See If Your Area Is Available
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
@@ -255,283 +184,104 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* How It Works Section */}
-        <section className="py-20">
+        {/* Industries We Serve */}
+        <section className="py-20 bg-background">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold mb-4 animate-fade-in">How It Works</h2>
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto animate-slide-up animate-stagger-1">
-                Our AI-powered marketing platform automates your entire marketing strategy, from content creation to campaign optimization, 
-                all working together seamlessly to drive measurable results.
+              <h2 className="text-3xl font-bold mb-4">Industries We Specialize In</h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                Our AI models are trained on millions of data points specific to these high-value sectors.
+              </p>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {['Real Estate', 'Healthcare & Clinics', 'B2B SaaS', 'Coaching & EdTech', 'Interior Design', 'Financial Services', 'Solar & Energy', 'Legal Services'].map((industry) => (
+                <div key={industry} className="p-4 bg-muted/30 rounded-lg text-center font-medium border border-transparent hover:border-primary/20 transition-colors cursor-default">
+                  {industry}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* How It Works / Engagement Model */}
+        <section className="py-20 bg-muted/30">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl font-bold mb-4">How We Work Together</h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                No complex software to learn. No long-term contracts. Just results.
               </p>
             </div>
 
-            {/* Step 1: Setup */}
-            <div className="mb-16">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div>
-                  <div className="flex items-center mb-6">
-                    <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold text-lg mr-4">
-                      1
-                    </div>
-                    <h3 className="text-2xl font-bold">Quick Setup & Onboarding</h3>
-                  </div>
-                  <p className="text-muted-foreground mb-6">
-                    Get started in minutes with our intelligent onboarding process. Simply connect your existing marketing tools, 
-                    define your business goals, and let our AI learn your brand voice and target audience.
-                  </p>
-                  <div className="space-y-4">
-                    <div className="flex items-center">
-                      <Users className="h-5 w-5 text-primary mr-3" />
-                      <span>Connect your marketing platforms</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Target className="h-5 w-5 text-primary mr-3" />
-                      <span>Define your marketing goals</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Shield className="h-5 w-5 text-primary mr-3" />
-                      <span>Set up secure data connections</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="bg-muted/30 p-8 rounded-lg">
-                  <h4 className="font-semibold mb-4">Onboarding Checklist</h4>
-                  <div className="space-y-3">
-                    <div className="flex items-center">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-3" />
-                      <span>Business profile setup</span>
-                    </div>
-                    <div className="flex items-center">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-3" />
-                      <span>Marketing goals configuration</span>
-                    </div>
-                    <div className="flex items-center">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-3" />
-                      <span>Target audience definition</span>
-                    </div>
-                    <div className="flex items-center">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-3" />
-                      <span>Budget and KPI settings</span>
-                    </div>
-                    <div className="flex items-center">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-3" />
-                      <span>AI agent activation</span>
-                    </div>
-                  </div>
-                </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              <div className="text-center p-6">
+                <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white font-bold text-2xl mx-auto mb-6">1</div>
+                <h3 className="text-xl font-bold mb-4">Audit & Strategy</h3>
+                <p className="text-muted-foreground">We analyze your market and show you exactly how many verified leads are available right now.</p>
+              </div>
+              <div className="text-center p-6">
+                <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white font-bold text-2xl mx-auto mb-6">2</div>
+                <h3 className="text-xl font-bold mb-4">Launch Verification</h3>
+                <p className="text-muted-foreground">We deploy our AI agents. Campaigns go live in 7 days. We start filtering traffic immediately.</p>
+              </div>
+              <div className="text-center p-6">
+                <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-white font-bold text-2xl mx-auto mb-6">3</div>
+                <h3 className="text-xl font-bold mb-4">You Close Deals</h3>
+                <p className="text-muted-foreground">You get notified instantly when a verified inquiry arrives. You just pick up the phone and close.</p>
               </div>
             </div>
+          </div>
+        </section>
 
-            {/* Step 2: AI Agents */}
-            <div className="mb-16">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div className="order-2 lg:order-1">
-                  <div className="bg-muted/30 p-8 rounded-lg">
-                    <h4 className="font-semibold mb-4">AI Agent Ecosystem</h4>
-                    <div className="space-y-4">
-                      <div className="flex items-start">
-                        <FileText className="h-5 w-5 text-blue-500 mr-3 mt-1" />
-                        <div>
-                          <div className="font-medium">Content Agent</div>
-                          <div className="text-sm text-muted-foreground">Creates blog posts, social content, and email newsletters</div>
-                        </div>
-                      </div>
-                      <div className="flex items-start">
-                        <Target className="h-5 w-5 text-green-500 mr-3 mt-1" />
-                        <div>
-                          <div className="font-medium">Ads Agent</div>
-                          <div className="text-sm text-muted-foreground">Optimizes Facebook, Google, and LinkedIn campaigns</div>
-                        </div>
-                      </div>
-                      <div className="flex items-start">
-                        <Mail className="h-5 w-5 text-purple-500 mr-3 mt-1" />
-                        <div>
-                          <div className="font-medium">Email Agent</div>
-                          <div className="text-sm text-muted-foreground">Sends personalized campaigns and automation sequences</div>
-                        </div>
-                      </div>
-                      <div className="flex items-start">
-                        <Search className="h-5 w-5 text-orange-500 mr-3 mt-1" />
-                        <div>
-                          <div className="font-medium">SEO Agent</div>
-                          <div className="text-sm text-muted-foreground">Optimizes content and tracks keyword rankings</div>
-                        </div>
-                      </div>
-                      <div className="flex items-start">
-                        <BarChart3 className="h-5 w-5 text-red-500 mr-3 mt-1" />
-                        <div>
-                          <div className="font-medium">Analytics Agent</div>
-                          <div className="text-sm text-muted-foreground">Analyzes data and provides actionable insights</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="order-1 lg:order-2">
-                  <div className="flex items-center mb-6">
-                    <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold text-lg mr-4">
-                      2
-                    </div>
-                    <h3 className="text-2xl font-bold">AI Agents Work Together</h3>
-                  </div>
-                  <p className="text-muted-foreground mb-6">
-                    Our five specialized AI agents work in harmony, sharing data and insights to create a unified marketing strategy. 
-                    Each agent has a specific role but they all collaborate to maximize your results.
-                  </p>
-                  <div className="space-y-4">
-                    <div className="flex items-center">
-                      <Zap className="h-5 w-5 text-primary mr-3" />
-                      <span>Real-time data synchronization</span>
-                    </div>
-                    <div className="flex items-center">
-                      <TrendingUp className="h-5 w-5 text-primary mr-3" />
-                      <span>Cross-agent intelligence sharing</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Clock className="h-5 w-5 text-primary mr-3" />
-                      <span>24/7 automated optimization</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+        {/* Results / Social Proof Section (Simplified) */}
+        <section id="results" className="py-20">
+          <div className="container mx-auto px-4 text-center">
+            <h2 className="text-3xl font-bold mb-12">What Our Clients Said After 30 Days</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="mb-4">⭐⭐⭐⭐⭐</div>
+                  <p className="italic text-muted-foreground mb-4">"We stopped buying shared leads from aggregators. The inquiries from Transition are actually waiting for our call."</p>
+                  <p className="font-bold">Real Estate Agency, Mumbai</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="mb-4">⭐⭐⭐⭐⭐</div>
+                  <p className="italic text-muted-foreground mb-4">"35 verified patient inquiries in the first month. ROI was positive by week 3."</p>
+                  <p className="font-bold">Dental Clinic, Bangalore</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="mb-4">⭐⭐⭐⭐⭐</div>
+                  <p className="italic text-muted-foreground mb-4">"Finally an agency that doesn't talk about 'clicks'. They just sent me appointments."</p>
+                  <p className="font-bold">B2B SaaS Founder, Delhi</p>
+                </CardContent>
+              </Card>
             </div>
+          </div>
+        </section>
 
-            {/* Step 3: Automation */}
-            <div className="mb-16">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div>
-                  <div className="flex items-center mb-6">
-                    <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold text-lg mr-4">
-                      3
-                    </div>
-                    <h3 className="text-2xl font-bold">Automated Workflows</h3>
-                  </div>
-                  <p className="text-muted-foreground mb-6">
-                    Once set up, your marketing runs on autopilot. Our AI agents create content, optimize campaigns, 
-                    send emails, and analyze performance - all automatically, 24/7.
-                  </p>
-                  <div className="space-y-4">
-                    <div className="bg-muted/30 p-4 rounded-lg">
-                      <h4 className="font-medium mb-2">Content Marketing Workflow</h4>
-                      <p className="text-sm text-muted-foreground">
-                        SEO Agent identifies trending keywords → Content Agent creates blog post → 
-                        Social media posts auto-generated → Email newsletter updated → Performance tracked
-                      </p>
-                    </div>
-                    <div className="bg-muted/30 p-4 rounded-lg">
-                      <h4 className="font-medium mb-2">Lead Generation Workflow</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Ads Agent creates targeted campaigns → Landing pages optimized → 
-                        Email sequences triggered → Content Agent creates nurturing content → Analytics tracks conversion
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="bg-muted/30 p-8 rounded-lg">
-                  <h4 className="font-semibold mb-4">Daily Automation</h4>
-                  <div className="space-y-3">
-                    <div className="flex items-center">
-                      <Clock className="h-4 w-4 text-primary mr-3" />
-                      <span>Morning: Performance review and optimization</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Clock className="h-4 w-4 text-primary mr-3" />
-                      <span>Content creation based on trends</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Clock className="h-4 w-4 text-primary mr-3" />
-                      <span>Campaign optimization and bid adjustments</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Clock className="h-4 w-4 text-primary mr-3" />
-                      <span>Email sequences and personalization</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Clock className="h-4 w-4 text-primary mr-3" />
-                      <span>SEO monitoring and content updates</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Clock className="h-4 w-4 text-primary mr-3" />
-                      <span>Evening: Performance analysis and insights</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Step 4: Results */}
-            <div className="mb-16">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div className="order-2 lg:order-1">
-                  <div className="bg-muted/30 p-8 rounded-lg">
-                    <h4 className="font-semibold mb-4">Real Results</h4>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="text-center p-4 bg-background rounded-lg">
-                        <div className="text-2xl font-bold text-primary">+23.5%</div>
-                        <div className="text-sm text-muted-foreground">ROI Improvement</div>
-                      </div>
-                      <div className="text-center p-4 bg-background rounded-lg">
-                        <div className="text-2xl font-bold text-primary">89.2%</div>
-                        <div className="text-sm text-muted-foreground">Email Open Rate</div>
-                      </div>
-                      <div className="text-center p-4 bg-background rounded-lg">
-                        <div className="text-2xl font-bold text-primary">4.2x</div>
-                        <div className="text-sm text-muted-foreground">Average ROAS</div>
-                      </div>
-                      <div className="text-center p-4 bg-background rounded-lg">
-                        <div className="text-2xl font-bold text-primary">156</div>
-                        <div className="text-sm text-muted-foreground">Top 10 Keywords</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="order-1 lg:order-2">
-                  <div className="flex items-center mb-6">
-                    <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold text-lg mr-4">
-                      4
-                    </div>
-                    <h3 className="text-2xl font-bold">Measurable Results</h3>
-                  </div>
-                  <p className="text-muted-foreground mb-6">
-                    Track your success with comprehensive analytics and AI-powered insights. Our platform provides 
-                    detailed performance metrics, ROI calculations, and actionable recommendations to continuously improve your marketing.
-                  </p>
-                  <div className="space-y-4">
-                    <div className="flex items-center">
-                      <BarChart3 className="h-5 w-5 text-primary mr-3" />
-                      <span>Comprehensive performance analytics</span>
-                    </div>
-                    <div className="flex items-center">
-                      <TrendingUp className="h-5 w-5 text-primary mr-3" />
-                      <span>ROI tracking across all channels</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Zap className="h-5 w-5 text-primary mr-3" />
-                      <span>AI-powered optimization recommendations</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* CTA Section */}
-            <div className="text-center bg-primary/5 p-12 rounded-lg">
-              <h3 className="text-2xl font-bold mb-4">Ready to Transform Your Marketing?</h3>
-              <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Join thousands of businesses already using AI to automate their marketing and drive better results. 
-                Start your free trial today and see the difference AI can make.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button asChild size="lg">
-                  <Link href="/signup">Start Free Trial</Link>
+        {/* CTA Section */}
+        <section id="contact" className="py-20 bg-primary text-primary-foreground">
+          <div className="container mx-auto px-4 text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Fill Your Calendar?</h2>
+            <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto opacity-90">
+              Stop chasing cold leads. Let us deliver 30 verified inquiries in the next 30 days.
+            </p>
+            <div className="bg-white/10 p-8 rounded-lg max-w-lg mx-auto backdrop-blur-sm">
+              <h3 className="text-xl font-bold mb-4">Get Your Free Marketing Scan</h3>
+              <p className="text-sm mb-6 opacity-80">See how many verified leads are available in your area.</p>
+              <div className="space-y-4">
+                {/* Placeholder for form - linking to a demo lead capture for now */}
+                <Button variant="secondary" size="lg" className="w-full text-lg font-bold h-12">
+                  Check Availability Now
                 </Button>
-                <Button asChild variant="outline" size="lg">
-                  <Link href="/login">Try Demo Dashboard</Link>
-                </Button>
+                <p className="text-xs opacity-60">No credit card required. Free analysis.</p>
               </div>
             </div>
-        </div>
+          </div>
         </section>
       </main>
       <Footer />

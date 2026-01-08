@@ -1,0 +1,133 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - generic [active]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - navigation [ref=e7]:
+            - button "previous" [disabled] [ref=e8]:
+              - img "previous" [ref=e9]
+            - generic [ref=e11]:
+              - generic [ref=e12]: 1/
+              - generic [ref=e13]: "1"
+            - button "next" [disabled] [ref=e14]:
+              - img "next" [ref=e15]
+          - img
+        - generic [ref=e17]:
+          - link "Next.js 15.5.2 (stale) Turbopack" [ref=e18] [cursor=pointer]:
+            - /url: https://nextjs.org/docs/messages/version-staleness
+            - img [ref=e19] [cursor=pointer]
+            - generic "There is a newer version (15.5.4) available, upgrade recommended!" [ref=e21] [cursor=pointer]: Next.js 15.5.2 (stale)
+            - generic [ref=e22] [cursor=pointer]: Turbopack
+          - img
+      - dialog "Runtime ReferenceError" [ref=e24]:
+        - generic [ref=e27]:
+          - generic [ref=e28]:
+            - generic [ref=e29]:
+              - generic [ref=e31]: Runtime ReferenceError
+              - generic [ref=e32]:
+                - button "Copy Error Info" [ref=e33] [cursor=pointer]:
+                  - img [ref=e34] [cursor=pointer]
+                - button "No related documentation found" [disabled] [ref=e36]:
+                  - img [ref=e37]
+                - link "Learn more about enabling Node.js inspector for server code with Chrome DevTools" [ref=e39] [cursor=pointer]:
+                  - /url: https://nextjs.org/docs/app/building-your-application/configuring/debugging#server-side-code
+                  - img [ref=e40] [cursor=pointer]
+            - paragraph [ref=e49]: Share2 is not defined
+          - generic [ref=e50]:
+            - generic [ref=e51]:
+              - paragraph [ref=e53]:
+                - img [ref=e55]
+                - generic [ref=e58]: src/app/(app)/dashboard/page.tsx (746:26) @ DashboardPage
+                - button "Open in editor" [ref=e59] [cursor=pointer]:
+                  - img [ref=e61] [cursor=pointer]
+              - generic [ref=e64]:
+                - generic [ref=e65]:
+                  - generic [ref=e67]: 744 |
+                  - generic [ref=e69]: <
+                  - generic [ref=e70]: div
+                  - generic [ref=e71]: className
+                  - generic [ref=e72]: =
+                  - generic [ref=e73]: "\"flex items-center justify-between\""
+                  - generic [ref=e74]: ">"
+                - generic [ref=e75]:
+                  - generic [ref=e77]: 745 |
+                  - generic [ref=e79]: <
+                  - generic [ref=e80]: div
+                  - generic [ref=e81]: className
+                  - generic [ref=e82]: =
+                  - generic [ref=e83]: "\"flex items-center space-x-2\""
+                  - generic [ref=e84]: ">"
+                - generic [ref=e85]:
+                  - generic [ref=e86]: ">"
+                  - generic [ref=e87]: 746 |
+                  - generic [ref=e89]: <
+                  - generic [ref=e90]: Share2
+                  - generic [ref=e91]: className
+                  - generic [ref=e92]: =
+                  - generic [ref=e93]: "\"h-4 w-4 text-pink-500\""
+                  - generic [ref=e95]: /
+                  - generic [ref=e96]: ">"
+                - generic [ref=e97]:
+                  - generic [ref=e99]: "|"
+                  - generic [ref=e101]: ^
+                - generic [ref=e102]:
+                  - generic [ref=e104]: 747 |
+                  - generic [ref=e106]: <
+                  - generic [ref=e107]: span
+                  - generic [ref=e108]: className
+                  - generic [ref=e109]: =
+                  - generic [ref=e110]: "\"text-sm font-medium\""
+                  - generic [ref=e111]: ">"
+                  - generic [ref=e112]: Social
+                  - generic [ref=e114]: Media
+                  - generic [ref=e115]: <
+                  - generic [ref=e116]: /
+                  - generic [ref=e117]: span
+                  - generic [ref=e118]: ">"
+                - generic [ref=e119]:
+                  - generic [ref=e121]: 748 |
+                  - generic [ref=e123]: <
+                  - generic [ref=e124]: /
+                  - generic [ref=e125]: div
+                  - generic [ref=e126]: ">"
+                - generic [ref=e127]:
+                  - generic [ref=e129]: 749 |
+                  - generic [ref=e131]: <
+                  - generic [ref=e132]: div
+                  - generic [ref=e133]: className
+                  - generic [ref=e134]: =
+                  - generic [ref=e135]: "\"text-right\""
+                  - generic [ref=e136]: ">"
+            - generic [ref=e137]:
+              - generic [ref=e138]:
+                - paragraph [ref=e139]:
+                  - text: Call Stack
+                  - generic [ref=e140]: "13"
+                - button "Show 12 ignore-listed frame(s)" [ref=e141] [cursor=pointer]:
+                  - text: Show 12 ignore-listed frame(s)
+                  - img [ref=e142] [cursor=pointer]
+              - generic [ref=e144]:
+                - generic [ref=e145]:
+                  - text: DashboardPage
+                  - button "Open DashboardPage in editor" [ref=e146] [cursor=pointer]:
+                    - img [ref=e147] [cursor=pointer]
+                - generic [ref=e149]: src/app/(app)/dashboard/page.tsx (746:26)
+        - generic [ref=e150]:
+          - generic [ref=e151]: "1"
+          - generic [ref=e152]: "2"
+    - generic [ref=e157] [cursor=pointer]:
+      - button "Open Next.js Dev Tools" [ref=e158] [cursor=pointer]:
+        - img [ref=e159] [cursor=pointer]
+      - generic [ref=e162] [cursor=pointer]:
+        - button "Open issues overlay" [ref=e163] [cursor=pointer]:
+          - generic [ref=e164] [cursor=pointer]:
+            - generic [ref=e165] [cursor=pointer]: "0"
+            - generic [ref=e166] [cursor=pointer]: "1"
+          - generic [ref=e167] [cursor=pointer]: Issue
+        - button "Collapse issues badge" [ref=e168] [cursor=pointer]:
+          - img [ref=e169] [cursor=pointer]
+  - 'heading "Application error: a client-side exception has occurred while loading localhost (see the browser console for more information)." [level=2] [ref=e173]'
+```
